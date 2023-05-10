@@ -1,0 +1,36 @@
+body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.keyword-highlight {
+  color: var(--text-default-info)
+}
+
+.full-width {
+  width: 100%;
+}
+
+.fr-notice.notice-light {
+  width: fit-content;
+  padding: 0.5rem 0;
+
+  .fr-container {
+    width: fit-content;
+    padding: 0 0.5rem;
+
+    .fr-notice__body {
+      padding: 0 1rem 0 2rem;
+    }
+
+    .fr-notice__title {
+      font-weight: 400;
+    }
+  }
+}
+
+@media (min-width: 0) {
+  .fr-hidden-xs {
+    display: none;
+  }
+}
