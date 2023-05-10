@@ -6,7 +6,7 @@ et la [documentation de VueDsfr](https://vue-dsfr.netlify.app).
 ## Installation des dépendances
 
 ```bash
-npm install --legacy-peer-deps
+yarn install
 ```
 
 ## Lancer nuxt en mode développement
@@ -14,15 +14,15 @@ npm install --legacy-peer-deps
 Démarre le serveur sur http://localhost:3000
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ## Générer le code de production
 
-Génère le code de production de l’application :
+Génère le code de production de l’application:
 
 ```bash
-npm run build
+yarn build
 ```
 
 Regarder ensuite la [documentation de Nuxt concernant le déploiement](https://v3.nuxtjs.org/docs/deployment).
