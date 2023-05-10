@@ -3,13 +3,14 @@ import istanbul from "vite-plugin-istanbul";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  ssr: true,
   app: {
     head: {
       title: 'Sécheresse',
       meta: [
         {charset: 'utf-8'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-        {hid: 'description', name: 'description', content: 'Sécheresse'},
+        {hid: 'descriptionn', name: 'description', content: 'Sécheresse'},
         {name: 'format-detection', content: 'telephone=no'}
       ],
       link: [

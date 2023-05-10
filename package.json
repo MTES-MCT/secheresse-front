@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "name": "secheresse",
   "scripts": {
-    "build": "nuxt build",
+    "build": "npx nuxi generate",
     "dev": "nuxt dev",
     "format": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "generate": "nuxt generate",
