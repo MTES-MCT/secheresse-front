@@ -8,11 +8,12 @@ import gestes from '../../data/gestes.json'
       <h1>Les <span class="keyword-highlight">gestes</span> à adopter dès maintenant</h1>
       <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les réserves d’eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
     </div>
-    <div class="fr-grid-row fr-grid-row--gutters">
+    <div class="fr-grid-row fr-grid-row--gutters fr-mb-8w">
       <GestesCard v-for="geste in gestes.data"
                   :geste="geste"
       />
     </div>
+    <span>Les mesures en litres d'eau annoncées sont des mesures moyennes constatées.</span>
   </div>
 </template>
 
