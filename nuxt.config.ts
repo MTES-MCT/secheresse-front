@@ -47,9 +47,10 @@ export default defineNuxtConfig({
   vite: {
     plugins: [
       istanbul({
-        exclude: ['node_modules', 'test/', 'coverage/'],
+        include: 'client/*',
+        exclude: ['node_modules', 'test/'],
         extension: [ '.js', '.ts', '.vue' ],
-        cypress: true
+        requireEnv: false
       }),
     ]
   },
