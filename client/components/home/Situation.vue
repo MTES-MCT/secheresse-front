@@ -9,21 +9,9 @@ import situations from '../../data/situations.json'
       <span>Les départements signalés comme en “Alerte”, “Alerte renforcée et “Crise” sont ceux qui subissent actuellement des pénuries d’eau. Ils sont soumis à des mesures à respecter.</span>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-hidden-lg fr-col-12">
-        <DsfrPicture src="/france.svg"
-                     title="Carte de la france"
-                     ratio="1x1"
-        />
-      </div>
-      <div class="fr-col-12 fr-col-lg-8 fr-grid-row fr-grid-row--gutters">
-        <SituationCard v-for="situation in situations.data"
-                       :situation="situation"
-        />
-      </div>
-      <div class="fr-unhidden-lg fr-hidden-xs fr-col-lg-4">
-        <DsfrPicture src="/france.svg"
-                     title="Carte de la france"
-                     ratio="1x1"
+      <div class="fr-col-12 fr-col-md-6 fr-col-lg-3"
+           v-for="situation in situations.data">
+        <SituationCard :situation="situation"
         />
       </div>
     </div>
