@@ -28,11 +28,11 @@ const emit = defineEmits(['update:modelValue'])
 const hasFocus = ref(true)
 const displayOptions = computed(() => hasFocus.value && !!props.options.length)
 
-function convertRemToPixels (rem) {
+function convertRemToPixels(rem) {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
 }
 
-function selectOption (option) {
+function selectOption(option) {
   emit('update:modelValue', option)
 }
 
@@ -40,7 +40,9 @@ const displayAtTheTop = ref(false)
 
 const looseFocus = () => {
   console.log('LOOSE FOCUS');
-  setTimeout(() => { hasFocus.value = false }, 100)
+  setTimeout(() => {
+    hasFocus.value = false
+  }, 100)
 }
 
 watch(displayOptions, () => {
@@ -58,7 +60,7 @@ watch(displayOptions, () => {
 const activeOption = ref(-1)
 
 const isVisible = function (ele, container) {
-  const { bottom, height, top } = ele.getBoundingClientRect()
+  const {bottom, height, top} = ele.getBoundingClientRect()
   const containerRect = container.getBoundingClientRect()
 
   return top <= containerRect.top
@@ -66,29 +68,29 @@ const isVisible = function (ele, container) {
     : bottom - containerRect.bottom <= height
 }
 
-function checkIfActiveOptionIsVisible () {
+function checkIfActiveOptionIsVisible() {
   const activeLi = optionsList.value.querySelectorAll('li')[activeOption.value]
   const isLiVisible = isVisible(activeLi, optionsList.value)
 
   if (!isLiVisible) {
     // Scroll to activeLi
-    activeLi.scrollIntoView({ behavior: 'smooth' })
+    activeLi.scrollIntoView({behavior: 'smooth'})
   }
 }
 
-function moveToPreviousOption () {
+function moveToPreviousOption() {
   const isFirst = activeOption.value <= 0
   activeOption.value = isFirst ? props.options.length - 1 : activeOption.value - 1
   nextTick().then(checkIfActiveOptionIsVisible)
 }
 
-function moveToNextOption () {
+function moveToNextOption() {
   const isLast = activeOption.value >= (props.options.length - 1)
   activeOption.value = isLast ? 0 : activeOption.value + 1
   nextTick().then(checkIfActiveOptionIsVisible)
 }
 
-function checkKeyboardNav ($event) {
+function checkKeyboardNav($event) {
   if (['ArrowUp', 'ArrowDown', 'Enter'].includes($event.key)) {
     $event.preventDefault()
   }
@@ -103,7 +105,7 @@ function checkKeyboardNav ($event) {
 }
 
 function displayOption(option) {
-  if(!props.displayKey) {
+  if (!props.displayKey) {
     return option;
   }
   const keys = props.displayKey.split('.');
@@ -117,10 +119,8 @@ function displayOption(option) {
 </script>
 
 <template>
-  <div
-    ref="container"
-    class="relative"
-  >
+  <div ref="container"
+       class="relative search-autocomplete">
     <DsfrSearchBar
       :model-value="modelValue"
       :placeholder="placeholder"
@@ -132,28 +132,22 @@ function displayOption(option) {
       @blur="looseFocus()"
       @keydown="checkKeyboardNav($event)"
     />
-    <ul
-      v-show="displayOptions"
-      ref="optionsList"
-      class="list-none  absolute  m-0  right-0  z-1  left-0  bg-white  box-shadow  max-h-17  scroll  pointer"
-      :class="{
-        'at-the-top': displayAtTheTop,
-      }"
-    >
-      <li
-        v-for="(option, i) of options"
-        :key="option"
-        class="list-item"
-        :class="{ 'active-option': activeOption === i }"
-        @click.stop="selectOption(option)"
-      >
+    <ul v-show="displayOptions"
+        ref="optionsList"
+        class="list-none absolute m-0 right-0 z-1 left-0 bg-white box-shadow max-h-17 scroll pointer"
+        :class="{'at-the-top': displayAtTheTop,}">
+      <li v-for="(option, i) of options"
+          :key="option"
+          class="list-item"
+          :class="{ 'active-option': activeOption === i }"
+          @click.stop="selectOption(option)">
         {{ displayOption(option) }}
       </li>
     </ul>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .box-shadow {
   box-shadow: 0px 16px 16px -16px rgba(0, 0, 0, 0.32), 0px 8px 16px rgba(0, 0, 0, 0.1);
 }
@@ -175,5 +169,24 @@ function displayOption(option) {
 .list-item:hover {
   background-color: var(--blue-france-sun-113-625);
   color: white;
+}
+
+.search-autocomplete {
+  position: relative;
+  
+  ul {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    background-color: var(--grey-950-100);
+    list-style-type: none;
+    margin-top: 0;
+    padding: 0.5rem 0 0 0;
+    
+    li {
+      padding-left: 1rem;
+      cursor: pointer;
+    }
+  }
 }
 </style>
