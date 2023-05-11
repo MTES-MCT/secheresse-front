@@ -37,18 +37,17 @@ watch(addressQuery, utils.debounce(async () => {
 <template>
   <div class="presentation fr-grid-row fr-grid-row--center fr-mt-8w fr-pb-4w">
     <div class="presentation-title">
-      <h1> Restez informé en temps réel des <span class="keyword-highlight">restrictions</span> d'eau en France</h1>
-      <div>La sécheresse sévit en France. Les préfectures ont mis en place des mesures afin de préserver au maximum les réserves d'eau et
-        éviter les pénuries.
-      </div>
+      <h3>Collectivités, particuliers, agriculteurs, industriels</h3>
+      <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
-        <b>Vérifiez si vous êtes concerné et comment agir !</b>
+        Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec eau-sécheresse.gouv.fr, nous
+        vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.
       </div>
     </div>
 
     <div class="search-card fr-col-12 fr-p-6w fr-mt-4w">
       <div class="search-card-wrapper">
-        <h2>Je vérifie si je suis concerné par les restrictions</h2>
+        <h2>Suis-je concerné par les restrictions ?</h2>
         <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète ou préfecture)</div>
         <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
                          :model-value="addressQuery"
@@ -74,31 +73,33 @@ watch(addressQuery, utils.debounce(async () => {
 
 <style lang="scss">
 .presentation {
-  position: relative;
-
-  //&:before {
-  //  content: "";
-  //  position: absolute;
-  //  width: 100vw;
-  //  height: 100%;
-  //  background-image: url("/presentation_bg.png");
-  //  background-repeat: no-repeat;
-  //  background-position: bottom;
-  //  background-size: 100vw auto;
-  //  z-index: -1;
-  //}
 
   &-title {
+    position: relative;
     text-align: center;
     width: 70%;
     margin-left: auto;
     margin-right: auto;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100vw;
+      height: calc(100% + 8rem);
+      top: -4rem;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      background: linear-gradient(270deg, rgba(202, 202, 251, 0.5) 0%, rgba(254, 246, 227, 0.5) 100%);
+      opacity: 0.8;
+      z-index: -1;
+    }
   }
 }
 
 .search-card {
-  background-color: var(--blue-france-975-75);
-  box-shadow: var(--raised-shadow);
+  background-color: var(--background-default-grey);
+  border: 1px var(--blue-france-925-125) solid;
 
   &-wrapper {
     max-width: 650px;

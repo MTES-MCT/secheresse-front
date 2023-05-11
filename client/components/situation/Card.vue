@@ -37,15 +37,13 @@ const cardDescription = computed<string>(() => {
 </script>
 
 <template>
-  <div class="fr-col-12 fr-col-md-6">
-    <div class="situation-card fr-p-2w">
-      <DsfrBadge small type="warning" :label="badgeLabel" no-icon/>
-      <h3 class="situation-card__title fr-mt-2w fr-mb-2w">
-        {{ situation.nbTerritories }} Territoires concernés
-      </h3>
-      <div class="situation-card__desc">
-        {{ cardDescription }}
-      </div>
+  <div class="situation-card fr-p-2w">
+    <DsfrBadge small type="warning" :label="badgeLabel" no-icon/>
+    <h3 class="situation-card__title fr-mt-2w fr-mb-2w">
+      {{ situation.nbTerritories }} Territoires concernés
+    </h3>
+    <div class="situation-card__desc">
+      {{ cardDescription }}
     </div>
   </div>
 </template>
@@ -55,7 +53,7 @@ const cardDescription = computed<string>(() => {
   width: 100%;
   border: 1px var(--grey-950-100) solid;
   box-sizing: border-box;
-  
+
   &__title {
     color: var(--blue-france-sun-113-625);
     font-size: 1rem;
