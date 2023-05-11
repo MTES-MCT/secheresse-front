@@ -20,8 +20,8 @@ describe('Test de la home page', () => {
   describe(`Header`, () => {
     it(`Le header doit s'afficher correctement`, () => {
       cy.get('body .fr-header').should('exist');
-      cy.get('body .fr-header .fr-logo').contains('République').should('exist');
-      cy.get('body .fr-header .fr-logo').contains('Française').should('exist');
+      cy.get('body .fr-header .fr-logo').contains('Ministères').should('exist');
+      cy.get('body .fr-header .fr-logo').contains('Transition écologique').should('exist');
       cy.get('body .fr-header .fr-header__service').contains('Alerte sécheresse').should('exist');      
     });
   });
@@ -29,8 +29,8 @@ describe('Test de la home page', () => {
   describe(`Footer`, () => {
     it(`Le footer doit s'afficher correctement`, () => {
       cy.get('body .fr-footer').should('exist');
-      cy.get('body .fr-footer .fr-logo').contains('République').should('exist');
-      cy.get('body .fr-footer .fr-logo').contains('Française').should('exist');
+      cy.get('body .fr-footer .fr-logo').contains('Ministères').should('exist');
+      cy.get('body .fr-footer .fr-logo').contains('Transition écologique').should('exist');
       cy.get('body .fr-footer .fr-footer__content-list').find('li').should('have.length', 4);
       cy.get('body .fr-footer .fr-footer__bottom-list').find('li').should('have.length', 4);
     });

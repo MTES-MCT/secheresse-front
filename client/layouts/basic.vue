@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useScheme } from '@gouvminint/vue-dsfr'
 
-const logoText: string[] = ['République', 'Française']
+const logoText: string[] = ['Ministères', 'Transition écologique', 'cohésion des territoires', 'transition énergétique', 'mer']
 const serviceTitle: string = 'Alerte sécheresse'
 
 const a11yCompliance: string = 'Non conforme'

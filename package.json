@@ -2,16 +2,15 @@
   "version": "0.1.0",
   "name": "secheresse",
   "scripts": {
-    "build": "npx nuxi generate",
-    "dev": "nuxt dev",
+    "build": "nuxi generate",
+    "start": "nuxi preview",
+    "dev": "nuxi dev",
     "format": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "generate": "nuxt generate",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
     "preview": "nuxt preview",
-    "test": "vitest",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:e2e": "start-server-and-test start http://localhost:3000 cy:run"
+    "cy:e2e": "start-server-and-test dev http://localhost:3000 cy:run"
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.9.0",
