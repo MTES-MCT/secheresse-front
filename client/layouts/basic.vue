@@ -2,7 +2,11 @@
 import { useScheme } from '@gouvminint/vue-dsfr'
 
 const logoText: string[] = ['Ministères', 'Transition écologique', 'cohésion des territoires', 'transition énergétique', 'mer']
-const serviceTitle: string = 'Alerte sécheresse'
+const operatorImgSrc: string = '/logo_eau.svg'
+const operatorImgAlt: string = 'Logo eau sécheresse'
+const operatorImgStyle: any = {
+  'max-width': '200px'
+}
 
 const a11yCompliance: string = 'Non conforme'
 const descText: string = 'Alerte sécheresse'
@@ -25,7 +29,9 @@ onMounted(() => {
 
 <template>
   <DsfrHeader :logo-text="logoText"
-              :serviceTitle="serviceTitle"
+              :operatorImgSrc="operatorImgSrc"
+              :operatorImgAlt="operatorImgAlt"
+              :operatorImgStyle = "operatorImgStyle"
   />
   <div class="fr-container fr-mb-8w">
     <slot/>
@@ -33,5 +39,8 @@ onMounted(() => {
   <DsfrFooter :logo-text="logoText"
               :a11yCompliance="a11yCompliance"
               :descText="descText"
+              :operatorImgSrc="operatorImgSrc"
+              :operatorImgAlt="operatorImgAlt"
+              :operatorImgStyle = "operatorImgStyle"
   />
 </template>
