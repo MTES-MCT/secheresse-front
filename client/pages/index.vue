@@ -17,5 +17,6 @@ const address: Ref<any> = ref(null);
                          :address=address
     />
     <HomeGestes/>
+    <HomeComment />
   </div>
 </template>
