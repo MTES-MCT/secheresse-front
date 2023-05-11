@@ -37,10 +37,12 @@ export default defineNuxtConfig({
     autoImport: true
   },
   modules: [
-    [
-      '@nuxtjs/i18n',
-      { /* module options */}
-    ]
+    // [
+    //   '@nuxtjs/i18n',
+    //   {
+    //     vueI18n: './i18n.config.ts'
+    //   }
+    // ]
   ],
   vite: {
     plugins: [
