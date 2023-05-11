@@ -19,7 +19,21 @@ import gestes from '../../data/gestes.json'
 
 <style lang="scss">
 .gestes {
-  background-color: var(--info-975-75);
+  position: relative;
+  
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #FFFBF4 0%, #ECECFE 100%);
+    opacity: 0.8;
+    z-index: -1;
+  }
 
   &-title {
     text-align: center;
