@@ -64,7 +64,7 @@ export default defineNuxtConfig({
       theme_color: '#ffffff',
       icons: [
         {
-          src: "/logo_eau_light.svg",
+          src: "/favicon.svg",
           sizes: "any",
           type: "image/svg+xml",
           purpose: "any maskable"
