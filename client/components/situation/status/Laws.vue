@@ -6,7 +6,7 @@ const selectedTabIndex: Ref<number> = ref(0);
 const lawsCategories: Ref<any[]> = ref([
   {title: 'Les interdictions', tabId: 'interdictions'},
   {title: 'Les limitations', tabId: 'limitations'},
-  {title: 'Sensibiliation', tabId: 'sensibiliation'}
+  {title: 'Sensibiliation', tabId: 'sensibilisation'}
 ]);
 </script>
 
@@ -33,7 +33,7 @@ const lawsCategories: Ref<any[]> = ref([
                     tab-id="tab-1">
       <div>Contenu 1 avec d'autres composants</div>
     </DsfrTabContent>
-    <DsfrTabContent panel-id="Sensibiliation"
+    <DsfrTabContent panel-id="sensibilisation"
                     :selected="selectedTabIndex === 2"
                     tab-id="tab-2">
       <div>Contenu 1 avec d'autres composants</div>
