@@ -14,7 +14,7 @@ export default defineNuxtConfig({
         {name: 'format-detection', content: 'telephone=no'}
       ],
       link: [
-        {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+        {rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}
       ],
       htmlAttrs: {
         lang: 'fr'
@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     manifest: {
       name: 'Eau sécheresse',
       short_name: 'EauSecheresse',
+      description: 'Eau sécheresse',
       theme_color: '#ffffff',
       icons: [
         {
@@ -71,8 +72,9 @@ export default defineNuxtConfig({
       ]
     },
     workbox: {
-      navigateFallback: '/',
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+      navigateFallback: '/index.html',
+      cleanupOutdatedCaches: true,
+      importScripts: ['/inject-sw.js']
     },
     client: {
       installPrompt: true,
