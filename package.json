@@ -29,6 +29,7 @@
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
+    "@vite-pwa/nuxt": "^0.0.7",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/tsconfig": "^0.4.0",
     "cypress": "12.12.0",
