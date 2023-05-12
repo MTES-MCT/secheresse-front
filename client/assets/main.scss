@@ -1,62 +1,17 @@
+@import "dsfr";
+
 body {
   height: 100%;
   overflow-x: hidden;
-}
-
-.keyword-highlight {
-  color: var(--text-default-info)
 }
 
 .full-width {
   width: 100%;
 }
 
-// NOTICE
-.fr-notice.notice-light {
-  width: fit-content;
-  padding: 0.5rem 0;
-
-  .fr-container {
-    width: fit-content;
-    padding: 0 0.5rem;
-
-    .fr-notice__body {
-      padding: 0 1rem 0 2rem;
-    }
-
-    .fr-notice__title {
-      font-weight: 400;
-    }
-  }
-}
-
-// BADGE
-.fr-badge {
-  &.situation-level {
-    &-4 {
-      color: var(--pink-macaron-sun-406-moon-833);
-      background-color: var(--pink-macaron-925-125);
-    }
-    
-    &-3 {
-      color: var(--pink-tuile-sun-425-moon-750);
-      background-color: var(--pink-macaron-950-100);
-    }
-
-    &-2 {
-      color: var(--yellow-tournesol-sun-407-moon-922);
-      background-color: var(--yellow-tournesol-975-75);
-    }
-
-    &-1 {
-      color: var(--blue-ecume-sun-247-moon-675);
-      background-color: var(--purple-glycine-950-100);
-    }
-  }
-}
-
-@media (min-width: 0) {
-  .fr-hidden-xs {
-    display: none;
-  }
+.section-title {
+  text-align: center;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }

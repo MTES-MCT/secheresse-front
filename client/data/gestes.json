@@ -35,18 +35,6 @@
       "description": "1 Entrcôte = 7500L d'eau",
       "rank": "4",
       "icon": "test"
-    },
-    {
-      "title": "Ne pas faire construire / Remplir sa piscine",
-      "description": "1 Piscine individuelle = 48000L d'eau",
-      "rank": "4",
-      "icon": "test"
-    },
-    {
-      "title": "Consommer moins de viande bovine",
-      "description": "1 Entrcôte = 7500L d'eau",
-      "rank": "4",
-      "icon": "test"
     }
   ]
 }

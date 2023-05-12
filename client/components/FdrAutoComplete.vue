@@ -138,7 +138,7 @@ function displayOption(option) {
         :class="{'at-the-top': displayAtTheTop,}">
       <li v-for="(option, i) of options"
           :key="option"
-          class="list-item"
+          class="list-item fr-p-1w fr-pl-2w"
           :class="{ 'active-option': activeOption === i }"
           @click.stop="selectOption(option)">
         {{ displayOption(option) }}
@@ -181,10 +181,9 @@ function displayOption(option) {
     background-color: var(--grey-950-100);
     list-style-type: none;
     margin-top: 0;
-    padding: 0.5rem 0 0 0;
+    padding: 0;
     
     li {
-      padding-left: 1rem;
       cursor: pointer;
     }
   }

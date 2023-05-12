@@ -4,14 +4,15 @@ import gestes from '../../data/gestes.json'
 
 <template>
   <div class="gestes fr-grid-row fr-grid-row--center fr-pt-4w fr-pb-4w">
-    <div class="gestes-title fr-mb-8w">
-      <h1>Les <span class="keyword-highlight">gestes</span> à adopter dès maintenant</h1>
+    <div class="section-title fr-mb-8w">
+      <h1>Les gestes à adopter dès maintenant</h1>
       <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les réserves d’eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters fr-mb-8w">
       <GestesCard v-for="geste in gestes.data"
                   :geste="geste"
       />
+      <GestesCardMore />
     </div>
     <span>Les mesures en litres d'eau annoncées sont des mesures moyennes constatées.</span>
   </div>
@@ -33,13 +34,6 @@ import gestes from '../../data/gestes.json'
     background: linear-gradient(180deg, #FFFBF4 0%, #ECECFE 100%);
     opacity: 0.8;
     z-index: -1;
-  }
-
-  &-title {
-    text-align: center;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 </style>

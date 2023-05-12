@@ -13,8 +13,8 @@ const steps = [
 
 <template>
   <div class="comment fr-grid-row fr-grid-row--center fr-mt-8w">
-    <div class="comment-title fr-mb-8w">
-      <h1>Comment ça <span class="keyword-highlight">marche</span> ?</h1>
+    <div class="section-title fr-mb-8w">
+      <h1>Comment ça marche ?</h1>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-6 fr-grid-row"
@@ -31,14 +31,3 @@ const steps = [
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.comment {
-  &-title {
-    text-align: center;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-</style>

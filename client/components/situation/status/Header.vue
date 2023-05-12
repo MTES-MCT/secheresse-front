@@ -17,7 +17,7 @@ const badgeLabel = computed<string>(() => {
                  :label="badgeLabel" 
                  no-icon/>
       <div>{{ address.properties.label }}</div>
-      <h3>Votre territoire est actuellement en <span class="keyword-highlight">état de crise</span></h3>
+      <h3>Votre territoire est actuellement en état de crise</h3>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>
     <div class="fr-col-12 fr-col-md-6 button-wrapper">
