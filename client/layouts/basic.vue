@@ -5,7 +5,7 @@ const logoText: string[] = ['Ministères', 'Transition écologique', 'cohésion 
 const operatorImgSrc: string = '/logo_secheresse.svg'
 const operatorImgAlt: string = 'Logo eau sécheresse'
 const operatorImgStyle: any = {
-  'max-width': '200px'
+  'max-width': '300px'
 }
 
 const a11yCompliance: string = 'Non conforme'
@@ -17,11 +17,13 @@ const preferences = reactive({
 })
 
 onMounted(() => {
-  const { theme, scheme, setScheme } = useScheme()
-  // preferences.scheme = scheme.value
+  const {theme, scheme, setScheme} = useScheme()
+  // preferences.scheme = 'dark';
   preferences.scheme = 'light';
 
-  watchEffect(() => { preferences.theme = theme.value })
+  watchEffect(() => {
+    preferences.theme = theme.value
+  })
 
   watchEffect(() => setScheme(preferences.scheme))
 })
@@ -31,7 +33,7 @@ onMounted(() => {
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
-              :operatorImgStyle = "operatorImgStyle"
+              :operatorImgStyle="operatorImgStyle"
   />
   <div class="fr-container fr-mb-8w">
     <slot/>
@@ -41,6 +43,6 @@ onMounted(() => {
               :descText="descText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
-              :operatorImgStyle = "operatorImgStyle"
+              :operatorImgStyle="operatorImgStyle"
   />
 </template>
