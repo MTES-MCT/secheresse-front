@@ -2,7 +2,7 @@
 import { useScheme } from '@gouvminint/vue-dsfr'
 
 const logoText: string[] = ['Ministères', 'Transition écologique', 'cohésion des territoires', 'transition énergétique', 'mer']
-const operatorImgSrc: string = '/logo_eau.svg'
+const operatorImgSrc: string = '/logo_secheresse.svg'
 const operatorImgAlt: string = 'Logo eau sécheresse'
 const operatorImgStyle: any = {
   'max-width': '200px'
