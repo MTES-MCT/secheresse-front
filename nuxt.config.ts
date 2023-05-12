@@ -6,11 +6,11 @@ export default defineNuxtConfig({
   ssr: true,
   app: {
     head: {
-      title: 'Sécheresse',
+      title: 'Eau sécheresse',
       meta: [
         {charset: 'utf-8'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-        {hid: 'descriptionn', name: 'description', content: 'Sécheresse'},
+        {hid: 'descriptionn', name: 'description', content: 'Eau sécheresse'},
         {name: 'format-detection', content: 'telephone=no'}
       ],
       link: [
@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     autoImport: true
   },
   modules: [
+    '@vite-pwa/nuxt'
     // [
     //   '@nuxtjs/i18n',
     //   {
@@ -49,9 +50,36 @@ export default defineNuxtConfig({
       istanbul({
         include: 'client/*',
         exclude: ['node_modules', 'test/'],
-        extension: [ '.js', '.ts', '.vue' ],
+        extension: ['.js', '.ts', '.vue'],
         requireEnv: false
       }),
     ]
   },
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Eau sécheresse',
+      short_name: 'EauSecheresse',
+      theme_color: '#ffffff',
+      icons: [
+        {
+          src: "/logo_eau_light.svg",
+          sizes: "any",
+          type: "image/svg+xml",
+          purpose: "any maskable"
+        }
+      ]
+    },
+    workbox: {
+      navigateFallback: '/',
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+    client: {
+      installPrompt: true,
+    },
+    devOptions: {
+      // enabled: true,
+      type: 'module',
+    },
+  }
 })
