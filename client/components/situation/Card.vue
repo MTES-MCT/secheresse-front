@@ -38,7 +38,10 @@ const cardDescription = computed<string>(() => {
 
 <template>
   <div class="situation-card fr-p-2w">
-    <DsfrBadge small type="warning" :label="badgeLabel" no-icon/>
+    <DsfrBadge small
+               :class="'situation-level-' + props.situation.rank"
+               :label="badgeLabel"
+               no-icon/>
     <h3 class="situation-card__title fr-mt-2w fr-mb-2w">
       {{ situation.nbTerritories }} Territoires concernés
     </h3>

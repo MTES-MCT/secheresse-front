@@ -12,7 +12,10 @@ const badgeLabel = computed<string>(() => {
 <template>
   <div class="situation-status-header fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-md-6">
-      <DsfrBadge small type="error" :label="badgeLabel" no-icon/>
+      <DsfrBadge small
+                 :class="'situation-level-4'"
+                 :label="badgeLabel" 
+                 no-icon/>
       <div>{{ address.properties.label }}</div>
       <h3>Votre territoire est actuellement en <span class="keyword-highlight">état de crise</span></h3>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
