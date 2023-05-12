@@ -14,7 +14,7 @@ import gestes from '../../data/gestes.json'
       />
       <GestesCardMore />
     </div>
-    <span>Les mesures en litres d'eau annoncées sont des mesures moyennes constatées.</span>
+    <span><b>Les mesures en litre d'eau annoncées sont des mesures moyennes constatées.</b></span>
   </div>
 </template>
 

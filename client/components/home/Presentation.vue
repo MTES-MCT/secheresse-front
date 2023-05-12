@@ -37,7 +37,6 @@ watch(addressQuery, utils.debounce(async () => {
 <template>
   <div class="presentation fr-grid-row fr-grid-row--center fr-mt-8w fr-pb-4w">
     <div class="section-title presentation-title">
-      <h3>Collectivités, particuliers, agriculteurs, industriels</h3>
       <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
         Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec eau-sécheresse.gouv.fr, nous

@@ -1,40 +1,40 @@
 {
   "data": [
     {
-      "title": "Ne pas faire construire / Remplir sa piscine",
-      "description": "1 Piscine individuelle = 48000L d'eau",
-      "rank": "4",
-      "icon": "test"
+      "title": "Éviter de faire construire ou remplir sa piscine",
+      "description": "1 Piscine individuelle = 48000L. d'eau"
     },
     {
-      "title": "Consommer moins de viande bovine",
-      "description": "1 Entrcôte = 7500L d'eau",
-      "rank": "4",
-      "icon": "test"
+      "title": "Privilégier les courtes douches aux bains",
+      "description": "1 bain = 120L. d'eau"
     },
     {
-      "title": "Ne pas faire construire / Remplir sa piscine",
-      "description": "1 Piscine individuelle = 48000L d'eau",
-      "rank": "4",
-      "icon": "test"
+      "title": "Éviter d’arroser son jardin ou son potager",
+      "description": "10 à 20L. par m² par semaine"
     },
     {
-      "title": "Consommer moins de viande bovine",
-      "description": "1 Entrcôte = 7500L d'eau",
-      "rank": "4",
-      "icon": "test"
+      "title": "S’équiper de mousseurs hydro-économes",
+      "description": "Un Mousseur = +5L. d’eau /min gagnés."
     },
     {
-      "title": "Ne pas faire construire / Remplir sa piscine",
-      "description": "1 Piscine individuelle = 48000L d'eau",
-      "rank": "4",
-      "icon": "test"
+      "title": "Éviter au maximum de laver sa voiture",
+      "description": "1 Lavage = 200 à 400L. d’eau"
     },
     {
-      "title": "Consommer moins de viande bovine",
-      "description": "1 Entrcôte = 7500L d'eau",
-      "rank": "4",
-      "icon": "test"
+      "title": "Réduire la durée des douches  Idéalement - de 5min",
+      "description": "1 Douche = 10L. d’eau /min"
+    },
+    {
+      "title": "Faire vérifier et réparer les fuites d’eau",
+      "description": "1 Robinet qui fuit = 75L. d’eau /Jour"
+    },
+    {
+      "title": "Privilégier le mode éco de son lave linge ou lave vaisselle",
+      "description": "1 Cycle Linge standard = 80L. Contre 30L. en mode éco"
+    },
+    {
+      "title": "Recycler les eaux grises.",
+      "description": "5 à 10L. peuvent être récupérés en attendant que l’eau chauffe au robinet."
     }
   ]
 }
