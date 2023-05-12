@@ -17,10 +17,10 @@ import situations from '../../data/situations.json'
     </div>
     <div class="full-width">
       Source: <a class="fr-link fr-fi-arrow-right-line fr-link--icon-right"
-                 href="#"
+                 href="http://propluvia.developpement-durable.gouv.fr/"
                  target="_blank"
                  rel="noopener">
-      MétéoFrance
+      Propluvia
     </a>
     </div>
   </div>
