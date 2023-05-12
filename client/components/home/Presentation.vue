@@ -36,7 +36,7 @@ watch(addressQuery, utils.debounce(async () => {
 
 <template>
   <div class="presentation fr-grid-row fr-grid-row--center fr-mt-8w fr-pb-4w">
-    <div class="presentation-title">
+    <div class="section-title presentation-title">
       <h3>Collectivités, particuliers, agriculteurs, industriels</h3>
       <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
@@ -45,9 +45,9 @@ watch(addressQuery, utils.debounce(async () => {
       </div>
     </div>
 
-    <div class="search-card fr-col-12 fr-p-6w fr-mt-4w">
+    <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
       <div class="search-card-wrapper">
-        <h2>Suis-je concerné par les restrictions ?</h2>
+        <h2>Les restrictions me concernent-elles ?</h2>
         <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète ou préfecture)</div>
         <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
                          :model-value="addressQuery"
@@ -71,15 +71,10 @@ watch(addressQuery, utils.debounce(async () => {
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .presentation {
-
-  &-title {
+  .section-title {
     position: relative;
-    text-align: center;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
 
     &:before {
       content: "";
