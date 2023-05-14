@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   },
   css: [
     '@gouvfr/dsfr/dist/dsfr.min.css',
-    '@gouvfr/dsfr/dist/utility/icons/icons.min.css',
+    // '@gouvfr/dsfr/dist/utility/icons/icons.min.css',
     '@gouvminint/vue-dsfr/styles',
     'assets/main.scss',
   ],
@@ -55,6 +55,7 @@ export default defineNuxtConfig({
       }),
     ]
   },
+  //@ts-ignore
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
@@ -80,7 +81,7 @@ export default defineNuxtConfig({
       installPrompt: true,
     },
     devOptions: {
-      // enabled: true,
+      enabled: false,
       type: 'module',
     },
   }

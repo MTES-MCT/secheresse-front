@@ -12,6 +12,37 @@ const index = {
         fn.apply(that, args)
       }, delay)
     }
+  },
+
+  getSituationBadgeLabel(situationRank: number): string {
+    if (!situationRank) {
+      return '';
+    }
+    let label = `${situationRank}/4 - `
+    label += this.getSituationLabel(situationRank)
+    return label;
+  },
+  
+  getSituationLabel(situationRank: number): string {
+    if (!situationRank) {
+      return '';
+    }
+    let label = '';
+    switch (situationRank) {
+      case 1:
+        label += 'En état de vigilance';
+        break;
+      case 2:
+        label += `En état d'alerte`;
+        break;
+      case 3:
+        label += `En état d'alerte renforcé`;
+        break;
+      case 4:
+        label += `En état de crise`;
+        break;
+    }
+    return label;
   }
 }
 

@@ -1,25 +1,12 @@
 <script setup lang="ts">
+import utils from "../../utils";
+
 const props = defineProps<{
   situation: { rank: number, nbTerritories: number }
 }>()
 
 const badgeLabel = computed<string>(() => {
-  let label = `${props.situation.rank}/4 - `
-  switch (props.situation.rank) {
-    case 1:
-      label += 'En état de vigilance';
-      break;
-    case 2:
-      label += `En état d'alerte`;
-      break;
-    case 3:
-      label += `En état d'alerte renforcé`;
-      break;
-    case 4:
-      label += `En état de crise`;
-      break;
-  }
-  return label;
+  return utils.getSituationBadgeLabel(props.situation.rank)
 })
 
 const cardDescription = computed<string>(() => {
