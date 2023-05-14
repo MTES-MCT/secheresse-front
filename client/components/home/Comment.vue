@@ -19,13 +19,13 @@ const steps = [
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-6 fr-grid-row"
            v-for="step in steps">
-        <DsfrCard
-          altImg="icone"
-          noArrow
-          link=""
-          detail=""
-          :title="step.title"
-          :description="step.description"
+        <DsfrCard altImg="icone"
+                  noArrow
+                  link=""
+                  detail=""
+                  imgSrc="/card_bg.svg"
+                  :title="step.title"
+                  :description="step.description"
         />
       </div>
     </div>

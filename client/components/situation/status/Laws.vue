@@ -23,8 +23,10 @@ const lawsCategories: Ref<any[]> = ref([
              class="fr-col-12 fr-col-md-4 fr-col-lg-3">
           <DsfrCard link="https://www.systeme-de-design.gouv.fr/"
                     :title="law.title"
+                    imgSrc="/card_bg.svg"
+                    description="En savoir plus"
+                    :detail="null"
           />
-
         </div>
       </div>
     </DsfrTabContent>

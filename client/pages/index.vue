@@ -7,6 +7,10 @@ definePageMeta({
 })
 
 const address: Ref<any> = ref(null);
+const situation: Ref<any> = ref({
+  "nbTerritories": 35,
+  "rank": 2
+})
 </script>
 
 <template>
@@ -15,8 +19,9 @@ const address: Ref<any> = ref(null);
     <HomeSituation v-if="!address"/>
     <HomeSituationStatus v-else
                          :address=address
+                         :situation="situation"
     />
     <HomeGestes/>
-    <HomeComment />
+    <HomeComment/>
   </div>
 </template>
