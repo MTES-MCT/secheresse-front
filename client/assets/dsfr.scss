@@ -41,3 +41,24 @@
     }
   }
 }
+
+// STEPPER
+.fr-stepper {
+  &__steps {
+    background-image: repeating-linear-gradient(to right, var(--background-active-blue-france) 0, var(--background-active-blue-france) var(--active-inner), transparent var(--active-inner), transparent var(--active-outer)), repeating-linear-gradient(to right, var(--background-default-grey) 0, var(--background-default-grey) var(--default-inner), transparent var(--default-inner), transparent var(--default-outer));
+  }
+}
+
+// CALLOUT
+.fr-callout {
+  background-color: var(--background-contrast-info);
+}
+
+// ACCORDION
+.fr-accordions-group {
+  .fr-accordion {
+    &__btn {
+      color: var(--text-action-high-blue-france);
+    }
+  }
+}

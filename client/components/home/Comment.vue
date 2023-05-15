@@ -12,8 +12,8 @@ const steps = [
 </script>
 
 <template>
-  <div class="comment fr-grid-row fr-grid-row--center fr-mt-8w">
-    <div class="section-title fr-mb-8w">
+  <div class="comment fr-grid-row fr-grid-row--center fr-mt-8w fr-pb-4w">
+    <div class="section-title fr-mb-4w">
       <h1>Comment ça marche ?</h1>
     </div>
     <div class="comment-wrapper fr-grid-row fr-grid-row--gutters">
@@ -40,7 +40,7 @@ const steps = [
     content: "";
     position: absolute;
     width: 100vw;
-    height: calc(100% + 8rem);
+    height: calc(100% + 4rem);
     top: -4rem;
     left: 50%;
     -webkit-transform: translateX(-50%);

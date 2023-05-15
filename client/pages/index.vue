@@ -10,5 +10,6 @@ definePageMeta({
     <HomeSituation/>
     <HomeGestes/>
     <HomeComment/>
+    <HomeFaq />
   </div>
 </template>
