@@ -1,37 +1,13 @@
 <script setup lang="ts">
-import { Ref } from "vue";
-import utils from "../../utils";
-import { DsfrNotice } from "@gouvminint/vue-dsfr";
-import api from "../../api";
+import { useAddressStore } from "../../store/address";
 
-const emit = defineEmits(['address'])
-
-const addressQuery: Ref<string> = ref('');
-const addresses: Ref<any[]> = ref([]);
-const loadAddresses: Ref<boolean> = ref(true);
-
-const selectAddress = (address: string | any) => {
-  if (typeof address === 'string') {
-    addressQuery.value = address;
-    if (address === '') {
-      emit('address', null);
-    }
-    return;
-  }
-  loadAddresses.value = false;
-  addressQuery.value = address.properties.label;
-  emit('address', address);
+const addressStore = useAddressStore();
+const router = useRouter();
+const {setAddress} = addressStore;
+const searchSituation = (address: any) => {
+  setAddress(address);
+  router.push({path: '/situation/adresse'});
 }
-
-watch(addressQuery, utils.debounce(async () => {
-  if (!addressQuery.value || !loadAddresses.value) {
-    loadAddresses.value = true;
-    addresses.value = [];
-    return;
-  }
-  const result: any = await api.searchAddresses(addressQuery.value);
-  addresses.value = result.features;
-}, 500));
 </script>
 
 <template>
@@ -47,16 +23,7 @@ watch(addressQuery, utils.debounce(async () => {
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
       <div class="search-card-wrapper">
         <h2>Les restrictions me concernent-elles ?</h2>
-        <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète ou préfecture)</div>
-        <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
-                         :model-value="addressQuery"
-                         :options="addresses"
-                         display-key="properties.label"
-                         data-cy="AddressSearchInput"
-                         @update:modelValue="selectAddress($event)"/>
-        <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
-                    class="notice-light fr-mt-1w"
-        />
+        <MixinsAdresse @address="searchSituation"/>
       </div>
     </div>
 
@@ -85,7 +52,6 @@ watch(addressQuery, utils.debounce(async () => {
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);
       background: linear-gradient(270deg, rgba(202, 202, 251, 0.5) 0%, rgba(254, 246, 227, 0.5) 100%);
-      opacity: 0.8;
       z-index: -1;
     }
   }
@@ -102,10 +68,6 @@ watch(addressQuery, utils.debounce(async () => {
 
     h2 {
       text-align: center;
-    }
-
-    .fr-notice {
-      margin: auto
     }
   }
 }

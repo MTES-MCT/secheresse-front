@@ -41,6 +41,7 @@ const cardDescription = computed<string>(() => {
 <style lang="scss">
 .situation-card {
   width: 100%;
+  height: 100%;
   border: 1px var(--grey-950-100) solid;
   box-sizing: border-box;
 
