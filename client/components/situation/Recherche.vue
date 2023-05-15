@@ -52,7 +52,8 @@ const {address} = storeToRefs(addressStore);
       left: 50%;
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);
-      background: linear-gradient(270deg, rgba(218, 218, 238, 0.5) 0%, rgba(239, 236, 228, 0.5) 100%);
+      background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
+      opacity: 0.5;
       z-index: -1;
     }
   }
