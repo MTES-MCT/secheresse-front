@@ -12,7 +12,7 @@ import gestes from '../../data/gestes.json'
       <GestesCard v-for="geste in gestes.data"
                   :geste="geste"
       />
-      <GestesCardMore />
+      <GestesCardMore/>
     </div>
     <span><b>Les mesures en litre d'eau annoncées sont des mesures moyennes constatées.</b></span>
   </div>
@@ -21,7 +21,7 @@ import gestes from '../../data/gestes.json'
 <style lang="scss">
 .gestes {
   position: relative;
-  
+
   &:before {
     content: "";
     position: absolute;
@@ -31,7 +31,8 @@ import gestes from '../../data/gestes.json'
     top: 0;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    background: linear-gradient(180deg, #FFFBF4 0%, #ECECFE 100%);
+    background: linear-gradient(180deg, var(--yellow-tournesol-975-75), var(--blue-france-850-200));
+    opacity: 0.5;
     z-index: -1;
   }
 }

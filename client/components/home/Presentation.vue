@@ -46,12 +46,13 @@ const searchSituation = (address: any) => {
       content: "";
       position: absolute;
       width: 100vw;
-      height: calc(100% + 8rem);
+      height: calc(100% + 12rem);
       top: -4rem;
       left: 50%;
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);
-      background: linear-gradient(270deg, rgba(202, 202, 251, 0.5) 0%, rgba(254, 246, 227, 0.5) 100%);
+      background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
+      opacity: 0.5;
       z-index: -1;
     }
   }

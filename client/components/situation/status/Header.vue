@@ -62,19 +62,23 @@ const situationLabel = computed<string>(() => {
 
   &.situation-level {
     &-4:before {
-      background: linear-gradient(270deg, rgba(254, 240, 229, 0.5) 0%, rgba(254, 233, 231, 0.5) 100%);
+      background: linear-gradient(270deg, var(--pink-macaron-925-125), var(--pink-tuile-850-200));
+      opacity: 0.5;
     }
 
     &-3:before {
-      background: linear-gradient(270deg, rgba(254, 240, 229, 0.5) 0%, rgba(254, 233, 231, 0.5) 100%);
+      background: linear-gradient(270deg, var(--pink-tuile-950-100), var(--pink-tuile-925-125));
+      opacity: 0.5;
     }
 
     &-2:before {
-      background: linear-gradient(270deg, rgba(252, 246, 232, 0.5) 0%, rgba(254, 242, 228, 0.5) 100%);
+      background: linear-gradient(270deg, var(--yellow-tournesol-975-75), var(--yellow-tournesol-950-100));
+      opacity: 0.3;
     }
 
     &-1:before {
-      background: linear-gradient(270deg, rgba(218, 218, 238, 0.5) 0%, rgba(239, 236, 228, 0.5) 100%);
+      background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
+      opacity: 0.5;
     }
   }
 
