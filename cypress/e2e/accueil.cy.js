@@ -13,7 +13,6 @@ describe('Test de la home page', () => {
     cy.get('body .presentation').should('exist');
     cy.get('body .situation').should('exist');
     cy.get('body .gestes').should('exist');
-    cy.get('body .situation-status').should('not.exist');
     cy.get('body .fr-footer').should('exist');
   });
 

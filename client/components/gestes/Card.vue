@@ -20,6 +20,7 @@ const props = defineProps<{
 <style lang="scss">
 .geste-card {
   width: 100%;
+  height: 100%;
   border: 1px var(--grey-950-100) solid;
   box-sizing: border-box;
   background-color: var(--background-default-grey);

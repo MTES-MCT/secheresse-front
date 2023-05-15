@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     autoImport: true
   },
   modules: [
+    '@pinia/nuxt',
     '@vite-pwa/nuxt'
     // [
     //   '@nuxtjs/i18n',

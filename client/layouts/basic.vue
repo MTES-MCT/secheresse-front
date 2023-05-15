@@ -7,6 +7,11 @@ const operatorImgAlt: string = 'Logo eau sécheresse'
 const operatorImgStyle: any = {
   'max-width': '300px'
 }
+const quickLinks: any[] = [{
+  label: 'Quelle situation sur mon territoire ?',
+  to: '/situation/recherche',
+  class: 'fr-btn--secondary'
+}];
 
 const a11yCompliance: string = 'Non conforme'
 const descText: string = 'Alerte sécheresse'
@@ -34,6 +39,8 @@ onMounted(() => {
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
               :operatorImgStyle="operatorImgStyle"
+              :quickLinks="quickLinks"
+              serviceTitle=" "
   />
   <div class="fr-container fr-mb-8w">
     <slot/>

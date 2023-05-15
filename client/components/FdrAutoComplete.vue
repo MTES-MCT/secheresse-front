@@ -177,7 +177,7 @@ function displayOption(option) {
   ul {
     position: absolute;
     width: 100%;
-    z-index: 1;
+    z-index: 10;
     background-color: var(--grey-950-100);
     list-style-type: none;
     margin-top: 0;

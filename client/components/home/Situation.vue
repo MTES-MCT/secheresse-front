@@ -15,7 +15,7 @@ import situations from '../../data/situations.json'
         />
       </div>
     </div>
-    <div class="full-width">
+    <div class="full-width fr-mt-2w">
       Source: <a class="fr-link fr-fi-arrow-right-line fr-link--icon-right"
                  href="http://propluvia.developpement-durable.gouv.fr/"
                  target="_blank"

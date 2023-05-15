@@ -1,14 +1,13 @@
 <script setup lang="ts">
 definePageMeta({
   layout: 'basic',
+  middleware: 'situation-address'
 })
 </script>
 
 <template>
   <div>
-    <HomePresentation/>
-    <HomeSituation/>
+    <SituationStatus/>
     <HomeGestes/>
-    <HomeComment/>
   </div>
 </template>
