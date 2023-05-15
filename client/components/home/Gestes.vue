@@ -32,7 +32,6 @@ import gestes from '../../data/gestes.json'
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
     background: linear-gradient(180deg, #FFFBF4 0%, #ECECFE 100%);
-    opacity: 0.8;
     z-index: -1;
   }
 }

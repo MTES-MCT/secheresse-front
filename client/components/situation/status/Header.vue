@@ -6,6 +6,11 @@ const props = defineProps<{
   address: any
 }>()
 
+const links: any[] = ref([{to: '/', text: 'Accueil'}, {
+  to: '/situation/recherche',
+  text: `Quelle est la situation sur mon territoire ?`
+}, {text: 'Votre adresse'}])
+
 const badgeLabel = computed<string>(() => {
   return utils.getSituationBadgeLabel(props.situation.rank)
 })
@@ -16,19 +21,22 @@ const situationLabel = computed<string>(() => {
 </script>
 
 <template>
-  <div class="situation-status-header fr-grid-row fr-grid-row--gutters"
-       :class="'situation-level-' + props.situation.rank">
-    <div class="fr-col-12 fr-col-md-6">
+  <div class="situation-status-header fr-grid-row fr-pb-4w"
+       :class="'situation-level-' + situation.rank">
+    <div class="fr-col-12">
+      <DsfrBreadcrumb :links='links'/>
+    </div>
+    <div class="fr-col-12 fr-col-md-6 fr-col-lg-5">
       <DsfrBadge small
                  class="fr-mb-2w"
-                 :class="'situation-level-' + props.situation.rank"
+                 :class="'situation-level-' + situation.rank"
                  :label="badgeLabel"
                  no-icon/>
-      <div class="fr-mb-2w">{{ address.properties.label }}</div>
-      <h3>Votre territoire est actuellement en <span class="situation-level-c-4">{{ situationLabel }}</span></h3>
+      <div class="fr-mb-2w">{{ address?.properties.label }}</div>
+      <h3>Votre territoire est actuellement <span class="situation-level-c-4">{{ situationLabel }}</span></h3>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>
-    <div class="fr-col-12 fr-col-md-6 button-wrapper">
+    <div class="fr-col-12 fr-col-md-6 fr-col-lg-7 button-wrapper">
       <DsfrButton label="Télécharger l'arrêté préfectoral"/>
     </div>
   </div>
@@ -36,7 +44,7 @@ const situationLabel = computed<string>(() => {
 
 <style lang="scss">
 .situation-status-header {
-  width: 90%;
+  max-width: 1000px;
   position: relative;
   margin: auto;
 
@@ -49,7 +57,6 @@ const situationLabel = computed<string>(() => {
     top: 0;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    opacity: 0.8;
     z-index: -1;
   }
 

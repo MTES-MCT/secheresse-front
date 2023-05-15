@@ -18,10 +18,10 @@ const lawsCategories: Ref<any[]> = ref([
     <DsfrTabContent panel-id="interdictions"
                     :selected="selectedTabIndex === 0"
                     tab-id="tab-0">
-      <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
         <div v-for="law in laws.data"
              class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-          <DsfrCard link="https://www.systeme-de-design.gouv.fr/"
+          <DsfrCard link=""
                     :title="law.title"
                     imgSrc="/card_bg.svg"
                     description="En savoir plus"

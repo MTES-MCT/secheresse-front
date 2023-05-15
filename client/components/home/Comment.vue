@@ -16,12 +16,12 @@ const steps = [
     <div class="section-title fr-mb-8w">
       <h1>Comment ça marche ?</h1>
     </div>
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-md-6 fr-grid-row"
+    <div class="comment-wrapper fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-md-6"
            v-for="step in steps">
         <DsfrCard altImg="icone"
                   noArrow
-                  link=""
+                  link="/"
                   detail=""
                   imgSrc="/card_bg.svg"
                   :title="step.title"
@@ -31,3 +31,26 @@ const steps = [
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.comment {
+  position: relative;
+  
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100vw;
+    height: calc(100% + 8rem);
+    top: -4rem;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: var(--blue-france-975-75);
+    z-index: -1;
+  }
+  
+  &-wrapper {
+    max-width: 800px;
+  }
+}
+</style>
