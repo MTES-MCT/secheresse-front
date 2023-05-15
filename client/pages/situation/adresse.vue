@@ -9,5 +9,6 @@ definePageMeta({
   <div>
     <SituationStatus/>
     <HomeGestes/>
+    <HomeFaq />
   </div>
 </template>

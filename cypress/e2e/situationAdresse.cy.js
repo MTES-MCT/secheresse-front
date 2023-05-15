@@ -14,6 +14,7 @@ describe(`Test de l'affichage des situations`, () => {
       cy.get('body .fr-header').should('exist');
       cy.get('body .situation-status').should('exist');
       cy.get('body .gestes').should('exist');
+      cy.get('body .faq').should('exist');
       cy.get('body .fr-footer').should('exist');
       cy.get('body .situation-status .fr-tabs .fr-tabs__list').find('li').should('have.length', 3);
       cy.get('body .situation-status .fr-tabs #interdictions.fr-tabs__panel--selected').should('exist');
