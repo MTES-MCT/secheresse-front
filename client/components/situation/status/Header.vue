@@ -12,7 +12,7 @@ const links: any[] = ref([{to: '/', text: 'Accueil'}, {
 }, {text: 'Votre adresse'}])
 
 const badgeLabel = computed<string>(() => {
-  return utils.getSituationBadgeLabel(props.situation.rank)
+  return utils.getSituationBadgeLabel(props.situation.rank);
 })
 
 const situationLabel = computed<string>(() => {
@@ -30,9 +30,12 @@ const situationLabel = computed<string>(() => {
       <DsfrBadge small
                  class="fr-mb-2w"
                  :class="'situation-level-' + situation.rank"
-                 :label="badgeLabel"
-                 no-icon/>
-      <div class="fr-mb-2w">{{ address?.properties.label }}</div>
+                 type="error"
+                 :label="badgeLabel"/>
+      <div class="fr-mb-2w">
+        <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
+        {{ address?.properties.label }}
+      </div>
       <h3>Votre territoire est actuellement <span class="situation-level-c-4">{{ situationLabel }}</span></h3>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>

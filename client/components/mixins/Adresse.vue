@@ -2,14 +2,18 @@
 import { Ref } from "vue";
 import utils from "../../utils";
 import api from "../../api";
+import { Address } from "../../dto/address.dto";
 
 const emit = defineEmits(['address']);
 
 const addressQuery: Ref<string> = ref('');
-const addresses: Ref<any[]> = ref([]);
+const addresses: Ref<Address[]> = ref([]);
 const loadAddresses: Ref<boolean> = ref(true);
+const modalTitle: Ref<string> = ref('');
+const modalText: Ref<string> = ref('');
+const modalOpened: Ref<boolean> = ref(false);
 
-const selectAddress = (address: string | any) => {
+const selectAddress = (address: string | Address) => {
   if (typeof address === 'string') {
     addressQuery.value = address;
     if (address === '') {
@@ -28,8 +32,11 @@ watch(addressQuery, utils.debounce(async () => {
     addresses.value = [];
     return;
   }
-  const result: any = await api.searchAddresses(addressQuery.value);
-  addresses.value = result.features;
+  const {data: response, error} = await api.searchAddresses(addressQuery.value);
+  addresses.value = response.value ? response.value.features : [];
+  if (error.value) {
+    console.log(error.value.statusCode);
+  }
 }, 500));
 </script>
 
@@ -43,6 +50,12 @@ watch(addressQuery, utils.debounce(async () => {
                    @update:modelValue="selectAddress($event)"/>
   <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
               class="notice-light fr-mt-1w"/>
+  <DsfrModal :opened="modalOpened"
+             :title="modalTitle"
+             icon="ri-checkbox-circle-line"
+             :actions='[{label:"Recommencer"}]'>
+    {{ modalText }}
+  </DsfrModal>
 </template>
 
 <style scoped lang="scss">

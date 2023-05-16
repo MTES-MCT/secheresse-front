@@ -8,7 +8,7 @@ const addressStore = useAddressStore();
 const {address} = storeToRefs(addressStore);
 const {resetAddress} = addressStore;
 
-const situation: Ref<any> = ref(await api.searchSituation());
+const situation: Ref<any> = ref(await api.searchSituation(address.value));
 
 const addressToUse: Ref<any> = ref(null);
 addressToUse.value = {...address.value};
