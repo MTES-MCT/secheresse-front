@@ -2,7 +2,11 @@
 import faq from '../../data/faq.json'
 import { Ref } from "vue";
 
-const expandedIndex: Ref<number> = ref(null);
+const expandedIndex: Ref<string | null> = ref(null);
+
+const onAccordionClick = (index: string) => {
+  expandedIndex.value = index !== expandedIndex.value ? index : null;
+}
 </script>
 
 <template>
@@ -15,8 +19,8 @@ const expandedIndex: Ref<number> = ref(null);
         <li v-for="(item, index) in faq.data">
           <DsfrAccordion :title="item.question"
                          :expanded-id="expandedIndex"
-                         @click="expandedIndex = index"
-                         :id="index">
+                         @click="onAccordionClick(index.toString())"
+                         :id="index.toString()">
             {{ item.response }}
           </DsfrAccordion>
         </li>

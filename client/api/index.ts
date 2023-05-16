@@ -1,17 +1,35 @@
-const _url: string = 'https://api-adresse.data.gouv.fr/search/?q=';
+import { Address } from "../dto/address.dto";
+
+const _url: string = 'https://api-adresse.data.gouv.fr';
 const _limit: string = '&limit=10';
 
 const index = {
-  async searchAddresses(addressQuery: string): Promise<any> {
-    return await $fetch(`${_url}${addressQuery}${_limit}`);
+  searchAddresses(addressQuery: string): Promise<any> {
+    return useFetch(`/search/?q=${addressQuery}${_limit}`, {
+      method: 'GET',
+      baseURL: _url
+    });
   },
-  
-  async searchSituation() {
-    return {
-      nbTerritories: 35,
-      rank: 4
-      // rank: Math.floor(Math.random() * (4 - 1 + 1) + 1)
-    };
+
+  async searchSituation(address: Address) {
+    switch (address.properties.postcode.slice(0, 2)) {
+      case '75':
+        return {
+          rank: 1
+        };
+      case '13':
+        return {
+          rank: 3
+        };
+      case '66':
+        return {
+          rank: 4
+        };
+      default:
+        return {
+          rank: 2
+        };
+    }
   }
 }
 

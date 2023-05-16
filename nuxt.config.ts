@@ -24,6 +24,7 @@ export default defineNuxtConfig({
   css: [
     '@gouvfr/dsfr/dist/dsfr.min.css',
     // '@gouvfr/dsfr/dist/utility/icons/icons.min.css',
+    '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css',
     '@gouvminint/vue-dsfr/styles',
     'assets/main.scss',
   ],
@@ -38,7 +39,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
-    '@vite-pwa/nuxt'
+    // '@vite-pwa/nuxt'
     // [
     //   '@nuxtjs/i18n',
     //   {
