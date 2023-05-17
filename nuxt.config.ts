@@ -18,7 +18,12 @@ export default defineNuxtConfig({
       ],
       htmlAttrs: {
         lang: 'fr'
-      }
+      },
+      script: [
+        {
+          src: 'matomo.js'
+        }
+      ]
     }
   },
   css: [
