@@ -1166,9 +1166,9 @@
   integrity sha512-ElyB54bJIhXQYVKjDSvCkPO1iU1tSAeVQJbllWJq1XQSmmA4dgFk8CbiBGpiOPxleE48vDogxCtmMYku4HSVLA==
 
 "@gouvfr/dsfr@^1.9.0", "@gouvfr/dsfr@~1.9.0":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr/-/dsfr-1.9.2.tgz#b67852c4b62d1b0e0e1edbe5b6e16e4b6fc9aa41"
-  integrity sha512-uVo+z3xo2FFANa/cYdP2z21ieEXAeABKKrTE2FdKE8HXjhyh9tIcfsju8ux6nFA+pfBeOeUCwBXfOjPQD0eT5w==
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr/-/dsfr-1.9.3.tgz#289148c79566f6332cc930230742c4fe509d96f2"
+  integrity sha512-toPM1nvzSxPAwpLhnIgf7a/TJV0WOUa6sDqYummvMhZ9PBolFPGuD+3r8e3vg0bR5BkYxOt9hFErOPDU1tU4sQ==
 
 "@gouvminint/vue-dsfr@^3.6.0":
   version "3.6.0"
