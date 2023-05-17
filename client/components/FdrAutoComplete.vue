@@ -20,6 +20,10 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: '',
+  },
+  label: {
+    type: String,
+    default: '',
   }
 })
 
@@ -124,6 +128,7 @@ function displayOption(option) {
     <DsfrSearchBar
       :model-value="modelValue"
       :placeholder="placeholder"
+      :label="label"
       v-bind="$attrs"
       :required="true"
       @update:model-value="$emit('update:modelValue', $event)"

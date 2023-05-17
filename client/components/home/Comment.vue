@@ -2,11 +2,13 @@
 const steps = [
   {
     title: '1.',
-    description: 'Entrez votre adresse afin que nous puissions récupérer les données de votre territoire'
+    description: 'Entrez votre adresse afin que nous puissions récupérer les données de votre territoire',
+    altImg: `Image illustrative de recherche d'adresse`
   },
   {
     title: '2.',
-    description: 'Accédez aux restrictions qui vous concernent et aux bons gestes à adopter'
+    description: 'Accédez aux restrictions qui vous concernent et aux bons gestes à adopter',
+    altImg: `Image illustrative du résultat des restrictions`
   }
 ]
 </script>
@@ -19,7 +21,7 @@ const steps = [
     <div class="comment-wrapper fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-col-md-6"
            v-for="step in steps">
-        <DsfrCard altImg="icone"
+        <DsfrCard :altImg="step.altImg"
                   noArrow
                   link="/"
                   detail=""

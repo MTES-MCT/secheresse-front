@@ -3,6 +3,10 @@ definePageMeta({
   layout: 'basic',
 })
 
+useHead({
+  title: `Eau sécheresse - Données personnelles`
+})
+
 const links: any[] = ref([{"to":"/","text":"Accueil"},{"text":"Données personnelles"}])
 </script>
 
