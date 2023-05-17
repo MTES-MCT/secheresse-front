@@ -3,6 +3,10 @@ definePageMeta({
   layout: 'basic',
   middleware: 'situation-address'
 })
+
+useHead({
+  title: `Eau sécheresse - Situation`
+})
 </script>
 
 <template>

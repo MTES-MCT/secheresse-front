@@ -24,6 +24,7 @@ const lawsCategories: Ref<any[]> = ref([
           <DsfrCard link=""
                     :title="law.title"
                     imgSrc="/card_bg.svg"
+                    altImg="Description de l'image"
                     description="En savoir plus"
                     :detail="null"
           />
