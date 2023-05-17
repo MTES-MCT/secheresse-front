@@ -45,6 +45,7 @@ watch(addressQuery, utils.debounce(async () => {
   <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
                    :model-value="addressQuery"
                    :options="addresses"
+                   label="Champ de recherche d'adresse"
                    display-key="properties.label"
                    data-cy="AddressSearchInput"
                    @update:modelValue="selectAddress($event)"/>

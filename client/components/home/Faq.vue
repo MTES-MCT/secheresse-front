@@ -28,6 +28,7 @@ const onAccordionClick = (index: string) => {
       <div class="fr-mt-2w">
         Vous souhaitez-nous poser une question qui n’apparaît pas ici ?
         <a class="fr-link"
+           title="Contactez-nous"
            href="mailto:test@test.com">
           Contactez nous
         </a>
