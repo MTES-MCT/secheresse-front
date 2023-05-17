@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 
 const links: any[] = ref([{to: '/', text: 'Accueil'}, {text: `Quelle est la situation sur mon territoire ?`}]);
 
+const router = useRouter();
 const addressStore = useAddressStore();
 const {setAddress} = addressStore;
 const {address} = storeToRefs(addressStore);
@@ -22,11 +23,10 @@ const {address} = storeToRefs(addressStore);
           <MixinsAdresse @address="setAddress($event)"/>
         </div>
         <div class="fr-grid-row fr-grid-row--center">
-          <NuxtLink to="/situation/adresse" :event="!address ? '' : 'click'">
-            <DsfrButton label="Valider cette adresse"
-                        data-cy="SituationRechercheBtn"
-                        :disabled="!address"/>
-          </NuxtLink>
+          <DsfrButton label="Valider cette adresse"
+                      data-cy="SituationRechercheBtn"
+                      @click="router.push('/situation/adresse')"
+                      :disabled="!address"/>
         </div>
         <DsfrCallout title="Votre adresse n'est pas conservée"
                      class="fr-mt-4w"
