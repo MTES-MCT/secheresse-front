@@ -44,7 +44,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@pinia/nuxt',
-    // '@vite-pwa/nuxt'
+    '@vite-pwa/nuxt'
     // [
     //   '@nuxtjs/i18n',
     //   {
