@@ -25,6 +25,15 @@ const links: any[] = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessibilit
       title="Référentiel général d’amélioration de l’accessibilité">RGAA</abbr>. <span>Le site n’a encore pas été audité.</span>
     </p>
     <h2>Contenus non accessibles</h2>
+    <h2>Amélioration et contact</h2>
+    <p>
+      Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le
+      responsable de Potentiel pour être orienté vers une alternative accessible ou obtenir le
+      contenu sous une autre forme.
+    </p>
+    <ul>
+      <li>E-mail : contact@xxx.gouv.fr</li>
+    </ul>
     <h2>Voie de recours</h2>
     <p>Cette procédure est à utiliser dans le cas suivant&nbsp;: vous avez signalé au responsable du site internet un défaut d’accessibilité
       qui vous empêche d’accéder à un contenu ou à un des services du portail et vous n’avez pas obtenu de réponse satisfaisante.</p>
@@ -41,7 +50,7 @@ const links: any[] = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessibilit
     <hr>
     <p>
       Cette déclaration d’accessibilité a été créé le <span>10 mai 2023</span> grâce au <a
-      href="https://betagouv.github.io/a11y-generateur-declaration/#create">Générateur de Déclaration d’Accessibilité de BetaGouv</a>.
+      href="https://betagouv.github.io/a11y-generateur-declaration/accessibilite">Générateur de Déclaration d’Accessibilité de BetaGouv</a>.
     </p>
   </div>
 </template>
