@@ -6,15 +6,21 @@ const operatorImgSrc: string = '/logo_secheresse.svg'
 const operatorImgAlt: string = 'Logo du produit eau sécheresse'
 const operatorImgStyle: any = {
   'max-width': '300px'
-}
+};
+const a11yCompliance: string = 'Non conforme';
+const descText: string = 'Alerte sécheresse';
 const quickLinks: any[] = [{
   label: 'Quelle situation sur mon territoire ?',
   to: '/situation/recherche',
   class: 'fr-btn--secondary'
 }];
-
-const a11yCompliance: string = 'Non conforme'
-const descText: string = 'Alerte sécheresse'
+const mandatoryLinks: any[] = [{
+  label: `Accessibilité : ${a11yCompliance}`,
+  to: '/accessibilite',
+}, {
+  label: 'Mentions légales',
+  to: '/mentions-legales',
+}];
 
 const preferences = reactive({
   theme: undefined,
@@ -46,7 +52,7 @@ onMounted(() => {
     <slot/>
   </div>
   <DsfrFooter :logo-text="logoText"
-              :a11yCompliance="a11yCompliance"
+              :mandatoryLinks="mandatoryLinks"
               :descText="descText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"

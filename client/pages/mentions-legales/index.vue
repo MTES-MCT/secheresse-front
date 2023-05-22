@@ -31,6 +31,6 @@ const links: any[] = ref([{"to": "/", "text": "Accueil"}, {"text": "Mentions lé
       Siège social :15 avenue du Rhin, 67100 Strasbourg, France.
     </p>
     <h2>Accessibilité</h2>
-    <p>Voir la page <a href="/a11y">Déclaration d'accessibilité</a></p>
+    <p>Voir la page <a href="/accessibilite">Déclaration d'accessibilité</a></p>
   </div>
 </template>

@@ -35,22 +35,22 @@ describe('Test de la home page', () => {
     });
     
     it(`On doit pouvoir accéder aux pages légales depuis le footer`, () => {
-      cy.get('body .fr-footer [data-testid="/a11y"]').should('exist');
+      cy.get('body .fr-footer [data-testid="/accessibilite"]').should('exist');
       cy.get('body .fr-footer [data-testid="/mentions-legales"]').should('exist');
-      cy.get('body .fr-footer [data-testid="/donnees-personnelles"]').should('exist');
-      cy.get('body .fr-footer [data-testid="/cookies"]').should('exist');
+      // cy.get('body .fr-footer [data-testid="/donnees-personnelles"]').should('exist');
+      // cy.get('body .fr-footer [data-testid="/cookies"]').should('exist');
 
-      cy.get('body .fr-footer [data-testid="/a11y"]').click();
-      cy.location('pathname').should('equal', '/a11y');
+      cy.get('body .fr-footer [data-testid="/accessibilite"]').click();
+      cy.location('pathname').should('equal', '/accessibilite');
 
       cy.get('body .fr-footer [data-testid="/mentions-legales"]').click();
       cy.location('pathname').should('equal', '/mentions-legales');
 
-      cy.get('body .fr-footer [data-testid="/donnees-personnelles"]').click();
-      cy.location('pathname').should('equal', '/donnees-personnelles');
-
-      cy.get('body .fr-footer [data-testid="/cookies"]').click();
-      cy.location('pathname').should('equal', '/cookies');
+      // cy.get('body .fr-footer [data-testid="/donnees-personnelles"]').click();
+      // cy.location('pathname').should('equal', '/donnees-personnelles');
+      //
+      // cy.get('body .fr-footer [data-testid="/cookies"]').click();
+      // cy.location('pathname').should('equal', '/cookies');
     });
   });
   
