@@ -6,11 +6,11 @@ export default defineNuxtConfig({
   ssr: true,
   app: {
     head: {
-      title: 'Eau sécheresse',
+      title: `Préservons l'eau`,
       meta: [
         {charset: 'utf-8'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-        {hid: 'descriptionn', name: 'description', content: 'Eau sécheresse'},
+        {hid: 'descriptionn', name: 'description', content: `Préservons l'eau`},
         {name: 'format-detection', content: 'telephone=no'}
       ],
       link: [
@@ -66,9 +66,9 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'Eau sécheresse',
-      short_name: 'EauSecheresse',
-      description: 'Eau sécheresse',
+      name: `Préservons l'eau`,
+      short_name: 'Preservonsleau',
+      description: `Préservons l'eau`,
       theme_color: '#ffffff',
       icons: [
         {

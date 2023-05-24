@@ -2,13 +2,13 @@
 import { useScheme } from '@gouvminint/vue-dsfr'
 
 const logoText: string[] = ['Ministères', 'Transition écologique', 'cohésion des territoires', 'transition énergétique', 'mer']
-const operatorImgSrc: string = '/logo_secheresse.svg'
-const operatorImgAlt: string = 'Logo du produit eau sécheresse'
+const operatorImgSrc: string = '/logo_preservons_leau.svg'
+const operatorImgAlt: string = 'Logo du produit Préservons l\'eau'
 const operatorImgStyle: any = {
   'max-width': '300px'
 };
 const a11yCompliance: string = 'Non conforme';
-const descText: string = 'Alerte sécheresse';
+const descText: string = `Préservons l'eau`;
 const quickLinks: any[] = [{
   label: 'Quelle situation sur mon territoire ?',
   to: '/situation/recherche',

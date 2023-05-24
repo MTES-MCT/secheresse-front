@@ -2,7 +2,7 @@
 
 ## Description
 
-Eau Sécheresse a été lancée par le Ministère de la Transition Ecologique pour aider les citoyens à avoir un accès facile et clair à
+Préservons l'eau a été lancée par le Ministère de la Transition Ecologique pour aider les citoyens à avoir un accès facile et clair à
 l'information concernant les restrictions en vigueur lors d'épisodes d'alertes sécheresse.
 
 ## Installation
