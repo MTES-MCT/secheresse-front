@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 useHead({
-  title: `Eau sécheresse - Recherche`
+  title: `Préservons l'eau - Recherche`
 })
 </script>
 
