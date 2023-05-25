@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       meta: [
         {charset: 'utf-8'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-        {hid: 'descriptionn', name: 'description', content: `Préservons l'eau`},
+        {name: 'description', content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`},
         {name: 'format-detection', content: 'telephone=no'}
       ],
       link: [
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       },
       script: [
         {
-          src: 'matomo.js'
+          src: '/matomo.js'
         }
       ]
     }
@@ -30,6 +30,7 @@ export default defineNuxtConfig({
     '@gouvfr/dsfr/dist/dsfr.min.css',
     // '@gouvfr/dsfr/dist/utility/icons/icons.min.css',
     '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css',
+    '@gouvfr/dsfr/dist/utility/icons/icons-buildings/icons-buildings.min.css',
     '@gouvminint/vue-dsfr/styles',
     'assets/main.scss',
   ],
@@ -67,9 +68,12 @@ export default defineNuxtConfig({
     registerType: 'autoUpdate',
     manifest: {
       name: `Préservons l'eau`,
-      short_name: 'Preservonsleau',
-      description: `Préservons l'eau`,
+      short_name: `Préservons l'eau`,
+      description: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`,
       theme_color: '#ffffff',
+      background_color: '#ffffff',
+      lang: "fr",
+      start_url: "./?utm_source=web_app_manifest",
       icons: [
         {
           src: "/favicon.svg",

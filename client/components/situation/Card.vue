@@ -24,32 +24,22 @@ const cardDescription = computed<string>(() => {
 </script>
 
 <template>
-  <div class="situation-card fr-p-2w">
+  <div class="eau-card fr-p-2w">
     <DsfrBadge small
                :class="'situation-level-' + props.situation.rank"
                :label="badgeLabel"
                no-icon/>
-    <h3 class="situation-card__title fr-mt-2w fr-mb-2w">
+    <h6 class="eau-card__title fr-mt-2w fr-mb-2w">
       {{ situation.nbTerritories }} Territoires concernés
-    </h3>
-    <div class="situation-card__desc">
+    </h6>
+    <div class="eau-card__desc">
       {{ cardDescription }}
     </div>
   </div>
 </template>
 
-<style lang="scss">
-.situation-card {
-  width: 100%;
+<style lang="scss" scoped>
+.eau-card {
   height: 100%;
-  border: 1px var(--grey-950-100) solid;
-  box-sizing: border-box;
-
-  &__title {
-    color: var(--blue-france-sun-113-625);
-    font-size: 1rem;
-    line-height: 1.5rem;
-    font-weight: 700;
-  }
 }
 </style>

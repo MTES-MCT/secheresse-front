@@ -18,28 +18,32 @@ const lawsCategories: Ref<any[]> = ref([
     <DsfrTabContent panel-id="interdictions"
                     :selected="selectedTabIndex === 0"
                     tab-id="tab-0">
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+      <div class="fr-grid-row fr-grid-row--gutters">
         <div v-for="law in laws.data"
              class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-          <DsfrCard link=""
-                    :title="law.title"
-                    imgSrc="/card_bg.svg"
-                    altImg="Description de l'image"
-                    description="En savoir plus"
-                    :detail="null"
-          />
+          <SituationStatusLawCard :law="law"/>
         </div>
       </div>
     </DsfrTabContent>
     <DsfrTabContent panel-id="limitations"
                     :selected="selectedTabIndex === 1"
                     tab-id="tab-1">
-      <div>Contenu 1 avec d'autres composants</div>
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div v-for="law in laws.data"
+             class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+          <SituationStatusLawCard :law="law"/>
+        </div>
+      </div>
     </DsfrTabContent>
     <DsfrTabContent panel-id="sensibilisation"
                     :selected="selectedTabIndex === 2"
                     tab-id="tab-2">
-      <div>Contenu 1 avec d'autres composants</div>
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div v-for="law in laws.data"
+             class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+          <SituationStatusLawCard :law="law"/>
+        </div>
+      </div>
     </DsfrTabContent>
   </DsfrTabs>
 </template>

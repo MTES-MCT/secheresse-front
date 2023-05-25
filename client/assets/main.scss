@@ -16,6 +16,21 @@ body {
   margin-right: auto;
 }
 
+.eau-card {
+  width: 100%;
+  border: 1px var(--grey-950-100) solid;
+  box-sizing: border-box;
+
+  &__title {
+    color: var(--blue-france-sun-113-625);
+    line-height: 1.5rem;
+  }
+  
+  &__desc {
+    font-size: 0.9rem;
+  }
+}
+
 .situation-level-bg {
   &-4 {
     background-color: var(--pink-macaron-925-125);
