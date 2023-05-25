@@ -13,7 +13,7 @@ useHead({
     <HomePresentation/>
     <HomeSituation/>
     <HomeGestes/>
-    <HomeComment/>
+<!--    <HomeComment/>-->
     <HomeFaq />
   </div>
 </template>

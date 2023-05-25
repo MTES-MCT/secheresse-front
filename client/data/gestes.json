@@ -1,40 +1,80 @@
 {
   "data": [
     {
-      "title": "Éviter de faire construire ou remplir sa piscine",
-      "description": "1 Piscine individuelle = 48000L. d'eau"
+      "title": "J’évite de laisser couler l’eau",
+      "description": "Économie de 12 litres d’eau par minute en moyenne !",
+      "home": true
     },
     {
-      "title": "Privilégier les courtes douches aux bains",
-      "description": "1 bain = 120L. d'eau"
+      "title": "Je prends des douches plutôt que des bains",
+      "description": "Un bain consomme en moyenne 100 litres d’eau, autant qu’une douche de 10 minutes !",
+      "home": true
     },
     {
-      "title": "Éviter d’arroser son jardin ou son potager",
-      "description": "10 à 20L. par m² par semaine"
+      "title": "Je place un minuteur dans la salle de bain pour ne pas prolonger les douches",
+      "description": "Limitez-les à 5 minutes grand maximum !",
+      "home": true
     },
     {
-      "title": "S’équiper de mousseurs hydro-économes",
-      "description": "Un Mousseur = +5L. d’eau /min gagnés."
+      "title": "J’utilise mes appareils de lavage à plein",
+      "description": "",
+      "home": true
     },
     {
-      "title": "Éviter au maximum de laver sa voiture",
-      "description": "1 Lavage = 200 à 400L. d’eau"
+      "title": "J'installe des mousseurs sur mes robinets",
+      "description": "Ils mélangent de minuscules bulles d'air dans l'eau qui coule. Le débit est ainsi réduit de 30 à 50 % sans pour autant perdre en confort !",
+      "home": true,
+      "large": true
     },
     {
-      "title": "Réduire la durée des douches  Idéalement - de 5min",
-      "description": "1 Douche = 10L. d’eau /min"
+      "title": "J’opte pour une douchette économe",
+      "description": "Elle limite le débit d'eau tout en optimisant la pression du jet. À la clé, c'est jusqu'à 75 % d'eau économisée ! Et en consommant moins d’eau chaude, vous économisez aussi de l’énergie.",
+      "home": true,
+      "large": true
     },
     {
-      "title": "Faire vérifier et réparer les fuites d’eau",
-      "description": "1 Robinet qui fuit = 75L. d’eau /Jour"
+      "title": "Je repère les fuites",
+      "description": "Un robinet qui goutte, c'est jusqu'à 5 litres par heure gaspillés (soit 120 litres par jour), une chasse d'eau qui fuit, plus de 600 litres par jour, (soit la consommation quotidienne d'une famille de 4 personnes). Une astuce pour repérer les fuites : relevez les chiffres inscrits sur votre compteur d'eau juste avant d'aller vous coucher. À votre réveil, si ces chiffres ne sont pas identiques et que personne n'a utilisé d'eau dans la nuit, cherchez la fuite !",
+      "home": true,
+      "large": true
     },
     {
-      "title": "Privilégier le mode éco de son lave linge ou lave vaisselle",
-      "description": "1 Cycle Linge standard = 80L. Contre 30L. en mode éco"
+      "title": "Je limite les arrosages de mon jardin et je n’arrose surtout pas en pleine journée, aux heures chaudes",
+      "description": "",
+      "home": false
     },
     {
-      "title": "Recycler les eaux grises.",
-      "description": "5 à 10L. peuvent être récupérés en attendant que l’eau chauffe au robinet."
+      "title": "Je plante des arbres et des fleurs adaptées au climat",
+      "description": "",
+      "home": false
+    },
+    {
+      "title": "Je dispose de la paille au pied des plantes pour conserver l’humidité",
+      "description": "",
+      "home": false
+    },
+    {
+      "title": "J’ai recours au goutte à goutte",
+      "description": "Acheminer l’eau directement aux racines évite son évaporation. On arrose moins, mais on arrose mieux. Économie réalisée : jusqu’à 50% de la consommation.",
+      "home": false
+    },
+    {
+      "title": "J’installe un collecteur d’eau de pluie",
+      "description": "Pour une toiture de 100 mètres carré, c'est 70 mètres cube d'eau gratuite par an.",
+      "home": false,
+      "large": true
+    },
+    {
+      "title": "J’évite au maximum de laver ma voiture",
+      "description": "Chaque lavage à domicile consomme 200 à 400 L d’eau.",
+      "home": false,
+      "large": true
+    },
+    {
+      "title": "Je respecte les éventuelles restrictions d’usage d’eau en période de sécheresse (arrêtés préfectoraux disponibles sur",
+      "description": "Propluvia",
+      "home": false,
+      "large": true
     }
   ]
 }

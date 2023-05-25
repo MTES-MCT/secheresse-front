@@ -1,11 +1,11 @@
 import { Address } from "../dto/address.dto";
 
 const _url: string = 'https://api-adresse.data.gouv.fr';
-const _limit: string = '&limit=10';
+const _options: string = '&limit=10';
 
 const index = {
   searchAddresses(addressQuery: string): Promise<any> {
-    return useFetch(`/search/?q=${addressQuery}${_limit}`, {
+    return useFetch(`/search/?q=${addressQuery}${_options}`, {
       method: 'GET',
       baseURL: _url
     });
