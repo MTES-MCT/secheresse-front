@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Situation } from "../../../dto/situation.dto";
+import { Restriction } from "../../../dto/restriction.dto";
 
 const props = defineProps<{
-  law: Situation
+  restriction: Restriction
 }>()
 </script>
 
@@ -17,10 +17,11 @@ const props = defineProps<{
                  label="label"
                  no-icon/>
       <h6 class="eau-card__title fr-mt-2w fr-mb-2w">
-        {{ law.thematique }}
+        {{ restriction.usage }}
       </h6>
       <div class="eau-card__desc">
-        {{ law.usage }}
+        {{ restriction.niveauRestriction }}<br/>
+        {{ restriction.details }}
       </div>
     </div>    
   </div>
