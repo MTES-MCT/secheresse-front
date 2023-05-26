@@ -6,39 +6,27 @@ import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.
 const selectedTagIndex: Ref<number> = ref(0);
 const restrictionTags: Ref<TagProps[]> = ref([{
   label: "Arroser",
-  tagName: "button",
-  selected: true,
   thematique: "Arrosage"
 }, {
   label: "Remplir",
-  tagName: "button",
-  selected: false,
   thematique: "Piscine"
 }, {
   label: "Nettoyer",
-  tagName: "button",
-  selected: false,
   thematique: "Nettoyage"
 }, {
   label: "Alimenter des fontaines publiques ou privées",
-  tagName: "button",
-  selected: false,
   thematique: "Fontaines"
 }, {
   label: "Prélever en canaux",
-  tagName: "button",
-  selected: false,
   thematique: "Irrigation"
 }, {
   label: "Effectuer des travaux",
-  tagName: "button",
-  selected: false,
   thematique: "Travaux"
 }]);
 
-const restrictionsFiltered = computed<any>(() => {
-  return restrictions.data.filter(l => l.thematique === restrictionTags.value[selectedTagIndex.value].thematique);
-});
+const restrictionsFiltered = (tag: any) => {
+  return restrictions.data.filter(l => l.thematique === tag.thematique);
+};
 </script>
 
 <template>
@@ -51,9 +39,16 @@ const restrictionsFiltered = computed<any>(() => {
                :selected="selectedTagIndex === index"
                @click="selectedTagIndex = index"
                tag-name="button"/>
-      <SituationStatusRestrictionCard v-for="restriction in restrictionsFiltered"
-                                      :restriction="restriction"
-      />
+      <DsfrTabs class="tabs-light">
+        <DsfrTabContent v-for="(tag, index) in restrictionTags"
+                        :selected="selectedTagIndex === index">
+          <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+            <SituationStatusRestrictionCard v-for="restriction in restrictionsFiltered(tag)"
+                                            :restriction="restriction"
+            />
+          </div>
+        </DsfrTabContent>
+      </DsfrTabs>
     </div>
   </div>
 </template>

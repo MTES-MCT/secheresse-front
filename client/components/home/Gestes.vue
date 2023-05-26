@@ -7,17 +7,17 @@ const gesteTags: Ref<TagProps[]> = ref([{
   label: "À la maison",
   tagName: "button",
   icon: "eau-maison",
-  selected: true
+  home: true
 }, {
   label: "À l'extérieur",
   tagName: "button",
   icon: "eau-soleil",
-  selected: false
+  home: false
 }]);
 
-const gestesFiltered = computed<any>(() => {
-  return gestes.data.filter(g => g.home === (selectedTagIndex.value === 0));
-});
+const gestesFiltered = (tag: any) => {
+  return gestes.data.filter(g => g.home === tag.home);
+};
 
 const selectedTagIndex: Ref<number> = ref(0);
 </script>
@@ -38,9 +38,16 @@ const selectedTagIndex: Ref<number> = ref(0);
                  @click="selectedTagIndex = index"
                  tag-name="button"/>
       </div>
-      <GestesCard v-for="geste in gestesFiltered"
-                  :geste="geste"
-      />
+      <DsfrTabs class="tabs-light">
+        <DsfrTabContent v-for="(tag, index) in gesteTags"
+                        :selected="selectedTagIndex === index">
+          <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+            <GestesCard v-for="geste in gestesFiltered(tag)"
+                        :geste="geste"
+            />
+          </div>
+        </DsfrTabContent>
+      </DsfrTabs>
     </div>
   </div>
 </template>
@@ -62,7 +69,7 @@ const selectedTagIndex: Ref<number> = ref(0);
     opacity: 0.5;
     z-index: -1;
   }
-  
+
   .fr-tag {
     .ov-icon {
       margin: 0;
