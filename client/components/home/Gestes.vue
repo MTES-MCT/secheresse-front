@@ -17,7 +17,7 @@ const gesteTags: Ref<TagProps[]> = ref([{
 
 const gestesFiltered = computed<any>(() => {
   return gestes.data.filter(g => g.home === (selectedTagIndex.value === 0));
-})
+});
 
 const selectedTagIndex: Ref<number> = ref(0);
 </script>
@@ -32,7 +32,7 @@ const selectedTagIndex: Ref<number> = ref(0);
       <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--center">
         <DsfrTag v-for="(tag, index) in gesteTags"
                  :label="tag.label"
-                 class="fr-mx-2w"
+                 class="fr-mx-1w"
                  :icon="tag.icon"
                  :selected="selectedTagIndex === index"
                  @click="selectedTagIndex = index"

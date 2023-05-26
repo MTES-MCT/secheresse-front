@@ -1,51 +1,55 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import laws from '../../../data/laws.json';
+import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue";
 
-const selectedTabIndex: Ref<number> = ref(0);
-const lawsCategories: Ref<any[]> = ref([
-  {title: 'Les interdictions', tabId: 'interdictions'},
-  {title: 'Les limitations', tabId: 'limitations'},
-  {title: 'Sensibiliation', tabId: 'sensibilisation'}
-]);
+const selectedTagIndex: Ref<number> = ref(0);
+const lawTags: Ref<TagProps[]> = ref([{
+  label: "Arroser",
+  tagName: "button",
+  selected: true
+}, {
+  label: "Remplir",
+  tagName: "button",
+  selected: false
+}, {
+  label: "Nettoyer",
+  tagName: "button",
+  selected: false
+}, {
+  label: "Alimenter des fontaines publiques ou privées",
+  tagName: "button",
+  selected: false
+}, {
+  label: "Prélever en canaux",
+  tagName: "button",
+  selected: false
+}, {
+  label: "Effectuer des travaux",
+  tagName: "button",
+  selected: false
+}]);
+
+const lawsFiltered = computed<any>(() => {
+  return laws.data.filter(l => true);
+});
 </script>
 
 <template>
-  <DsfrTabs :tab-titles="lawsCategories"
-            tab-list-name="LawsTable"
-            :initial-selected-index="selectedTabIndex"
-            @select-tab="selectedTabIndex = $event">
-    <DsfrTabContent panel-id="interdictions"
-                    :selected="selectedTabIndex === 0"
-                    tab-id="tab-0">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div v-for="law in laws.data"
-             class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-          <SituationStatusLawCard :law="law"/>
-        </div>
-      </div>
-    </DsfrTabContent>
-    <DsfrTabContent panel-id="limitations"
-                    :selected="selectedTabIndex === 1"
-                    tab-id="tab-1">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div v-for="law in laws.data"
-             class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-          <SituationStatusLawCard :law="law"/>
-        </div>
-      </div>
-    </DsfrTabContent>
-    <DsfrTabContent panel-id="sensibilisation"
-                    :selected="selectedTabIndex === 2"
-                    tab-id="tab-2">
-      <div class="fr-grid-row fr-grid-row--gutters">
-        <div v-for="law in laws.data"
-             class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-          <SituationStatusLawCard :law="law"/>
-        </div>
-      </div>
-    </DsfrTabContent>
-  </DsfrTabs>
+  <div class="fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
+    <h4>Est-ce que je peux ?</h4>
+    <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+      <DsfrTag v-for="(tag, index) in lawTags"
+               :label="tag.label"
+               class="fr-m-1w"
+               :selected="selectedTagIndex === index"
+               @click="selectedTagIndex = index"
+               tag-name="button"/>
+      <SituationStatusLawCard v-for="law in lawsFiltered"
+                              :law="law"
+      />
+    </div>
+  </div>
 </template>
 
 <style lang="scss">

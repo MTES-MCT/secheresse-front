@@ -26,7 +26,7 @@ const situationLabel = computed<string>(() => {
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
-    <div class="fr-col-12 fr-col-md-6 fr-col-lg-5">
+    <div class="fr-col-12 fr-col-md-6">
       <DsfrBadge small
                  class="fr-mb-2w"
                  :class="'situation-level-' + situation.rank"
@@ -39,7 +39,7 @@ const situationLabel = computed<string>(() => {
       <h3>Votre territoire est actuellement <span :class="'situation-level-c-' + situation.rank">{{ situationLabel }}</span></h3>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>
-    <div class="fr-col-12 fr-col-md-6 fr-col-lg-7 button-wrapper">
+    <div class="fr-col-12 fr-col-md-6 button-wrapper">
       <DsfrButton label="Télécharger l'arrêté préfectoral"/>
     </div>
   </div>
