@@ -10,8 +10,7 @@ const props = defineProps<{
       <h6 class="eau-card__title fr-mt-2w fr-mb-2w">
         {{ geste.title }}
       </h6>
-      <div class="eau-card__desc">
-        {{ geste.description }}
+      <div class="eau-card__desc" v-html="geste.description">
       </div>
     </div>
   </div>

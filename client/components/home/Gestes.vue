@@ -6,12 +6,12 @@ import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.
 const gesteTags: Ref<TagProps[]> = ref([{
   label: "À la maison",
   tagName: "button",
-  icon: "fr-icon-home-4-line",
+  icon: "eau-maison",
   selected: true
 }, {
   label: "À l'extérieur",
   tagName: "button",
-  icon: "ri-arrow-right-line",
+  icon: "eau-soleil",
   selected: false
 }]);
 
@@ -23,12 +23,12 @@ const selectedTagIndex: Ref<number> = ref(0);
 </script>
 
 <template>
-  <div class="gestes fr-grid-row fr-grid-row--center fr-pt-4w fr-pb-4w">
-    <div class="section-title fr-mb-8w">
+  <div class="gestes fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
+    <div class="section-title fr-mb-4w">
       <h1>Nous consommons 148 litres d’eau par jour et par personne !</h1>
       <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les réserves d’eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
     </div>
-    <div class="fr-grid-row fr-grid-row--gutters fr-mb-8w">
+    <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--center">
         <DsfrTag v-for="(tag, index) in gesteTags"
                  :label="tag.label"
@@ -41,9 +41,7 @@ const selectedTagIndex: Ref<number> = ref(0);
       <GestesCard v-for="geste in gestesFiltered"
                   :geste="geste"
       />
-<!--      <GestesCardMore/>-->
     </div>
-<!--    <span><b>Les mesures en litre d'eau annoncées sont des mesures moyennes constatées.</b></span>-->
   </div>
 </template>
 
@@ -63,6 +61,13 @@ const selectedTagIndex: Ref<number> = ref(0);
     background: linear-gradient(180deg, var(--yellow-tournesol-975-75), var(--blue-france-850-200));
     opacity: 0.5;
     z-index: -1;
+  }
+  
+  .fr-tag {
+    .ov-icon {
+      margin: 0;
+      margin-right: 0.2rem;
+    }
   }
 }
 </style>
