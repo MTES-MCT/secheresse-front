@@ -20,7 +20,7 @@ resetAddress();
        v-if="addressToUse">
     <SituationStatusHeader :address="addressToUse"
                            :situation="situation"/>
-    <SituationStatusLaws v-if="situation.rank > 1"/>
+    <SituationStatusRestrictions v-if="situation.rank > 1"/>
     <div class="section-title fr-mt-8w">
       <h2>Il est possible que des exceptions existent pour certaines restrictions.</h2>
       <div class="fr-mb-4w">

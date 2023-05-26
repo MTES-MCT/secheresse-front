@@ -1,4 +1,4 @@
-export interface Situation {
+export interface Restriction {
   id: string;
   idArrete: string,
   idZone: string;
