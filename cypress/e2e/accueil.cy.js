@@ -31,26 +31,18 @@ describe('Test de la home page', () => {
       cy.get('body .fr-footer .fr-logo').contains('Ministères').should('exist');
       cy.get('body .fr-footer .fr-logo').contains('Transition écologique').should('exist');
       cy.get('body .fr-footer .fr-footer__content-list').find('li').should('have.length', 4);
-      cy.get('body .fr-footer .fr-footer__bottom-list').find('li').should('have.length', 4);
+      cy.get('body .fr-footer .fr-footer__bottom-list').find('li').should('have.length', 2);
     });
     
     it(`On doit pouvoir accéder aux pages légales depuis le footer`, () => {
       cy.get('body .fr-footer [data-testid="/accessibilite"]').should('exist');
       cy.get('body .fr-footer [data-testid="/mentions-legales"]').should('exist');
-      // cy.get('body .fr-footer [data-testid="/donnees-personnelles"]').should('exist');
-      // cy.get('body .fr-footer [data-testid="/cookies"]').should('exist');
 
       cy.get('body .fr-footer [data-testid="/accessibilite"]').click();
       cy.location('pathname').should('equal', '/accessibilite');
 
       cy.get('body .fr-footer [data-testid="/mentions-legales"]').click();
       cy.location('pathname').should('equal', '/mentions-legales');
-
-      // cy.get('body .fr-footer [data-testid="/donnees-personnelles"]').click();
-      // cy.location('pathname').should('equal', '/donnees-personnelles');
-      //
-      // cy.get('body .fr-footer [data-testid="/cookies"]').click();
-      // cy.location('pathname').should('equal', '/cookies');
     });
   });
   

@@ -15,7 +15,7 @@ const searchSituation = (address: any) => {
     <div class="section-title presentation-title">
       <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
-        Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec preservonsleau.gouv.fr, nous
+        Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec <b><i>preservonsleau.gouv.fr</i></b>, nous
         vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.
       </div>
     </div>
