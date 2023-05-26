@@ -62,3 +62,24 @@
     }
   }
 }
+
+// TABS
+.fr-tabs {
+  &.tabs-light {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+
+    &:before {
+      box-shadow: none;
+    }
+
+    .fr-tabs__list {
+      display: none;
+    }
+
+    .fr-tabs__panel {
+      padding: 1rem;
+    }
+  }
+}
