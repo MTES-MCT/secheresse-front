@@ -10,7 +10,10 @@ export default defineNuxtConfig({
       meta: [
         {charset: 'utf-8'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-        {name: 'description', content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`},
+        {
+          name: 'description',
+          content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
+        },
         {name: 'format-detection', content: 'telephone=no'}
       ],
       link: [
@@ -28,9 +31,7 @@ export default defineNuxtConfig({
   },
   css: [
     '@gouvfr/dsfr/dist/dsfr.min.css',
-    // '@gouvfr/dsfr/dist/utility/icons/icons.min.css',
     '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css',
-    '@gouvfr/dsfr/dist/utility/icons/icons-buildings/icons-buildings.min.css',
     '@gouvminint/vue-dsfr/styles',
     'assets/main.scss',
   ],
