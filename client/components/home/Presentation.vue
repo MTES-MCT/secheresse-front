@@ -14,6 +14,10 @@ const searchRestriction = ($event) => {
   }
   utils.searchRestriction($event, modalTitle, modalText, modalOpened, router);
 }
+
+const closeModal = () => {
+  modalOpened.value = false;
+}
 </script>
 
 <template>
@@ -37,8 +41,8 @@ const searchRestriction = ($event) => {
     <DsfrModal :opened="modalOpened"
                :title="modalTitle"
                icon="ri-arrow-right-line"
-               :actions='[{"label":"Fermer"}]'
-               @close="modalOpened = false">
+               :actions='[{label:"Fermer", onClick: closeModal}]'
+               @close="closeModal">
       {{ modalText }}
     </DsfrModal>
   </div>
