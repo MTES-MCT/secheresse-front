@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useAddressStore } from '../../store/address';
 import { storeToRefs } from "pinia";
+import { Ref } from "vue";
+import utils from "../../utils";
 
 const links: any[] = ref([{to: '/', text: 'Accueil'}, {text: `Quelle est la situation sur mon territoire ?`}]);
 
@@ -8,6 +10,17 @@ const router = useRouter();
 const addressStore = useAddressStore();
 const {setAddress} = addressStore;
 const {address} = storeToRefs(addressStore);
+
+const modalOpened: Ref<boolean> = ref(false);
+const modalTitle: Ref<string> = ref('');
+const modalText: Ref<string> = ref('');
+
+const searchRestriction = ($event) => {
+  if (!$event) {
+    return;
+  }
+  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router);
+}
 </script>
 
 <template>
@@ -25,7 +38,7 @@ const {address} = storeToRefs(addressStore);
         <div class="fr-grid-row fr-grid-row--center">
           <DsfrButton label="Valider cette adresse"
                       data-cy="SituationRechercheBtn"
-                      @click="router.push('/situation/adresse')"
+                      @click="searchRestriction(address)"
                       :disabled="!address"/>
         </div>
         <DsfrCallout title="Votre adresse n'est pas conservée"
@@ -33,6 +46,14 @@ const {address} = storeToRefs(addressStore);
                      content="L’adresse nous permet de trouver la préfecture à laquelle vous êtes rattaché pour vous fournir les bonnes informations !"/>
       </div>
     </div>
+
+    <DsfrModal :opened="modalOpened"
+               :title="modalTitle"
+               icon="ri-arrow-right-line"
+               :actions='[{"label":"Fermer"}]'
+               @close="modalOpened = false">
+      {{ modalText }}
+    </DsfrModal>
   </div>
 </template>
 

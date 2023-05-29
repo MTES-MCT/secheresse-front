@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import { Restriction } from "../../../dto/restriction.dto";
+import { Usage } from "../../../dto/usage.dto";
 
 const props = defineProps<{
-  restriction: Restriction
+  usage: Usage
 }>()
+
+const cardDesc = computed((): string => {
+  if (props.usage.details) {
+    return props.usage.details;
+  }
+  if (props.usage.niveauRestriction === 'Interdiction sur plage horaire' && props.usage.heureDebut && props.usage.heureFin) {
+    return `Interdit de ${props.usage.heureDebut} à ${props.usage.heureFin}`;
+  }
+  return `Consulter l'arrêté`;
+})
 </script>
 
 <template>
   <div class="fr-col-12 fr-col-md-4 fr-col-lg-3">
     <div class="eau-card fr-p-2w">
-      <DsfrBadge small
-                 class="fr-mr-1w"
-                 label="label"
-                 no-icon/>
-      <DsfrBadge small
-                 label="label"
-                 no-icon/>
-      <h6 class="eau-card__title fr-mt-2w fr-mb-2w">
-        {{ restriction.usage }}
+      <h6 class="eau-card__title fr-my-2w">
+        {{ usage.usage }}
       </h6>
       <div class="eau-card__desc">
-        {{ restriction.niveauRestriction }}<br/>
-        {{ restriction.details }}
+        {{ cardDesc }}
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 

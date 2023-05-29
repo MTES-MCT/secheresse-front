@@ -2,13 +2,13 @@
 import { useAddressStore } from "../../store/address";
 import { storeToRefs } from "pinia";
 import { Ref } from "vue";
-import api from "../../api";
+import { useRestrictionStore } from "../../store/restriction";
 
 const addressStore = useAddressStore();
+const restrictionStore = useRestrictionStore();
 const {address} = storeToRefs(addressStore);
+const {restriction} = storeToRefs(restrictionStore);
 const {resetAddress} = addressStore;
-
-const situation: Ref<any> = ref(await api.searchSituation(address.value));
 
 const addressToUse: Ref<any> = ref(null);
 addressToUse.value = {...address.value};
@@ -19,8 +19,8 @@ resetAddress();
   <div class="situation-status fr-grid-row fr-grid-row--center fr-mb-4w"
        v-if="addressToUse">
     <SituationStatusHeader :address="addressToUse"
-                           :situation="situation"/>
-    <SituationStatusRestrictions v-if="situation.rank > 1"/>
+                           :restriction="restriction"/>
+    <SituationStatusRestrictions :restriction="restriction"/>
     <div class="section-title fr-mt-8w">
       <h2>Il est possible que des exceptions existent pour certaines restrictions.</h2>
       <div class="fr-mb-4w">
