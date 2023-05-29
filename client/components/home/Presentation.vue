@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { useAddressStore } from "../../store/address";
+import { Ref } from "vue";
+import utils from "../../utils";
 
-const addressStore = useAddressStore();
 const router = useRouter();
-const {setAddress} = addressStore;
-const searchSituation = (address: any) => {
-  setAddress(address);
-  router.push({path: '/situation/adresse'});
+
+const modalOpened: Ref<boolean> = ref(false);
+const modalTitle: Ref<string> = ref('');
+const modalText: Ref<string> = ref('');
+
+const searchRestriction = ($event) => {
+  if (!$event) {
+    return;
+  }
+  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router);
 }
 </script>
 
@@ -15,7 +21,8 @@ const searchSituation = (address: any) => {
     <div class="section-title presentation-title">
       <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
-        Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec <b><i>preservonsleau.gouv.fr</i></b>, nous
+        Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec
+        <b><i>preservonsleau.gouv.fr</i></b>, nous
         vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.
       </div>
     </div>
@@ -23,16 +30,16 @@ const searchSituation = (address: any) => {
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
       <div class="search-card-wrapper">
         <h2>Les restrictions me concernent-elles ?</h2>
-        <MixinsAdresse @address="searchSituation"/>
+        <MixinsAdresse @address="searchRestriction($event)"/>
       </div>
     </div>
 
-    <DsfrModal
-      :opened="false"
-      title="Titre de la modale"
-      icon="ri-arrow-right-line"
-      :actions='[{"label":"Valider"},{"label":"Annuler","secondary":true}]'>
-      Lorem ipsum
+    <DsfrModal :opened="modalOpened"
+               :title="modalTitle"
+               icon="ri-arrow-right-line"
+               :actions='[{"label":"Fermer"}]'
+               @close="modalOpened = false">
+      {{ modalText }}
     </DsfrModal>
   </div>
 </template>

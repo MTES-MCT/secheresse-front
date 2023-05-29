@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import utils from "../../../utils";
+import { Restriction } from "../../../dto/restriction.dto";
 
 const props = defineProps<{
-  situation: { rank: number, nbTerritories: number }
+  restriction: Restriction
   address: any
 }>()
 
@@ -12,31 +13,32 @@ const links: any[] = ref([{to: '/', text: 'Accueil'}, {
 }, {text: 'Votre adresse'}])
 
 const badgeLabel = computed<string>(() => {
-  return utils.getSituationBadgeLabel(props.situation.rank);
+  return utils.getSituationBadgeLabel(utils.getRestrictionRank(props.restriction));
 })
 
 const situationLabel = computed<string>(() => {
-  return utils.getSituationLabel(props.situation.rank)
+  return utils.getSituationLabel(utils.getRestrictionRank(props.restriction))
 })
+
 </script>
 
 <template>
   <div class="situation-status-header fr-grid-row fr-pb-4w"
-       :class="'situation-level-' + situation.rank">
+       :class="'situation-level-' + utils.getRestrictionRank(restriction)">
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
     <div class="fr-col-12 fr-col-md-6">
       <DsfrBadge small
                  class="fr-mb-2w"
-                 :class="'situation-level-' + situation.rank"
+                 :class="'situation-level-' + utils.getRestrictionRank(restriction)"
                  type="error"
                  :label="badgeLabel"/>
       <div class="fr-mb-2w">
         <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
         {{ address?.properties.label }}
       </div>
-      <h3>Votre territoire est actuellement <span :class="'situation-level-c-' + situation.rank">{{ situationLabel }}</span></h3>
+      <h3>Votre territoire est actuellement <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{ situationLabel }}</span></h3>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>
     <div class="fr-col-12 fr-col-md-6 button-wrapper">

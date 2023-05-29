@@ -1,31 +1,42 @@
 <script setup lang="ts">
 import { Ref } from "vue";
-import restrictions from '../../../data/restrictions.json';
 import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue";
+import { Restriction } from "../../../dto/restriction.dto";
+
+const props = defineProps<{
+  restriction: Restriction
+}>()
 
 const selectedTagIndex: Ref<number> = ref(0);
-const restrictionTags: Ref<TagProps[]> = ref([{
+const thematiqueTags: Ref<TagProps[]> = ref([{
   label: "Arroser",
   thematique: "Arrosage"
 }, {
   label: "Remplir",
-  thematique: "Piscine"
+  thematique: "Remplissage vidange"
 }, {
   label: "Nettoyer",
   thematique: "Nettoyage"
 }, {
   label: "Alimenter des fontaines publiques ou privées",
-  thematique: "Fontaines"
+  thematique: "Alimentation des fontaines publiques et privées"
 }, {
   label: "Prélever en canaux",
   thematique: "Irrigation"
 }, {
   label: "Effectuer des travaux",
-  thematique: "Travaux"
+  thematique: "Travaux en cours d’eau"
+}, {
+  label: "Abreuvement",
+  thematique: "Abreuvement"
 }]);
 
-const restrictionsFiltered = (tag: any) => {
-  return restrictions.data.filter(l => l.thematique === tag.thematique);
+const thematiqueTagsFiltered = computed<TagProps[]>(() => {
+  return thematiqueTags.value.filter(t => props.restriction.usages.findIndex(u => u.thematique === t.thematique) >= 0);
+});
+
+const usagesFiltered = (thematique: any) => {
+  return props.restriction.usages.filter(u => u.thematique === thematique.thematique);
 };
 </script>
 
@@ -33,18 +44,18 @@ const restrictionsFiltered = (tag: any) => {
   <div class="fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
     <h4>Est-ce que je peux ?</h4>
     <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-      <DsfrTag v-for="(tag, index) in restrictionTags"
-               :label="tag.label"
+      <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
+               :label="thematique.label"
                class="fr-m-1w"
                :selected="selectedTagIndex === index"
                @click="selectedTagIndex = index"
                tag-name="button"/>
       <DsfrTabs class="tabs-light">
-        <DsfrTabContent v-for="(tag, index) in restrictionTags"
+        <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <SituationStatusRestrictionCard v-for="restriction in restrictionsFiltered(tag)"
-                                            :restriction="restriction"
+            <SituationStatusRestrictionCard v-for="usage in usagesFiltered(thematique)"
+                                            :usage="usage"
             />
           </div>
         </DsfrTabContent>

@@ -1,35 +1,22 @@
 import { Address } from "../dto/address.dto";
 
-const _url: string = 'https://api-adresse.data.gouv.fr';
-const _options: string = '&limit=10';
+const _adresseOptions: string = '&limit=10';
 
 const index = {
   searchAddresses(addressQuery: string): Promise<any> {
-    return useFetch(`/search/?q=${addressQuery}${_options}`, {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/search/?q=${addressQuery}${_adresseOptions}`, {
       method: 'GET',
-      baseURL: _url
+      baseURL: runtimeConfig.public.apiAdresseUrl
     });
   },
 
-  async searchSituation(address: Address) {
-    switch (address.properties.postcode.slice(0, 2)) {
-      case '75':
-        return {
-          rank: 1
-        };
-      case '13':
-        return {
-          rank: 3
-        };
-      case '66':
-        return {
-          rank: 4
-        };
-      default:
-        return {
-          rank: 2
-        };
-    }
+  searchRestriction(address: Address): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/zone?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
   }
 }
 
