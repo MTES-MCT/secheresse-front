@@ -34,7 +34,7 @@ const index = {
     }
   },
 
-  getSituationBadgeLabel(situationRank: number): string {
+  getSituationBadgeLabel(situationRank: number | undefined): string {
     if (!situationRank) {
       return '';
     }
@@ -43,7 +43,7 @@ const index = {
     return label;
   },
 
-  getSituationLabel(situationRank: number): string {
+  getSituationLabel(situationRank: number | undefined): string {
     if (!situationRank) {
       return '';
     }
