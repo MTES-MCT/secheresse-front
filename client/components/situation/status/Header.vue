@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {
   to: '/situation/recherche',
-  text: `Quelle est la situation sur mon territoire ?`
+  text: `Quelle est la situation de ma commune ?`
 }, {text: 'Votre adresse'}]);
 
 const badgeLabel = computed<string>(() => {
