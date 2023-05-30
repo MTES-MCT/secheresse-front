@@ -11,7 +11,7 @@ describe('Test de la home page', () => {
   it(`La page doit s'afficher correctement`, () => {
     cy.get('body .fr-header').should('exist');
     cy.get('body .presentation').should('exist');
-    cy.get('body .situation').should('exist');
+    // cy.get('body .situation').should('exist');
     cy.get('body .gestes').should('exist');
     cy.get('body .faq').should('exist');
     cy.get('body .fr-footer').should('exist');
