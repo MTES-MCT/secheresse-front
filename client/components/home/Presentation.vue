@@ -21,7 +21,7 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="presentation fr-grid-row fr-grid-row--center fr-mt-8w fr-pb-4w">
+  <div class="presentation fr-grid-row fr-grid-row--center fr-my-8w">
     <div class="section-title presentation-title">
       <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
@@ -50,23 +50,23 @@ const closeModal = () => {
 
 <style scoped lang="scss">
 .presentation {
-  .section-title {
-    position: relative;
-
-    &:before {
-      content: "";
-      position: absolute;
-      width: 100vw;
-      height: calc(100% + 12rem);
-      top: -4rem;
-      left: 50%;
-      -webkit-transform: translateX(-50%);
-      transform: translateX(-50%);
-      background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
-      opacity: 0.5;
-      z-index: -1;
-    }
-  }
+  //.section-title {
+  //  position: relative;
+  //
+  //  &:before {
+  //    content: "";
+  //    position: absolute;
+  //    width: 100vw;
+  //    height: calc(100% + 12rem);
+  //    top: -4rem;
+  //    left: 50%;
+  //    -webkit-transform: translateX(-50%);
+  //    transform: translateX(-50%);
+  //    background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
+  //    opacity: 0.5;
+  //    z-index: -1;
+  //  }
+  //}
 }
 
 .search-card {
