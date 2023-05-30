@@ -16,7 +16,7 @@ describe(`Test de l'affichage des situations`, () => {
       cy.get('body .gestes').should('exist');
       cy.get('body .faq').should('exist');
       cy.get('body .fr-footer').should('exist');
-      cy.get('body .situation-status').find('.fr-tag').should('have.length', 6);
+      cy.get('body .situation-status').find('.fr-tag').should('have.length', 4);
     });
   })
 });
