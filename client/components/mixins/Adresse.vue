@@ -21,7 +21,12 @@ const selectAddress = (address: string | Address) => {
     }
     return;
   }
-  loadAddresses.value = false;
+  // Si c'est un objet Adresse
+  if (addressQuery.value === address.properties.label) {
+    addresses.value = [];
+  } else {
+    loadAddresses.value = false;
+  }
   addressQuery.value = address.properties.label;
   emit('address', address);
 }
@@ -34,9 +39,6 @@ watch(addressQuery, utils.debounce(async () => {
   }
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
   addresses.value = response.value ? response.value.features : [];
-  if (error.value) {
-    console.log(error.value.statusCode);
-  }
 }, 500));
 </script>
 
