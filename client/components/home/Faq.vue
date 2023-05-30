@@ -37,8 +37,8 @@ const onAccordionClick = (index: string) => {
   </div>
 </template>
 
-<style lang="scss">
-.section-title:nth-child(2) {
+<style lang="scss" scoped>
+.section-title:last-child {
   text-align: left;
 }
 </style>

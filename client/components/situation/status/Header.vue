@@ -53,7 +53,12 @@ const dateArrete = computed<string | null>(() => {
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>
     <div class="fr-col-12 fr-col-md-6 button-wrapper">
-      <DsfrButton label="Télécharger l'arrêté préfectoral"/>
+      <a class="fr-btn"
+         :href="restriction.arrete.cheminFichier"
+         target="_blank"
+         rel="noopener">
+        Télécharger l'arrêté préfectoral
+      </a>
     </div>
   </div>
 </template>
