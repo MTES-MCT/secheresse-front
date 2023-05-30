@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import { Ref } from "vue";
 import utils from "../../utils";
 
-const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: `Quelle est la situation sur mon territoire ?`}]);
+const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: `Quelle est la situation de ma commune ?`}]);
 
 const router = useRouter();
 const addressStore = useAddressStore();

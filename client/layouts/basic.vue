@@ -10,7 +10,7 @@ const operatorImgStyle: any = {
 const a11yCompliance: string = 'Non conforme';
 const descText: string = `Préservons l'eau`;
 const quickLinks: any[] = [{
-  label: 'Quelle situation sur mon territoire ?',
+  label: 'Quelle est la situation de ma commune ?',
   to: '/situation/recherche',
   class: 'fr-btn--secondary'
 }];
