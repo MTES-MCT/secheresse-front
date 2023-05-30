@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Ref } from "vue";
+
 definePageMeta({
   layout: 'basic',
 })
@@ -7,7 +9,7 @@ useHead({
   title: `Préservons l'eau - Mentions légales`
 })
 
-const links: any[] = ref([{"to": "/", "text": "Accueil"}, {"text": "Mentions légales"}])
+const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mentions légales"}])
 </script>
 
 <template>

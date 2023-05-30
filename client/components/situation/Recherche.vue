@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import { Ref } from "vue";
 import utils from "../../utils";
 
-const links: any[] = ref([{to: '/', text: 'Accueil'}, {text: `Quelle est la situation sur mon territoire ?`}]);
+const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: `Quelle est la situation sur mon territoire ?`}]);
 
 const router = useRouter();
 const addressStore = useAddressStore();
@@ -47,7 +47,7 @@ const closeModal = () => {
         </div>
         <DsfrCallout title="Votre adresse n'est pas conservée"
                      class="fr-mt-4w"
-                     content="L’adresse nous permet de trouver la préfecture à laquelle vous êtes rattaché pour vous fournir les bonnes informations !"/>
+                     content="L’adresse nous permet de trouver la commune à laquelle vous êtes rattaché pour vous fournir les bonnes informations !"/>
       </div>
     </div>
 
