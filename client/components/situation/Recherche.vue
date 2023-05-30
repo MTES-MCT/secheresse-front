@@ -56,7 +56,7 @@ const closeModal = () => {
                icon="ri-arrow-right-line"
                :actions='[{label:"Fermer", onClick: closeModal}]'
                @close="closeModal">
-      {{ modalText }}
+      <div v-html="modalText"></div>
     </DsfrModal>
   </div>
 </template>
