@@ -4,6 +4,8 @@ import api from "../api";
 import { Ref } from "vue";
 import { useAddressStore } from "../store/address";
 import { useRestrictionStore } from "../store/restriction";
+import { FetchError } from "ofetch";
+import { Arrete } from "../dto/arrete.dto";
 
 const index = {
   debounce(fn: Function, delay: number) {
@@ -73,7 +75,7 @@ const index = {
     
     const {data, error} = await api.searchRestriction(address);
     if (error.value) {
-      const {title, text} = this.handleRestrictionError(error.value.statusCode);
+      const {title, text} = this.handleRestrictionError(error.value);
       modalTitle.value = title;
       modalText.value = text;
       modalOpened.value = true;
@@ -85,17 +87,30 @@ const index = {
     }
   },
 
-  handleRestrictionError(statusCode: number): { title: string, text: string } {
-    switch (statusCode) {
+  handleRestrictionError(error: FetchError): { title: string, text: string } {
+    switch (error.statusCode) {
       case 404:
         return {
           title: `C’est pour bientôt ...`,
           text: `Malheureusement, nous n’avons pas encore synchronisé les données de votre territoire. Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`
         };
       case 409:
+        let html = `Plusieurs arrêtés sont en vigueurs sur votre territoire. Vous pouvez télécharger les arrêtés liés à votre adresse !`;
+        if(error.data.arretes && error.data.arretes.length > 0) {
+          html += `<div class="fr-grid-row fr-grid-row--right">`;
+          error.data.arretes.forEach((a: Arrete, index: number) => {
+            html += `<a class="fr-btn fr-my-1w"
+         href="${a.cheminFichier}"
+         target="_blank"
+         rel="noopener">
+        Télécharger l'arrêté préfectoral n°${index + 1}
+      </a>`;
+          });
+          html += `</div>`
+        }
         return {
           title: `Plusieurs arrêtés ...`,
-          text: `Plusieurs arrêtés sont en vigueurs sur votre territoire. Vous pouvez télécharger les arrêtés liés à votre adresse !`
+          text: html
         };
       default:
         return {
