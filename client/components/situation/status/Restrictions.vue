@@ -18,17 +18,29 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   label: "Nettoyer",
   thematique: "Nettoyage"
 }, {
-  label: "Alimenter des fontaines publiques ou privées",
+  label: "Alimenter des fontaines",
   thematique: "Alimentation des fontaines publiques et privées"
 }, {
-  label: "Prélever en canaux",
+  label: "Irriguer",
   thematique: "Irrigation"
 }, {
   label: "Effectuer des travaux",
   thematique: "Travaux en cours d’eau"
 }, {
-  label: "Abreuvement",
+  label: "Abreuver",
   thematique: "Abreuvement"
+}, {
+  label: "Naviguer",
+  thematique: "Navigation fluviale"
+}, {
+  label: "Prélèver en canal",
+  thematique: "Prélèvement en canaux"
+}, {
+  label: "ICPE",
+  thematique: "ICPE"
+}, {
+  label: "Installations de production d'électricité d'origine nucléaire, hydraulique, et thermique à flamme",
+  thematique: "Installations de production d'électricité d'origine nucléaire, hydraulique, et thermique à flamme"
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
