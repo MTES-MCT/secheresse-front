@@ -6,13 +6,11 @@ const props = defineProps<{
 }>()
 
 const cardDesc = computed((): string => {
-  if (props.usage.details) {
-    return props.usage.details;
-  }
-  if (props.usage.niveauRestriction === 'Interdiction sur plage horaire' && props.usage.heureDebut && props.usage.heureFin) {
-    return `Interdit de ${props.usage.heureDebut} à ${props.usage.heureFin}`;
-  }
-  return `Consulter l'arrêté`;
+  let cardDesc = '';
+  cardDesc += props.usage.details ? props.usage.details : '';
+  cardDesc += (props.usage.niveauRestriction === 'Interdiction sur plage horaire' && props.usage.heureDebut && props.usage.heureFin) ? `Interdit de ${props.usage.heureDebut} à ${props.usage.heureFin}` : '';
+  cardDesc += props.usage.erreur ? `Consulter l'arrêté` : '';
+  return cardDesc;
 })
 </script>
 
