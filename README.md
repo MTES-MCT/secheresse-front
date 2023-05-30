@@ -1,4 +1,4 @@
-# Eau sécheresse - frontend
+# Préservons l'eau - frontend
 
 ## Description
 
@@ -13,6 +13,16 @@ Vous aurez besoin de [NodeJS](https://nodejs.org/) v18+ et [Yarn](https://yarnpk
 
 Nous vous recommandons de regarder la [documentation de Nuxt 3](https://v3.nuxtjs.org)
 et la [documentation de VueDsfr](https://vue-dsfr.netlify.app).
+
+### Variables d'environnement
+
+```bash
+cp env.example .env
+```
+
+Doc [API Adresse](https://adresse.data.gouv.fr/api-doc/adresse)
+
+Doc API Sécheresse à venir
 
 ### Installation des dépendances
 
