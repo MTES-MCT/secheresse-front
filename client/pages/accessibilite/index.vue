@@ -9,6 +9,7 @@ useHead({
   title: `Préservons l'eau - Accessibilité`
 })
 
+const domainName = useRuntimeConfig().public.domainName;
 const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessibilité"}])
 </script>
 
@@ -19,7 +20,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
     <p>Établie le <span>10 mai 2023</span>.</p>
     <p>Le <span>Ministère de la Transition écologique et de la Cohésion des territoires</span> s’engage à rendre son service accessible,
       conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.</p>
-    <p>Cette déclaration d’accessibilité s’applique à <strong>Préservons l'eau</strong><span> (<span>secheresse.gouv.fr</span>)</span>.</p>
+    <p>Cette déclaration d’accessibilité s’applique à <strong>Préservons l'eau</strong><span> (<span>{{ domainName }}</span>)</span>.</p>
     <h2>État de conformité</h2>
     <p>
       <strong>Préservons l'eau</strong> est
@@ -34,7 +35,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
       contenu sous une autre forme.
     </p>
     <ul>
-      <li>E-mail : contact@preservonsleau.gouv.fr</li>
+      <li>E-mail : contact@{{ domainName }}</li>
     </ul>
     <h2>Voie de recours</h2>
     <p>Cette procédure est à utiliser dans le cas suivant&nbsp;: vous avez signalé au responsable du site internet un défaut d’accessibilité

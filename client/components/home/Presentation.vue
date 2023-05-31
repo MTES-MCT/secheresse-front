@@ -4,6 +4,7 @@ import utils from "../../utils";
 
 const router = useRouter();
 
+const domainName = useRuntimeConfig().public.domainName;
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
@@ -26,7 +27,7 @@ const closeModal = () => {
       <h1>Chaque geste compte, préservons nos ressources</h1>
       <div>
         Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec
-        <b><i>preservonsleau.gouv.fr</i></b>, nous
+        <b><i>{{ domainName }}</i></b>, nous
         vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.
       </div>
     </div>
