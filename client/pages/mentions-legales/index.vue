@@ -9,6 +9,7 @@ useHead({
   title: `Préservons l'eau - Mentions légales`
 })
 
+const domainName = useRuntimeConfig().public.domainName;
 const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mentions légales"}])
 </script>
 
@@ -25,7 +26,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
     <p></p>
     <h2>Hébergement</h2>
     <p>
-      Le site Préservons l'eau (preservonsleau.gouv.fr) est hébergé par la société Scalingo SAS,
+      Le site Préservons l'eau ({{ domainName }}) est hébergé par la société Scalingo SAS,
       inscrite au RCS (Strasbourg B 808 665 483) et dont les serveurs se situent en France.
       <br/>
       SIREN : 808665483

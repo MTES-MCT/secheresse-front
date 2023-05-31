@@ -4,6 +4,9 @@ import istanbul from "vite-plugin-istanbul";
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   ssr: true,
+  routeRules: {
+    '/situation/adresse': { ssr: false }
+  },
   app: {
     head: {
       title: `Préservons l'eau`,
@@ -14,7 +17,16 @@ export default defineNuxtConfig({
           name: 'description',
           content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
         },
-        {name: 'format-detection', content: 'telephone=no'}
+        {name: 'format-detection', content: 'telephone=no'},
+        {property: 'og:title', content: `Préservons l'eau`},
+        {
+          property: 'og:description',
+          content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
+        },
+        {property: 'og:type', content: 'website'},
+        {property: 'og:url', content: `https://${process.env.DOMAIN_NAME}`},
+        {property: 'og:locale', content: 'fr_FR'},
+        {property: 'og:image', content: `https://${process.env.DOMAIN_NAME}/logo_preservons_leau.svg`},
       ],
       link: [
         {rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}
@@ -47,7 +59,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
-    '@nuxtjs/robots',
+    process.env.APP_ENV !== 'local' ? '@nuxtjs/robots' : '',
     // [
     //   '@nuxtjs/i18n',
     //   {
@@ -58,7 +70,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiAdresseUrl: process.env.API_ADRESSE_URL,
-      apiSecheresseUrl: process.env.API_SECHERESSE_URL
+      apiSecheresseUrl: process.env.API_SECHERESSE_URL,
+      domainName: process.env.DOMAIN_NAME
     }
   },
   vite: {
