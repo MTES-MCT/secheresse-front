@@ -17,7 +17,8 @@
     "@gouvminint/vue-dsfr": "^3.6.0",
     "@nuxtjs/robots": "^3.0.0",
     "@pinia/nuxt": "^0.4.10",
-    "pinia": "^2.0.36"
+    "pinia": "^2.0.36",
+    "vue-matomo": "^4.2.0"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.4",
