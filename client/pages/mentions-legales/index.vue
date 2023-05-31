@@ -18,9 +18,10 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
   <div class="fr-mt-8w">
     <h1>Mentions légales</h1>
     <h2>Éditeur</h2>
-    <p>Préservons l'eau est édité par la Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la Cohésion
+    <p>Préservons l'eau est édité par la Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la
+      Cohésion
       des territoires et des Relations avec les collectivités territoriales (Grande Arche de la Défense, 92055 La Défense CEDEX), avec
-      l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="noopener">l’incubateur de services numériques beta.gouv.fr</a> de la
+      l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="external">l’incubateur de services numériques beta.gouv.fr</a> de la
       direction interministérielle du numérique (DINUM).</p>
     <h2>Directeur de la publication</h2>
     <p></p>
@@ -34,6 +35,8 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
       Siège social :15 avenue du Rhin, 67100 Strasbourg, France.
     </p>
     <h2>Accessibilité</h2>
-    <p>Voir la page <router-link to="/accessibilite">Déclaration d'accessibilité</router-link></p>
+    <p>Voir la page
+      <router-link to="/accessibilite">Déclaration d'accessibilité</router-link>
+    </p>
   </div>
 </template>

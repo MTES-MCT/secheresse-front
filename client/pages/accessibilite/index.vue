@@ -42,8 +42,10 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
       qui vous empêche d’accéder à un contenu ou à un des services du portail et vous n’avez pas obtenu de réponse satisfaisante.</p>
     <p>Vous pouvez&nbsp;:</p>
     <ul>
-      <li>Écrire un message au <a href="https://formulaire.defenseurdesdroits.fr/">Défenseur des droits</a></li>
-      <li>Contacter <a href="https://www.defenseurdesdroits.fr/saisir/delegues">le délégué du Défenseur des droits dans votre région</a>
+      <li>Écrire un message au <a href="https://formulaire.defenseurdesdroits.fr/" target="_blank" rel="external">Défenseur des droits</a>
+      </li>
+      <li>Contacter <a href="https://www.defenseurdesdroits.fr/saisir/delegues" target="_blank" rel="external">le délégué du Défenseur des
+        droits dans votre région</a>
       </li>
       <li>Envoyer un courrier par la poste (gratuit, ne pas mettre de timbre)&nbsp;:<br>
         Défenseur des droits<br>
@@ -53,7 +55,8 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
     <hr>
     <p>
       Cette déclaration d’accessibilité a été créé le <span>10 mai 2023</span> grâce au <a
-      href="https://betagouv.github.io/a11y-generateur-declaration/accessibilite">Générateur de Déclaration d’Accessibilité de BetaGouv</a>.
+      href="https://betagouv.github.io/a11y-generateur-declaration/accessibilite" target="_blank" rel="external">Générateur de Déclaration
+      d’Accessibilité de BetaGouv</a>.
     </p>
   </div>
 </template>

@@ -5,7 +5,7 @@ import istanbul from "vite-plugin-istanbul";
 export default defineNuxtConfig({
   ssr: true,
   routeRules: {
-    '/situation/adresse': { ssr: false }
+    '/situation/adresse': {ssr: false}
   },
   app: {
     head: {
@@ -60,6 +60,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
     process.env.APP_ENV !== 'local' ? '@nuxtjs/robots' : '',
+    'nuxt-simple-sitemap',
     // [
     //   '@nuxtjs/i18n',
     //   {
@@ -123,5 +124,8 @@ export default defineNuxtConfig({
       UserAgent: '*',
       Disallow: process.env.APP_ENV === 'prod' ? '' : '/'
     }
-  }
+  },
+  sitemap: {
+    siteUrl: `https://${process.env.DOMAIN_NAME}`,
+  },
 })
