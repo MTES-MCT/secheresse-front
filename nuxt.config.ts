@@ -47,6 +47,7 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
+    '@nuxtjs/robots',
     // [
     //   '@nuxtjs/i18n',
     //   {
@@ -103,5 +104,11 @@ export default defineNuxtConfig({
       enabled: false,
       type: 'module',
     },
+  },
+  robots: {
+    rules: {
+      UserAgent: '*',
+      Disallow: process.env.APP_ENV === 'prod' ? '' : '/'
+    }
   }
 })
