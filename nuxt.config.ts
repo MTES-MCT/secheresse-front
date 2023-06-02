@@ -15,18 +15,18 @@ export default defineNuxtConfig({
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
         {
           name: 'description',
-          content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
+          content: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
         },
         {name: 'format-detection', content: 'telephone=no'},
         {property: 'og:title', content: `Préservons l'eau`},
         {
           property: 'og:description',
-          content: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
+          content: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
         },
         {property: 'og:type', content: 'website'},
         {property: 'og:url', content: `https://${process.env.DOMAIN_NAME}`},
         {property: 'og:locale', content: 'fr_FR'},
-        {property: 'og:image', content: `https://${process.env.DOMAIN_NAME}/logo_preservons_leau.svg`},
+        {property: 'og:image', content: `https://${process.env.DOMAIN_NAME}/favicon.svg`},
       ],
       link: [
         {rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}
@@ -71,6 +71,9 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    build: {
+      target: 'es2019'
+    },
     plugins: [
       istanbul({
         include: 'client/*',
