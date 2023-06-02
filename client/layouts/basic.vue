@@ -26,6 +26,8 @@ const preferences = reactive({
   theme: undefined,
   scheme: undefined,
 })
+const domainName = useRuntimeConfig().public.domainName;
+const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
 
 onMounted(() => {
   const {theme, scheme, setScheme} = useScheme()
@@ -41,6 +43,8 @@ onMounted(() => {
 </script>
 
 <template>
+  <DsfrNotice title="Version alpha en cours de conception" />
+  <DsfrNotice :title="notice" />
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
