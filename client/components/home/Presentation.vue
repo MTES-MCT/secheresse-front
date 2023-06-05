@@ -8,6 +8,7 @@ const domainName = useRuntimeConfig().public.domainName;
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
+const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
 
 const searchRestriction = ($event) => {
   if (!$event) {
@@ -22,9 +23,14 @@ const closeModal = () => {
 </script>
 
 <template>
+  <DsfrNotice :title="notice"/>
   <div class="presentation fr-grid-row fr-grid-row--center fr-my-8w">
     <div class="section-title presentation-title">
-      <h1>Chaque geste compte, préservons nos ressources</h1>
+      <img src="/logo_chaque_geste_compte.svg"
+           style="max-width: 100%"
+           alt="Chaque geste compte, préservons nos ressources"
+           title="Chaque geste compte, préservons nos ressources"
+      />
       <div>
         Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec
         <b><i>{{ domainName }}</i></b>, nous
@@ -51,23 +57,23 @@ const closeModal = () => {
 
 <style scoped lang="scss">
 .presentation {
-  //.section-title {
-  //  position: relative;
-  //
-  //  &:before {
-  //    content: "";
-  //    position: absolute;
-  //    width: 100vw;
-  //    height: calc(100% + 12rem);
-  //    top: -4rem;
-  //    left: 50%;
-  //    -webkit-transform: translateX(-50%);
-  //    transform: translateX(-50%);
-  //    background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
-  //    opacity: 0.5;
-  //    z-index: -1;
-  //  }
-  //}
+  .section-title {
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100vw;
+      height: calc(100% + 12rem);
+      top: -4rem;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+      background: linear-gradient(270deg, var(--blue-france-950-100), 70%, var(--yellow-tournesol-975-75));
+      opacity: 0.5;
+      z-index: -1;
+    }
+  }
 }
 
 .search-card {
@@ -83,5 +89,12 @@ const closeModal = () => {
       text-align: center;
     }
   }
+}
+
+.fr-notice {
+  width: 100vw;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 </style>

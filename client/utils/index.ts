@@ -3,7 +3,7 @@ import { Address } from "../dto/address.dto";
 import api from "../api";
 import { Ref } from "vue";
 import { useAddressStore } from "../store/address";
-import { useRestrictionStore } from "../store/restriction";
+import { useRestrictionsStore } from "../store/restrictions";
 import { FetchError } from "ofetch";
 import { Arrete } from "../dto/arrete.dto";
 
@@ -67,11 +67,33 @@ const index = {
     return label;
   },
 
+  getShortSituationLabel(situationRank: number | undefined): string {
+    if (!situationRank) {
+      return '';
+    }
+    let label = '';
+    switch (situationRank) {
+      case 1:
+        label += 'vigilance';
+        break;
+      case 2:
+        label += `alerte`;
+        break;
+      case 3:
+        label += `alerte renforcé`;
+        break;
+      case 4:
+        label += `crise`;
+        break;
+    }
+    return label;
+  },
+
   async searchRestriction(address: Address, modalTitle: Ref<string>, modalText: Ref<string>, modalOpened: Ref<boolean>, router: any) {
     const addressStore = useAddressStore();
-    const restrictionStore = useRestrictionStore();
+    const restrictionsStore = useRestrictionsStore();
     const {setAddress} = addressStore;
-    const {setRestriction} = restrictionStore;
+    const {setRestrictions} = restrictionsStore;
     
     const {data, error} = await api.searchRestriction(address);
     if (error.value) {
@@ -80,9 +102,10 @@ const index = {
       modalText.value = text;
       modalOpened.value = true;
     }
+    console.log(data.value);
     if (data.value) {
       setAddress(address);
-      setRestriction(data.value);
+      setRestrictions(data.value);
       router.push({path: '/situation/adresse'});
     }
   },

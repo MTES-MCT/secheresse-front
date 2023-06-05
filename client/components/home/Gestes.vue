@@ -25,8 +25,8 @@ const selectedTagIndex: Ref<number> = ref(0);
 <template>
   <div class="gestes fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
     <div class="section-title fr-mb-4w">
-      <h1>Nous consommons 148 litres d’eau par jour et par personne !</h1>
-      <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les réserves d’eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
+      <h1>Nous consommons 148 litres d’eau potable par jour et par personne !</h1>
+      <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les ressources en eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--center">

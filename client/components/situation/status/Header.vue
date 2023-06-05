@@ -4,9 +4,10 @@ import { Restriction } from "../../../dto/restriction.dto";
 import { Ref } from "vue";
 
 const props = defineProps<{
-  restriction: Restriction
+  restrictions: Restriction[]
   address: any
 }>();
+let restriction: Ref<Restriction> = ref();
 
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {
   to: '/situation/recherche',
@@ -14,24 +15,34 @@ const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {
 }, {text: 'Votre adresse'}]);
 
 const badgeLabel = computed<string>(() => {
-  return utils.getSituationBadgeLabel(utils.getRestrictionRank(props.restriction));
+  return utils.getSituationLabel(utils.getRestrictionRank(restriction.value));
 });
 
 const situationLabel = computed<string>(() => {
-  return utils.getSituationLabel(utils.getRestrictionRank(props.restriction))
+  return utils.getShortSituationLabel(utils.getRestrictionRank(restriction.value))
 });
 
 const dateArrete = computed<string | null>(() => {
-  if (!props.restriction.arrete?.dateDebutValidite) {
+  if (!restriction.value.arrete?.dateDebutValidite) {
     return null;
   }
-  return new Date(props.restriction.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
+  return new Date(restriction.value.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
 });
+
+onMounted(() => {
+  if (props.restrictions.length === 1) {
+    restriction.value = props.restrictions[0];
+  }
+  const restrictionsSort = [...props.restrictions].sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
+  console.log(restrictionsSort);
+  restriction.value = restrictionsSort[0];
+})
 
 </script>
 
 <template>
   <div class="situation-status-header fr-grid-row fr-pb-4w"
+       v-if="restriction"
        :class="'situation-level-' + utils.getRestrictionRank(restriction)">
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
@@ -40,13 +51,13 @@ const dateArrete = computed<string | null>(() => {
       <DsfrBadge small
                  class="fr-mb-2w"
                  :class="'situation-level-' + utils.getRestrictionRank(restriction)"
-                 type="error"
+                 type="" 
                  :label="badgeLabel"/>
       <div class="fr-mb-2w">
         <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
         {{ address?.properties.label }}
       </div>
-      <h3>Votre territoire est actuellement <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
+      <h3>Votre êtes sur une zone en <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel
         }}</span></h3>
       <div v-if="dateArrete">Arrêté en date du {{ dateArrete }}</div>

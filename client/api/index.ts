@@ -13,7 +13,10 @@ const index = {
 
   searchRestriction(address: Address): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/zone?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`, {
+    const options = ['municipality', 'locality'].includes(address.properties.type) ?
+      `/zones?commune=${address.properties.citycode}` :
+      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`
+    return useFetch(options, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });

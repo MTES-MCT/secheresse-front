@@ -5,6 +5,7 @@ import { Restriction } from "../../../dto/restriction.dto";
 
 const props = defineProps<{
   restriction: Restriction
+  restrictions: Restriction[]
 }>()
 
 const selectedTagIndex: Ref<number> = ref(0);
@@ -12,7 +13,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   label: "Arroser",
   thematique: "Arrosage"
 }, {
-  label: "Remplir",
+  label: "Remplir ou vidanger sa piscine",
   thematique: "Remplissage vidange"
 }, {
   label: "Nettoyer",
@@ -33,7 +34,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   label: "Naviguer",
   thematique: "Navigation fluviale"
 }, {
-  label: "Prélèver en canal",
+  label: "Prélèver en canaux",
   thematique: "Prélèvement en canaux"
 }, {
   label: "ICPE",
@@ -55,6 +56,13 @@ const usagesFiltered = (thematique: any) => {
 <template>
   <div class="fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
     <h4>Est-ce que je peux ?</h4>
+    <div class="fr-mb-4w">
+      Votre approvisionnement en eau provient de deux sources différentes : l'eau de surface (rivières, lacs) et les nappes souterraines,
+      qui peuvent être impactées différemment par la sécheresse. D’autre part, l’eau sur votre commune prend sa source dans différents
+      bassins versants. Or le niveau d'eau d'un bassin versant à un autre est différent, raison pour laquelle les restrictions sont
+      susceptibles d’être différentes en fonction de là où vous habitez sur la commune. Il est important d'adopter une utilisation
+      responsable de l'eau en tenant compte de ces spécificités.
+    </div>
     <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
                :label="thematique.label"
