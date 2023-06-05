@@ -2,12 +2,11 @@ import { Usage } from "./usage.dto";
 import { Arrete } from "./arrete.dto";
 
 export interface Restriction {
-  id: string;
   idZone: string;
-  type: string;
+  type: 'SUP' | 'SOU';
   nom: string,
   departement: string;
-  niveauAlerte: string
+  niveauAlerte: string;
   arrete: Arrete;
   usages: Usage[];
 }

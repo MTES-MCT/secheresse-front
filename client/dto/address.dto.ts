@@ -5,5 +5,7 @@ export interface Address {
   properties: {
     postcode: string;
     label: string;
+    type: string;
+    citycode: string;
   };
 }
