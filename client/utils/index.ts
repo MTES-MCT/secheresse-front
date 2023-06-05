@@ -94,16 +94,16 @@ const index = {
     const restrictionsStore = useRestrictionsStore();
     const {setAddress} = addressStore;
     const {setRestrictions} = restrictionsStore;
-    
+
     const {data, error} = await api.searchRestriction(address);
-    if (error.value) {
+    if (error.value || data.value?.length < 1) {
       const {title, text} = this.handleRestrictionError(error.value);
       modalTitle.value = title;
       modalText.value = text;
       modalOpened.value = true;
     }
     console.log(data.value);
-    if (data.value) {
+    if (data.value && data.value.length > 0) {
       setAddress(address);
       setRestrictions(data.value);
       router.push({path: '/situation/adresse'});
@@ -111,15 +111,16 @@ const index = {
   },
 
   handleRestrictionError(error: FetchError): { title: string, text: string } {
-    switch (error.statusCode) {
+    switch (error?.statusCode) {
       case 404:
+      case undefined:
         return {
           title: `C’est pour bientôt ...`,
           text: `Malheureusement, nous n’avons pas encore synchronisé les données de votre territoire. Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`
         };
       case 409:
         let html = `Plusieurs arrêtés sont en vigueurs sur votre territoire. Vous pouvez télécharger les arrêtés liés à votre adresse !`;
-        if(error.data.arretes && error.data.arretes.length > 0) {
+        if (error.data.arretes && error.data.arretes.length > 0) {
           html += `<div class="fr-grid-row fr-grid-row--right">`;
           error.data.arretes.forEach((a: Arrete, index: number) => {
             html += `<a class="fr-btn fr-my-1w"
