@@ -89,13 +89,20 @@ const index = {
     return label;
   },
 
-  async searchRestriction(address: Address, modalTitle: Ref<string>, modalText: Ref<string>, modalOpened: Ref<boolean>, router: any) {
+  async searchRestriction(address: Address,
+                          modalTitle: Ref<string>,
+                          modalText: Ref<string>,
+                          modalOpened: Ref<boolean>,
+                          router: any,
+                          loadingRestrictions: Ref<boolean>) {
     const addressStore = useAddressStore();
     const restrictionsStore = useRestrictionsStore();
     const {setAddress} = addressStore;
     const {setRestrictions} = restrictionsStore;
 
+    loadingRestrictions.value = true;
     const {data, error} = await api.searchRestriction(address);
+    loadingRestrictions.value = false;
     if (error.value || data.value?.length < 1) {
       const {title, text} = this.handleRestrictionError(error.value);
       modalTitle.value = title;
@@ -107,6 +114,13 @@ const index = {
       setRestrictions(data.value);
       router.push({path: '/situation/adresse'});
     }
+  },
+
+  getArretes(restrictions: Restriction[]): Arrete[] {
+    const arretes: Arrete[] = restrictions.map(r => r.arrete);
+    return arretes.filter((arrete, index, arretes) => {
+      return arretes.findIndex(a => a.idArrete === arrete.idArrete) === index;
+    });
   },
 
   handleRestrictionError(error: FetchError): { title: string, text: string } {

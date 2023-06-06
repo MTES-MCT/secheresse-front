@@ -14,12 +14,13 @@ const {address} = storeToRefs(addressStore);
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
+const loadingRestrictions: Ref<boolean> = ref(false);
 
 const searchRestriction = ($event) => {
   if (!$event) {
     return;
   }
-  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router);
+  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router, loadingRestrictions);
 }
 
 const closeModal = () => {
@@ -40,10 +41,14 @@ const closeModal = () => {
           <MixinsAdresse @address="setAddress($event)"/>
         </div>
         <div class="fr-grid-row fr-grid-row--center">
-          <DsfrButton label="Valider cette adresse"
-                      data-cy="SituationRechercheBtn"
+          <DsfrButton data-cy="SituationRechercheBtn"
                       @click="searchRestriction(address)"
-                      :disabled="!address"/>
+                      :disabled="!address || loadingRestrictions">
+            <div class="fr-grid-row">
+              Valider cette adresse
+              <Loader :show="loadingRestrictions" class="fr-ml-1w"/>
+            </div>
+          </DsfrButton>
         </div>
         <DsfrCallout title="Votre adresse n'est pas conservée"
                      class="fr-mt-4w"

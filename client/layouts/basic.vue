@@ -42,7 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DsfrNotice title="Version alpha en cours de conception" />
+  <DsfrNotice title="Version beta en cours de conception" />
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"

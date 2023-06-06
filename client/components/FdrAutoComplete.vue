@@ -125,18 +125,16 @@ function displayOption(option) {
 <template>
   <div ref="container"
        class="relative search-autocomplete">
-    <DsfrSearchBar
-      :model-value="modelValue"
-      :placeholder="placeholder"
-      :label="label"
-      v-bind="$attrs"
-      :required="true"
-      @update:model-value="$emit('update:modelValue', $event)"
-      ref="input"
-      @focus="hasFocus = true"
-      @blur="looseFocus()"
-      @keydown="checkKeyboardNav($event)"
-    />
+    <DsfrSearchBar :model-value="modelValue"
+                   :placeholder="placeholder"
+                   :label="label"
+                   v-bind="$attrs"
+                   :required="true"
+                   @update:model-value="$emit('update:modelValue', $event)"
+                   ref="input"
+                   @focus="hasFocus = true"
+                   @blur="looseFocus()"
+                   @keydown="checkKeyboardNav($event)"/>
     <ul v-show="displayOptions"
         ref="optionsList"
         class="list-none absolute m-0 right-0 z-1 left-0 bg-white box-shadow max-h-17 scroll pointer"
@@ -178,7 +176,7 @@ function displayOption(option) {
 
 .search-autocomplete {
   position: relative;
-  
+
   ul {
     position: absolute;
     width: 100%;
@@ -187,7 +185,7 @@ function displayOption(option) {
     list-style-type: none;
     margin-top: 0;
     padding: 0;
-    
+
     li {
       cursor: pointer;
     }

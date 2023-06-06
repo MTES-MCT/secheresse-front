@@ -9,12 +9,13 @@ const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
+const loadingRestrictions: Ref<boolean> = ref(false);
 
 const searchRestriction = ($event) => {
   if (!$event) {
     return;
   }
-  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router);
+  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router, loadingRestrictions);
 }
 
 const closeModal = () => {
@@ -41,7 +42,8 @@ const closeModal = () => {
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
       <div class="search-card-wrapper">
         <h2>Les restrictions me concernent-elles ?</h2>
-        <MixinsAdresse @address="searchRestriction($event)"/>
+        <MixinsAdresse @address="searchRestriction($event)"
+                       :loading="loadingRestrictions"/>
       </div>
     </div>
 
