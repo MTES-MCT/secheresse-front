@@ -5,6 +5,7 @@ import utils from "../../../utils";
 const props = defineProps<{
   thematique: string,
   restriction: Restriction,
+  light: boolean,
 }>()
 
 const cardTitle = computed((): string => {
@@ -51,7 +52,7 @@ const usagesFiltered = () => {
 </script>
 
 <template>
-  <div class="fr-col-12 fr-col-md-6">
+  <div class="fr-col-12 fr-col-md-6 wrapper-not-light" v-if="!light">
     <div class="eau-card eau-type-card fr-p-2w fr-grid-row">
       <div class="fr-col-10">
         <h6 class="eau-type-card__title fr-my-2w">
@@ -78,6 +79,12 @@ const usagesFiltered = () => {
                                     :usage="usage"
     />
   </div>
+  <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
+    <div v-for="usage in usagesFiltered()"
+         class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+      <SituationStatusRestrictionCard :usage="usage"/>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -94,6 +101,12 @@ const usagesFiltered = () => {
       width: 80%;
       height: auto;
     }
+  }
+}
+
+.wrapper-not-light {
+  .eau-card:not(.eau-type-card) {
+    border-top: none;
   }
 }
 </style>
