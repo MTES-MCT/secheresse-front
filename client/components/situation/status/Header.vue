@@ -34,7 +34,6 @@ onMounted(() => {
     restriction.value = props.restrictions[0];
   }
   const restrictionsSort = [...props.restrictions].sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
-  console.log(restrictionsSort);
   restriction.value = restrictionsSort[0];
 })
 
@@ -47,11 +46,11 @@ onMounted(() => {
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
-    <div class="fr-col-12 fr-col-md-6">
+    <div class="fr-col-12 fr-col-md-6 situation-status-header__info-wrapper">
       <DsfrBadge small
                  class="fr-mb-2w"
                  :class="'situation-level-' + utils.getRestrictionRank(restriction)"
-                 type="" 
+                 type=""
                  :label="badgeLabel"/>
       <div class="fr-mb-2w">
         <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
@@ -63,13 +62,17 @@ onMounted(() => {
       <div v-if="dateArrete">Arrêté en date du {{ dateArrete }}</div>
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
     </div>
-    <div class="fr-col-12 fr-col-md-6 button-wrapper">
-      <a class="fr-btn"
-         :href="restriction.arrete.cheminFichier"
-         target="_blank"
-         rel="noopener">
-        Télécharger l'arrêté préfectoral
-      </a>
+    <div class="fr-col-12 fr-col-md-6 fr-grid-row fr-grid-row--bottom">
+      <div class="fr-col-12 situation-status-header__btn-wrapper ">
+        <div v-for="(r, index) in restrictions">
+          <a class="fr-btn fr-mt-1w"
+             :href="r.arrete.cheminFichier"
+             target="_blank"
+             rel="noopener">
+            Télécharger l'arrêté préfectoral n°{{ index + 1 }}
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -114,14 +117,20 @@ onMounted(() => {
     }
   }
 
-  .button-wrapper {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-  }
-
   h3 span {
     text-transform: lowercase;
+  }
+
+  &__btn-wrapper {
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .situation-status-header {
+    &__btn-wrapper, &__info-wrapper {
+      text-align: center;
+    }
   }
 }
 </style>

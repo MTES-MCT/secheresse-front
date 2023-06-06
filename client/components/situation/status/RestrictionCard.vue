@@ -15,22 +15,21 @@ const cardDesc = computed((): string => {
 </script>
 
 <template>
-  <div class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-    <div class="eau-card fr-p-2w">
-      <h6 class="eau-card__title fr-my-2w">
-        {{ usage.usage }}
-      </h6>
-      <div class="eau-card__desc">
-        {{ cardDesc }}
-      </div>
+  <div class="eau-card fr-p-2w">
+    <h6 class="eau-card__title fr-my-2w">
+      {{ usage.usage }}
+    </h6>
+    <div class="eau-card__desc">
+      {{ cardDesc }}
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .eau-card {
+  border-top: none;
   background-color: var(--background-default-grey);
-  
+
   .eau-card__desc {
     white-space: pre-wrap;
   }

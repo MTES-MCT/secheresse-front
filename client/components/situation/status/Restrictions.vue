@@ -4,7 +4,6 @@ import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.
 import { Restriction } from "../../../dto/restriction.dto";
 
 const props = defineProps<{
-  restriction: Restriction
   restrictions: Restriction[]
 }>()
 
@@ -45,12 +44,10 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
-  return thematiqueTags.value.filter(t => props.restriction.usages.findIndex(u => u.thematique === t.thematique) >= 0);
+  let usages = [];
+  props.restrictions.forEach(r => usages = usages.concat(r.usages));
+  return thematiqueTags.value.filter(t => usages.findIndex(u => u.thematique === t.thematique) >= 0);
 });
-
-const usagesFiltered = (thematique: any) => {
-  return props.restriction.usages.filter(u => u.thematique === thematique.thematique);
-};
 </script>
 
 <template>
@@ -73,9 +70,10 @@ const usagesFiltered = (thematique: any) => {
       <DsfrTabs class="tabs-light">
         <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                         :selected="selectedTagIndex === index">
-          <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <SituationStatusRestrictionCard v-for="usage in usagesFiltered(thematique)"
-                                            :usage="usage"
+          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+            <SituationStatusRestrictionCardWaterType v-for="restriction in restrictions"
+                                                     :thematique="thematique.thematique"
+                                                     :restriction="restriction"
             />
           </div>
         </DsfrTabContent>

@@ -1,9 +1,11 @@
 import VueDsfr from '@gouvminint/vue-dsfr'
-import { EauMaison, EauSoleil } from "../assets/icons";
+import { EauMaison, EauSoleil, EauSouterraine, EauSurface } from "../assets/icons";
 
 const icons = [
   EauMaison,
-  EauSoleil
+  EauSoleil,
+  EauSouterraine,
+  EauSurface
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
