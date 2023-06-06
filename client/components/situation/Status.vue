@@ -33,7 +33,7 @@ resetAddress();
            :href="r.arrete.cheminFichier"
            target="_blank"
            rel="noopener">
-          Télécharger l'arrêté préfectoral n°{{ index + 1 }}
+          Télécharger l'arrêté préfectoral{{restrictions.length > 1 ? ` n°${index + 1 }` : ``}}
         </a>
       </div>
     </div>

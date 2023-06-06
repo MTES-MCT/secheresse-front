@@ -9,4 +9,5 @@ export interface Restriction {
   niveauAlerte: string;
   arrete: Arrete;
   usages: Usage[];
+  usagesHash: string;
 }

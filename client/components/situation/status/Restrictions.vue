@@ -48,12 +48,20 @@ const thematiqueTagsFiltered = computed<TagProps[]>(() => {
   props.restrictions.forEach(r => usages = usages.concat(r.usages));
   return thematiqueTags.value.filter(t => usages.findIndex(u => u.thematique === t.thematique) >= 0);
 });
+
+const sameUsages = computed<boolean>(() => {
+  if (!props.restrictions[0].usagesHash) {
+    return false;
+  }
+  const usagesHash = props.restrictions[0].usagesHash;
+  return props.restrictions.every(r => r.usagesHash === usagesHash);
+});
 </script>
 
 <template>
   <div class="fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
     <h4>Est-ce que je peux ?</h4>
-    <div class="fr-mb-4w">
+    <div class="fr-mb-4w" v-if="restrictions.length > 1 && !sameUsages">
       Votre approvisionnement en eau provient de deux sources différentes : l'eau de surface (rivières, lacs) et les nappes souterraines,
       qui peuvent être impactées différemment par la sécheresse. D’autre part, l’eau sur votre commune prend sa source dans différents
       bassins versants. Or le niveau d'eau d'un bassin versant à un autre est différent, raison pour laquelle les restrictions sont
@@ -71,10 +79,19 @@ const thematiqueTagsFiltered = computed<TagProps[]>(() => {
         <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <SituationStatusRestrictionCardWaterType v-for="restriction in restrictions"
-                                                     :thematique="thematique.thematique"
-                                                     :restriction="restriction"
-            />
+            <template v-if="restrictions.length > 1 && !sameUsages">
+              <SituationStatusRestrictionCardWaterType v-for="restriction in restrictions"
+                                                       :thematique="thematique.thematique"
+                                                       :restriction="restriction"
+                                                       :light="false"
+              />
+            </template>
+            <template v-else>
+              <SituationStatusRestrictionCardWaterType :thematique="thematique.thematique"
+                                                       :restriction="restrictions[0]"
+                                                       :light="true"
+              />
+            </template>
           </div>
         </DsfrTabContent>
       </DsfrTabs>
