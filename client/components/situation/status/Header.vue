@@ -2,6 +2,7 @@
 import utils from "../../../utils";
 import { Restriction } from "../../../dto/restriction.dto";
 import { Ref } from "vue";
+import { Arrete } from "~/client/dto/arrete.dto";
 
 const props = defineProps<{
   restrictions: Restriction[]
@@ -27,6 +28,10 @@ const dateArrete = computed<string | null>(() => {
     return null;
   }
   return new Date(restriction.value.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
+});
+
+const arretes = computed<Arrete[]>(() => {
+  return utils.getArretes(props.restrictions);
 });
 
 onMounted(() => {
@@ -64,12 +69,12 @@ onMounted(() => {
     </div>
     <div class="fr-col-12 fr-col-md-6 fr-grid-row fr-grid-row--bottom">
       <div class="fr-col-12 situation-status-header__btn-wrapper ">
-        <div v-for="(r, index) in restrictions">
+        <div v-for="(a, index) in arretes">
           <a class="fr-btn fr-mt-1w"
-             :href="r.arrete.cheminFichier"
+             :href="a.cheminFichier"
              target="_blank"
              rel="noopener">
-            Télécharger l'arrêté préfectoral{{restrictions.length > 1 ? ` n°${index + 1 }` : ``}}
+            Télécharger l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
           </a>
         </div>
       </div>

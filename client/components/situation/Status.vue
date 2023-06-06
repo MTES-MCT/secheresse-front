@@ -3,17 +3,23 @@ import { useAddressStore } from "../../store/address";
 import { storeToRefs } from "pinia";
 import { Ref } from "vue";
 import { useRestrictionsStore } from "../../store/restrictions";
-import { Restriction } from "~/client/dto/restriction.dto";
+import { Restriction } from "../../dto/restriction.dto";
+import { Arrete } from "../../dto/arrete.dto";
+import utils from "../../utils";
 
 const addressStore = useAddressStore();
 const restrictionsStore = useRestrictionsStore();
 const {address} = storeToRefs(addressStore);
-const {restrictions}: Restriction[] = storeToRefs(restrictionsStore);
+const {restrictions}: Ref<Restriction[]> = storeToRefs(restrictionsStore);
 const {resetAddress} = addressStore;
 
 const addressToUse: Ref<any> = ref(null);
 addressToUse.value = {...address.value};
 resetAddress();
+
+const arretes = computed<Arrete[]>(() => {
+  return utils.getArretes(restrictions.value);
+});
 </script>
 
 <template>
@@ -28,12 +34,12 @@ resetAddress();
       <div class="fr-mb-4w">
         Certaines exceptions peuvent ne pas apparaître ici, pour les connaître vous pouvez télécharger l’arrêté préfectoral ci-dessous.
       </div>
-      <div v-for="(r, index) in restrictions">
+      <div v-for="(a, index) in arretes">
         <a class="fr-btn fr-mt-1w"
-           :href="r.arrete.cheminFichier"
+           :href="a.cheminFichier"
            target="_blank"
            rel="noopener">
-          Télécharger l'arrêté préfectoral{{restrictions.length > 1 ? ` n°${index + 1 }` : ``}}
+          Télécharger l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
         </a>
       </div>
     </div>

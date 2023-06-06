@@ -4,6 +4,10 @@ import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
 
+const props = defineProps<{
+  loading: boolean
+}>()
+
 const emit = defineEmits(['address']);
 
 const addressQuery: Ref<string> = ref('');
@@ -12,6 +16,7 @@ const loadAddresses: Ref<boolean> = ref(true);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const modalOpened: Ref<boolean> = ref(false);
+const loadingAdresses: Ref<boolean> = ref(false);
 
 const selectAddress = (address: string | Address) => {
   if (typeof address === 'string') {
@@ -37,20 +42,25 @@ watch(addressQuery, utils.debounce(async () => {
     addresses.value = [];
     return;
   }
+  loadingAdresses.value = true;
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
+  loadingAdresses.value = false;
   addresses.value = response.value ? response.value.features : [];
 }, 500));
 </script>
 
 <template>
   <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète ou commune)</div>
-  <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
-                   :model-value="addressQuery"
-                   :options="addresses"
-                   label="Champ de recherche d'adresse"
-                   display-key="properties.label"
-                   data-cy="AddressSearchInput"
-                   @update:modelValue="selectAddress($event)"/>
+  <div class="autocomplete-wrapper">
+    <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
+                     :model-value="addressQuery"
+                     :options="addresses"
+                     label="Champ de recherche d'adresse"
+                     display-key="properties.label"
+                     data-cy="AddressSearchInput"
+                     @update:modelValue="selectAddress($event)"/>
+    <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
+  </div>
   <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
               class="notice-light fr-mt-1w"/>
   <DsfrModal :opened="modalOpened"
@@ -64,5 +74,15 @@ watch(addressQuery, utils.debounce(async () => {
 <style scoped lang="scss">
 .fr-notice {
   margin: auto
+}
+
+.autocomplete-wrapper {
+  position: relative;
+
+  .adresse-loader {
+    position: absolute;
+    top: 8px;
+    left: 0;
+  }
 }
 </style>
