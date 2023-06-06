@@ -24,6 +24,10 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
       l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="external">l’incubateur de services numériques beta.gouv.fr</a> de la
       direction interministérielle du numérique (DINUM).</p>
     <h2>Directeur de la publication</h2>
+    <ul>
+      <li>Monsieur Brice HUET, directeur général par intérim de l'aménagement, du logement et de la nature (DGALN)</li>
+      <li>Adresse : Tour Séquoïa 1, place Carpeaux 92055 La Défense Cedex</li>
+    </ul>
     <p></p>
     <h2>Hébergement</h2>
     <p>
