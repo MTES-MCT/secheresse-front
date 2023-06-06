@@ -12,7 +12,7 @@ let restriction: Ref<Restriction> = ref();
 
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {
   to: '/situation/recherche',
-  text: `Quelle est la situation de ma commune ?`
+  text: `Quelles sont les restrictions qui me concernent ?`
 }, {text: 'Votre adresse'}]);
 
 const badgeLabel = computed<string>(() => {

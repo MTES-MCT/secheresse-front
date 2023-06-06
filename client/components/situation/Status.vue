@@ -29,10 +29,12 @@ const arretes = computed<Arrete[]>(() => {
                            :restrictions="restrictions"/>
     <SituationStatusRestrictions v-if="restrictions[0] && restrictions[0].usages && restrictions[0].usages.length > 0"
                                  :restrictions="restrictions"/>
+    <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
+      Aucune restrictions en cours à votre adresse.
+    </div>
     <div class="section-title fr-mt-8w">
-      <h2>Il est possible que des exceptions existent pour certaines restrictions.</h2>
       <div class="fr-mb-4w">
-        Certaines exceptions peuvent ne pas apparaître ici, pour les connaître vous pouvez télécharger l’arrêté préfectoral ci-dessous.
+        Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci de télécharger l'arrêté préfectoral ci-dessous
       </div>
       <div v-for="(a, index) in arretes">
         <a class="fr-btn fr-mt-1w"
