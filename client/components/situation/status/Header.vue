@@ -65,7 +65,7 @@ onMounted(() => {
           situationLabel
         }}</span></h3>
       <div v-if="dateArrete">Arrêté en date du {{ dateArrete }}</div>
-      <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1 000 000€</div>
+      <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
     <div class="fr-col-12 fr-col-md-6 fr-grid-row fr-grid-row--bottom">
       <div class="fr-col-12 situation-status-header__btn-wrapper ">
