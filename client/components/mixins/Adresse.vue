@@ -50,7 +50,7 @@ watch(addressQuery, utils.debounce(async () => {
 </script>
 
 <template>
-  <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète ou commune)</div>
+  <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
   <div class="autocomplete-wrapper">
     <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
                      :model-value="addressQuery"

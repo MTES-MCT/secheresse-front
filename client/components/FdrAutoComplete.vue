@@ -30,7 +30,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const hasFocus = ref(true)
-const displayOptions = computed(() => hasFocus.value && !!props.options.length)
+const displayOptions = computed(() => !!props.options.length)
 
 function convertRemToPixels(rem) {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
