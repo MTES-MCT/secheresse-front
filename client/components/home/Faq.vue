@@ -19,9 +19,9 @@ const onAccordionClick = (index: string) => {
         <li v-for="(item, index) in faq.data">
           <DsfrAccordion :title="item.question"
                          :expanded-id="expandedIndex"
-                         @click="onAccordionClick(index.toString())"
+                         @expand="onAccordionClick(index.toString())"
                          :id="index.toString()">
-            {{ item.response }}
+            <div v-html="item.response"></div>
           </DsfrAccordion>
         </li>
       </DsfrAccordionsGroup>
