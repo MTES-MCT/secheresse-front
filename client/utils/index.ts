@@ -102,7 +102,6 @@ const index = {
       modalText.value = text;
       modalOpened.value = true;
     }
-    console.log(data.value);
     if (data.value && data.value.length > 0) {
       setAddress(address);
       setRestrictions(data.value);
@@ -119,22 +118,9 @@ const index = {
           text: `Malheureusement, nous n’avons pas encore synchronisé les données de votre territoire. Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`
         };
       case 409:
-        let html = `Plusieurs arrêtés sont en vigueurs sur votre territoire. Vous pouvez télécharger les arrêtés liés à votre adresse !`;
-        if (error.data.arretes && error.data.arretes.length > 0) {
-          html += `<div class="fr-grid-row fr-grid-row--right">`;
-          error.data.arretes.forEach((a: Arrete, index: number) => {
-            html += `<a class="fr-btn fr-my-1w"
-         href="${a.cheminFichier}"
-         target="_blank"
-         rel="noopener">
-        Télécharger l'arrêté préfectoral n°${index + 1}
-      </a>`;
-          });
-          html += `</div>`
-        }
         return {
-          title: `Plusieurs arrêtés ...`,
-          text: html
+          title: `Nous avons besoin de plus de précision`,
+          text: `Afin de vous communiquer des informations de qualité, nous avons besoin du : nom de votre rue, le code postal et le nom de votre ville.`
         };
       default:
         return {
