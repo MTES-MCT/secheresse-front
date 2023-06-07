@@ -3,6 +3,7 @@ import { Ref } from "vue";
 import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
+import { Geo } from "../../dto/geo.dto";
 
 const route = useRoute();
 const router = useRouter();
@@ -19,21 +20,25 @@ const notice = `${domainName} ne communique pas sur les ruptures d'approvisionne
 const loadingRestrictions: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
-const searchRestriction = ($event: Address) => {
-  if (!$event) {
+const searchRestriction = (address: Address | null, geo: Geo | null) => {
+  if (!address && !geo) {
     return;
   }
-  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router, loadingRestrictions);
+  utils.searchRestriction(address, geo, modalTitle, modalText, modalOpened, router, loadingRestrictions);
 }
 
 const closeModal = () => {
   modalOpened.value = false;
 }
-
-if (citycode || (lat && lon)) {
-  const {data} = citycode ? await api.searchAdressByCitycode(citycode) : await api.searchAdressByLonLat(lon, lat);
+if (citycode) {
+  const {data} = await api.searchGeoByCitycode(citycode);
+  adressQuery.value = data.value?.nom ? data.value?.nom : '';
+  searchRestriction(null, data.value);
+}
+if (lat && lon) {
+  const {data} = await api.searchAdressByLonLat(lon, lat);
   adressQuery.value = data.value?.features[0] ? data.value?.features[0].properties.label : '';
-  searchRestriction(data.value?.features[0]);
+  searchRestriction(data.value?.features[0], null);
 }
 </script>
 

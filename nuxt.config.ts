@@ -67,6 +67,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiAdresseUrl: process.env.API_ADRESSE_URL,
+      apiGeoUrl: process.env.API_GEO_URL,
       apiSecheresseUrl: process.env.API_SECHERESSE_URL,
       domainName: process.env.DOMAIN_NAME
     }

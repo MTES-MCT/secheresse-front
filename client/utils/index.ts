@@ -6,6 +6,7 @@ import { useAddressStore } from "../store/address";
 import { useRestrictionsStore } from "../store/restrictions";
 import { FetchError } from "ofetch";
 import { Arrete } from "../dto/arrete.dto";
+import { Geo } from "../dto/geo.dto";
 
 const index = {
   debounce(fn: Function, delay: number) {
@@ -89,7 +90,8 @@ const index = {
     return label;
   },
 
-  async searchRestriction(address: Address,
+  async searchRestriction(address: Address | null,
+                          geo: Geo | null,
                           modalTitle: Ref<string>,
                           modalText: Ref<string>,
                           modalOpened: Ref<boolean>,
@@ -97,20 +99,20 @@ const index = {
                           loadingRestrictions: Ref<boolean>) {
     const addressStore = useAddressStore();
     const restrictionsStore = useRestrictionsStore();
-    const {setAddress} = addressStore;
+    const {setAddress, setGeo} = addressStore;
     const {setRestrictions} = restrictionsStore;
 
     loadingRestrictions.value = true;
-    const {data, error} = await api.searchRestriction(address);
+    const {data, error} = address ? await api.searchRestrictionByAdress(address) : await api.searchRestrictionByGeo(geo);
     loadingRestrictions.value = false;
-    if (error.value || data.value?.length < 1) {
+    if (error?.value || data?.value?.length < 1) {
       const {title, text} = this.handleRestrictionError(error.value);
       modalTitle.value = title;
       modalText.value = text;
       modalOpened.value = true;
     }
-    if (data.value && data.value.length > 0) {
-      setAddress(address);
+    if (data?.value && data?.value.length > 0) {
+      address ? setAddress(address) : setGeo(geo);
       setRestrictions(data.value);
       router.push({path: '/situation/adresse'});
     }
