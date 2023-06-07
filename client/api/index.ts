@@ -10,6 +10,22 @@ const index = {
       baseURL: runtimeConfig.public.apiAdresseUrl
     });
   },
+  
+  searchAdressByCitycode(citycode: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/search/?q=${citycode}&limit=1&type=municipality`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiAdresseUrl
+    });
+  },
+
+  searchAdressByLonLat(lon: string, lat: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/reverse/?lat=${lat}&lon=${lon}&type=housenumber&limit=1`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiAdresseUrl
+    });
+  },
 
   searchRestriction(address: Address): Promise<any> {
     const runtimeConfig = useRuntimeConfig();

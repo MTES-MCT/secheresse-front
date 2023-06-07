@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import utils from "../../utils";
+import api from "../../api";
+import { Address } from "../../dto/address.dto";
 
+const route = useRoute();
 const router = useRouter();
+
+const citycode: string | null = route.query.code_insee ? route.query.code_insee : null;
+const lat: string | null = route.query.lat ? route.query.lat : null;
+const lon: string | null = route.query.lon ? route.query.lon : null;
 
 const domainName = useRuntimeConfig().public.domainName;
 const modalOpened: Ref<boolean> = ref(false);
@@ -11,7 +18,7 @@ const modalText: Ref<string> = ref('');
 const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
 const loadingRestrictions: Ref<boolean> = ref(false);
 
-const searchRestriction = ($event) => {
+const searchRestriction = ($event: Address) => {
   if (!$event) {
     return;
   }
@@ -20,6 +27,11 @@ const searchRestriction = ($event) => {
 
 const closeModal = () => {
   modalOpened.value = false;
+}
+
+if (citycode || (lat && lon)) {
+  const {data} = citycode ? await api.searchAdressByCitycode(citycode) : await api.searchAdressByLonLat(lon, lat);
+  searchRestriction(data.value?.features[0]);
 }
 </script>
 
