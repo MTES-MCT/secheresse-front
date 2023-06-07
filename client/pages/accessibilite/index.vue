@@ -55,7 +55,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
     <hr>
     <p>
       Cette déclaration d’accessibilité a été créé le <span>10 mai 2023</span> grâce au <a
-      href="https://betagouv.github.io/a11y-generateur-declaration/accessibilite" target="_blank" rel="external">Générateur de Déclaration
+      href="https://betagouv.github.io/a11y-generateur-declaration/" target="_blank" rel="external">Générateur de Déclaration
       d’Accessibilité de BetaGouv</a>.
     </p>
   </div>

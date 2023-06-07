@@ -6,7 +6,7 @@ import { Arrete } from "~/client/dto/arrete.dto";
 
 const props = defineProps<{
   restrictions: Restriction[]
-  address: any
+  address: string
 }>();
 let restriction: Ref<Restriction> = ref();
 
@@ -59,7 +59,7 @@ onMounted(() => {
                  :label="badgeLabel"/>
       <div class="fr-mb-2w">
         <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
-        {{ address?.properties.label }}
+        {{ address }}
       </div>
       <h3>Votre êtes sur une zone en <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel

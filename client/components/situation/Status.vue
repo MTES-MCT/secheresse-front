@@ -9,12 +9,16 @@ import utils from "../../utils";
 
 const addressStore = useAddressStore();
 const restrictionsStore = useRestrictionsStore();
-const {address} = storeToRefs(addressStore);
+const {address, geo} = storeToRefs(addressStore);
 const {restrictions}: Ref<Restriction[]> = storeToRefs(restrictionsStore);
 const {resetAddress} = addressStore;
 
 const addressToUse: Ref<any> = ref(null);
-addressToUse.value = {...address.value};
+if (address.value) {
+  addressToUse.value = address.value.properties.label
+} else if (geo.value) {
+  addressToUse.value = geo.value.nom
+}
 resetAddress();
 
 const arretes = computed<Arrete[]>(() => {
@@ -34,7 +38,8 @@ const arretes = computed<Arrete[]>(() => {
     </div>
     <div class="section-title fr-mt-8w">
       <div class="fr-mb-4w">
-        Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci de télécharger l'arrêté préfectoral ci-dessous
+        Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci
+        de télécharger l'arrêté préfectoral ci-dessous
       </div>
       <div v-for="(a, index) in arretes">
         <a class="fr-btn fr-mt-1w"
