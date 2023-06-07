@@ -59,7 +59,7 @@ const sameUsages = computed<boolean>(() => {
 </script>
 
 <template>
-  <div class="fr-grid-row fr-grid-row--center fr-pt-8w">
+  <div class="fr-grid-row fr-grid-row--center fr-pt-8w full-width">
     <h4>Est-ce que je peux ?</h4>
     <div class="fr-mb-4w" v-if="restrictions.length > 1 && !sameUsages">
       Votre approvisionnement en eau provient de deux sources différentes : l'eau de surface (rivières, lacs) et les nappes souterraines,
