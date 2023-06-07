@@ -5,7 +5,8 @@ import api from "../../api";
 import { Address } from "../../dto/address.dto";
 
 const props = defineProps<{
-  loading: boolean
+  loading: boolean,
+  query: string
 }>()
 
 const emit = defineEmits(['address']);
@@ -47,6 +48,10 @@ watch(addressQuery, utils.debounce(async () => {
   loadingAdresses.value = false;
   addresses.value = response.value ? response.value.features : [];
 }, 500));
+
+if (props.query) {
+  addressQuery.value = props.query;
+}
 </script>
 
 <template>
