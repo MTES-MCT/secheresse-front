@@ -20,7 +20,7 @@ const searchRestriction = ($event) => {
   if (!$event) {
     return;
   }
-  utils.searchRestriction($event, modalTitle, modalText, modalOpened, router, loadingRestrictions);
+  utils.searchRestriction($event, null, modalTitle, modalText, modalOpened, router, loadingRestrictions);
 }
 
 const closeModal = () => {
