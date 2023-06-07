@@ -5,7 +5,8 @@ import istanbul from "vite-plugin-istanbul";
 export default defineNuxtConfig({
   ssr: true,
   routeRules: {
-    '/situation/adresse': {ssr: false}
+    '/situation/adresse': {ssr: false},
+    '/': {ssr: false}
   },
   app: {
     head: {
