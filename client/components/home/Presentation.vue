@@ -17,6 +17,7 @@ const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
 const loadingRestrictions: Ref<boolean> = ref(false);
+const adressQuery: Ref<string> = ref('');
 
 const searchRestriction = ($event: Address) => {
   if (!$event) {
@@ -31,6 +32,7 @@ const closeModal = () => {
 
 if (citycode || (lat && lon)) {
   const {data} = citycode ? await api.searchAdressByCitycode(citycode) : await api.searchAdressByLonLat(lon, lat);
+  adressQuery.value = data.value?.features[0] ? data.value?.features[0].properties.label : '';
   searchRestriction(data.value?.features[0]);
 }
 </script>
@@ -55,6 +57,7 @@ if (citycode || (lat && lon)) {
       <div class="search-card-wrapper">
         <h2>Les restrictions me concernent-elles ?</h2>
         <MixinsAdresse @address="searchRestriction($event)"
+                       :query="adressQuery"
                        :loading="loadingRestrictions"/>
       </div>
     </div>
