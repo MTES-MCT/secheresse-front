@@ -114,7 +114,13 @@ const index = {
     if (data?.value && data?.value.length > 0) {
       address ? setAddress(address) : setGeo(geo);
       setRestrictions(data.value);
-      router.push({path: '/situation/adresse'});
+      let query = {};
+      query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
+        {code_insee: address.properties.citycode} : {
+          lon: address.geometry.coordinates[0],
+          lat: address.geometry.coordinates[1]
+        }) : {code_insee: geo?.code}
+      router.push({path: '/situation/adresse', query});
     }
   },
 
