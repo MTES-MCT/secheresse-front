@@ -57,6 +57,7 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     process.env.APP_ENV !== 'local' ? '@nuxtjs/robots' : '',
     'nuxt-simple-sitemap',
+    'nuxt-purgecss',
     // [
     //   '@nuxtjs/i18n',
     //   {
