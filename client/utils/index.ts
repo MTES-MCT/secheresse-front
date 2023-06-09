@@ -59,7 +59,7 @@ const index = {
         label += `En état d'alerte`;
         break;
       case 3:
-        label += `En état d'alerte renforcé`;
+        label += `En état d'alerte renforcée`;
         break;
       case 4:
         label += `En état de crise`;
@@ -81,7 +81,7 @@ const index = {
         label += `alerte`;
         break;
       case 3:
-        label += `alerte renforcé`;
+        label += `alerte renforcée`;
         break;
       case 4:
         label += `crise`;
@@ -120,7 +120,7 @@ const index = {
           lon: address.geometry.coordinates[0],
           lat: address.geometry.coordinates[1]
         }) : {code_insee: geo?.code}
-      router.push({path: '/situation/adresse', query});
+      router.push({path: '/situation', query});
     }
   },
 

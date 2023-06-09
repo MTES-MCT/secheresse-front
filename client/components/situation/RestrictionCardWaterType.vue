@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Restriction } from "../../../dto/restriction.dto";
-import utils from "../../../utils";
+import { Restriction } from "../../dto/restriction.dto";
+import utils from "../../utils";
 
 const props = defineProps<{
   thematique: string,
@@ -75,14 +75,14 @@ const usagesFiltered = () => {
         <VIcon :name="cardIcon"/>
       </div>
     </div>
-    <SituationStatusRestrictionCard v-for="usage in usagesFiltered()"
+    <SituationRestrictionCard v-for="usage in usagesFiltered()"
                                     :usage="usage"
     />
   </div>
   <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
     <div v-for="usage in usagesFiltered()"
          class="fr-col-12 fr-col-md-4 fr-col-lg-3">
-      <SituationStatusRestrictionCard :usage="usage"/>
+      <SituationRestrictionCard :usage="usage"/>
     </div>
   </div>
 </template>

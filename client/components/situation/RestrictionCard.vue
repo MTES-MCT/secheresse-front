@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Usage } from "../../../dto/usage.dto";
+import { Usage } from "../../dto/usage.dto";
 
 const props = defineProps<{
   usage: Usage

@@ -42,8 +42,6 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('DsfrNotice', DsfrNotice);
   nuxtApp.vueApp.component('DsfrModal', DsfrModal);
   nuxtApp.vueApp.component('DsfrBadge', DsfrBadge);
-  nuxtApp.vueApp.component('DsfrStepper', DsfrStepper);
-  nuxtApp.vueApp.component('DsfrCallout', DsfrCallout);
   addIcons(...icons);
   nuxtApp.vueApp.component('VIcon', OhVueIcon);
 })
