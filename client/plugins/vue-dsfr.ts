@@ -28,7 +28,6 @@ const icons = [
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // nuxtApp.vueApp.use(VueDsfr, {icons})
   nuxtApp.vueApp.component('DsfrHeader', DsfrHeader);
   nuxtApp.vueApp.component('DsfrFooter', DsfrFooter);
   nuxtApp.vueApp.component('DsfrBreadcrumb', DsfrBreadcrumb);
