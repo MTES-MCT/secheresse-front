@@ -11,7 +11,6 @@ useHead({
 <template>
   <div>
     <HomePresentation/>
-<!--    <HomeSituation/>-->
     <HomeGestes/>
 <!--    <HomeComment/>-->
     <HomeFaq />
