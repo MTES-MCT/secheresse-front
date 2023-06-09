@@ -2,7 +2,7 @@
   "version": "0.1.0",
   "name": "preservonsleau",
   "scripts": {
-    "build": "nuxi generate",
+    "build": "nuxi generate && purgecss --config ./purgecss.config.js",
     "start": "nuxi preview",
     "dev": "nuxi dev",
     "format": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -10,7 +10,8 @@
     "preview": "nuxt preview",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:e2e": "start-server-and-test dev http://localhost:3000 cy:run"
+    "cy:e2e": "start-server-and-test dev http://localhost:3000 cy:run",
+    "purgecss": "purgecss --config ./purgecss.config.js"
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.9.0",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.4",
+    "@fullhuman/postcss-purgecss": "^5.0.0",
     "@nuxt/types": "^2.16.0",
     "@nuxt/typescript-build": "^3.0.0",
     "@nuxtjs/i18n": "^8.0.0-beta.11",
@@ -48,7 +50,6 @@
     "jsdom": "^22.0.0",
     "npm-run-all": "^4.1.5",
     "nuxt": "^3.5.0",
-    "nuxt-purgecss": "^2.0.0",
     "nuxt-simple-sitemap": "^2.6.1",
     "nyc": "^15.1.0",
     "sass": "^1.62.1",

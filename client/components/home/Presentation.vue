@@ -48,7 +48,7 @@ if (lat && lon) {
     <div class="section-title presentation-title">
       <img src="/logo_chaque_geste_compte.svg"
            style="max-width: 100%"
-           
+           width="410" height="180"
            alt="Chaque geste compte, préservons nos ressources"
            title="Chaque geste compte, préservons nos ressources"
       />

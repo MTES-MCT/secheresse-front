@@ -1580,7 +1580,7 @@
     unimport "^3.0.6"
     untyped "^1.3.2"
 
-"@nuxt/kit@3.5.3", "@nuxt/kit@^3.0.0-rc.11":
+"@nuxt/kit@3.5.3":
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.5.3.tgz#879d556142febcc8250aff857e75bb8d87daedbb"
   integrity sha512-QzoOGqa1zjKQfg7Y50TrrFAL9DhtIpYYs10gihcM1ISPrn9ROht+VEjqsaMvT+L8JuQbNf8wDYl8qzsdWGU29Q==
@@ -5305,14 +5305,6 @@ git-url-parse@^13.1.0:
   dependencies:
     git-up "^7.0.0"
 
-glob-all@^3.2.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/glob-all/-/glob-all-3.3.1.tgz#6be2d5d8276902319f640fbf839fbe15b35e7667"
-  integrity sha512-Y+ESjdI7ZgMwfzanHZYQ87C59jOO0i+Hd+QYtVt9PhLi6d8wlOpzQnfBxWUlaTuAoR3TkybLqqbIoWveU4Ji7Q==
-  dependencies:
-    glob "^7.2.3"
-    yargs "^15.3.1"
-
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
@@ -5327,7 +5319,7 @@ glob-parent@^6.0.2:
   dependencies:
     is-glob "^4.0.3"
 
-glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.2.3:
+glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
   version "7.2.3"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.3.tgz#b8df0fb802bbfa8e89bd1d938b4e16578ed44f2b"
   integrity sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==
@@ -7114,17 +7106,6 @@ nuxi@3.5.0:
   integrity sha512-PQ2dhnKZBpnSbHx5pW/21nA9/X9T4P0mIStqWRX3/3qUnFwELp9DAQq4e14kwaXY6mkSohpplPr1kaasgGB2ZA==
   optionalDependencies:
     fsevents "~2.3.2"
-
-nuxt-purgecss@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/nuxt-purgecss/-/nuxt-purgecss-2.0.0.tgz#2cc0f6fd0f3211e2847e326cda27b561df26d3e1"
-  integrity sha512-ajTVNZ7CoHwgmR0le0mqNg+CHXuOxVAmUmvnUeBpdurHmJ2Q4fJ6xbK2vbd99Vi0COpmz/TPMNz2gGmA478kcQ==
-  dependencies:
-    "@fullhuman/postcss-purgecss" "^5.0.0"
-    "@nuxt/kit" "^3.0.0-rc.11"
-    consola "^2.15.3"
-    glob-all "^3.2.1"
-    purgecss "^5.0.0"
 
 nuxt-simple-sitemap@^2.6.1:
   version "2.6.2"
@@ -10060,7 +10041,7 @@ yargs-parser@^21.1.1:
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-21.1.1.tgz#9096bceebf990d21bb31fa9516e0ede294a77d35"
   integrity sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==
 
-yargs@^15.0.2, yargs@^15.3.1:
+yargs@^15.0.2:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.4.1.tgz#0d87a16de01aee9d8bec2bfbf74f67851730f4f8"
   integrity sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==
