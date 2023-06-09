@@ -40,7 +40,6 @@ export default defineNuxtConfig({
   css: [
     '@gouvfr/dsfr/dist/core/core.main.min.css',
     '@gouvfr/dsfr/dist/component/component.main.min.css',
-    '@gouvfr/dsfr/dist/utility/utility.main.min.css',
     '@gouvminint/vue-dsfr/styles',
     
     '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css',
@@ -60,12 +59,6 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     process.env.APP_ENV !== 'local' ? '@nuxtjs/robots' : '',
     'nuxt-simple-sitemap',
-    // [
-    //   '@nuxtjs/i18n',
-    //   {
-    //     vueI18n: './i18n.config.ts'
-    //   }
-    // ]
   ],
   runtimeConfig: {
     public: {
