@@ -1,10 +1,18 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: (() => {
-    return navigateTo('/situation/recherche');
-  })
+  layout: 'basic',
+  middleware: 'situation-address'
+})
+
+useHead({
+  title: `Préservons l'eau - Situation`
 })
 </script>
 
 <template>
+  <div>
+    <SituationStatus/>
+    <HomeGestes/>
+    <HomeFaq />
+  </div>
 </template>

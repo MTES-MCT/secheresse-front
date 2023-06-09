@@ -9,11 +9,7 @@ const operatorImgStyle: any = {
 };
 const a11yCompliance: string = 'Non conforme';
 const descText: string = `Préservons l'eau`;
-const quickLinks: any[] = [{
-  label: 'Quelles sont les restrictions qui me concernent ?',
-  to: '/situation/recherche',
-  class: 'fr-btn--secondary'
-}];
+const quickLinks: any[] = [];
 const mandatoryLinks: any[] = [{
   label: `Accessibilité : ${a11yCompliance}`,
   to: '/accessibilite',

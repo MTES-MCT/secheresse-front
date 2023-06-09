@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import utils from "../../../utils";
-import { Restriction } from "../../../dto/restriction.dto";
+import utils from "../../utils";
+import { Restriction } from "../../dto/restriction.dto";
 import { Ref } from "vue";
-import { Arrete } from "~/client/dto/arrete.dto";
+import { Arrete } from "../../dto/arrete.dto";
 
 const props = defineProps<{
   restrictions: Restriction[]
@@ -74,7 +74,7 @@ onMounted(() => {
              :href="a.cheminFichier"
              target="_blank"
              rel="noopener">
-            Télécharger l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
+            Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
           </a>
         </div>
       </div>

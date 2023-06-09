@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue";
-import { Restriction } from "../../../dto/restriction.dto";
+import { Restriction } from "../../dto/restriction.dto";
 
 const props = defineProps<{
   restrictions: Restriction[]
@@ -80,16 +80,16 @@ const sameUsages = computed<boolean>(() => {
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <template v-if="restrictions.length > 1 && !sameUsages">
-              <SituationStatusRestrictionCardWaterType v-for="restriction in restrictions"
-                                                       :thematique="thematique.thematique"
-                                                       :restriction="restriction"
-                                                       :light="false"
+              <SituationRestrictionCardWaterType v-for="restriction in restrictions"
+                                                 :thematique="thematique.thematique"
+                                                 :restriction="restriction"
+                                                 :light="false"
               />
             </template>
             <template v-else>
-              <SituationStatusRestrictionCardWaterType :thematique="thematique.thematique"
-                                                       :restriction="restrictions[0]"
-                                                       :light="true"
+              <SituationRestrictionCardWaterType :thematique="thematique.thematique"
+                                                 :restriction="restrictions[0]"
+                                                 :light="true"
               />
             </template>
           </div>
