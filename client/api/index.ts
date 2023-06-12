@@ -28,20 +28,21 @@ const index = {
     });
   },
 
-  searchRestrictionByAdress(address: Address): Promise<any> {
+  searchRestrictionByAdress(address: Address, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    const options = ['municipality', 'locality'].includes(address.properties.type) ?
+    let options = ['municipality', 'locality'].includes(address.properties.type) ?
       `/zones?commune=${address.properties.citycode}` :
-      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`
+      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`;
+    options += `&profil=${profile}`;
     return useFetch(options, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   },
 
-  searchRestrictionByGeo(geo: Geo): Promise<any> {
+  searchRestrictionByGeo(geo: Geo, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/zones?commune=${geo.code}`, {
+    return useFetch(`/zones?commune=${geo.code}&profil=${profile}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });

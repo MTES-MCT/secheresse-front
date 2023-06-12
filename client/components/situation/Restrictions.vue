@@ -59,12 +59,14 @@ const sameUsages = computed<boolean>(() => {
 });
 
 const title = computed<string>(() => {
-  switch (props.restrictions[0].type) {
-    case Profile.agriculteur:
+  switch (props.restrictions[0].profil) {
+    case 'exploitation':
       return `En tant qu'agriculteur, ai-je des restrictions pour ?`
-    case Profile.collectivite:
-      return `En tant qu'entreprise ou collectivité, ai-je des restrictions pour ?`
-    case Profile.particulier:
+    case 'collectivite':
+      return `En tant que collectivité, ai-je des restrictions pour ?`
+    case 'entreprise':
+      return `En tant qu'entreprise, ai-je des restrictions pour ?`
+    case 'particulier':
     default:
       return `En tant que particulier, ai-je des restrictions pour ?`
   }

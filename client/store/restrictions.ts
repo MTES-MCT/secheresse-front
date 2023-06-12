@@ -5,23 +5,28 @@ import { Ref } from "vue";
 export const useRestrictionsStore = defineStore('restrictionStore', () => {
   const restrictions: Ref<Restriction[] | null> = ref(null);
 
-  function setRestrictions(value: Restriction[]): void {
-    restrictions.value = formatRestrictions(value);
+  function setRestrictions(value: Restriction[], profile: string): void {
+    restrictions.value = formatRestrictions(value, profile);
   }
 
   function resetRestrictions(): void {
     restrictions.value = null;
   }
 
-  function formatRestrictions(restrictions: Restriction[]): Restriction[] {
+  function formatRestrictions(restrictions: Restriction[], profile: string): Restriction[] {
     if (!restrictions) {
       return restrictions;
     }
     return restrictions.map(r => {
-      r.usages = r.usages.sort((a, b) => a.usage.localeCompare(b.usage));
+      r.profil = profile;
+      r.usages = r.usages?.sort((a, b) => a.usage.localeCompare(b.usage));
       return r;
     });
   }
+  
+  function isParticulier(): boolean {
+    return restrictions.value ? restrictions.value[0].profil === 'particulier' : false;
+  }
 
-  return {setRestrictions, resetRestrictions, restrictions}
+  return {setRestrictions, resetRestrictions, restrictions, isParticulier}
 })
