@@ -13,7 +13,17 @@ import {
   DsfrModal,
   DsfrBadge,
 } from '@gouvminint/vue-dsfr'
-import { EauMaison, EauSoleil, EauSouterraine, EauSurface } from "../assets/icons";
+import {
+  EauArrosoir, EauGoutteArrosoir, EauGoutteDouche, EauGoutteFuite, EauGoutteMachine,
+  EauGoutteRobinet, EauGoutteVoiture,
+  EauMaison,
+  EauPiscine,
+  EauRemplissage,
+  EauSoleil,
+  EauSouterraine,
+  EauSurface,
+  EauTuyau
+} from "../assets/icons";
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
 import { RiArrowRightLine } from 'oh-vue-icons/icons/ri/index.js';
 
@@ -22,7 +32,17 @@ const icons = [
   EauSoleil,
   EauSouterraine,
   EauSurface,
-  RiArrowRightLine
+  RiArrowRightLine,
+  EauArrosoir,
+  EauPiscine,
+  EauTuyau,
+  EauRemplissage,
+  EauGoutteRobinet,
+  EauGoutteDouche,
+  EauGoutteMachine,
+  EauGoutteFuite,
+  EauGoutteArrosoir,
+  EauGoutteVoiture
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {

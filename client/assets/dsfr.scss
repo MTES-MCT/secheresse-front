@@ -94,6 +94,13 @@
 }
 
 // TAGS
+.fr-tag {
+  .ov-icon {
+    margin: 0;
+    margin-right: 0.2rem;
+  }
+}
+
 button.fr-tag[aria-pressed=true]:not(:disabled) {
   &.no-checkmark {
     background-image: none;

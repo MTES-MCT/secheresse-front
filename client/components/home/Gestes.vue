@@ -67,12 +67,5 @@ const selectedTagIndex: Ref<number> = ref(0);
     opacity: 0.5;
     z-index: -1;
   }
-
-  .fr-tag {
-    .ov-icon {
-      margin: 0;
-      margin-right: 0.2rem;
-    }
-  }
 }
 </style>
