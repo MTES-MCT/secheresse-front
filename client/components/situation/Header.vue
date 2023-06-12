@@ -14,8 +14,7 @@ const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situati
 const restrictionRanks = [1, 2, 3, 4];
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
-  let label = showRank ? `${rank}/4 ` : '';
-  return label + utils.getSituationLabel(rank);
+  return showRank ? utils.getSituationBadgeLabel(rank) : utils.getSituationLabel(rank);
 };
 
 const classObject = (rank: number | undefined): any => {
@@ -30,13 +29,6 @@ const classObject = (rank: number | undefined): any => {
 const situationLabel = computed<string>(() => {
   return utils.getShortSituationLabel(utils.getRestrictionRank(restriction.value))
 });
-
-// const dateArrete = computed<string | null>(() => {
-//   if (!restriction.value.arrete?.dateDebutValidite) {
-//     return null;
-//   }
-//   return new Date(restriction.value.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
-// });
 
 const arretes = computed<Arrete[]>(() => {
   return utils.getArretes(props.restrictions);

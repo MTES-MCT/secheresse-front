@@ -12,6 +12,7 @@ const restrictionsStore = useRestrictionsStore();
 const {address, geo} = storeToRefs(addressStore);
 const {restrictions}: Ref<Restriction[]> = storeToRefs(restrictionsStore);
 const {resetAddress} = addressStore;
+const {isParticulier} = restrictionsStore;
 
 const addressToUse: Ref<any> = ref(null);
 if (address.value) {
@@ -30,25 +31,27 @@ const arretes = computed<Arrete[]>(() => {
   <div class="situation-status fr-grid-row fr-grid-row--center fr-mb-4w"
        v-if="addressToUse">
     <SituationHeader :address="addressToUse"
-                           :restrictions="restrictions"/>
-    <SituationRestrictions v-if="restrictions[0] && restrictions[0].usages && restrictions[0].usages.length > 0"
-                                 :restrictions="restrictions"/>
-    <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
-      Aucune restrictions en cours à votre adresse.
-    </div>
-    <div class="section-title fr-mt-8w">
-      <div class="fr-mb-4w">
-        Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci
-        de consulter l'arrêté préfectoral ci-dessous ainsi que l'arrêté municipal si votre commune est concernée.
+                     :restrictions="restrictions"/>
+    <template v-if="isParticulier()">
+      <SituationRestrictions v-if="restrictions[0] && restrictions[0].usages && restrictions[0].usages.length > 0"
+                             :restrictions="restrictions"/>
+      <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
+        Aucune restrictions en cours à votre adresse.
       </div>
-      <div v-for="(a, index) in arretes">
-        <a class="fr-btn fr-mt-1w"
-           :href="a.cheminFichier"
-           target="_blank"
-           rel="noopener">
-          Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
-        </a>
+      <div class="section-title fr-mt-8w">
+        <div class="fr-mb-4w">
+          Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci
+          de consulter l'arrêté préfectoral ci-dessous ainsi que l'arrêté municipal si votre commune est concernée.
+        </div>
+        <div v-for="(a, index) in arretes">
+          <a class="fr-btn fr-mt-1w"
+             :href="a.cheminFichier"
+             target="_blank"
+             rel="noopener">
+            Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
+          </a>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
