@@ -12,19 +12,15 @@ const selectedTagIndex: Ref<number> = ref(0);
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   thematique: 'Arrosage',
-  icon: 'eau-arrosoir'
 }, {
   label: 'Remplir ou vidanger sa piscine',
   thematique: 'Remplissage vidange',
-  icon: 'eau-piscine'
 }, {
   label: 'Nettoyer',
   thematique: 'Nettoyage',
-  icon: 'eau-tuyau'
 }, {
   label: 'Alimenter des fontaines',
   thematique: 'Alimentation des fontaines publiques et privées',
-  icon: 'eau-remplissage'
 }, {
   label: 'Irriguer',
   thematique: 'Irrigation'
@@ -86,7 +82,6 @@ const title = computed<string>(() => {
     <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
                :label="thematique.label"
-               :icon="thematique.icon"
                class="fr-m-1w no-checkmark"
                :selected="selectedTagIndex === index"
                @click="selectedTagIndex = index"

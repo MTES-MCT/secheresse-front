@@ -39,7 +39,7 @@ const arretes = computed<Arrete[]>(() => {
     <div class="section-title fr-mt-8w">
       <div class="fr-mb-4w">
         Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci
-        de consulter l'arrêté préfectoral ci-dessous
+        de consulter l'arrêté préfectoral ci-dessous ainsi que l'arrêté municipal si votre commune est concernée.
       </div>
       <div v-for="(a, index) in arretes">
         <a class="fr-btn fr-mt-1w"
