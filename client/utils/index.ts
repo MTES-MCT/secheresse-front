@@ -92,6 +92,7 @@ const index = {
 
   async searchRestriction(address: Address | null,
                           geo: Geo | null,
+                          profile: string,
                           modalTitle: Ref<string>,
                           modalText: Ref<string>,
                           modalOpened: Ref<boolean>,
@@ -114,12 +115,13 @@ const index = {
     if (data?.value && data?.value.length > 0) {
       address ? setAddress(address) : setGeo(geo);
       setRestrictions(data.value);
-      let query = {};
+      let query: any = {};
       query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
         {code_insee: address.properties.citycode} : {
           lon: address.geometry.coordinates[0],
           lat: address.geometry.coordinates[1]
-        }) : {code_insee: geo?.code}
+        }) : {code_insee: geo?.code};
+      query.profil = profile;
       router.push({path: '/situation', query});
     }
   },

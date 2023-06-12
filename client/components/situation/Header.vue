@@ -10,25 +10,33 @@ const props = defineProps<{
 }>();
 let restriction: Ref<Restriction> = ref();
 
-const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {
-  to: '/situation/recherche',
-  text: `Quelles sont les restrictions qui me concernent ?`
-}, {text: 'Votre adresse'}]);
+const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situation'}]);
+const restrictionRanks = [1, 2, 3, 4];
 
-const badgeLabel = computed<string>(() => {
-  return utils.getSituationLabel(utils.getRestrictionRank(restriction.value));
-});
+const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
+  let label = showRank ? `${rank}/4 ` : '';
+  return label + utils.getSituationLabel(rank);
+};
+
+const classObject = (rank: number | undefined): any => {
+  const rankClass = `situation-level-${rank}`;
+  const cssClass: any = {
+    'situation-disabled': utils.getRestrictionRank(restriction.value) !== rank
+  }
+  cssClass[rankClass] = true;
+  return cssClass;
+}
 
 const situationLabel = computed<string>(() => {
   return utils.getShortSituationLabel(utils.getRestrictionRank(restriction.value))
 });
 
-const dateArrete = computed<string | null>(() => {
-  if (!restriction.value.arrete?.dateDebutValidite) {
-    return null;
-  }
-  return new Date(restriction.value.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
-});
+// const dateArrete = computed<string | null>(() => {
+//   if (!restriction.value.arrete?.dateDebutValidite) {
+//     return null;
+//   }
+//   return new Date(restriction.value.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
+// });
 
 const arretes = computed<Arrete[]>(() => {
   return utils.getArretes(props.restrictions);
@@ -51,12 +59,16 @@ onMounted(() => {
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
-    <div class="fr-col-12 fr-col-md-6 situation-status-header__info-wrapper">
+    <div class="fr-col-12 situation-status-header__info-wrapper">
       <DsfrBadge small
-                 class="fr-mb-2w"
-                 :class="'situation-level-' + utils.getRestrictionRank(restriction)"
-                 type=""
-                 :label="badgeLabel"/>
+                 class="fr-mb-2w show-sm"
+                 :class="classObject(utils.getRestrictionRank(restriction))"
+                 :label="badgeLabel(utils.getRestrictionRank(restriction), true)"/>
+      <DsfrBadge v-for="rank of restrictionRanks"
+                 small
+                 class="fr-mb-2w fr-ml-1w hide-sm"
+                 :class="classObject(rank)"
+                 :label="badgeLabel(rank)"/>
       <div class="fr-mb-2w">
         <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
         {{ address }}
@@ -64,7 +76,8 @@ onMounted(() => {
       <h3>Votre êtes sur une zone en <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel
         }}</span></h3>
-      <div v-if="dateArrete">Arrêté en date du {{ dateArrete }}</div>
+    </div>
+    <div class="fr-col-12 fr-col-md-6 situation-status-header__info-wrapper">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
     <div class="fr-col-12 fr-col-md-6 fr-grid-row fr-grid-row--bottom">
@@ -120,6 +133,10 @@ onMounted(() => {
       background: linear-gradient(270deg, var(--blue-ecume-975-75), var(--orange-terre-battue-950-100));
       opacity: 0.5;
     }
+  }
+
+  .situation-disabled {
+    color: var(--grey-925-125);
   }
 
   h3 span {

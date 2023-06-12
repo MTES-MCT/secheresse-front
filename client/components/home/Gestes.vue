@@ -5,12 +5,10 @@ import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.
 
 const gesteTags: Ref<TagProps[]> = ref([{
   label: "À la maison",
-  tagName: "button",
   icon: "eau-maison",
   home: true
 }, {
   label: "À l'extérieur",
-  tagName: "button",
   icon: "eau-soleil",
   home: false
 }]);

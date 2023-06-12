@@ -12,8 +12,6 @@ import {
   DsfrNotice,
   DsfrModal,
   DsfrBadge,
-  DsfrStepper,
-  DsfrCallout
 } from '@gouvminint/vue-dsfr'
 import { EauMaison, EauSoleil, EauSouterraine, EauSurface } from "../assets/icons";
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
@@ -28,6 +26,7 @@ const icons = [
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
+  // Ajout des composants un par un pour alléger l'application
   nuxtApp.vueApp.component('DsfrHeader', DsfrHeader);
   nuxtApp.vueApp.component('DsfrFooter', DsfrFooter);
   nuxtApp.vueApp.component('DsfrBreadcrumb', DsfrBreadcrumb);

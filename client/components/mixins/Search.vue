@@ -3,13 +3,19 @@ import { Ref } from "vue";
 import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
+import { Profile } from "../../dto/profile.enum";
 
 const props = defineProps<{
   loading: boolean,
   query: string
 }>()
 
-const emit = defineEmits(['address']);
+const emit = defineEmits<{
+  search: [{
+    address: Address | null,
+    type: string
+  }]
+}>();
 
 const addressQuery: Ref<string> = ref('');
 const addresses: Ref<Address[]> = ref([]);
@@ -18,12 +24,24 @@ const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const modalOpened: Ref<boolean> = ref(false);
 const loadingAdresses: Ref<boolean> = ref(false);
+const profileTags: Ref<any[]> = ref([]);
+const selectedTagType: Ref<string> = ref('particulier');
+
+for (let profile in Profile) {
+  profileTags.value.push({
+    label: Profile[profile],
+    type: profile
+  })
+}
 
 const selectAddress = (address: string | Address) => {
   if (typeof address === 'string') {
     addressQuery.value = address;
     if (address === '') {
-      emit('address', null);
+      emit('search', {
+        type: selectedTagType.value,
+        address: null
+      });
     }
     return;
   }
@@ -34,7 +52,10 @@ const selectAddress = (address: string | Address) => {
     loadAddresses.value = false;
   }
   addressQuery.value = address.properties.label;
-  emit('address', address);
+  emit('search', {
+    type: selectedTagType.value,
+    address: address
+  });
 }
 
 watch(addressQuery, utils.debounce(async () => {
@@ -55,19 +76,32 @@ if (props.query) {
 </script>
 
 <template>
-  <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
-  <div class="autocomplete-wrapper">
-    <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
-                     :model-value="addressQuery"
-                     :options="addresses"
-                     label="Champ de recherche d'adresse"
-                     display-key="properties.label"
-                     data-cy="AddressSearchInput"
-                     @update:modelValue="selectAddress($event)"/>
-    <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
+  <div class="fr-grid-row">
+    <div class="fr-col-12 fr-col-lg-6">
+      <div>Agissez-vous en tant que ?</div>
+      <DsfrTag v-for="tag in profileTags"
+               :label="tag.label"
+               class="fr-m-1w"
+               :selected="selectedTagType === tag.type"
+               @click="selectedTagType = tag.type"
+               tag-name="button"/>
+    </div>
+    <div class="fr-col-12 fr-col-lg-6">
+      <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
+      <div class="autocomplete-wrapper">
+        <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
+                         :model-value="addressQuery"
+                         :options="addresses"
+                         label="Champ de recherche d'adresse"
+                         display-key="properties.label"
+                         data-cy="AddressSearchInput"
+                         @update:modelValue="selectAddress($event)"/>
+        <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
+      </div>
+    </div>
   </div>
   <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
-              class="notice-light fr-mt-1w"/>
+              class="notice-light fr-mt-2w"/>
   <DsfrModal :opened="modalOpened"
              :title="modalTitle"
              icon="ri-checkbox-circle-line"
