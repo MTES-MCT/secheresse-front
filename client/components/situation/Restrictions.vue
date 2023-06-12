@@ -2,6 +2,7 @@
 import { Ref } from "vue";
 import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue";
 import { Restriction } from "../../dto/restriction.dto";
+import { Profile } from "../../dto/profile.enum";
 
 const props = defineProps<{
   restrictions: Restriction[]
@@ -56,22 +57,32 @@ const sameUsages = computed<boolean>(() => {
   const usagesHash = props.restrictions[0].usagesHash;
   return props.restrictions.every(r => r.usagesHash === usagesHash);
 });
+
+const title = computed<string>(() => {
+  switch (props.restrictions[0].type) {
+    case Profile.agriculteur:
+      return `En tant qu'agriculteur, ai-je des restrictions pour ?`
+    case Profile.collectivite:
+      return `En tant qu'entreprise ou collectivité, ai-je des restrictions pour ?`
+    case Profile.particulier:
+    default:
+      return `En tant que particulier, ai-je des restrictions pour ?`
+  }
+});
 </script>
 
 <template>
   <div class="fr-grid-row fr-grid-row--center fr-pt-8w full-width">
-    <h4>En tant que particulier, est-ce que je peux ?</h4>
+    <h4>{{ title }}</h4>
     <div class="fr-mb-4w" v-if="restrictions.length > 1 && !sameUsages">
-      Votre approvisionnement en eau provient de deux sources différentes : l'eau de surface (rivières, lacs) et les nappes souterraines,
-      qui peuvent être impactées différemment par la sécheresse. D’autre part, l’eau sur votre commune prend sa source dans différents
-      bassins versants. Or le niveau d'eau d'un bassin versant à un autre est différent, raison pour laquelle les restrictions sont
-      susceptibles d’être différentes en fonction de là où vous habitez sur la commune. Il est important d'adopter une utilisation
-      responsable de l'eau en tenant compte de ces spécificités.
+      L'eau que vous utilisez peut prendre sa source soit dans des rivières, etc (on parle d'eau de surface) soit dans des nappes
+      souterraines (on parle d'eau souterraines). Ces sources ne sont pas impactées de la même manière par la sécheresse.<br/>
+      Nous vous précisons ci-dessous les restrictions qui s'appliquent à l'eau de surface et celles qui s'appliquent à l'eau souterraine.
     </div>
     <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
                :label="thematique.label"
-               class="fr-m-1w"
+               class="fr-m-1w no-checkmark"
                :selected="selectedTagIndex === index"
                @click="selectedTagIndex = index"
                tag-name="button"/>

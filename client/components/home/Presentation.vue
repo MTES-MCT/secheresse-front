@@ -4,11 +4,13 @@ import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
 import { Geo } from "../../dto/geo.dto";
+import { Profile } from "../../dto/profile.enum";
 
 const route = useRoute();
 const router = useRouter();
 
 const citycode: string | null = route.query.code_insee ? route.query.code_insee : null;
+let profile: string | null = route.query.profil ? route.query.profil : null;
 const lat: string | null = route.query.lat ? route.query.lat : null;
 const lon: string | null = route.query.lon ? route.query.lon : null;
 
@@ -20,25 +22,26 @@ const notice = `${domainName} ne communique pas sur les ruptures d'approvisionne
 const loadingRestrictions: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
-const searchRestriction = (address: Address | null, geo: Geo | null) => {
+const searchRestriction = (address: Address | null, geo: Geo | null, profile: string) => {
   if (!address && !geo) {
     return;
   }
-  utils.searchRestriction(address, geo, modalTitle, modalText, modalOpened, router, loadingRestrictions);
+  utils.searchRestriction(address, geo, profile, modalTitle, modalText, modalOpened, router, loadingRestrictions);
 }
 
 const closeModal = () => {
   modalOpened.value = false;
 }
+profile = profile && Object.keys(Profile).includes(profile) ? profile : 'particulier';
 if (citycode) {
   const {data} = await api.searchGeoByCitycode(citycode);
   adressQuery.value = data.value?.nom ? data.value?.nom : '';
-  searchRestriction(null, data.value);
+  searchRestriction(null, data.value, profile);
 }
 if (lat && lon) {
   const {data} = await api.searchAdressByLonLat(lon, lat);
   adressQuery.value = data.value?.features[0] ? data.value?.features[0].properties.label : '';
-  searchRestriction(data.value?.features[0], null);
+  searchRestriction(data.value?.features[0], null, profile);
 }
 </script>
 
@@ -62,9 +65,9 @@ if (lat && lon) {
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
       <div class="search-card-wrapper">
         <h2>Les restrictions me concernent-elles ?</h2>
-        <MixinsAdresse @address="searchRestriction($event)"
-                       :query="adressQuery"
-                       :loading="loadingRestrictions"/>
+        <MixinsSearch @search="searchRestriction($event.address, null, $event.type)"
+                      :query="adressQuery"
+                      :loading="loadingRestrictions"/>
       </div>
     </div>
 
@@ -104,7 +107,7 @@ if (lat && lon) {
   border: 1px var(--blue-france-925-125) solid;
 
   &-wrapper {
-    max-width: 650px;
+    max-width: 90%;
     margin: auto;
     text-align: left;
 
