@@ -107,7 +107,7 @@ if (lat && lon) {
   border: 1px var(--blue-france-925-125) solid;
 
   &-wrapper {
-    max-width: 90%;
+    max-width: 95%;
     margin: auto;
     text-align: left;
 

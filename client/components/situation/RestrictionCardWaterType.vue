@@ -36,15 +36,8 @@ const cardIcon = computed((): string => {
 });
 
 const badgeLabel = computed<string>(() => {
-  return `${utils.getRestrictionRank(props.restriction)}/4 ` + utils.getSituationLabel(utils.getRestrictionRank(props.restriction));
+  return utils.getSituationBadgeLabel(utils.getRestrictionRank(props.restriction));
 });
-
-// const dateArrete = computed<string | null>(() => {
-//   if (!props.restriction.arrete?.dateDebutValidite) {
-//     return null;
-//   }
-//   return new Date(props.restriction.arrete.dateDebutValidite).toLocaleDateString('fr-FR');
-// });
 
 const usagesFiltered = () => {
   return props.restriction.usages.filter(u => u.thematique === props.thematique);

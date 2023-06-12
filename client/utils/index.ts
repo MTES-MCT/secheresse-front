@@ -104,7 +104,7 @@ const index = {
     const {setRestrictions} = restrictionsStore;
 
     loadingRestrictions.value = true;
-    const {data, error} = address ? await api.searchRestrictionByAdress(address) : await api.searchRestrictionByGeo(geo);
+    const {data, error} = address ? await api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile);
     loadingRestrictions.value = false;
     if (error?.value || data?.value?.length < 1) {
       const {title, text} = this.handleRestrictionError(error.value);
@@ -114,7 +114,7 @@ const index = {
     }
     if (data?.value && data?.value.length > 0) {
       address ? setAddress(address) : setGeo(geo);
-      setRestrictions(data.value);
+      setRestrictions(data.value, profile);
       let query: any = {};
       query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
         {code_insee: address.properties.citycode} : {
