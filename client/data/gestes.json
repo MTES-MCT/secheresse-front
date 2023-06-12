@@ -3,70 +3,83 @@
     {
       "title": "J’évite de laisser couler l’eau",
       "description": "Économie de 12 litres d’eau par minute en moyenne !",
+      "icon": "eau-goutte-robinet",
       "home": true
     },
     {
       "title": "Je prends des douches plutôt que des bains",
       "description": "Un bain consomme en moyenne 100 litres d’eau, autant qu’une douche de 10 minutes !",
+      "icon": "eau-goutte-douche",
       "home": true
     },
     {
       "title": "Je place un minuteur dans la salle de bain pour ne pas prolonger les douches",
       "description": "Limitez-les à 5 minutes grand maximum !",
+      "icon": "eau-goutte-douche",
       "home": true
     },
     {
       "title": "J’utilise mes appareils de lavage à plein",
       "description": "En moyenne un lave-linge consomme 90 litres d'eau par lessive. Attendre de remplir sa machine à laver vous permettra de diminuer le nombre de cycles de lavages et ainsi économiser de l'eau.",
+      "icon": "eau-goutte-machine",
       "home": true
     },
     {
       "title": "J'installe des mousseurs sur mes robinets",
       "description": "Ils mélangent de minuscules bulles d'air dans l'eau qui coule. Le débit est ainsi réduit de 30 à 50 % sans pour autant perdre en confort !",
+      "icon": "eau-goutte-robinet",
       "home": true,
       "large": true
     },
     {
       "title": "J’opte pour une douchette économe",
       "description": "Elle limite le débit d'eau tout en optimisant la pression du jet. À la clé, c'est jusqu'à 75 % d'eau économisée ! Et en consommant moins d’eau chaude, vous économisez aussi de l’énergie.",
+      "icon": "eau-goutte-douche",
       "home": true,
       "large": true
     },
     {
       "title": "Je repère les fuites",
       "description": "Un robinet qui goutte, c'est jusqu'à 5 litres par heure gaspillés (soit 120 litres par jour), une chasse d'eau qui fuit, plus de 600 litres par jour, (soit la consommation quotidienne d'une famille de 4 personnes). Une astuce pour repérer les fuites : relevez les chiffres inscrits sur votre compteur d'eau juste avant d'aller vous coucher. À votre réveil, si ces chiffres ne sont pas identiques et que personne n'a utilisé d'eau dans la nuit, cherchez la fuite !",
+      "icon": "eau-goutte-fuite",
       "home": true,
       "large": true
     },
     {
       "title": "Je limite les arrosages de mon jardin et je n’arrose surtout pas en pleine journée, aux heures chaudes",
       "description": "",
+      "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
       "title": "Je plante des arbres et des fleurs adaptées au climat",
       "description": "",
+      "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
       "title": "Je dispose de la paille au pied des plantes pour conserver l’humidité",
       "description": "",
+      "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
       "title": "J’ai recours au goutte à goutte",
       "description": "Acheminer l’eau directement aux racines évite son évaporation. On arrose moins, mais on arrose mieux. Économie réalisée : jusqu’à 50% de la consommation.",
+      "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
       "title": "J’installe un collecteur d’eau de pluie",
       "description": "Pour une toiture de 100 mètres carré, c'est 70 mètres cube d'eau gratuite par an.",
+      "icon": "eau-goutte-arrosoir",
       "home": false,
       "large": true
     },
     {
       "title": "J’évite au maximum de laver ma voiture",
       "description": "Chaque lavage à domicile consomme 200 à 400 L d’eau.",
+      "icon": "eau-goutte-voiture",
       "home": false,
       "large": true
     },
