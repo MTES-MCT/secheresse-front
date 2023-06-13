@@ -1504,7 +1504,7 @@
     unimport "^3.0.6"
     untyped "^1.3.2"
 
-"@nuxt/kit@3.5.3":
+"@nuxt/kit@3.5.3", "@nuxt/kit@^3.5.3":
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.5.3.tgz#879d556142febcc8250aff857e75bb8d87daedbb"
   integrity sha512-QzoOGqa1zjKQfg7Y50TrrFAL9DhtIpYYs10gihcM1ISPrn9ROht+VEjqsaMvT+L8JuQbNf8wDYl8qzsdWGU29Q==
@@ -1527,7 +1527,7 @@
     unimport "^3.0.7"
     untyped "^1.3.2"
 
-"@nuxt/kit@^3.0.0", "@nuxt/kit@^3.5.2":
+"@nuxt/kit@^3.0.0":
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.5.2.tgz#ebcb1ee9cd66934f9845b04460201a81c9340ea2"
   integrity sha512-DwmJFJbzbg5T/Qcf5ruiHBfWuLIasTakIeifKS+pqS+VhZDoUW0O7jHm6jESQ5reAbde+L+IH6bXN/y07ivkRA==
@@ -2620,13 +2620,13 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@vite-pwa/nuxt@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.0.10.tgz#dab5366a0bc5b456476d38817af5663126e82d42"
-  integrity sha512-4GhLfmdC3/zoYSKdAktEAtFzSsfCx/uu0h4CqR+ufyfL0N6e4jiUqveUP/4Y5ReJ9q5JAYfDvLkX6ZZuZbsYhQ==
+"@vite-pwa/nuxt@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.1.0.tgz#217379d3c51f00907186a6c79536c38f00127cb9"
+  integrity sha512-w6wm/0Y9yIqo6UTj9LeQUMR+xuRTf2sRdUTffu03SbRyWBzF7SnQcTqTRkXQy+NK+XafZuIDDLC12VkhValg4g==
   dependencies:
-    "@nuxt/kit" "^3.5.2"
-    vite-plugin-pwa "^0.16.1"
+    "@nuxt/kit" "^3.5.3"
+    vite-plugin-pwa ">=0.16.3 <1"
 
 "@vitejs/plugin-vue-jsx@^3.0.1":
   version "3.0.1"
@@ -9276,10 +9276,10 @@ vite-plugin-istanbul@^4.0.1:
     picocolors "^1.0.0"
     test-exclude "^6.0.0"
 
-vite-plugin-pwa@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.16.1.tgz#3853a951d8758a60253415867b351b11f6e5d845"
-  integrity sha512-OdD+ck+jiCkeUQPwXCNttR62ZC2On4wasn+03Qyx0x1bLGv1IXgl59WexpWMbgKD7jZVjozWGcy3etRJJzwsvA==
+"vite-plugin-pwa@>=0.16.3 <1":
+  version "0.16.4"
+  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.16.4.tgz#cd2618c8b4f83eac1493f2ed7b05f72552a2b735"
+  integrity sha512-lmwHFIs9zI2H9bXJld/zVTbCqCQHZ9WrpyDMqosICDV0FVnCJwniX1NMDB79HGTIZzOQkY4gSZaVTJTw6maz/Q==
   dependencies:
     debug "^4.3.4"
     fast-glob "^3.2.12"
