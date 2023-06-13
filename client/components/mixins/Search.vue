@@ -35,6 +35,9 @@ for (let profile in Profile) {
 }
 
 const selectAddress = (address: string | Address) => {
+  if (!address) {
+    return;
+  }
   if (typeof address === 'string') {
     addressQuery.value = address;
     if (address === '') {

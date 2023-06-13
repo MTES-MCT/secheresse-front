@@ -99,7 +99,7 @@ function checkKeyboardNav($event) {
     $event.preventDefault()
   }
   if ($event.key === 'Enter') {
-    selectOption(props.options[activeOption.value])
+    selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0])
     hasFocus.value = false
   } else if ($event.key === 'ArrowUp') {
     moveToPreviousOption()
