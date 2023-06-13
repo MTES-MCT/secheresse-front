@@ -10,8 +10,9 @@ useHead({
 
 <template>
   <div>
-    <HomePresentation/>
-    <HomeGestes/>
-    <HomeFaq />
+    <AccueilPresentation/>
+    <AccueilGestes/>
+    <AccueilLiens />
+    <AccueilFaq />
   </div>
 </template>
