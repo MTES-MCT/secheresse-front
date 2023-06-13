@@ -75,8 +75,8 @@ const title = computed<string>(() => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--center fr-pt-8w full-width">
-    <h4>{{ title }}</h4>
-    <div class="fr-mb-4w" v-if="restrictions.length > 1 && !sameUsages">
+    <h4 class="text-align-center">{{ title }}</h4>
+    <div class="fr-mb-4w text-align-center" v-if="restrictions.length > 1 && !sameUsages">
       L'eau que vous utilisez peut prendre sa source soit dans des rivières, etc (on parle d'eau de surface) soit dans des nappes
       souterraines (on parle d'eau souterraines). Ces sources ne sont pas impactées de la même manière par la sécheresse.<br/>
       Nous vous précisons ci-dessous les restrictions qui s'appliquent à l'eau de surface et celles qui s'appliquent à l'eau souterraine.
