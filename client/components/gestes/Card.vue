@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  geste: { title: string, description: string, home: boolean, large: boolean, icon: string }
+  geste: { title: string, description: string, economie: string, home: boolean, large: boolean, icon: string }
 }>()
 </script>
 
@@ -18,7 +18,11 @@ const props = defineProps<{
           </div>
         </div>
       </h6>
-      <div class="eau-card__desc" v-html="geste.description">
+      <div class="eau-card__desc" v-if="geste.description" v-html="geste.description">
+      </div>
+      <br v-if="geste.economie && geste.description" />
+      <div class="eau-card__desc" v-if="geste.economie">
+        <b>Économie réalisée : </b> {{ geste.economie }}
       </div>
     </div>
   </div>
