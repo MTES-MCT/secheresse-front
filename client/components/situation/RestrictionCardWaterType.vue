@@ -42,6 +42,15 @@ const badgeLabel = computed<string>(() => {
 const usagesFiltered = () => {
   return props.restriction.usages.filter(u => u.thematique === props.thematique);
 };
+
+const classObject = (rank: number | undefined): any => {
+  const colorClass = `situation-level-c-${rank}`;
+  const bgClass = `situation-level-bg-${rank}`;
+  const cssClass: any = {}
+  cssClass[colorClass] = true;
+  cssClass[bgClass] = true;
+  return cssClass;
+}
 </script>
 
 <template>
@@ -57,7 +66,7 @@ const usagesFiltered = () => {
         <div>
           <DsfrBadge small
                      class="fr-mb-2w"
-                     :class="'situation-level-' + utils.getRestrictionRank(restriction)"
+                     :class="classObject(utils.getRestrictionRank(restriction))"
                      type=""
                      :label="badgeLabel"/>
         </div>
