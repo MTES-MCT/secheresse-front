@@ -2,13 +2,15 @@
   "data": [
     {
       "title": "J’évite de laisser couler l’eau",
-      "description": "Économie de 12 litres d’eau par minute en moyenne !",
+      "description": null,
+      "economie": "12 litres d’eau par minute en moyenne !",
       "icon": "eau-goutte-robinet",
       "home": true
     },
     {
-      "title": "Je prends des douches plutôt que des bains",
-      "description": "Un bain consomme en moyenne 100 litres d’eau, autant qu’une douche de 10 minutes !",
+      "title": "Je prends des douches de 4 à 5 minutes plutôt que des bains",
+      "description": "Prenez des douches courtes et évitez les bains. 4 minutes, le temps recommandé, équivaut à la durée d’une chanson de votre playlist préférée.",
+      "economie": "110 litres d’eau à chaque douche.",
       "icon": "eau-goutte-douche",
       "home": true
     },
@@ -26,21 +28,24 @@
     },
     {
       "title": "J'installe des mousseurs sur mes robinets",
-      "description": "Ils mélangent de minuscules bulles d'air dans l'eau qui coule. Le débit est ainsi réduit de 30 à 50 % sans pour autant perdre en confort !",
+      "description": "En mélangeant de l’air avec l’eau qui sort du robinet, un mousseur réduit le débit mais pas la pression. On en trouve dans les magasins de bricolage et les quincailleries.",
+      "economie": "50% de la consommation d’eau d’un robinet.",
       "icon": "eau-goutte-robinet",
       "home": true,
       "large": true
     },
     {
       "title": "J’opte pour une douchette économe",
-      "description": "Elle limite le débit d'eau tout en optimisant la pression du jet. À la clé, c'est jusqu'à 75 % d'eau économisée ! Et en consommant moins d’eau chaude, vous économisez aussi de l’énergie.",
+      "description": "Elle limite le débit d'eau tout en optimisant la pression du jet.",
+      "economie": "jusqu'à 75 % d'eau économisée ! Et en consommant moins d’eau chaude, vous économisez aussi de l’énergie.",
       "icon": "eau-goutte-douche",
       "home": true,
       "large": true
     },
     {
-      "title": "Je repère les fuites",
-      "description": "Un robinet qui goutte, c'est jusqu'à 5 litres par heure gaspillés (soit 120 litres par jour), une chasse d'eau qui fuit, plus de 600 litres par jour, (soit la consommation quotidienne d'une famille de 4 personnes). Une astuce pour repérer les fuites : relevez les chiffres inscrits sur votre compteur d'eau juste avant d'aller vous coucher. À votre réveil, si ces chiffres ne sont pas identiques et que personne n'a utilisé d'eau dans la nuit, cherchez la fuite !",
+      "title": "Je vérifie régulièrement mon compteur d’eau et je répare les possibles fuites",
+      "description": "Relevez le compteur d’eau avant d’aller dormir. S’il a augmenté pendant la nuit, c’est qu’il y a une fuite.",
+      "economie": "jusqu’à 100 litres d’eau par jour.",
       "icon": "eau-goutte-fuite",
       "home": true,
       "large": true
@@ -52,8 +57,8 @@
       "home": false
     },
     {
-      "title": "Je plante des arbres et des fleurs adaptées au climat",
-      "description": "",
+      "title": "Je choisis des plantes qui résistent mieux à la sécheresse",
+      "description": "Optez pour des plantes résistantes à la sécheresse. Choisissez par exemple des plantations de lavande, romarin, plantes grasses ou cactus.",
       "icon": "eau-goutte-arrosoir",
       "home": false
     },
@@ -65,13 +70,14 @@
     },
     {
       "title": "J’ai recours au goutte à goutte",
-      "description": "Acheminer l’eau directement aux racines évite son évaporation. On arrose moins, mais on arrose mieux. Économie réalisée : jusqu’à 50% de la consommation.",
+      "description": "Acheminer l’eau directement aux racines évite son évaporation. On arrose moins, mais on arrose mieux.",
+      "economie": "jusqu’à 50% de la consommation.",
       "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
-      "title": "J’installe un collecteur d’eau de pluie",
-      "description": "Pour une toiture de 100 mètres carré, c'est 70 mètres cube d'eau gratuite par an.",
+      "title": "J’installe un récupérateur d’eau de pluie",
+      "description": "Un récupérateur d’eau permet de réutiliser l’eau de pluie qui tombe des gouttières. Chaque litre stocké, c’est un litre d’eau économisé.<br/><br/>Pour une toiture de 100 mètres carré, c'est 70 mètres cube d'eau gratuite par an.",
       "icon": "eau-goutte-arrosoir",
       "home": false,
       "large": true
@@ -85,7 +91,7 @@
     },
     {
       "title": "Je respecte les éventuelles restrictions d’usage d’eau en période de sécheresse, arrêtés préfectoraux disponibles sur",
-      "description": "<a class=\"fr-link fr-fi-arrow-right-line fr-link--icon-right\" href=\"http://propluvia.developpement-durable.gouv.fr/\" target=\"_blank\" rel=\"noopener\">Propluvia</a>",
+      "description": "<a class=\"fr-link\" href=\"http://propluvia.developpement-durable.gouv.fr/\" target=\"_blank\" rel=\"noopener\">Propluvia</a>",
       "home": false,
       "large": true
     }
