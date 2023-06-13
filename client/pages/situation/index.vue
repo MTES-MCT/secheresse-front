@@ -18,6 +18,7 @@ const {isParticulier} = restrictionsStore;
   <div>
     <SituationStatus/>
     <AccueilGestes v-if="isParticulier()"/>
+    <AccueilLiens />
     <AccueilFaq/>
   </div>
 </template>
