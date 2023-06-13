@@ -28,7 +28,7 @@ const arretes = computed<Arrete[]>(() => {
 </script>
 
 <template>
-  <div class="situation-status fr-grid-row fr-grid-row--center fr-mb-4w"
+  <div class="situation-status fr-grid-row fr-grid-row--center"
        v-if="addressToUse">
     <SituationHeader :address="addressToUse"
                      :restrictions="restrictions"/>
@@ -44,7 +44,7 @@ const arretes = computed<Arrete[]>(() => {
           de consulter l'arrêté préfectoral ci-dessous ainsi que l'arrêté municipal si votre commune est concernée.
         </div>
         <div v-for="(a, index) in arretes">
-          <a class="fr-btn fr-mt-1w"
+          <a class="fr-btn fr-mt-1w fr-mb-4w"
              :href="a.cheminFichier"
              target="_blank"
              rel="noopener">
