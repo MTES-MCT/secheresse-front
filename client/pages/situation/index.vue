@@ -7,7 +7,7 @@ definePageMeta({
 })
 
 useHead({
-  title: `Préservons l'eau - Situation`
+  title: `${useRuntimeConfig().public.appName} - Situation`
 })
 
 const restrictionsStore = useRestrictionsStore();
