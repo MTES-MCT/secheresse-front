@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Usage } from "../../dto/usage.dto";
+import utils from "~/client/utils";
 
 const props = defineProps<{
   usage: Usage
@@ -16,6 +17,10 @@ const cardDesc = computed((): string => {
 
 <template>
   <div class="eau-card fr-p-2w">
+    <DsfrBadge small
+               no-icon
+               type="error"
+               label="Interdiction"/>
     <h6 class="eau-card__title fr-my-2w">
       {{ usage.usage }}
     </h6>
@@ -30,10 +35,6 @@ const cardDesc = computed((): string => {
   background-color: var(--background-default-grey);
   
   .eau-card {
-    &__title {
-      color: var(--red-marianne-425-625);
-    }
-
     __desc {
       white-space: pre-wrap;
       font-size: 1rem;
