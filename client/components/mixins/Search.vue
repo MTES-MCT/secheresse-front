@@ -76,7 +76,7 @@ if (props.query) {
 </script>
 
 <template>
-  <div class="fr-grid-row">
+  <div class="search fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-12 fr-col-lg-6">
       <div>Agissez-vous en tant que ?</div>
       <DsfrTag v-for="tag in profileTags"
@@ -122,6 +122,12 @@ if (props.query) {
     position: absolute;
     top: 8px;
     left: 0;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .search {
+    text-align: center;
   }
 }
 </style>

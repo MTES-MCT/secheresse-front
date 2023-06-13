@@ -63,12 +63,10 @@ if (lat && lon) {
     </div>
 
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
-      <div class="search-card-wrapper">
-        <h2>Les restrictions me concernent-elles ?</h2>
-        <MixinsSearch @search="searchRestriction($event.address, null, $event.type)"
-                      :query="adressQuery"
-                      :loading="loadingRestrictions"/>
-      </div>
+      <h2 class="text-align-center">Les restrictions me concernent-elles ?</h2>
+      <MixinsSearch @search="searchRestriction($event.address, null, $event.type)"
+                    :query="adressQuery"
+                    :loading="loadingRestrictions"/>
     </div>
 
     <DsfrModal :opened="modalOpened"
@@ -105,16 +103,6 @@ if (lat && lon) {
 .search-card {
   background-color: var(--background-default-grey);
   border: 1px var(--blue-france-925-125) solid;
-
-  &-wrapper {
-    max-width: 95%;
-    margin: auto;
-    text-align: left;
-
-    h2 {
-      text-align: center;
-    }
-  }
 }
 
 .fr-notice {
