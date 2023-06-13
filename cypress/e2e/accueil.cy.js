@@ -11,8 +11,8 @@ describe('Test de la home page', () => {
   it(`La page doit s'afficher correctement`, () => {
     cy.get('body .fr-header').should('exist');
     cy.get('body .presentation').should('exist');
-    // cy.get('body .situation').should('exist');
     cy.get('body .gestes').should('exist');
+    cy.get('body .liens').should('exist');
     cy.get('body .faq').should('exist');
     cy.get('body .fr-footer').should('exist');
   });
@@ -48,7 +48,7 @@ describe('Test de la home page', () => {
   
   describe(`Bloc présentation`, () => {
     it(`Le bloc présentation doit s'afficher correctement`, () => {
-      cy.get('body .presentation h1').contains('Chaque geste compte, préservons nos ressources').should('exist');
+      cy.get('body .presentation').contains('Citoyens, collectivités, entreprises, agriculteurs').should('exist');
       cy.get('body .presentation [data-cy=AddressSearchInput]').should('exist');
     });
   });
