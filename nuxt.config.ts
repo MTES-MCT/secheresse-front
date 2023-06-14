@@ -42,7 +42,6 @@ export default defineNuxtConfig({
     '@gouvfr/dsfr/dist/component/component.main.min.css',
     '@gouvminint/vue-dsfr/styles',
 
-    '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css',
     'assets/main.scss',
   ],
   ignore: [

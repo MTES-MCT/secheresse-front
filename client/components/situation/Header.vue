@@ -64,8 +64,12 @@ onMounted(() => {
                  :class="classObject(rank)"
                  :label="badgeLabel(rank)"/>
       <div class="fr-mb-2w">
-        <span class="fr-icon-map-pin-user-line fr-mr-1w" aria-hidden="true"></span>
+        <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
+        <router-link to="/" class="fr-link fr-ml-1w hide-sm">
+          Effectuer une nouvelle recherche
+          <VIcon name="ri-search-line"/>
+        </router-link>
       </div>
       <h3>Votre êtes sur une zone en <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel
@@ -84,6 +88,12 @@ onMounted(() => {
             Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
           </a>
         </div>
+      </div>
+      <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
+        <router-link to="/" class="fr-link fr-ml-1w">
+          Effectuer une nouvelle recherche
+          <VIcon name="ri-search-line"/>
+        </router-link>
       </div>
     </div>
   </div>

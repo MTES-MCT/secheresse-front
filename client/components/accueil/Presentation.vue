@@ -18,6 +18,7 @@ const domainName = useRuntimeConfig().public.domainName;
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
+const modalIcon: Ref<string> = ref('');
 const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
 const loadingRestrictions: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
@@ -26,7 +27,7 @@ const searchRestriction = (address: Address | null, geo: Geo | null, profile: st
   if (!address && !geo) {
     return;
   }
-  utils.searchRestriction(address, geo, profile, modalTitle, modalText, modalOpened, router, loadingRestrictions);
+  utils.searchRestriction(address, geo, profile, modalTitle, modalText, modalIcon, modalOpened, router, loadingRestrictions);
 }
 
 const closeModal = () => {
@@ -74,7 +75,7 @@ if (lat && lon) {
 
     <DsfrModal :opened="modalOpened"
                :title="modalTitle"
-               icon="ri-arrow-right-line"
+               :icon="modalIcon"
                :actions='[{label:"Fermer", onClick: closeModal}]'
                @close="closeModal">
       <div v-html="modalText"></div>
