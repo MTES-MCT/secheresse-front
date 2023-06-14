@@ -41,7 +41,7 @@ export default defineNuxtConfig({
     '@gouvfr/dsfr/dist/core/core.main.min.css',
     '@gouvfr/dsfr/dist/component/component.main.min.css',
     '@gouvminint/vue-dsfr/styles',
-    
+
     '@gouvfr/dsfr/dist/utility/icons/icons-map/icons-map.min.css',
     'assets/main.scss',
   ],
@@ -80,6 +80,25 @@ export default defineNuxtConfig({
         requireEnv: false
       }),
     ]
+  },
+  hooks: {
+    'build:manifest': (manifest) => {
+      // Suppression du prefetch pour les icônes
+      for (const key in manifest) {
+        const file = manifest[key]
+
+        if (file.assets) {
+          file.assets = file.assets
+            .filter(
+              (asset: string) =>
+                !asset.endsWith('.webp') &&
+                !asset.endsWith('.jpg') &&
+                !asset.endsWith('.png') &&
+                !asset.endsWith('.svg')
+            )
+        }
+      }
+    }
   },
   //@ts-ignore
   pwa: {
