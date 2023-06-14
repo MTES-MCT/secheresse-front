@@ -18,12 +18,10 @@ const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
 };
 
 const classObject = (rank: number | undefined): any => {
-  const colorClass = `situation-level-c-${rank}`;
   const bgClass = `situation-level-bg-${rank}`;
   const cssClass: any = {
     'situation-disabled': utils.getRestrictionRank(restriction.value) !== rank
   }
-  cssClass[colorClass] = true;
   cssClass[bgClass] = true;
   return cssClass;
 }
@@ -55,12 +53,12 @@ onMounted(() => {
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper">
       <DsfrBadge small
-                 class="fr-mb-2w show-sm situation-no-background"
+                 class="fr-mb-2w show-sm"
                  :class="classObject(utils.getRestrictionRank(restriction))"
                  :label="badgeLabel(utils.getRestrictionRank(restriction), true)"/>
       <DsfrBadge v-for="rank of restrictionRanks"
                  small
-                 class="fr-mb-2w fr-ml-1w hide-sm situation-no-background"
+                 class="fr-mb-2w fr-ml-1w hide-sm"
                  :class="classObject(rank)"
                  :label="badgeLabel(rank)"/>
       <div class="fr-mb-2w">
@@ -140,6 +138,7 @@ onMounted(() => {
   }
 
   .situation-disabled {
+    background-color: var(--grey-1000-50);
     color: var(--grey-925-125);
   }
 
