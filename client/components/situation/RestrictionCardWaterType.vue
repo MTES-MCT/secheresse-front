@@ -44,10 +44,8 @@ const usagesFiltered = () => {
 };
 
 const classObject = (rank: number | undefined): any => {
-  const colorClass = `situation-level-c-${rank}`;
   const bgClass = `situation-level-bg-${rank}`;
   const cssClass: any = {}
-  cssClass[colorClass] = true;
   cssClass[bgClass] = true;
   return cssClass;
 }

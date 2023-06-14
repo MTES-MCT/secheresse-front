@@ -37,37 +37,41 @@ body {
 
 .situation-level-bg {
   &-4 {
-    background-color: var(--pink-macaron-975-75);
+    background-color: var(--red-marianne-main-472);
+    color: var(--grey-1000-50);
   }
 
   &-3 {
-    background-color: var(--pink-macaron-950-100);
+    background-color: var(--orange-terre-battue-main-645);
+    color: var(--grey-1000-50);
   }
 
   &-2 {
-    background-color: var(--yellow-tournesol-975-75);
+    background-color: var(--yellow-tournesol-850-200);
+    color: var(--grey-1000-50);
   }
 
   &-1 {
-    background-color: var(--blue-ecume-975-75);
+    background-color: var(--green-menthe-main-548);
+    color: var(--grey-1000-50);
   }
 }
 
 .situation-level-c {
   &-4 {
-    color: var(--pink-macaron-sun-406-moon-833);
+    color: var(--red-marianne-main-472);
   }
 
   &-3 {
-    color: var(--pink-tuile-sun-425-moon-750);
+    color: var(--orange-terre-battue-main-645);
   }
 
   &-2 {
-    color: var(--yellow-tournesol-sun-407-moon-922);
+    color: var(--yellow-tournesol-850-200);
   }
 
   &-1 {
-    color: var(--blue-ecume-sun-247-moon-675);
+    color: var(--green-menthe-main-548);
   }
 }
 
