@@ -33,9 +33,9 @@ const cardDesc = computed((): string => {
 <style lang="scss" scoped>
 .eau-card {
   background-color: var(--background-default-grey);
-  
+
   .eau-card {
-    __desc {
+    &__desc {
       white-space: pre-wrap;
       font-size: 1rem;
     }
