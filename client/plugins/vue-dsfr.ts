@@ -11,7 +11,7 @@ import {
   DsfrTabContent,
   DsfrNotice,
   DsfrModal,
-  DsfrBadge,
+  DsfrBadge, DsfrButton,
 } from '@gouvminint/vue-dsfr'
 import {
   EauArrosoir, EauGoutteArrosoir, EauGoutteDouche, EauGoutteFuite, EauGoutteMachine,
@@ -25,7 +25,7 @@ import {
   EauTuyau
 } from "../assets/icons";
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
-import { RiArrowRightLine } from 'oh-vue-icons/icons/ri/index.js';
+import { RiArrowRightLine, RiMapPinUserLine, RiSearchLine, RiTimerLine } from 'oh-vue-icons/icons/ri/index.js';
 
 const icons = [
   EauMaison,
@@ -33,6 +33,9 @@ const icons = [
   EauSouterraine,
   EauSurface,
   RiArrowRightLine,
+  RiTimerLine,
+  RiMapPinUserLine,
+  RiSearchLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,
@@ -42,7 +45,7 @@ const icons = [
   EauGoutteMachine,
   EauGoutteFuite,
   EauGoutteArrosoir,
-  EauGoutteVoiture
+  EauGoutteVoiture,
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -60,6 +63,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('DsfrNotice', DsfrNotice);
   nuxtApp.vueApp.component('DsfrModal', DsfrModal);
   nuxtApp.vueApp.component('DsfrBadge', DsfrBadge);
+  nuxtApp.vueApp.component('DsfrButton', DsfrButton);
   addIcons(...icons);
   nuxtApp.vueApp.component('VIcon', OhVueIcon);
 })
