@@ -76,9 +76,18 @@ const classObject = (rank: number | undefined): any => {
         <VIcon :name="cardIcon"/>
       </div>
     </div>
-    <SituationRestrictionCard v-for="usage in usagesFiltered()"
-                                    :usage="usage"
-    />
+    <template v-if="usagesFiltered().length > 0">
+      <SituationRestrictionCard v-for="usage in usagesFiltered()"
+                                :usage="usage"
+      />
+    </template>
+    <template v-else>
+      <div class="eau-card fr-p-2w">
+        <div class="eau-card__desc">
+          Aucune restriction
+        </div>
+      </div>
+    </template>
   </div>
   <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
     <div v-for="usage in usagesFiltered()"

@@ -25,6 +25,16 @@ resetAddress();
 const arretes = computed<Arrete[]>(() => {
   return utils.getArretes(restrictions.value);
 });
+
+const showRestrictions = computed<boolean>(() => {
+  let show = false;
+  restrictions.value.forEach((r: Restriction) => {
+    if (r.usages && r.usages.length > 0) {
+      show = true;
+    }
+  });
+  return show;
+});
 </script>
 
 <template>
@@ -33,7 +43,7 @@ const arretes = computed<Arrete[]>(() => {
     <SituationHeader :address="addressToUse"
                      :restrictions="restrictions"/>
     <template v-if="isParticulier()">
-      <SituationRestrictions v-if="restrictions[0] && restrictions[0].usages && restrictions[0].usages.length > 0"
+      <SituationRestrictions v-if="showRestrictions"
                              :restrictions="restrictions"/>
       <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
         Aucune restrictions en cours à votre adresse.
