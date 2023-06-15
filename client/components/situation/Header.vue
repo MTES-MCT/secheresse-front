@@ -138,8 +138,7 @@ onMounted(() => {
   }
 
   .situation-disabled {
-    background-color: var(--grey-1000-50);
-    color: var(--grey-925-125);
+    opacity: 0.3;
   }
 
   h3 span {
