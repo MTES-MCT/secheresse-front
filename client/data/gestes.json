@@ -1,90 +1,81 @@
 {
   "data": [
     {
-      "title": "J’évite de laisser couler l’eau",
-      "description": null,
-      "economie": "12 litres d’eau par minute en moyenne !",
+      "title": "Économiser 12L d’eau, c’est possible...",
+      "description": "en évitant de laisser couler l’eau.",
       "icon": "eau-goutte-robinet",
-      "home": true
+      "home": true,
+      "large": true
     },
     {
-      "title": "Je prends des douches de 4 à 5 minutes plutôt que des bains",
-      "description": "Prenez des douches courtes et évitez les bains. 4 minutes, le temps recommandé, équivaut à la durée d’une chanson de votre playlist préférée.",
-      "economie": "110 litres d’eau à chaque douche.",
+      "title": "Économiser 110L d’eau dans sa salle de bain, c’est facile...",
+      "description": "en prenant des douches de 4 à 5 minutes plutôt que des bains.",
       "icon": "eau-goutte-douche",
-      "home": true
+      "home": true,
+      "large": true
     },
     {
-      "title": "Je place un minuteur dans la salle de bain pour ne pas prolonger les douches",
-      "description": "Limitez-les à 5 minutes grand maximum !",
-      "icon": "eau-goutte-douche",
-      "home": true
-    },
-    {
-      "title": "J’utilise mes appareils de lavage à plein",
-      "description": "En moyenne un lave-linge consomme 90 litres d'eau par lessive. Attendre de remplir sa machine à laver vous permettra de diminuer le nombre de cycles de lavages et ainsi économiser de l'eau.",
+      "title": "Optimiser l’usage des appareils de lavage, c’est possible",
+      "description": "En attendant de remplir sa machine à laver à plein vous permettra de diminuer le nombre de cycles de lavages.",
       "icon": "eau-goutte-machine",
-      "home": true
+      "home": true,
+      "large": true
     },
     {
-      "title": "J'installe des mousseurs sur mes robinets",
-      "description": "En mélangeant de l’air avec l’eau qui sort du robinet, un mousseur réduit le débit mais pas la pression. On en trouve dans les magasins de bricolage et les quincailleries.",
-      "economie": "50% de la consommation d’eau d’un robinet.",
+      "title": "Réduire de 50% la consommation d’eau des robinets, c’est simple...",
+      "description": "en installant des mousseurs d’eau à la maison.",
       "icon": "eau-goutte-robinet",
       "home": true,
       "large": true
     },
     {
-      "title": "J’opte pour une douchette économe",
-      "description": "Elle limite le débit d'eau tout en optimisant la pression du jet.",
-      "economie": "jusqu'à 75 % d'eau économisée ! Et en consommant moins d’eau chaude, vous économisez aussi de l’énergie.",
+      "title": "Réduire de 75% la consommation d’eau lors de la douche, c’est simple...",
+      "description": "en adoptant une douchette économe dans la salle de bain. ",
       "icon": "eau-goutte-douche",
       "home": true,
       "large": true
     },
     {
-      "title": "Je vérifie régulièrement mon compteur d’eau et je répare les possibles fuites",
-      "description": "Relevez le compteur d’eau avant d’aller dormir. S’il a augmenté pendant la nuit, c’est qu’il y a une fuite.",
-      "economie": "jusqu’à 100 litres d’eau par jour.",
-      "icon": "eau-goutte-fuite",
+      "title": "Économiser jusqu’à 100L d’eau par jour, c’est possible...",
+      "description": "en vérifiant régulièrement son compteur d’eau pour identifier et ensuite réparer les fuites.",
+      "icon": "eau-goutte-douche",
       "home": true,
       "large": true
     },
     {
-      "title": "Je limite les arrosages de mon jardin et je n’arrose surtout pas en pleine journée, aux heures chaudes",
-      "description": "",
+      "title": "Entretenir son jardin en utilisant moins d’eau, c’est possible...",
+      "description": "en limitant les arrosages tout en évitant d’arroser en pleine journée, afin de limiter l’évaporation.",
       "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
-      "title": "Je choisis des plantes qui résistent mieux à la sécheresse",
-      "description": "Optez pour des plantes résistantes à la sécheresse. Choisissez par exemple des plantations de lavande, romarin, plantes grasses ou cactus.",
+      "title": "Entretenir son jardin en utilisant moins d’eau, c’est possible...",
+      "description": "en choisissant des plantes qui résistent mieux à la sécheresse comme la lavande, le romarin ou les plantes grasses.",
       "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
-      "title": "Je dispose de la paille au pied des plantes pour conserver l’humidité",
-      "description": "",
+      "title": "Entretenir son jardin en utilisant moins d’eau, c’est possible...",
+      "description": "En disposant de la paille au pied des plantes pour conserver l’humidité",
       "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
-      "title": "J’ai recours au goutte à goutte",
-      "description": "Acheminer l’eau directement aux racines évite son évaporation. On arrose moins, mais on arrose mieux.",
-      "economie": "jusqu’à 50% de la consommation.",
+      "title": "Arroser ses plantes en utilisant deux fois moins d’eau, c’est possible...",
+      "description": "grâce au goutte-à-goutte qui limite l’évaporation.",
       "icon": "eau-goutte-arrosoir",
       "home": false
     },
     {
-      "title": "J’installe un récupérateur d’eau de pluie",
-      "description": "Un récupérateur d’eau permet de réutiliser l’eau de pluie qui tombe des gouttières. Chaque litre stocké, c’est un litre d’eau économisé.<br/><br/>Pour une toiture de 100 mètres carré, c'est 70 mètres cube d'eau gratuite par an.",
+      "title": "Arroser son jardin en évitant au maximum d’ouvrir le robinet, c’est possible...",
+      "description": "en installant un récupérateur d’eau de pluie.",
       "icon": "eau-goutte-arrosoir",
       "home": false,
       "large": true
     },
     {
-      "title": "J’évite au maximum de laver ma voiture",
-      "description": "Chaque lavage à domicile consomme 200 à 400 L d’eau.",
+      "title": "Eviter de laver sa voiture en période de restriction, c’est nécessaire...",
+      "description": "en installant un récupérateur d’eau de pluie.",
       "icon": "eau-goutte-voiture",
       "home": false,
       "large": true
