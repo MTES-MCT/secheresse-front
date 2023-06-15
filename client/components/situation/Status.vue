@@ -50,8 +50,8 @@ const showRestrictions = computed<boolean>(() => {
       </div>
       <div class="section-title fr-mt-8w">
         <div class="fr-mb-4w">
-          Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision. Pour le vérifier, merci
-          de consulter l'arrêté préfectoral ci-dessous ainsi que l'arrêté municipal si votre commune est concernée.
+          Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision.
+          <br/><br/>Pour le vérifier, merci de consulter l'arrêté préfectoral ci-dessous et de contacter votre mairie qui a pu renforcer ces restrictions.
         </div>
         <div v-for="(a, index) in arretes">
           <a class="fr-btn fr-mt-1w fr-mb-4w"
