@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 
 const container = ref(undefined)
 const optionsList = ref(undefined)
+const optionSelected = ref(undefined)
 
 const props = defineProps({
   modelValue: {
@@ -27,7 +28,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'search'])
 
 const hasFocus = ref(true)
 const displayOptions = computed(() => !!props.options.length)
@@ -37,6 +38,7 @@ function convertRemToPixels(rem) {
 }
 
 function selectOption(option) {
+  optionSelected.value = option;
   emit('update:modelValue', option)
 }
 
@@ -105,6 +107,13 @@ function checkKeyboardNav($event) {
     moveToPreviousOption()
   } else if ($event.key === 'ArrowDown') {
     moveToNextOption()
+  } else if ($event.key === 'search') {
+    if (!!props.options.length) {
+      selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0])
+    } else if (optionSelected.value) {
+      emit('update:modelValue', optionSelected.value)
+    }
+    hasFocus.value = false
   }
 }
 
@@ -134,7 +143,8 @@ function displayOption(option) {
                    ref="input"
                    @focus="hasFocus = true"
                    @blur="looseFocus()"
-                   @keydown="checkKeyboardNav($event)"/>
+                   @keydown="checkKeyboardNav($event)"
+                   @search="checkKeyboardNav({key: 'search'})"/>
     <ul v-show="displayOptions"
         ref="optionsList"
         class="list-none absolute m-0 right-0 z-1 left-0 bg-white box-shadow max-h-17 scroll pointer"

@@ -98,7 +98,8 @@ if (props.query) {
                          label="Champ de recherche d'adresse"
                          display-key="properties.label"
                          data-cy="AddressSearchInput"
-                         @update:modelValue="selectAddress($event)"/>
+                         @update:modelValue="selectAddress($event)"
+                         @search="selectAddress($event)"/>
         <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
       </div>
     </div>
