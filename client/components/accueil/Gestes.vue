@@ -30,7 +30,7 @@ const selectedTagIndex: Ref<number> = ref(0);
       <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--center">
         <DsfrTag v-for="(tag, index) in gesteTags"
                  :label="tag.label"
-                 class="fr-mx-1w"
+                 class="fr-mx-1w tag-lg"
                  :icon="tag.icon"
                  :selected="selectedTagIndex === index"
                  @click="selectedTagIndex = index"

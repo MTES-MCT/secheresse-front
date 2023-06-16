@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { Restriction } from "../dto/restriction.dto";
 import { Ref } from "vue";
+import utils from "../utils";
 
 export const useRestrictionsStore = defineStore('restrictionStore', () => {
   const restrictions: Ref<Restriction[] | null> = ref(null);
@@ -17,6 +18,8 @@ export const useRestrictionsStore = defineStore('restrictionStore', () => {
     if (!restrictions) {
       return restrictions;
     }
+    // @ts-ignore
+    restrictions.sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
     return restrictions.map(r => {
       r.profil = profile;
       r.usages = r.usages?.sort((a, b) => a.usage.localeCompare(b.usage));

@@ -66,11 +66,15 @@
 // SEARCH BAR
 .fr-search-bar .fr-input {
   padding-left: 1.5rem;
+  font-size: 1.1rem;
 }
 
 // TAGS
 .fr-tag {
-  font-size: 1rem;
+  &.tag-lg {
+    font-size: 1.1rem;
+    padding: 0.25rem 1rem;
+  }
 
   .ov-icon {
     margin: 0;

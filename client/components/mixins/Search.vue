@@ -84,7 +84,7 @@ if (props.query) {
       <div>Agissez-vous en tant que ?</div>
       <DsfrTag v-for="tag in profileTags"
                :label="tag.label"
-               class="fr-m-1w"
+               class="fr-my-1w fr-mr-1w tag-lg"
                :selected="selectedTagType === tag.type"
                @click="selectedTagType = tag.type"
                tag-name="button"/>
