@@ -46,7 +46,7 @@ const showRestrictions = computed<boolean>(() => {
       <SituationRestrictions v-if="showRestrictions"
                              :restrictions="restrictions"/>
       <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
-        Aucune restrictions en cours à votre adresse.
+        Aucune restriction en cours à votre adresse.
       </div>
       <div class="section-title fr-mt-8w">
         <div class="fr-mb-4w">

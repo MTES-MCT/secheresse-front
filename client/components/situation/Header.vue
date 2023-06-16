@@ -73,26 +73,14 @@ onMounted(() => {
           situationLabel
         }}</span></h3>
     </div>
-    <div class="fr-col-12 fr-col-md-6 situation-status-header__info-wrapper">
+    <div class="fr-col-12 situation-status-header__info-wrapper">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
-    <div class="fr-col-12 fr-col-md-6 fr-grid-row fr-grid-row--bottom">
-      <div class="fr-col-12 situation-status-header__btn-wrapper ">
-        <div v-for="(a, index) in arretes">
-          <a class="fr-btn fr-mt-1w"
-             :href="a.cheminFichier"
-             target="_blank"
-             rel="noopener">
-            Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
-          </a>
-        </div>
-      </div>
-      <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
-        <router-link to="/" class="fr-link fr-ml-1w">
-          Effectuer une nouvelle recherche
-          <VIcon name="ri-search-line"/>
-        </router-link>
-      </div>
+    <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
+      <router-link to="/" class="fr-link fr-ml-1w">
+        Effectuer une nouvelle recherche
+        <VIcon name="ri-search-line"/>
+      </router-link>
     </div>
   </div>
 </template>
