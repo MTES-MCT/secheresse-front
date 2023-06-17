@@ -195,6 +195,7 @@ function displayOption(option) {
     list-style-type: none;
     margin-top: 0;
     padding: 0;
+    text-align: left;
 
     li {
       cursor: pointer;

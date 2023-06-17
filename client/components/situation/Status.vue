@@ -49,19 +49,28 @@ const showRestrictions = computed<boolean>(() => {
         Aucune restriction en cours à votre adresse.
       </div>
       <div class="section-title fr-mt-8w">
-        <div class="fr-mb-4w">
-          Certaines restrictions peuvent ne pas apparaître ici, elles peuvent aussi avoir fait l'objet de précision.
-          <br/><br/>Pour le vérifier, merci de consulter l'arrêté préfectoral ci-dessous et de contacter votre mairie qui a pu renforcer ces restrictions.
-        </div>
-        <div v-for="(a, index) in arretes">
-          <a class="fr-btn fr-mt-1w fr-mb-4w"
-             :href="a.cheminFichier"
-             target="_blank"
-             rel="noopener">
-            Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
-          </a>
-        </div>
+        <DsfrCallout title="Certaines restrictions peuvent ne pas apparaître ici,"
+                     content="">
+          <p class="fr-callout__text">
+            elles peuvent aussi avoir fait l'objet de précision.<br/><br/>Pour le vérifier, merci de consulter l'arrêté préfectoral
+            ci-dessous et de contacter votre mairie qui a pu renforcer ces restrictions.
+          </p>
+          <div v-for="(a, index) in arretes">
+            <a class="fr-btn"
+               :href="a.cheminFichier"
+               target="_blank"
+               rel="noopener">
+              Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
+            </a>
+          </div>
+        </DsfrCallout>
       </div>
     </template>
   </div>
 </template>
+
+<style scoped lang="scss">
+.section-title {
+  text-align: left;
+}
+</style>
