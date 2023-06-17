@@ -80,16 +80,16 @@ if (props.query) {
 
 <template>
   <div class="search fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-12 fr-col-lg-6">
+    <div class="fr-col-12 text-align-center">
       <div>Agissez-vous en tant que ?</div>
       <DsfrTag v-for="tag in profileTags"
                :label="tag.label"
-               class="fr-my-1w fr-mr-1w tag-lg"
+               class="fr-m-1w tag-lg"
                :selected="selectedTagType === tag.type"
                @click="selectedTagType = tag.type"
                tag-name="button"/>
     </div>
-    <div class="fr-col-12 fr-col-lg-6">
+    <div class="fr-col-12">
       <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
       <div class="autocomplete-wrapper">
         <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"

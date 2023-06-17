@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Usage } from "~/client/dto/usage.dto";
-
 useHead({
   title: `Préservons l'eau - 404`
 })
