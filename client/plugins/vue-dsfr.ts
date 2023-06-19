@@ -22,22 +22,28 @@ import {
   EauPiscine,
   EauRemplissage,
   EauSoleil,
-  EauSouterraine,
-  EauSurface,
   EauTuyau
 } from "../assets/icons";
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
-import { RiArrowRightLine, RiMapPinUserLine, RiSearchLine, RiTimerLine } from 'oh-vue-icons/icons/ri/index.js';
+import {
+  RiArrowRightLine,
+  RiCheckboxCircleLine,
+  RiInformationFill, RiInformationLine,
+  RiMapPinUserLine,
+  RiSearchLine,
+  RiTimerLine
+} from 'oh-vue-icons/icons/ri/index.js';
 
 const icons = [
   EauMaison,
   EauSoleil,
-  EauSouterraine,
-  EauSurface,
   RiArrowRightLine,
   RiTimerLine,
   RiMapPinUserLine,
   RiSearchLine,
+  RiInformationFill,
+  RiInformationLine,
+  RiCheckboxCircleLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,

@@ -22,7 +22,6 @@ const addresses: Ref<Address[]> = ref([]);
 const loadAddresses: Ref<boolean> = ref(true);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
-const modalOpened: Ref<boolean> = ref(false);
 const loadingAdresses: Ref<boolean> = ref(false);
 const profileTags: Ref<any[]> = ref([]);
 const selectedTagType: Ref<string> = ref('particulier');
@@ -106,12 +105,6 @@ if (props.query) {
   </div>
   <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
               class="notice-light fr-mt-2w"/>
-  <DsfrModal :opened="modalOpened"
-             :title="modalTitle"
-             icon="ri-checkbox-circle-line"
-             :actions='[{label:"Recommencer"}]'>
-    {{ modalText }}
-  </DsfrModal>
 </template>
 
 <style scoped lang="scss">
