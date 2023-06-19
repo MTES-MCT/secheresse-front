@@ -49,14 +49,6 @@ const thematiqueTagsFiltered = computed<TagProps[]>(() => {
   return thematiqueTags.value.filter(t => usages.findIndex(u => u.thematique === t.thematique) >= 0);
 });
 
-const sameUsages = computed<boolean>(() => {
-  if (!props.restrictions[0].usagesHash) {
-    return false;
-  }
-  const usagesHash = props.restrictions[0].usagesHash;
-  return props.restrictions.every(r => r.usagesHash === usagesHash);
-});
-
 const title = computed<string>(() => {
   switch (props.restrictions[0].profil) {
     case 'exploitation':
@@ -86,19 +78,10 @@ const title = computed<string>(() => {
         <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <template v-if="restrictions.length > 1 && !sameUsages">
-              <SituationRestrictionCardWaterType v-for="restriction in restrictions"
-                                                 :thematique="thematique.thematique"
-                                                 :restriction="restriction"
-                                                 :light="false"
-              />
-            </template>
-            <template v-else>
-              <SituationRestrictionCardWaterType :thematique="thematique.thematique"
-                                                 :restriction="restrictions[0]"
-                                                 :light="true"
-              />
-            </template>
+            <SituationRestrictionCategorie :thematique="thematique.thematique"
+                                           :restrictions="restrictions"
+                                           :light="false"
+            />
           </div>
         </DsfrTabContent>
       </DsfrTabs>

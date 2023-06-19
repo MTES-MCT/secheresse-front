@@ -139,6 +139,8 @@ function displayOption(option) {
                    :label="label"
                    v-bind="$attrs"
                    :required="true"
+                   large
+                   buttonText="Rechercher"
                    @update:model-value="$emit('update:modelValue', $event)"
                    ref="input"
                    @focus="hasFocus = true"

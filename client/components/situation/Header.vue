@@ -11,6 +11,7 @@ const props = defineProps<{
 let restriction: Ref<Restriction> = ref();
 
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situation'}]);
+const modalOpened: Ref<boolean> = ref(false);
 const restrictionRanks = [1, 2, 3, 4];
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
@@ -19,10 +20,12 @@ const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
 
 const classObject = (rank: number | undefined): any => {
   const bgClass = `situation-level-bg-${rank}`;
+  const colorClass = `situation-level-c-${rank}`;
   const cssClass: any = {
     'situation-disabled': utils.getRestrictionRank(restriction.value) !== rank
   }
   cssClass[bgClass] = true;
+  cssClass[colorClass] = utils.getRestrictionRank(restriction.value) !== rank;
   return cssClass;
 }
 
@@ -33,6 +36,10 @@ const situationLabel = computed<string>(() => {
 const arretes = computed<Arrete[]>(() => {
   return utils.getArretes(props.restrictions);
 });
+
+const closeModal = (): void => {
+  modalOpened.value = false;
+};
 
 onMounted(() => {
   if (props.restrictions.length === 1) {
@@ -52,15 +59,24 @@ onMounted(() => {
       <DsfrBreadcrumb :links='links'/>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper">
-      <DsfrBadge small
-                 class="fr-mb-2w show-sm"
-                 :class="classObject(utils.getRestrictionRank(restriction))"
-                 :label="badgeLabel(utils.getRestrictionRank(restriction), true)"/>
-      <DsfrBadge v-for="rank of restrictionRanks"
-                 small
-                 class="fr-mb-2w fr-ml-1w hide-sm"
-                 :class="classObject(rank)"
-                 :label="badgeLabel(rank)"/>
+      <div class="fr-grid-row fr-grid-row--middle fr-mb-2w">
+        <DsfrBadge small
+                   class="show-sm"
+                   :class="classObject(utils.getRestrictionRank(restriction))"
+                   :label="badgeLabel(utils.getRestrictionRank(restriction), true)"/>
+        <DsfrBadge v-for="rank of restrictionRanks"
+                   small
+                   class="fr-ml-1w hide-sm"
+                   :class="classObject(rank)"
+                   :label="badgeLabel(rank)"/>
+        <DsfrButton icon="ri-information-fill"
+                    label="Information sur les niveaux d'alerte"
+                    icon-only
+                    tertiary
+                    size="small"
+                    @click="modalOpened = true"
+                    no-outline/>
+      </div>
       <div class="fr-mb-2w">
         <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
@@ -83,6 +99,12 @@ onMounted(() => {
       </router-link>
     </div>
   </div>
+  <DsfrModal :opened="modalOpened"
+             title="Signification des niveaux d'alerte"
+             icon="ri-information-line"
+             @close="closeModal">
+    <MixinsSignificationNiveauxAlerte/>
+  </DsfrModal>
 </template>
 
 <style lang="scss">
@@ -126,7 +148,7 @@ onMounted(() => {
   }
 
   .situation-disabled {
-    opacity: 0.3;
+    background-color: var(--grey-1000-50);
   }
 
   h3 span {
@@ -142,6 +164,10 @@ onMounted(() => {
   .situation-status-header {
     &__btn-wrapper, &__info-wrapper {
       text-align: center;
+    }
+
+    &__info-wrapper .fr-grid-row {
+      justify-content: center;
     }
   }
 }
