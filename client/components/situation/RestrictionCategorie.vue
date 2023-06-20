@@ -27,11 +27,11 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
 const accordionTitle = (restriction): string => {
   switch (restriction.type) {
     case 'SOU':
-      return 'Si j\'utilise de l\'eau qui provient de nappes souterraines'
+      return `Si j'utilise de l'eau qui provient de nappes souterraines'`
     case 'SUP':
-      return 'Si j\'utilise de l\'eau qui provient des cours d\'eau'
+      return `Si j'utilise de l'eau qui provient des cours d'eau'`
     case 'DEFAULT':
-      return 'Je ne sais pas d\'où provient mon eau'
+      return `Je ne sais pas d'où provient mon eau`
   }
 };
 
@@ -82,12 +82,12 @@ if(props.restrictions.length > 1 && !sameUsages.value) {
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <template v-if="usagesFiltered(restriction).length > 0">
               <div v-for="usage in usagesFiltered(restriction)"
-                   class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+                   class="fr-col-12 fr-col-md-4">
                 <SituationRestrictionCard :usage="usage"/>
               </div>
             </template>
             <template v-else>
-              <div class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+              <div class="fr-col-12 fr-col-md-4">
                 <div class="eau-card fr-p-2w">
                   <div class="eau-card__desc">
                     Aucune restriction
@@ -103,12 +103,12 @@ if(props.restrictions.length > 1 && !sameUsages.value) {
   <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
     <template v-if="usagesFiltered(restrictions[0]).length > 0">
       <div v-for="usage in usagesFiltered(restrictions[0])"
-           class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+           class="fr-col-12 fr-col-md-4">
         <SituationRestrictionCard :usage="usage"/>
       </div>
     </template>
     <template v-else>
-      <div class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+      <div class="fr-col-12 fr-col-md-4">
         <div class="eau-card fr-p-2w">
           <div class="eau-card__desc">
             Aucune restriction
