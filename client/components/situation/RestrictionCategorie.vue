@@ -10,6 +10,7 @@ const props = defineProps<{
   light: boolean,
 }>();
 const expandedIndex: Ref<string | null> = ref('0');
+const restrictionsSurcharged: Ref<Restriction[]> = ref([]);
 
 const sameUsages = computed<boolean>(() => {
   if (!props.restrictions[0].usagesHash) {
@@ -26,9 +27,11 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
 const accordionTitle = (restriction): string => {
   switch (restriction.type) {
     case 'SOU':
-      return 'J\'utilise de l\'eau qui provient de nappes souterraines'
+      return 'Si j\'utilise de l\'eau qui provient de nappes souterraines'
     case 'SUP':
-      return 'J\'utilise de l\'eau qui provient des cours d\'eau'
+      return 'Si j\'utilise de l\'eau qui provient des cours d\'eau'
+    case 'DEFAULT':
+      return 'Je ne sais pas d\'où provient mon eau'
   }
 };
 
@@ -46,12 +49,19 @@ const badgeLabel = (restriction: Restriction): string => {
 const onAccordionClick = (index: string) => {
   expandedIndex.value = index !== expandedIndex.value ? index : null;
 }
+
+if(props.restrictions.length > 1 && !sameUsages.value) {
+  const defaultRestriction = {...props.restrictions[0]};
+  defaultRestriction.type = 'DEFAULT';
+  restrictionsSurcharged.value = [...props.restrictions];
+  restrictionsSurcharged.value.unshift(defaultRestriction);  
+}
 </script>
 
 <template>
   <div class="fr-col-12" v-if="restrictions.length > 1 && !sameUsages">
     <DsfrAccordionsGroup>
-      <li v-for="(restriction, index) in restrictions">
+      <li v-for="(restriction, index) in restrictionsSurcharged">
         <DsfrAccordion :expanded-id="expandedIndex"
                        @expand="onAccordionClick(index.toString())"
                        :id="index.toString()">
