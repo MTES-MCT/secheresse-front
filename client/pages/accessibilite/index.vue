@@ -5,8 +5,9 @@ definePageMeta({
   layout: 'basic',
 })
 
+const appName = useRuntimeConfig().public.appName;
 useHead({
-  title: `Préservons l'eau - Accessibilité`
+  title: `${appName} - Accessibilité`
 })
 
 const domainName = useRuntimeConfig().public.domainName;
@@ -20,10 +21,10 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
     <p>Établie le <span>10 mai 2023</span>.</p>
     <p>Le <span>Ministère de la Transition écologique et de la Cohésion des territoires</span> s’engage à rendre son service accessible,
       conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.</p>
-    <p>Cette déclaration d’accessibilité s’applique à <strong>Préservons l'eau</strong><span> (<span>{{ domainName }}</span>)</span>.</p>
+    <p>Cette déclaration d’accessibilité s’applique à <strong>{{ appName }}</strong><span> (<span>{{ domainName }}</span>)</span>.</p>
     <h2>État de conformité</h2>
     <p>
-      <strong>Préservons l'eau</strong> est
+      <strong>{{ appName }}</strong> est
       <strong><span data-printfilter="lowercase">non conforme</span></strong> avec le <abbr
       title="Référentiel général d’amélioration de l’accessibilité">RGAA</abbr>. <span>Le site n’a encore pas été audité.</span>
     </p>
