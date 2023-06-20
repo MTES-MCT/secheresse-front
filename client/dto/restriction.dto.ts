@@ -3,9 +3,9 @@ import { Arrete } from "./arrete.dto";
 
 export interface Restriction {
   idZone: string;
-  type: 'SUP' | 'SOU';
+  type: 'SUP' | 'SOU' | 'DEFAULT';
   profil: string;
-  nom: string,
+  nom: string;
   departement: string;
   niveauAlerte: string;
   arrete: Arrete;
