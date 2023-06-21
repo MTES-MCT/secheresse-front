@@ -169,6 +169,15 @@ const index = {
         }]
       };
     }
+    if(!error?.statusCode && data.length < 1) {
+      return {
+        title: `Pas d'arrêté en vigueur`,
+        text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
+<br/>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes présents sur notre site !`,
+        icon: `ri-arrow-right-line`,
+        actions: []
+      };
+    }
     switch (error?.statusCode) {
       case 404:
       case undefined:
