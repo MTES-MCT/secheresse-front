@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useScheme } from '@gouvminint/vue-dsfr'
 
-const logoText: string[] = ['Ministères', 'Transition écologique', 'cohésion des territoires', 'transition énergétique', 'mer']
+const logoText: string[] = ['Gouvernement']
 const operatorImgSrc: string = '/logo_vigie_eau.svg'
 const operatorImgAlt: string = `Logo du produit ${useRuntimeConfig().public.appName}`
 const operatorImgStyle: any = {
-  'max-width': '200px'
+  'max-width': '150px'
 };
 const a11yCompliance: string = 'Non conforme';
 const descText: string = useRuntimeConfig().public.appName;
