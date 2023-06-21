@@ -1,6 +1,8 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import istanbul from "vite-plugin-istanbul";
 
+const appName =  `VigiEau`;
+
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   ssr: true,
@@ -10,7 +12,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: `Préservons l'eau`,
+      title: appName,
       meta: [
         {charset: 'utf-8'},
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
@@ -19,7 +21,7 @@ export default defineNuxtConfig({
           content: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
         },
         {name: 'format-detection', content: 'telephone=no'},
-        {property: 'og:title', content: `Préservons l'eau`},
+        {property: 'og:title', content: appName},
         {
           property: 'og:description',
           content: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
@@ -64,7 +66,8 @@ export default defineNuxtConfig({
       apiAdresseUrl: process.env.API_ADRESSE_URL,
       apiGeoUrl: process.env.API_GEO_URL,
       apiSecheresseUrl: process.env.API_SECHERESSE_URL,
-      domainName: process.env.DOMAIN_NAME
+      domainName: process.env.DOMAIN_NAME,
+      appName: appName
     }
   },
   vite: {
@@ -103,9 +106,9 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: `Préservons l'eau`,
-      short_name: `Préservons l'eau`,
-      description: `Avec preservonsleau.gouv.fr, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`,
+      name: appName,
+      short_name: appName,
+      description: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`,
       theme_color: '#ffffff',
       background_color: '#ffffff',
       lang: "fr",

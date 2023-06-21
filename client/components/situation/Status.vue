@@ -52,17 +52,12 @@ const showRestrictions = computed<boolean>(() => {
         <DsfrCallout title="Certaines restrictions peuvent ne pas apparaître ici,"
                      content="">
           <p class="fr-callout__text">
-            elles peuvent aussi avoir fait l'objet de précision.<br/><br/>Pour le vérifier, merci de consulter l'arrêté préfectoral
-            ci-dessous et de contacter votre mairie qui a pu renforcer ces restrictions.
+            elles peuvent aussi avoir fait l'objet de précision.<br/><br/>Pour le vérifier, merci de <a class="fr-link"
+                                                                                                        :href="arretes[0].cheminFichier"
+                                                                                                        target="_blank"
+                                                                                                        rel="noopener">consulter l'arrêté
+            préfectoral</a> et de contacter votre mairie qui a pu renforcer ces restrictions.
           </p>
-          <div v-for="(a, index) in arretes">
-            <a class="fr-btn"
-               :href="a.cheminFichier"
-               target="_blank"
-               rel="noopener">
-              Consulter l'arrêté préfectoral{{ arretes.length > 1 ? ` n°${index + 1}` : `` }}
-            </a>
-          </div>
         </DsfrCallout>
       </div>
     </template>

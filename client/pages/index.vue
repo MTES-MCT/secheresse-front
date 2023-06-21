@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 useHead({
-  title: `Préservons l'eau - Accueil`
+  title: `${useRuntimeConfig().public.appName} - Accueil`
 })
 </script>
 

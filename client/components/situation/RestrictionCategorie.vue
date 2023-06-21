@@ -27,11 +27,11 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
 const accordionTitle = (restriction): string => {
   switch (restriction.type) {
     case 'SOU':
-      return 'Si j\'utilise de l\'eau qui provient de nappes souterraines'
+      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères)`
     case 'SUP':
-      return 'Si j\'utilise de l\'eau qui provient des cours d\'eau'
+      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs)`
     case 'DEFAULT':
-      return 'Je ne sais pas d\'où provient mon eau'
+      return `Je ne sais pas d'où provient mon eau`
   }
 };
 
@@ -50,11 +50,12 @@ const onAccordionClick = (index: string) => {
   expandedIndex.value = index !== expandedIndex.value ? index : null;
 }
 
-if(props.restrictions.length > 1 && !sameUsages.value) {
+if (props.restrictions.length > 1 && !sameUsages.value) {
   const defaultRestriction = {...props.restrictions[0]};
+  // const defaultRestriction = {...props.restrictions.find(p => p.default)};
   defaultRestriction.type = 'DEFAULT';
   restrictionsSurcharged.value = [...props.restrictions];
-  restrictionsSurcharged.value.unshift(defaultRestriction);  
+  restrictionsSurcharged.value.unshift(defaultRestriction);
 }
 </script>
 
@@ -67,10 +68,10 @@ if(props.restrictions.length > 1 && !sameUsages.value) {
                        :id="index.toString()">
           <template v-slot:title>
             <div class="full-width fr-grid-row fr-grid-row--space-between fr-grid-row--middle">
-              <div class="fr-col-12 fr-col-md-7">
+              <div class="fr-col-12 fr-col-md-8">
                 {{ accordionTitle(restriction) }}
               </div>
-              <div class="fr-col-12 fr-col-md-5">
+              <div class="fr-col-12 fr-col-md-4">
                 <DsfrBadge small
                            class="fr-mr-1w"
                            :class="classObject(utils.getRestrictionRank(restriction))"
@@ -82,12 +83,12 @@ if(props.restrictions.length > 1 && !sameUsages.value) {
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <template v-if="usagesFiltered(restriction).length > 0">
               <div v-for="usage in usagesFiltered(restriction)"
-                   class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+                   class="fr-col-12 fr-col-md-4">
                 <SituationRestrictionCard :usage="usage"/>
               </div>
             </template>
             <template v-else>
-              <div class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+              <div class="fr-col-12 fr-col-md-4">
                 <div class="eau-card fr-p-2w">
                   <div class="eau-card__desc">
                     Aucune restriction
@@ -103,12 +104,12 @@ if(props.restrictions.length > 1 && !sameUsages.value) {
   <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
     <template v-if="usagesFiltered(restrictions[0]).length > 0">
       <div v-for="usage in usagesFiltered(restrictions[0])"
-           class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+           class="fr-col-12 fr-col-md-4">
         <SituationRestrictionCard :usage="usage"/>
       </div>
     </template>
     <template v-else>
-      <div class="fr-col-12 fr-col-md-4 fr-col-lg-3">
+      <div class="fr-col-12 fr-col-md-4">
         <div class="eau-card fr-p-2w">
           <div class="eau-card__desc">
             Aucune restriction
@@ -120,14 +121,6 @@ if(props.restrictions.length > 1 && !sameUsages.value) {
 </template>
 
 <style lang="scss" scoped>
-.fr-accordion .fr-collapse > .fr-grid-row {
-  background-color: var(--grey-975-75);
-}
-
-.eau-card {
-  background-color: var(--background-default-grey);
-}
-
 @media screen and (min-width: 768px) {
   .fr-accordion__title .fr-grid-row > div:nth-child(2) {
     text-align: right;
