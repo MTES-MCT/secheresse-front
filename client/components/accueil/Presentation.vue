@@ -95,7 +95,7 @@ if (lat && lon) {
       content: "";
       position: absolute;
       width: 100vw;
-      height: calc(100% + 12rem);
+      height: calc(100% + 18rem);
       top: -4rem;
       left: 50%;
       -webkit-transform: translateX(-50%);

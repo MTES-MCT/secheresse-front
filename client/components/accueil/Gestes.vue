@@ -33,6 +33,7 @@ const selectedTagIndex: Ref<number> = ref(0);
                            :description="r.description" />
       </div>
       <GestesCallout class="fr-my-2w fr-p-4w"/>
+      <h1 class="fr-mt-4w">Comment réduire votre consommation d'eau ?</h1>
       <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les ressources en eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">

@@ -86,7 +86,7 @@ if (props.restrictions.length > 1 && !sameUsages.value) {
               </div>
             </div>
           </template>
-          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
             <template v-if="usagesFiltered(restriction).length > 0">
               <div v-for="usage in usagesFiltered(restriction)"
                    class="fr-col-12 fr-col-md-4">
@@ -127,6 +127,14 @@ if (props.restrictions.length > 1 && !sameUsages.value) {
 </template>
 
 <style lang="scss" scoped>
+.fr-accordion .fr-collapse > .fr-grid-row {
+  background-color: var(--blue-france-975-75);
+}
+
+.eau-card {
+  background-color: var(--background-default-grey);
+}
+
 @media screen and (min-width: 768px) {
   .fr-accordion__title .fr-grid-row > div:nth-child(2) {
     text-align: right;

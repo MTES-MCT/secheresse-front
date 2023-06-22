@@ -27,6 +27,11 @@ body {
   border: 1px var(--grey-950-100) solid;
   box-sizing: border-box;
 
+  &__header {
+    display: flex;
+    justify-content: center;
+  }
+
   &__title {
     color: var(--blue-france-sun-113-625);
     line-height: 1.5rem;

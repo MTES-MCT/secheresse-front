@@ -16,6 +16,9 @@ const cardDesc = computed((): string => {
 
 <template>
   <div class="eau-card fr-p-2w">
+    <div class="eau-card__header">
+      <VIcon name="eau-goutte-arrosoir-interdiction" scale="5"/>
+    </div>
     <h6 class="eau-card__title fr-my-2w">
       {{ usage.usage }}
     </h6>
@@ -28,6 +31,10 @@ const cardDesc = computed((): string => {
 <style lang="scss" scoped>
 .eau-card {
   .eau-card {
+    &__header {
+      color: var(--blue-france-sun-113-625);
+    }
+    
     &__desc {
       white-space: pre-wrap;
       font-size: 1rem;

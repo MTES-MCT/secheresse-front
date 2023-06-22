@@ -16,7 +16,7 @@ import {
   DsfrCallout,
 } from '@gouvminint/vue-dsfr'
 import {
-  EauArrosoir, EauGoutteArrosoir, EauGoutteDouche, EauGoutteFuite, EauGoutteMachine,
+  EauArrosoir, EauGoutteArrosoir, EauGoutteArrosoirInterdiction, EauGoutteDouche, EauGoutteFuite, EauGoutteMachine,
   EauGoutteRobinet, EauGoutteVoiture,
   EauMaison,
   EauPiscine,
@@ -55,6 +55,7 @@ const icons = [
   EauGoutteFuite,
   EauGoutteArrosoir,
   EauGoutteVoiture,
+  EauGoutteArrosoirInterdiction
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
