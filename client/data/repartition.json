@@ -1,0 +1,44 @@
+{
+  "data": [
+    {
+      "description": "Se laver",
+      "percent": 39,
+      "icon": "eau-goutte-douche"
+    },
+    {
+      "description": "Aller aux WC",
+      "percent": 20,
+      "icon": "eau-goutte-douche"
+    },
+    {
+      "description": "Laver son linge",
+      "percent": 12,
+      "icon": "eau-goutte-machine"
+    },
+    {
+      "description": "Faire la vaisselle",
+      "percent": 10,
+      "icon": "eau-goutte-machine"
+    },
+    {
+      "description": "Cuisiner",
+      "percent": 6,
+      "icon": "eau-goutte-arrosoir"
+    },
+    {
+      "description": "Laver sa voiture Arroser son jardin",
+      "percent": 6,
+      "icon": "eau-goutte-voiture"
+    },
+    {
+      "description": "Boire",
+      "percent": 1,
+      "icon": "eau-goutte-arrosoir"
+    },
+    {
+      "description": "Divers",
+      "percent": 6,
+      "icon": "eau-goutte-arrosoir"
+    }
+  ]
+}

@@ -46,25 +46,29 @@
       "title": "Entretenir son jardin en utilisant moins d’eau, c’est possible...",
       "description": "en limitant les arrosages tout en évitant d’arroser en pleine journée, afin de limiter l’évaporation.",
       "icon": "eau-goutte-arrosoir",
-      "home": false
+      "home": false,
+      "large": true
     },
     {
       "title": "Entretenir son jardin en utilisant moins d’eau, c’est possible...",
       "description": "en choisissant des plantes qui résistent mieux à la sécheresse comme la lavande, le romarin ou les plantes grasses.",
       "icon": "eau-goutte-arrosoir",
-      "home": false
+      "home": false,
+      "large": true
     },
     {
       "title": "Entretenir son jardin en utilisant moins d’eau, c’est possible...",
       "description": "En disposant de la paille au pied des plantes pour conserver l’humidité",
       "icon": "eau-goutte-arrosoir",
-      "home": false
+      "home": false,
+      "large": true
     },
     {
       "title": "Arroser ses plantes en utilisant deux fois moins d’eau, c’est possible...",
       "description": "grâce au goutte-à-goutte qui limite l’évaporation.",
       "icon": "eau-goutte-arrosoir",
-      "home": false
+      "home": false,
+      "large": true
     },
     {
       "title": "Arroser son jardin en évitant au maximum d’ouvrir le robinet, c’est possible...",
@@ -77,12 +81,6 @@
       "title": "Eviter de laver sa voiture en période de restriction, c’est nécessaire...",
       "description": "en installant un récupérateur d’eau de pluie.",
       "icon": "eau-goutte-voiture",
-      "home": false,
-      "large": true
-    },
-    {
-      "title": "Je respecte les éventuelles restrictions d’usage d’eau en période de sécheresse, arrêtés préfectoraux disponibles sur",
-      "description": "<a class=\"fr-link\" href=\"http://propluvia.developpement-durable.gouv.fr/\" target=\"_blank\" rel=\"noopener\">Propluvia</a>",
       "home": false,
       "large": true
     }
