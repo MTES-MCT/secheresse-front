@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { Restriction } from "../../dto/restriction.dto";
 import utils from "../../utils";
-import { Ref } from "vue";
+import { Ref, watch } from "vue";
 import { Usage } from "~/client/dto/usage.dto";
+import { Address } from "~/client/dto/address.dto";
 
 const props = defineProps<{
   thematique: string,
   restrictions: Restriction[],
   light: boolean,
+  expandedIndex: string | null
 }>();
-const expandedIndex: Ref<string | null> = ref('0');
+
+const emit = defineEmits(['update:expandedIndex'])
+
+
 const restrictionsSurcharged: Ref<Restriction[]> = ref([]);
 
 const sameUsages = computed<boolean>(() => {
@@ -47,7 +52,8 @@ const badgeLabel = (restriction: Restriction): string => {
 };
 
 const onAccordionClick = (index: string) => {
-  expandedIndex.value = index !== expandedIndex.value ? index : null;
+  const newIndex = index !== props.expandedIndex ? index : null;
+  emit('update:expandedIndex', newIndex);
 }
 
 if (props.restrictions.length > 1 && !sameUsages.value) {
