@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import gestes from '../../data/gestes.json'
+import repartition from '../../data/repartition.json'
 import { Ref } from "vue";
 import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue";
 
@@ -24,6 +25,12 @@ const selectedTagIndex: Ref<number> = ref(0);
   <div class="gestes fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
     <div class="section-title fr-mb-4w">
       <h1>Nous consommons 148 litres d’eau potable par jour et par personne !</h1>
+      <div class="fr-grid-row fr-grid-row--center fr-mb-1w">
+        <GestesRepartition v-for="r in repartition.data"
+                           :percent="r.percent" 
+                           :icon="r.icon" 
+                           :description="r.description" />
+      </div>
       <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les ressources en eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
