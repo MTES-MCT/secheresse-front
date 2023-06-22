@@ -24,7 +24,7 @@ const props = defineProps<{
 
 <style lang="scss">
 .repartition {
-  width: 100px;
+  width: calc(1000px/8);
   font-size: 0.9rem;
   line-height: 1.2rem;
 }
