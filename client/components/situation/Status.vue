@@ -49,14 +49,16 @@ const showRestrictions = computed<boolean>(() => {
         Aucune restriction en cours à votre adresse.
       </div>
       <div class="section-title fr-mt-8w">
-        <DsfrCallout title="Certaines restrictions peuvent ne pas apparaître ici,"
+        <DsfrCallout title=""
                      content="">
           <p class="fr-callout__text">
-            elles peuvent aussi avoir fait l'objet de précision.<br/><br/>Pour le vérifier, merci de <a class="fr-link"
+            Certaines restrictions peuvent aussi avoir fait l'objet de précisions.<br/>Pour le vérifier, merci de <a class="fr-link"
                                                                                                         :href="arretes[0].cheminFichier"
                                                                                                         target="_blank"
                                                                                                         rel="noopener">consulter l'arrêté
-            préfectoral</a> et de contacter votre mairie qui a pu renforcer ces restrictions.
+            préfectoral</a>
+            <br/><br/>
+            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
           </p>
         </DsfrCallout>
       </div>

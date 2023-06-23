@@ -10,7 +10,10 @@ const props = defineProps<{
   expandedIndex: string | null
 }>();
 
-const emit = defineEmits(['update:expandedIndex'])
+const emit = defineEmits(['update:expandedIndex']);
+
+const restrictionsAccordion: Restriction[] = [...props.restrictions];
+restrictionsAccordion.shift();
 
 const sameUsages = computed<boolean>(() => {
   if (!props.restrictions[0].usagesHash) {
@@ -24,12 +27,14 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
   return restriction.usages.filter(u => u.thematique === props.thematique);
 };
 
-const accordionTitle = (restriction): string => {
+const accordionTitle = (restriction, light: boolean = false): string => {
   switch (restriction.type) {
     case 'SOU':
-      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères, puits)`
+      return !light ? `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères, puits ...) des restrictions différentes s'appliquent` :
+        `de nappes souterraines (formations géologiques, aquifères, puits ...)`
     case 'SUP':
-      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs, étangs)`
+      return !light ? `Si j'utilise de l'eau qui provient des cours d'eau (étangs, mares, rivières, lacs ...) des restrictions différentes s'appliquent` :
+        `des cours d'eau (étangs, mares, rivières, lacs ...)`
   }
 };
 
@@ -51,9 +56,30 @@ const onAccordionClick = (index: string) => {
 </script>
 
 <template>
+  <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+    <template v-if="usagesFiltered(restrictions[0]).length > 0">
+      <div v-for="usage in usagesFiltered(restrictions[0])"
+           class="fr-col-12 fr-col-md-4">
+        <SituationRestrictionCard :usage="usage"/>
+      </div>
+    </template>
+    <template v-else>
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="eau-card fr-p-2w">
+          <div class="eau-card__desc">
+            Aucune restriction
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
   <div class="fr-col-12" v-if="restrictions.length > 1 && !sameUsages">
+    <div>
+      <p>
+        Ces restrictions s'appliquent à l'eau qui provient {{ accordionTitle(restrictions[0], true) }}.</p>
+    </div>
     <DsfrAccordionsGroup>
-      <li v-for="(restriction, index) in restrictions">
+      <li v-for="(restriction, index) in restrictionsAccordion">
         <DsfrAccordion :expanded-id="expandedIndex"
                        @expand="onAccordionClick(index.toString())"
                        :id="index.toString()">
@@ -88,33 +114,9 @@ const onAccordionClick = (index: string) => {
               </div>
             </template>
           </div>
-          <div v-if="index === 0">
-            <p class="fr-mt-4w fr-mb-0">
-              Attention ces restrictions s'appliquent à l'eau qui provient
-              {{ restriction.type === 'SUP' ? 'des cours d\'eau' : 'de nappes souterraines' }}. Si vous utilisez de l'eau qui provient
-              {{ restriction.type === 'SUP' ? 'de nappes souterraines' : 'des cours d\'eau' }}
-              veuillez consulter les restrictions ci-dessous.</p>
-          </div>
         </DsfrAccordion>
       </li>
     </DsfrAccordionsGroup>
-  </div>
-  <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
-    <template v-if="usagesFiltered(restrictions[0]).length > 0">
-      <div v-for="usage in usagesFiltered(restrictions[0])"
-           class="fr-col-12 fr-col-md-4">
-        <SituationRestrictionCard :usage="usage"/>
-      </div>
-    </template>
-    <template v-else>
-      <div class="fr-col-12 fr-col-md-4">
-        <div class="eau-card fr-p-2w">
-          <div class="eau-card__desc">
-            Aucune restriction
-          </div>
-        </div>
-      </div>
-    </template>
   </div>
 </template>
 
