@@ -69,7 +69,7 @@ if (lat && lon) {
 
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
       <div class="search-card-wrapper">
-        <h2 class="text-align-center">Les restrictions me concernent-elles ?</h2>
+        <h2 class="text-align-center">Les restrictions d'eau me concernent-elles ?</h2>
         <MixinsSearch @search="searchRestriction($event.address, null, $event.type)"
                       :query="adressQuery"
                       :loading="loadingRestrictions"/>
@@ -112,7 +112,7 @@ if (lat && lon) {
   border: 1px var(--blue-france-925-125) solid;
 
   &-wrapper {
-    max-width: 650px;
+    max-width: 700px;
     margin: auto;
   }
 }
