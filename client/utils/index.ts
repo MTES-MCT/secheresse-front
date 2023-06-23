@@ -90,6 +90,18 @@ const index = {
     return label;
   },
 
+  getProvenanceLabel(restriction: Restriction, light: boolean = false, inverse: boolean = false): string | undefined {
+    const type = !inverse ? restriction.type : restriction.type === 'SUP' ? 'SOU' : 'SUP';
+    switch (type) {
+      case 'SOU':
+        return !light ? `Si j'utilise de l'eau qui provient de nappes souterraines (puits, forages ...) des restrictions différentes s'appliquent` :
+          `de nappes souterraines (puits, forages, nappes ...)`
+      case 'SUP':
+        return !light ? `Si j'utilise de l'eau qui provient des cours d'eau (étangs, mares, rivières, lacs ...) des restrictions différentes s'appliquent` :
+          `des cours d'eau (étangs, mares, rivières, lacs ...)`
+    }
+  },
+
   async searchRestriction(address: Address | null,
                           geo: Geo | null,
                           profile: string,
@@ -111,7 +123,7 @@ const index = {
 
     // SI ERREUR
     if (error?.value || data?.value?.length < 1 || profile !== 'particulier') {
-      const {title, text, icon, actions} = this.handleRestrictionError(error.value,  data?.value,profile !== 'particulier', modalOpened);
+      const {title, text, icon, actions} = this.handleRestrictionError(error.value, data?.value, profile !== 'particulier', modalOpened);
       modalTitle.value = title;
       modalText.value = text;
       modalIcon.value = icon;
@@ -169,7 +181,7 @@ const index = {
         }]
       };
     }
-    if(!error?.statusCode && data.length < 1) {
+    if (!error?.statusCode && data.length < 1) {
       return {
         title: `Pas d'arrêté en vigueur`,
         text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.

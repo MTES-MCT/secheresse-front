@@ -35,6 +35,14 @@ const showRestrictions = computed<boolean>(() => {
   });
   return show;
 });
+
+const sameUsages = computed<boolean>(() => {
+  if (!restrictions.value[0].usagesHash) {
+    return false;
+  }
+  const usagesHash = restrictions.value[0].usagesHash;
+  return restrictions.value.every(r => r.usagesHash === usagesHash);
+});
 </script>
 
 <template>
@@ -52,13 +60,19 @@ const showRestrictions = computed<boolean>(() => {
         <DsfrCallout title=""
                      content="">
           <p class="fr-callout__text">
-            Certaines restrictions peuvent aussi avoir fait l'objet de précisions.<br/>Pour le vérifier, merci de <a class="fr-link"
-                                                                                                        :href="arretes[0].cheminFichier"
-                                                                                                        target="_blank"
-                                                                                                        rel="noopener">consulter l'arrêté
-            préfectoral</a>
+            <span v-if="restrictions.length > 1 && !sameUsages">Ces restrictions s'appliquent à l'eau qui provient {{
+                utils.getProvenanceLabel(restrictions[0], true)
+              }}.<br/></span>
+            Certaines restrictions peuvent aussi avoir fait l'objet de précisions
+            <span v-if="restrictions.length > 1 && !sameUsages">, notamment si l'eau provient {{ utils.getProvenanceLabel(restrictions[0], true, true) }}</span>.
+            <br/>
+            Pour le vérifier, merci de <a class="fr-link"
+                                          :href="arretes[0].cheminFichier"
+                                          target="_blank"
+                                          rel="noopener">
+            consulter l'arrêté préfectoral</a>
             <br/><br/>
-            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+            Votre mairie a également pu renforcer ces restrictions, pensez à la consulter.
           </p>
         </DsfrCallout>
       </div>
