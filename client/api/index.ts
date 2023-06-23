@@ -14,7 +14,7 @@ const index = {
 
   searchGeoByCitycode(citycode: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/communes/${citycode}?fields=code,nom`, {
+    return useFetch(`/communes/${citycode}?fields=code,nom,codeDepartement`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiGeoUrl
     });
@@ -43,6 +43,14 @@ const index = {
   searchRestrictionByGeo(geo: Geo, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/zones?commune=${geo.code}&profil=${profile}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  searchDepartementConfig(codeDepartement: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/departements/${codeDepartement}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });

@@ -8,7 +8,6 @@ const props = defineProps<{
 }>()
 
 const selectedTagIndex: Ref<number> = ref(0);
-const expandedIndex: Ref<string | null> = ref(null);
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   thematique: 'Arrosage',
@@ -80,11 +79,7 @@ const title = computed<string>(() => {
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <SituationRestrictionCategorie :thematique="thematique.thematique"
-                                           :expandedIndex="expandedIndex"
-                                           :key="expandedIndex"
-                                           @update:expandedIndex="expandedIndex = $event"
                                            :restrictions="restrictions"
-                                           :light="false"
             />
           </div>
         </DsfrTabContent>
