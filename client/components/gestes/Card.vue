@@ -27,6 +27,5 @@ const props = defineProps<{
 <style lang="scss" scoped>
 .eau-card {
   background-color: var(--background-default-grey);
-  height: 100%;
 }
 </style>

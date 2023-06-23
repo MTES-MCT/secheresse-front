@@ -161,7 +161,7 @@ const index = {
       return {
         title: `Télécharger l’arrêté préfectoral`,
         text: `Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`,
-        icon: `ri-timer-line`,
+        icon: `ri-download-2-line`,
         actions: [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
           label: "Annuler",
           onClick: _closeModal,

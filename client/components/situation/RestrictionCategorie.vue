@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { Restriction } from "../../dto/restriction.dto";
 import utils from "../../utils";
-import { Ref } from "vue";
 import { Usage } from "~/client/dto/usage.dto";
 
 const props = defineProps<{
   thematique: string,
   restrictions: Restriction[],
   light: boolean,
+  expandedIndex: string | null
 }>();
-const expandedIndex: Ref<string | null> = ref('0');
-const restrictionsSurcharged: Ref<Restriction[]> = ref([]);
+
+const emit = defineEmits(['update:expandedIndex'])
 
 const sameUsages = computed<boolean>(() => {
   if (!props.restrictions[0].usagesHash) {
@@ -27,11 +27,9 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
 const accordionTitle = (restriction): string => {
   switch (restriction.type) {
     case 'SOU':
-      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères)`
+      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères, puits)`
     case 'SUP':
-      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs)`
-    case 'DEFAULT':
-      return `Je ne sais pas d'où provient mon eau`
+      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs, étangs)`
   }
 };
 
@@ -47,22 +45,15 @@ const badgeLabel = (restriction: Restriction): string => {
 };
 
 const onAccordionClick = (index: string) => {
-  expandedIndex.value = index !== expandedIndex.value ? index : null;
-}
-
-if (props.restrictions.length > 1 && !sameUsages.value) {
-  const defaultRestriction = {...props.restrictions[0]};
-  // const defaultRestriction = {...props.restrictions.find(p => p.default)};
-  defaultRestriction.type = 'DEFAULT';
-  restrictionsSurcharged.value = [...props.restrictions];
-  restrictionsSurcharged.value.unshift(defaultRestriction);
+  const newIndex = index !== props.expandedIndex ? index : null;
+  emit('update:expandedIndex', newIndex);
 }
 </script>
 
 <template>
   <div class="fr-col-12" v-if="restrictions.length > 1 && !sameUsages">
     <DsfrAccordionsGroup>
-      <li v-for="(restriction, index) in restrictionsSurcharged">
+      <li v-for="(restriction, index) in restrictions">
         <DsfrAccordion :expanded-id="expandedIndex"
                        @expand="onAccordionClick(index.toString())"
                        :id="index.toString()">
@@ -80,7 +71,7 @@ if (props.restrictions.length > 1 && !sameUsages.value) {
               </div>
             </div>
           </template>
-          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+          <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
             <template v-if="usagesFiltered(restriction).length > 0">
               <div v-for="usage in usagesFiltered(restriction)"
                    class="fr-col-12 fr-col-md-4">
@@ -96,6 +87,13 @@ if (props.restrictions.length > 1 && !sameUsages.value) {
                 </div>
               </div>
             </template>
+          </div>
+          <div v-if="index === 0">
+            <p class="fr-mt-4w fr-mb-0">
+              Attention ces restrictions s'appliquent à l'eau qui provient
+              {{ restriction.type === 'SUP' ? 'des cours d\'eau' : 'de nappes souterraines' }}. Si vous utilisez de l'eau qui provient
+              {{ restriction.type === 'SUP' ? 'de nappes souterraines' : 'des cours d\'eau' }}
+              veuillez consulter les restrictions ci-dessous.</p>
           </div>
         </DsfrAccordion>
       </li>
@@ -121,6 +119,14 @@ if (props.restrictions.length > 1 && !sameUsages.value) {
 </template>
 
 <style lang="scss" scoped>
+.fr-accordion .fr-collapse > .fr-grid-row {
+  background-color: var(--blue-france-975-75);
+}
+
+.eau-card {
+  background-color: var(--background-default-grey);
+}
+
 @media screen and (min-width: 768px) {
   .fr-accordion__title .fr-grid-row > div:nth-child(2) {
     text-align: right;
