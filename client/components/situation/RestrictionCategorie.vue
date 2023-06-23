@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { Restriction } from "../../dto/restriction.dto";
 import utils from "../../utils";
-import { Ref, watch } from "vue";
 import { Usage } from "~/client/dto/usage.dto";
-import { Address } from "~/client/dto/address.dto";
 
 const props = defineProps<{
   thematique: string,
@@ -13,9 +11,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:expandedIndex'])
-
-
-const restrictionsSurcharged: Ref<Restriction[]> = ref([]);
 
 const sameUsages = computed<boolean>(() => {
   if (!props.restrictions[0].usagesHash) {
@@ -32,11 +27,9 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
 const accordionTitle = (restriction): string => {
   switch (restriction.type) {
     case 'SOU':
-      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères)`
+      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères, puits)`
     case 'SUP':
-      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs)`
-    case 'DEFAULT':
-      return `Je ne sais pas d'où provient mon eau`
+      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs, étangs)`
   }
 };
 
@@ -55,20 +48,12 @@ const onAccordionClick = (index: string) => {
   const newIndex = index !== props.expandedIndex ? index : null;
   emit('update:expandedIndex', newIndex);
 }
-
-if (props.restrictions.length > 1 && !sameUsages.value) {
-  const defaultRestriction = {...props.restrictions[0]};
-  // const defaultRestriction = {...props.restrictions.find(p => p.default)};
-  defaultRestriction.type = 'DEFAULT';
-  restrictionsSurcharged.value = [...props.restrictions];
-  restrictionsSurcharged.value.unshift(defaultRestriction);
-}
 </script>
 
 <template>
   <div class="fr-col-12" v-if="restrictions.length > 1 && !sameUsages">
     <DsfrAccordionsGroup>
-      <li v-for="(restriction, index) in restrictionsSurcharged">
+      <li v-for="(restriction, index) in restrictions">
         <DsfrAccordion :expanded-id="expandedIndex"
                        @expand="onAccordionClick(index.toString())"
                        :id="index.toString()">
@@ -102,6 +87,13 @@ if (props.restrictions.length > 1 && !sameUsages.value) {
                 </div>
               </div>
             </template>
+          </div>
+          <div v-if="index === 0">
+            <p class="fr-mt-4w fr-mb-0">
+              Attention ces restrictions s'appliquent à l'eau qui provient
+              {{ restriction.type === 'SUP' ? 'des cours d\'eau' : 'de nappes souterraines' }}. Si vous utilisez de l'eau qui provient
+              {{ restriction.type === 'SUP' ? 'de nappes souterraines' : 'des cours d\'eau' }}
+              veuillez consulter les restrictions ci-dessous.</p>
           </div>
         </DsfrAccordion>
       </li>
