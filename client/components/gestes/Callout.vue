@@ -4,7 +4,7 @@
 
 <template>
   <div class="callout fr-grid-row fr-grid-row--middle">
-    <div class="fr-col-12 fr-col-md-3 callout--image">
+    <div class="fr-col-12 callout--image">
       <img src="/callout_simulateur.svg"
            style="max-width: 100%"
            width="120" height="121"
@@ -12,7 +12,7 @@
            title="Image d'illustration arrosoir"
       />
     </div>
-    <div class="fr-col-12 fr-col-md-9 callout--text">
+    <div class="fr-col-12 callout--text">
       <h4>Estimer votre consommation d'eau annuelle</h4>
       <a class="fr-btn"
          target="_blank"
@@ -32,19 +32,13 @@
   h4 {
     color: var(--yellow-tournesol-main-731);
   }
-  
-  &--image {
-    text-align: center;
-  }
-  
-  &--text {
-    text-align: left;    
-  }
 }
 
 @media screen and (max-width: 767px) {
-  .callout--text {
-    text-align: center;
+  .callout {
+    &--text, &--image {
+      text-align: center;
+    }
   }
 }
 </style>
