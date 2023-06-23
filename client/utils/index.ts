@@ -7,6 +7,7 @@ import { useRestrictionsStore } from "../store/restrictions";
 import { FetchError } from "ofetch";
 import { Arrete } from "../dto/arrete.dto";
 import { Geo } from "../dto/geo.dto";
+import { Departement } from "../dto/departement.dto";
 
 const index = {
   debounce(fn: Function, delay: number) {
@@ -118,12 +119,20 @@ const index = {
     const {setRestrictions} = restrictionsStore;
 
     loadingRestrictions.value = true;
-    const {data, error} = address ? await api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile);
+    const [{data, error}, {data: departementConfig}] = await Promise.all([
+      address ? api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile),
+      api.searchDepartementConfig(address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement)
+    ]);
     loadingRestrictions.value = false;
 
     // SI ERREUR
-    if (error?.value || data?.value?.length < 1 || profile !== 'particulier') {
-      const {title, text, icon, actions} = this.handleRestrictionError(error.value, data?.value, profile !== 'particulier', modalOpened);
+    if (error?.value || data?.value?.length < 1 || profile !== 'particulier' || !departementConfig.value?.estValide) {
+      const {
+        title,
+        text,
+        icon,
+        actions
+      } = this.handleRestrictionError(error.value, data?.value, profile !== 'particulier', modalOpened, departementConfig);
       modalTitle.value = title;
       modalText.value = text;
       modalIcon.value = icon;
@@ -135,7 +144,7 @@ const index = {
     // SI DATA RENVOYEE
     if (data?.value && data?.value.length > 0) {
       address ? setAddress(address) : setGeo(geo);
-      setRestrictions(data.value, profile);
+      setRestrictions(data.value, profile, departementConfig.value);
       let query: any = {};
       query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
         {code_insee: address.properties.citycode} : {
@@ -154,7 +163,7 @@ const index = {
     });
   },
 
-  handleRestrictionError(error: FetchError, data: Restriction[], professionels: boolean, modalOpened: Ref<boolean>): {
+  handleRestrictionError(error: FetchError, data: Restriction[], professionels: boolean, modalOpened: Ref<boolean>, departementConfig: Departement): {
     title: string,
     text: string,
     icon: string,
@@ -181,7 +190,7 @@ const index = {
         }]
       };
     }
-    if (!error?.statusCode && data.length < 1) {
+    if ((!error?.statusCode && data.length < 1) || (departementConfig.estValide && error?.statusCode === 404)) {
       return {
         title: `Pas d'arrêté en vigueur`,
         text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
