@@ -123,6 +123,10 @@ const index = {
       address ? api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile),
       api.searchDepartementConfig(address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement)
     ]);
+    try {
+      window._paq.push(['trackEvent', 'API CALL', 'API SECHERESSE', 'CODE INSEE', address ? address.properties.citycode : geo?.code]);
+    } catch (e) {
+    }
     loadingRestrictions.value = false;
 
     // SI ERREUR
