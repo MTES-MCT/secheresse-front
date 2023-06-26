@@ -96,10 +96,10 @@ const index = {
     switch (type) {
       case 'SOU':
         return !light ? `Si j'utilise de l'eau qui provient de nappes souterraines (puits, forages ...) des restrictions différentes s'appliquent` :
-          `de nappes souterraines (puits, forages, nappes ...)`
+          `de nappes souterraines (puits, forages ...)`
       case 'SUP':
-        return !light ? `Si j'utilise de l'eau qui provient des cours d'eau (étangs, mares, rivières, lacs ...) des restrictions différentes s'appliquent` :
-          `des cours d'eau (étangs, mares, rivières, lacs ...)`
+        return !light ? `Si j'utilise de l'eau qui provient des cours d'eau (rivières, mares, étangs ...) des restrictions différentes s'appliquent` :
+          `des cours d'eau (rivières, mares, étangs ...)`
     }
   },
 
@@ -123,6 +123,10 @@ const index = {
       address ? api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile),
       api.searchDepartementConfig(address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement)
     ]);
+    try {
+      window._paq.push(['trackEvent', 'API CALL', 'API SECHERESSE', 'CODE INSEE', address ? address.properties.citycode : geo?.code]);
+    } catch (e) {
+    }
     loadingRestrictions.value = false;
 
     // SI ERREUR
@@ -206,7 +210,11 @@ const index = {
           title: `C’est pour bientôt ...`,
           text: `Malheureusement, nous n’avons pas encore synchronisé les données de votre zone géographique.`,
           icon: `ri-timer-line`,
-          actions: [{label: "Fermer", onClick: _closeModal}]
+          actions: data[0]?.arrete?.cheminFichier ? [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
+            label: "Fermer",
+            onClick: _closeModal,
+            secondary: true
+          }] : [{label: "Fermer", onClick: _closeModal, secondary: true}]
         };
       case 409:
         return {
@@ -216,7 +224,7 @@ const index = {
           actions: [{
             label: "Entrer une adresse plus précise",
             onClick: _closeModal
-          }, {label: "Annuler", onClick: _closeModal, secondary: true}]
+          }, {label: "Fermer", onClick: _closeModal, secondary: true}]
         };
       default:
         return {

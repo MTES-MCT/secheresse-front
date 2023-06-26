@@ -15,6 +15,7 @@
     <div class="fr-col-12 callout--text">
       <h4>Estimer votre consommation d'eau annuelle</h4>
       <a class="fr-btn"
+         id="matomo_calculateur_consommation"
          target="_blank"
          rel="external"
          href="https://www.cieau.com/le-metier-de-leau/usages-consommation-conseils/calculateur-consommation-eau-annuelle/">
