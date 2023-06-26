@@ -54,7 +54,8 @@ const sameUsages = computed<boolean>(() => {
       <SituationRestrictions v-if="showRestrictions"
                              :restrictions="restrictions"/>
       <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
-        Aucune restriction en cours à votre adresse.
+        L’état de la ressource en eau appelle à la vigilance de chacun, chaque geste compte pour économiser l’eau. Vous n’êtes pas soumis à
+        des restrictions en eau.
       </div>
       <div class="section-title fr-mt-8w">
         <DsfrCallout title=""
@@ -64,7 +65,9 @@ const sameUsages = computed<boolean>(() => {
                 utils.getProvenanceLabel(restrictions[0], true)
               }}.<br/></span>
             Certaines restrictions peuvent aussi avoir fait l'objet de précisions
-            <span v-if="restrictions.length > 1 && !sameUsages">, notamment si l'eau provient {{ utils.getProvenanceLabel(restrictions[0], true, true) }}</span>.
+            <span v-if="restrictions.length > 1 && !sameUsages">, notamment si l'eau provient {{
+                utils.getProvenanceLabel(restrictions[0], true, true)
+              }}</span>.
             <br/>
             Pour le vérifier, merci de <a class="fr-link"
                                           :href="arretes[0].cheminFichier"
@@ -72,7 +75,7 @@ const sameUsages = computed<boolean>(() => {
                                           rel="noopener">
             consulter l'arrêté préfectoral</a>
             <br/><br/>
-            Votre mairie a également pu renforcer ces restrictions, pensez à la consulter.
+            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
           </p>
         </DsfrCallout>
       </div>
