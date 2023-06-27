@@ -37,6 +37,10 @@ const arretes = computed<Arrete[]>(() => {
   return utils.getArretes(props.restrictions);
 });
 
+const closeModal = (): void => {
+  modalOpened.value = false;
+};
+
 onMounted(() => {
   if (props.restrictions.length === 1) {
     restriction.value = props.restrictions[0];
@@ -98,7 +102,7 @@ onMounted(() => {
   <DsfrModal :opened="modalOpened"
              title="Signification des niveaux d'alerte"
              icon="ri-information-line"
-             @close="modalOpened = false">
+             @close="closeModal">
     <MixinsSignificationNiveauxAlerte/>
   </DsfrModal>
 </template>
