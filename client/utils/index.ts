@@ -212,7 +212,7 @@ const index = {
           title: `C’est pour bientôt ...`,
           text: `Malheureusement, nous n’avons pas encore synchronisé les données de votre zone géographique.`,
           icon: `ri-timer-line`,
-          actions: data[0]?.arrete?.cheminFichier ? [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
+          actions: data && data[0]?.arrete?.cheminFichier ? [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
             label: "Fermer",
             onClick: _closeModal,
             secondary: true
