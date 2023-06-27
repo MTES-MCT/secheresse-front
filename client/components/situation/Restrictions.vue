@@ -12,7 +12,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   thematique: 'Arrosage',
 }, {
-  label: 'Remplir ou vidanger sa piscine',
+  label: 'Remplir ou vidanger',
   thematique: 'Remplissage vidange',
 }, {
   label: 'Nettoyer',
@@ -33,7 +33,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Naviguer',
   thematique: 'Navigation fluviale'
 }, {
-  label: 'Prélèver en canaux',
+  label: 'Prélèver',
   thematique: 'Prélèvement en canaux'
 }, {
   label: 'ICPE',
