@@ -138,7 +138,7 @@ const index = {
         text,
         icon,
         actions
-      } = this.handleRestrictionError(error.value, data?.value, profile !== 'particulier', modalOpened, departementConfig);
+      } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened, departementConfig);
       modalTitle.value = title;
       modalText.value = text;
       modalIcon.value = icon;
@@ -169,7 +169,7 @@ const index = {
     });
   },
 
-  handleRestrictionError(error: FetchError, data: Restriction[], professionels: boolean, modalOpened: Ref<boolean>, departementConfig: Departement): {
+  handleRestrictionError(error: FetchError, data: Restriction[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
     title: string,
     text: string,
     icon: string,
@@ -183,8 +183,11 @@ const index = {
       // @ts-ignore
       window.open(data[0].arrete.cheminFichier, '_blank').focus();
       modalOpened.value = false;
+      try {
+        window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', profile, 1]);
+      } catch (e) {}
     };
-    if (professionels && !error?.statusCode && data.length > 0) {
+    if (profile !== 'particulier' && !error?.statusCode && data.length > 0) {
       return {
         title: `Télécharger l’arrêté préfectoral`,
         text: `Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`,

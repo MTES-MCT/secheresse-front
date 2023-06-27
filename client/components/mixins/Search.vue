@@ -60,6 +60,15 @@ const selectAddress = (address: string | Address) => {
   });
 }
 
+const _formatAddresses = (addresses: Address[]): Address[] => {
+  return addresses.map(a => {
+    if (a.properties.type === 'municipality') {
+      a.properties.label = `${a.properties.label}, ${a.properties.citycode.slice(0, 2)}`;
+    }
+    return a;
+  });
+}
+
 watch(addressQuery, utils.debounce(async () => {
   if (!addressQuery.value || !loadAddresses.value) {
     loadAddresses.value = true;
@@ -69,7 +78,7 @@ watch(addressQuery, utils.debounce(async () => {
   loadingAdresses.value = true;
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
   loadingAdresses.value = false;
-  addresses.value = response.value ? response.value.features : [];
+  addresses.value = response.value ? _formatAddresses(response.value.features) : [];
 }, 500));
 
 if (props.query) {

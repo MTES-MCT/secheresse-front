@@ -54,8 +54,7 @@ const sameUsages = computed<boolean>(() => {
       <SituationRestrictions v-if="showRestrictions"
                              :restrictions="restrictions"/>
       <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
-        L’état de la ressource en eau appelle à la vigilance de chacun, chaque geste compte pour économiser l’eau. Vous n’êtes pas soumis à
-        des restrictions en eau.
+        L’état de la ressource en eau appelle à la vigilance de chacun, chaque geste compte pour économiser l’eau.
       </div>
       <div class="section-title fr-mt-8w">
         <DsfrCallout title=""
@@ -71,6 +70,7 @@ const sameUsages = computed<boolean>(() => {
             <br/>
             Pour le vérifier, merci de <a class="fr-link"
                                           :href="arretes[0].cheminFichier"
+                                          onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
                                           target="_blank"
                                           rel="noopener">
             consulter l'arrêté préfectoral</a>

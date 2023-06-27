@@ -24,6 +24,9 @@ export const useRestrictionsStore = defineStore('restrictionStore', () => {
       restrictions.sort((a, b) => a.type === 'SOU' ? -1 : 1);
     } else if (departementConfig.affichageRestrictionSiSuperpositionTypeZone === 'Affichage Prio Eau Sup') {
       restrictions.sort((a, b) => a.type === 'SUP' ? -1 : 1);
+    } else if (departementConfig.affichageRestrictionSiSuperpositionTypeZone === 'Affichage Uniquement Niveau Gravité Max') {
+      restrictions.sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
+      restrictions = [restrictions[0]];
     } else {
       restrictions.sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
     }
