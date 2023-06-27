@@ -1,27 +1,9 @@
 <script setup lang="ts">
 import { Usage } from "../../dto/usage.dto";
-import { Ref } from "vue";
 
 const props = defineProps<{
-  usage: Usage,
-  departement: string
+  usage: Usage
 }>()
-
-const closeModal = () => {
-  modalOpened.value = false;
-}
-
-const signalRestriction = () => {
-  window._paq.push(['trackEvent', 'SIGNALEMENT RESTRICTION', props.departement, props.usage.usage, 1]);
-  modalOpened.value = false;
-}
-
-const modalOpened: Ref<boolean> = ref(false);
-const modalActions: Ref<any[]> = ref([{label: "Signaler la restriction", onClick: signalRestriction}, {
-  label: "Annuler",
-  onClick: closeModal,
-  secondary: true
-}]);
 
 const cardDesc = computed((): string => {
   let cardDesc = '';
@@ -39,28 +21,11 @@ const cardDesc = computed((): string => {
     </div>
     <h6 class="eau-card__title fr-my-2w">
       {{ usage.usage }}
-
-      <DsfrButton icon="ri-error-warning-line"
-                  label="Signaler une restriction peu compréhensible"
-                  icon-only
-                  tertiary
-                  size="small"
-                  @click="modalOpened = true"
-                  no-outline/>
     </h6>
     <div class="eau-card__desc">
       {{ cardDesc }}
     </div>
   </div>
-  <DsfrModal :opened="modalOpened"
-             title="Signalement restriction"
-             icon="ri-error-warning-line"
-             :actions="modalActions"
-             @close="closeModal">
-    <div>
-      Si la restriction "{{ usage.usage }}" est peu compréhensible, merci de nous le signaler.<br/>Nous la modifierons si nécessaire !
-    </div>
-  </DsfrModal>
 </template>
 
 <style lang="scss" scoped>
@@ -69,7 +34,7 @@ const cardDesc = computed((): string => {
     &__header {
       color: var(--blue-france-sun-113-625);
     }
-
+    
     &__desc {
       white-space: pre-wrap;
       font-size: 1rem;
