@@ -124,7 +124,9 @@ const index = {
       api.searchDepartementConfig(address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement)
     ]);
     try {
-      window._paq.push(['trackEvent', 'API CALL', 'API SECHERESSE', 'CODE INSEE', address ? address.properties.citycode : geo?.code]);
+      window._paq.push(['trackEvent', 'API CALL', 'CODE INSEE', address ? address.properties.citycode : geo?.code, 1]);
+      window._paq.push(['trackEvent', 'API CALL', 'CODE DEPARTEMENT', address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement, 1]);
+      window._paq.push(['trackEvent', 'API CALL', 'PROFIL', profile, 1]);
     } catch (e) {
     }
     loadingRestrictions.value = false;
