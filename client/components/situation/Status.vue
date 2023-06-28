@@ -26,16 +26,6 @@ const arretes = computed<Arrete[]>(() => {
   return utils.getArretes(restrictions.value);
 });
 
-const showRestrictions = computed<boolean>(() => {
-  let show = false;
-  restrictions.value.forEach((r: Restriction) => {
-    if (r.usages && r.usages.filter(u => u.thematique !== 'Autre').length > 0) {
-      show = true;
-    }
-  });
-  return show;
-});
-
 const sameUsages = computed<boolean>(() => {
   if (!restrictions.value[0].usagesHash) {
     return false;
@@ -51,7 +41,7 @@ const sameUsages = computed<boolean>(() => {
     <SituationHeader :address="addressToUse"
                      :restrictions="restrictions"/>
     <template v-if="isParticulier()">
-      <SituationRestrictions v-if="showRestrictions"
+      <SituationRestrictions v-if="utils.showRestrictions(restrictions)"
                              :restrictions="restrictions"/>
       <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
         L’état de la ressource en eau appelle à la vigilance de chacun, chaque geste compte pour économiser l’eau.

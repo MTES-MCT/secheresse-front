@@ -85,7 +85,7 @@ onMounted(() => {
           situationLabel
         }}</span></h3>
     </div>
-    <div class="fr-col-12 situation-status-header__info-wrapper">
+    <div class="fr-col-12 situation-status-header__info-wrapper" v-if="utils.showRestrictions(restrictions)">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
     <div class="fr-col-12 show-sm text-align-center fr-mt-2w">

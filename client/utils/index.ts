@@ -24,6 +24,16 @@ const index = {
       }, delay)
     }
   },
+  
+  showRestrictions(restrictions: Restriction[]): boolean {
+    let show = false;
+    restrictions.forEach((r: Restriction) => {
+      if (r.usages && r.usages.filter(u => u.thematique !== 'Autre').length > 0) {
+        show = true;
+      }
+    });
+    return show;
+  },
 
   getRestrictionRank(restriction: Restriction): number | undefined {
     switch (restriction.niveauAlerte) {
