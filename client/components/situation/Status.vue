@@ -29,7 +29,7 @@ const arretes = computed<Arrete[]>(() => {
 const showRestrictions = computed<boolean>(() => {
   let show = false;
   restrictions.value.forEach((r: Restriction) => {
-    if (r.usages && r.usages.length > 0) {
+    if (r.usages && r.usages.filter(u => u.thematique !== 'Autre').length > 0) {
       show = true;
     }
   });
@@ -60,22 +60,41 @@ const sameUsages = computed<boolean>(() => {
         <DsfrCallout title=""
                      content="">
           <p class="fr-callout__text">
-            <span v-if="restrictions.length > 1 && !sameUsages">Ces restrictions s'appliquent à l'eau qui provient {{
-                utils.getProvenanceLabel(restrictions[0], true)
-              }}.<br/></span>
-            Certaines restrictions peuvent aussi avoir fait l'objet de précisions
-            <span v-if="restrictions.length > 1 && !sameUsages">, notamment si l'eau provient {{
-                utils.getProvenanceLabel(restrictions[0], true, true)
-              }}</span>.
+            <span v-if="restrictions.length > 1 && !sameUsages">
+              Attention, si vous utilisez de l'eau provenant {{ utils.getProvenanceLabel(restrictions[0], true, true) }}, les restrictions sont consultables via
+              cet <a class="fr-link"
+                     :href="arretes[0].cheminFichier"
+                     onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
+                     target="_blank"
+                     rel="noopener">
+            arrêté de restriction</a>
+            <span v-if="arretes[0].cheminFichierArreteCadre"> et cet <a class="fr-link"
+                                                                        :href="arretes[0].cheminFichierArreteCadre"
+                                                                        onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                                                        target="_blank"
+                                                                        rel="noopener">
+            arrêté cadre préfectoral</a></span>.
+            <br/><br/>
+            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+            </span>
+            <span v-else>
+              Certaines restrictions peuvent avoir fait l'objet de précisions
             <br/>
             Pour le vérifier, merci de <a class="fr-link"
                                           :href="arretes[0].cheminFichier"
                                           onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
                                           target="_blank"
                                           rel="noopener">
-            consulter l'arrêté préfectoral</a>
+            consulter l'arrêté de restriction</a>
+            <span v-if="arretes[0].cheminFichierArreteCadre"> et de <a class="fr-link"
+                                                                       :href="arretes[0].cheminFichierArreteCadre"
+                                                                       onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                                                       target="_blank"
+                                                                       rel="noopener">
+            consulter l'arrêté cadre préfectoral</a></span>.
             <br/><br/>
             Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+            </span>
           </p>
         </DsfrCallout>
       </div>

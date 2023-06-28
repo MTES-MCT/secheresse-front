@@ -3,4 +3,5 @@ export interface Arrete {
   dateDebutValidite: string;
   dateFinValidite: string;
   cheminFichier: string;
+  cheminFichierArreteCadre: string;
 }

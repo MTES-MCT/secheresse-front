@@ -30,7 +30,7 @@ const index = {
 
   searchRestrictionByAdress(address: Address, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    let options = ['municipality', 'locality'].includes(address.properties.type) ?
+    let options = ['municipality'].includes(address.properties.type) ?
       `/zones?commune=${address.properties.citycode}` :
       `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`;
     options += `&profil=${profile}`;

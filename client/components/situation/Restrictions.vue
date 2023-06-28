@@ -44,8 +44,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
-  let usages = [];
-  props.restrictions.forEach(r => usages = usages.concat(r.usages));
+  let usages = props.restrictions[0].usages;
   return thematiqueTags.value.filter(t => usages.findIndex(u => u.thematique === t.thematique) >= 0);
 });
 

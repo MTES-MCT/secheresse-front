@@ -16,8 +16,15 @@ import {
   DsfrCallout,
 } from '@gouvminint/vue-dsfr'
 import {
-  EauArrosoir, EauGoutteArrosoir, EauGoutteArrosoirInterdiction, EauGoutteDouche, EauGoutteFuite, EauGoutteMachine,
-  EauGoutteRobinet, EauGoutteVoiture,
+  EauArrosoir,
+  EauGoutteArrosoir,
+  EauGoutteArrosoirInterdiction,
+  EauGoutteDouche,
+  EauGoutteFuite,
+  EauGoutteMachine,
+  EauGoutteNettoyageInterdiction, EauGoutteRemplissageInterdiction,
+  EauGoutteRobinet, EauGoutteRobinetInterdiction,
+  EauGoutteVoiture,
   EauMaison,
   EauPiscine,
   EauRemplissage,
@@ -27,7 +34,7 @@ import {
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
 import {
   RiArrowRightLine,
-  RiCheckboxCircleLine, RiDownload2Line,
+  RiCheckboxCircleLine, RiDownload2Line, RiErrorWarningLine,
   RiInformationFill, RiInformationLine,
   RiMapPinUserLine,
   RiSearchLine,
@@ -45,6 +52,7 @@ const icons = [
   RiInformationLine,
   RiCheckboxCircleLine,
   RiDownload2Line,
+  RiErrorWarningLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,
@@ -55,7 +63,10 @@ const icons = [
   EauGoutteFuite,
   EauGoutteArrosoir,
   EauGoutteVoiture,
-  EauGoutteArrosoirInterdiction
+  EauGoutteArrosoirInterdiction,
+  EauGoutteNettoyageInterdiction,
+  EauGoutteRemplissageInterdiction,
+  EauGoutteRobinetInterdiction
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {

@@ -16,6 +16,9 @@ const mandatoryLinks: any[] = [{
 }, {
   label: 'Mentions légales',
   to: '/mentions-legales',
+}, {
+  label: 'Données personnelles',
+  to: '/donnees-personnelles',
 }];
 
 const preferences = reactive({
@@ -38,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DsfrNotice title="Version beta en cours de conception" />
+  <DsfrNotice v-if="domainName !== 'vigieau.gouv.fr'" title="Version beta en cours de conception" />
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
