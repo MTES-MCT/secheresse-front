@@ -20,7 +20,6 @@ const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const modalIcon: Ref<string> = ref('');
 const modalActions: Ref<any[]> = ref([]);
-const notice = `${domainName} ne communique pas sur les ruptures d'approvisionnement en eau potable`;
 const loadingRestrictions: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
@@ -48,7 +47,6 @@ if (lat && lon) {
 </script>
 
 <template>
-  <DsfrNotice :title="notice"/>
   <div class="presentation fr-grid-row fr-grid-row--center fr-my-8w">
     <div class="section-title presentation-title">
       <div>
