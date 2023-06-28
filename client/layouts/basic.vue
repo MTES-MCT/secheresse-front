@@ -25,7 +25,7 @@ const preferences = reactive({
   theme: undefined,
   scheme: undefined,
 })
-const domainName = useRuntimeConfig().public.domainName;
+const runTimeConfig = useRuntimeConfig().public;
 
 onMounted(() => {
   const {theme, scheme, setScheme} = useScheme()
@@ -41,7 +41,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DsfrNotice v-if="domainName !== 'vigieau.gouv.fr'" title="Version beta en cours de conception" />
+  <DsfrNotice v-if="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'" title="Version beta en cours de conception" />
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"

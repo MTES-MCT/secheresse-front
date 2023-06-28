@@ -67,6 +67,7 @@ export default defineNuxtConfig({
       apiGeoUrl: process.env.API_GEO_URL,
       apiSecheresseUrl: process.env.API_SECHERESSE_URL,
       domainName: process.env.DOMAIN_NAME,
+      domainProdNotActivated: process.env.DOMAIN_PROD_NOT_ACTIVATED,
       appName: appName
     }
   },
