@@ -18,7 +18,7 @@ const signalRestriction = () => {
 }
 
 const modalOpened: Ref<boolean> = ref(false);
-const modalActions: Ref<any[]> = ref([{label: "Signaler la restriction", onClick: signalRestriction}, {
+const modalActions: Ref<any[]> = ref([{label: "Je ne comprend pas cette restriction", onClick: signalRestriction}, {
   label: "Annuler",
   onClick: closeModal,
   secondary: true
@@ -69,12 +69,12 @@ const cardIcon = computed((): string => {
     </div>
   </div>
   <DsfrModal :opened="modalOpened"
-             title="Signalement restriction"
+             title="Je ne comprends pas cette restriction"
              icon="ri-error-warning-line"
              :actions="modalActions"
              @close="closeModal">
     <div>
-      Si la restriction "{{ usage.usage }}" est peu compréhensible, merci de nous le signaler.<br/>Nous la modifierons si nécessaire !
+      Si la restriction "{{ usage.usage }}" est peu compréhensible, merci de nous le faire remonter.<br/>Nous la modifierons si nécessaire !
     </div>
   </DsfrModal>
 </template>
