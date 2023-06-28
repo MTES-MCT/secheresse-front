@@ -16,6 +16,9 @@ const mandatoryLinks: any[] = [{
 }, {
   label: 'Mentions légales',
   to: '/mentions-legales',
+}, {
+  label: 'Données personnelles',
+  to: '/donnees-personnelles',
 }];
 
 const preferences = reactive({

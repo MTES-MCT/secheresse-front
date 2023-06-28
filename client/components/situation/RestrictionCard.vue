@@ -57,7 +57,7 @@ const cardIcon = computed((): string => {
       {{ usage.usage }}
 
       <DsfrButton icon="ri-error-warning-line"
-                  label="Signaler une restriction peu compréhensible"
+                  label="Je ne comprends pas cette restriction"
                   icon-only
                   tertiary
                   size="small"
