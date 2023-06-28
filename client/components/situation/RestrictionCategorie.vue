@@ -17,7 +17,9 @@ const usagesFiltered = (restriction: Restriction): Usage[] => {
     <template v-if="usagesFiltered(restrictions[0]).length > 0">
       <div v-for="usage in usagesFiltered(restrictions[0])"
            class="fr-col-12 fr-col-md-4">
-        <SituationRestrictionCard :usage="usage" :departement="restrictions[0].departement"/>
+        <SituationRestrictionCard :usage="usage"
+                                  :thematique="thematique"
+                                  :departement="restrictions[0].departement"/>
       </div>
     </template>
     <template v-else>

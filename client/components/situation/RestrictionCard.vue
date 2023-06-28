@@ -4,7 +4,8 @@ import { Ref } from "vue";
 
 const props = defineProps<{
   usage: Usage,
-  departement: string
+  departement: string,
+  thematique: string
 }>()
 
 const closeModal = () => {
@@ -32,10 +33,17 @@ const cardDesc = computed((): string => {
 })
 
 const cardIcon = computed((): string => {
-  switch (props.usage.usage) {
-    case '':
-    default:
+  switch (props.thematique) {
+    case 'Arrosage':
       return 'eau-goutte-arrosoir-interdiction'
+    case 'Remplissage vidange':
+      return 'eau-goutte-remplissage-interdiction'
+    case 'Nettoyage':
+      return 'eau-goutte-nettoyage-interdiction'
+    case 'Alimentation des fontaines publiques et privées':
+      return 'eau-goutte-robinet-interdiction'
+    default:
+      return 'eau-goutte-robinet-interdiction'
   }
 })
 </script>

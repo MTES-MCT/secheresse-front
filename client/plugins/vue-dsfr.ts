@@ -16,8 +16,15 @@ import {
   DsfrCallout,
 } from '@gouvminint/vue-dsfr'
 import {
-  EauArrosoir, EauGoutteArrosoir, EauGoutteArrosoirInterdiction, EauGoutteDouche, EauGoutteFuite, EauGoutteMachine,
-  EauGoutteRobinet, EauGoutteVoiture,
+  EauArrosoir,
+  EauGoutteArrosoir,
+  EauGoutteArrosoirInterdiction,
+  EauGoutteDouche,
+  EauGoutteFuite,
+  EauGoutteMachine,
+  EauGoutteNettoyageInterdiction, EauGoutteRemplissageInterdiction,
+  EauGoutteRobinet, EauGoutteRobinetInterdiction,
+  EauGoutteVoiture,
   EauMaison,
   EauPiscine,
   EauRemplissage,
@@ -56,7 +63,10 @@ const icons = [
   EauGoutteFuite,
   EauGoutteArrosoir,
   EauGoutteVoiture,
-  EauGoutteArrosoirInterdiction
+  EauGoutteArrosoirInterdiction,
+  EauGoutteNettoyageInterdiction,
+  EauGoutteRemplissageInterdiction,
+  EauGoutteRobinetInterdiction
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
