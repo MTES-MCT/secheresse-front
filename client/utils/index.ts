@@ -132,7 +132,7 @@ const index = {
     loadingRestrictions.value = false;
 
     // SI ERREUR
-    if (error?.value || data?.value?.length < 1 || profile !== 'particulier' || !departementConfig.value?.estValide) {
+    if (error?.value || data?.value?.length < 1 || profile !== 'particulier') {
       const {
         title,
         text,
@@ -185,7 +185,8 @@ const index = {
       modalOpened.value = false;
       try {
         window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', profile, 1]);
-      } catch (e) {}
+      } catch (e) {
+      }
     };
     if (profile !== 'particulier' && !error?.statusCode && data.length > 0) {
       return {
@@ -199,27 +200,15 @@ const index = {
         }]
       };
     }
-    if ((!error?.statusCode && data.length < 1) || (departementConfig.estValide && error?.statusCode === 404)) {
-      return {
-        title: `Pas d'arrêté en vigueur`,
-        text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
-<br/>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes présents sur notre site !`,
-        icon: `ri-arrow-right-line`,
-        actions: []
-      };
-    }
     switch (error?.statusCode) {
       case 404:
       case undefined:
         return {
-          title: `C’est pour bientôt ...`,
-          text: `Malheureusement, nous n’avons pas encore synchronisé les données de votre zone géographique.`,
-          icon: `ri-timer-line`,
-          actions: data && data[0]?.arrete?.cheminFichier ? [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
-            label: "Fermer",
-            onClick: _closeModal,
-            secondary: true
-          }] : [{label: "Fermer", onClick: _closeModal, secondary: true}]
+          title: `Pas d'arrêté en vigueur`,
+          text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
+<br/>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes présents sur notre site !`,
+          icon: `ri-arrow-right-line`,
+          actions: []
         };
       case 409:
         return {

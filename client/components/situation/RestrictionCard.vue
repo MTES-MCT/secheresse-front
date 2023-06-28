@@ -30,12 +30,20 @@ const cardDesc = computed((): string => {
   cardDesc += props.usage.erreur ? `Consulter l'arrêté` : '';
   return cardDesc;
 })
+
+const cardIcon = computed((): string => {
+  switch (props.usage.usage) {
+    case '':
+    default:
+      return 'eau-goutte-arrosoir-interdiction'
+  }
+})
 </script>
 
 <template>
   <div class="eau-card fr-p-2w">
     <div class="eau-card__header">
-      <VIcon name="eau-goutte-arrosoir-interdiction" scale="5"/>
+      <VIcon :name="cardIcon" scale="5"/>
     </div>
     <h6 class="eau-card__title fr-my-2w">
       {{ usage.usage }}
