@@ -45,6 +45,8 @@ const index = {
         return 2;
       case 'Vigilance':
         return 1;
+      default:
+        return 0;
     }
   },
 
@@ -142,7 +144,7 @@ const index = {
     loadingRestrictions.value = false;
 
     // SI ERREUR
-    if (error?.value || data?.value?.length < 1 || profile !== 'particulier') {
+    if ((error?.value && error.value.statusCode !== 404) || profile !== 'particulier') {
       const {
         title,
         text,
@@ -158,9 +160,9 @@ const index = {
     }
 
     // SI DATA RENVOYEE
-    if (data?.value && data?.value.length > 0) {
+    if (data?.value && data?.value.length > 0 || error?.value?.statusCode === 404) {
       address ? setAddress(address) : setGeo(geo);
-      setRestrictions(data.value, profile, departementConfig.value);
+      setRestrictions(data?.value ? data.value : [], profile, departementConfig.value);
       let query: any = {};
       query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
         {code_insee: address.properties.citycode} : {
@@ -211,15 +213,6 @@ const index = {
       };
     }
     switch (error?.statusCode) {
-      case 404:
-      case undefined:
-        return {
-          title: `Pas d'arrêté en vigueur`,
-          text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
-<br/>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes présents sur notre site !`,
-          icon: `ri-arrow-right-line`,
-          actions: []
-        };
       case 409:
         return {
           title: `Nous avons besoin de plus de précision`,

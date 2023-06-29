@@ -38,7 +38,7 @@ export const useRestrictionsStore = defineStore('restrictionStore', () => {
   }
 
   function isParticulier(): boolean {
-    return restrictions.value ? restrictions.value[0].profil === 'particulier' : false;
+    return restrictions.value && restrictions.value[0] ? restrictions.value[0].profil === 'particulier' : false;
   }
 
   return {setRestrictions, resetRestrictions, restrictions, isParticulier}

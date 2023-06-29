@@ -65,7 +65,7 @@ const title = computed<string>(() => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--center fr-pt-8w full-width">
-    <h4 class="text-align-center">{{ title }}</h4>
+    <h2 class="text-align-center">{{ title }}</h2>
     <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
                :label="thematique.label"
