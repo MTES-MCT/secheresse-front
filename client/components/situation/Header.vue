@@ -38,11 +38,12 @@ const arretes = computed<Arrete[]>(() => {
 });
 
 onMounted(() => {
-  if (props.restrictions.length === 1) {
+  if (props.restrictions.length > 0) {
     restriction.value = props.restrictions[0];
+  } else {
+    //@ts-ignore
+    restriction.value = {};
   }
-  const restrictionsSort = [...props.restrictions].sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
-  restriction.value = restrictionsSort[0];
 })
 
 </script>
@@ -54,8 +55,10 @@ onMounted(() => {
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
-    <div class="fr-col-12 situation-status-header__info-wrapper">
-      <div class="fr-grid-row fr-grid-row--middle fr-mb-2w">
+    <div class="fr-col-12 situation-status-header__info-wrapper"
+         :class="!restriction.idZone ? 'fr-col-md-8' : ''">
+      <div class="fr-grid-row fr-grid-row--middle fr-mb-2w"
+           v-if="restriction.idZone">
         <DsfrBadge small
                    class="show-sm"
                    :class="classObject(utils.getRestrictionRank(restriction))"
@@ -77,12 +80,21 @@ onMounted(() => {
         <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
       </div>
-      <h3>Votre êtes sur une zone en <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
+      <h3 v-if="restriction.idZone">Votre êtes sur une zone en <span
+        :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel
         }}</span></h3>
+      <h3 v-else>
+        Vous êtes sur une zone qui n'est pas concernée par les restrictions
+      </h3>
     </div>
-    <div class="fr-col-12 situation-status-header__info-wrapper" v-if="utils.showRestrictions(restrictions)">
+    <div class="fr-col-12 situation-status-header__info-wrapper"
+         v-if="utils.showRestrictions(restrictions)">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
+    </div>
+    <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-if="!restriction.idZone">
+      <div>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
+      </div>
     </div>
     <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
       <router-link to="/" class="fr-link fr-ml-1w">
@@ -136,6 +148,10 @@ onMounted(() => {
     &-1:before {
       background: linear-gradient(270deg, var(--blue-ecume-975-75), var(--orange-terre-battue-950-100));
       opacity: 0.5;
+    }
+
+    &-0:before {
+      background: linear-gradient(270deg, var(--info-950-100), var(--blue-france-975-75));
     }
   }
 
