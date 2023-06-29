@@ -50,7 +50,7 @@ if (lat && lon) {
   <div class="presentation fr-grid-row fr-grid-row--center fr-my-8w">
     <div class="section-title presentation-title">
       <div>
-        <b>Citoyens, collectivités, entreprises, agriculteurs</b>
+        <b>Particuliers, agriculteurs, entreprises, collectivités</b>
       </div>
       <img src="/logo_chaque_geste_compte.svg"
            style="max-width: 100%"
