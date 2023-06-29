@@ -76,10 +76,6 @@ onMounted(() => {
       <div class="fr-mb-2w">
         <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
-        <router-link to="/" class="fr-link fr-ml-1w hide-sm">
-          Effectuer une nouvelle recherche
-          <VIcon name="ri-search-line"/>
-        </router-link>
       </div>
       <h3>Votre êtes sur une zone en <span :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel
