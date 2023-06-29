@@ -15,7 +15,7 @@ const modalOpened: Ref<boolean> = ref(false);
 const restrictionRanks = [1, 2, 3, 4];
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
-  return showRank ? utils.getSituationBadgeLabel(rank) : utils.getSituationLabel(rank);
+  return showRank ? utils.getSituationBadgeLabel(rank) : utils.getShortSituationLabel(rank);
 };
 
 const classObject = (rank: number | undefined): any => {
@@ -62,7 +62,7 @@ onMounted(() => {
         <DsfrBadge small
                    class="show-sm"
                    :class="classObject(utils.getRestrictionRank(restriction))"
-                   :label="badgeLabel(utils.getRestrictionRank(restriction), true)"/>
+                   :label="badgeLabel(utils.getRestrictionRank(restriction))"/>
         <DsfrBadge v-for="rank of restrictionRanks"
                    small
                    class="fr-ml-1w hide-sm"
@@ -85,7 +85,7 @@ onMounted(() => {
           situationLabel
         }}</span></h3>
       <h3 v-else>
-        Vous êtes sur une zone qui n'est pas concernée par les restrictions
+        Vous êtes sur une zone qui n'est pas concernée par des restrictions
       </h3>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"

@@ -34,9 +34,9 @@ import {
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
 import {
   RiArrowRightLine,
-  RiCheckboxCircleLine, RiDownload2Line, RiErrorWarningLine,
+  RiCheckboxCircleLine, RiCheckLine, RiDownload2Line, RiErrorWarningLine,
   RiInformationFill, RiInformationLine,
-  RiMapPinUserLine,
+  RiMapPinUserLine, RiQuestionLine,
   RiSearchLine,
   RiTimerLine
 } from 'oh-vue-icons/icons/ri/index.js';
@@ -52,7 +52,7 @@ const icons = [
   RiInformationLine,
   RiCheckboxCircleLine,
   RiDownload2Line,
-  RiErrorWarningLine,
+  RiQuestionLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,

@@ -24,7 +24,7 @@ const index = {
       }, delay)
     }
   },
-  
+
   showRestrictions(restrictions: Restriction[]): boolean {
     let show = false;
     restrictions.forEach((r: Restriction) => {
@@ -55,29 +55,7 @@ const index = {
       return '';
     }
     let label = `${situationRank}/4 - `
-    label += this.getSituationLabel(situationRank)
-    return label;
-  },
-
-  getSituationLabel(situationRank: number | undefined): string {
-    if (!situationRank) {
-      return '';
-    }
-    let label = '';
-    switch (situationRank) {
-      case 1:
-        label += 'En état de vigilance';
-        break;
-      case 2:
-        label += `En état d'alerte`;
-        break;
-      case 3:
-        label += `En état d'alerte renforcée`;
-        break;
-      case 4:
-        label += `En état de crise`;
-        break;
-    }
+    label += this.getShortSituationLabel(situationRank)
     return label;
   },
 
@@ -131,13 +109,13 @@ const index = {
     const {setRestrictions} = restrictionsStore;
 
     loadingRestrictions.value = true;
-    const [{data, error}, {data: departementConfig}] = await Promise.all([
+    const [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
       address ? api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile),
-      api.searchDepartementConfig(address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement)
+      api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
     ]);
     try {
       window._paq.push(['trackEvent', 'API CALL', 'CODE INSEE', address ? address.properties.citycode : geo?.code, 1]);
-      window._paq.push(['trackEvent', 'API CALL', 'CODE DEPARTEMENT', address ? address?.properties.citycode.slice(0, 2) : geo.codeDepartement, 1]);
+      window._paq.push(['trackEvent', 'API CALL', 'CODE DEPARTEMENT', address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement, 1]);
       window._paq.push(['trackEvent', 'API CALL', 'PROFIL', profile, 1]);
     } catch (e) {
     }
@@ -160,18 +138,16 @@ const index = {
     }
 
     // SI DATA RENVOYEE
-    if (data?.value && data?.value.length > 0 || error?.value?.statusCode === 404) {
-      address ? setAddress(address) : setGeo(geo);
-      setRestrictions(data?.value ? data.value : [], profile, departementConfig.value);
-      let query: any = {};
-      query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
-        {code_insee: address.properties.citycode} : {
-          lon: address.geometry.coordinates[0],
-          lat: address.geometry.coordinates[1]
-        }) : {code_insee: geo?.code};
-      query.profil = profile;
-      router.push({path: '/situation', query});
-    }
+    address ? setAddress(address) : setGeo(geo);
+    setRestrictions(data?.value ? data.value : [], profile, departementConfig.value);
+    let query: any = {};
+    query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
+      {code_insee: address.properties.citycode} : {
+        lon: address.geometry.coordinates[0],
+        lat: address.geometry.coordinates[1]
+      }) : {code_insee: geo?.code};
+    query.profil = profile;
+    router.push({path: '/situation', query});
   },
 
   getArretes(restrictions: Restriction[]): Arrete[] {
@@ -213,6 +189,15 @@ const index = {
       };
     }
     switch (error?.statusCode) {
+      case 404:
+      case undefined:
+        return {
+          title: `Pas d'arrêté en vigueur`,
+          text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
+<br/>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes présents sur notre site !`,
+          icon: `ri-arrow-right-line`,
+          actions: []
+        };
       case 409:
         return {
           title: `Nous avons besoin de plus de précision`,

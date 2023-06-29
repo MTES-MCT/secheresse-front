@@ -10,19 +10,23 @@ const props = defineProps<{
 
 const closeModal = () => {
   modalOpened.value = false;
+  modalSuccessOpened.value = false;
 }
 
 const signalRestriction = () => {
   window._paq.push(['trackEvent', 'SIGNALEMENT RESTRICTION', props.departement, props.usage.usage, 1]);
   modalOpened.value = false;
+  modalSuccessOpened.value = true;
 }
 
 const modalOpened: Ref<boolean> = ref(false);
-const modalActions: Ref<any[]> = ref([{label: "Je ne comprend pas cette restriction", onClick: signalRestriction}, {
+const modalSuccessOpened: Ref<boolean> = ref(false);
+const modalActions: Ref<any[]> = ref([{label: "Je ne comprends pas cette restriction", onClick: signalRestriction}, {
   label: "Annuler",
   onClick: closeModal,
   secondary: true
 }]);
+const modalActionsSuccess: Ref<any[]> = ref([{label: "Fermer", onClick: closeModal}]);
 
 const cardDesc = computed((): string => {
   let cardDesc = '';
@@ -56,7 +60,7 @@ const cardIcon = computed((): string => {
     <h6 class="eau-card__title fr-my-2w">
       {{ usage.usage }}
 
-      <DsfrButton icon="ri-error-warning-line"
+      <DsfrButton icon="ri-question-line"
                   label="Je ne comprends pas cette restriction"
                   icon-only
                   tertiary
@@ -70,11 +74,20 @@ const cardIcon = computed((): string => {
   </div>
   <DsfrModal :opened="modalOpened"
              title="Je ne comprends pas cette restriction"
-             icon="ri-error-warning-line"
+             icon="ri-question-line"
              :actions="modalActions"
              @close="closeModal">
     <div>
       Si la restriction "{{ usage.usage }}" est peu compréhensible, merci de nous le faire remonter.<br/>Nous la modifierons si nécessaire !
+    </div>
+  </DsfrModal>
+  <DsfrModal :opened="modalSuccessOpened"
+             title=" "
+             icon="ri-checkbox-circle-line"
+             :actions="modalActionsSuccess"
+             @close="closeModal">
+    <div>
+      Votre retour a bien été pris en compte !
     </div>
   </DsfrModal>
 </template>

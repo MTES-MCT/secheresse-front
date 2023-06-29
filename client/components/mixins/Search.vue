@@ -63,7 +63,7 @@ const selectAddress = (address: string | Address) => {
 const _formatAddresses = (addresses: Address[]): Address[] => {
   return addresses.map(a => {
     if (a.properties.type === 'municipality') {
-      a.properties.label = `${a.properties.label}, ${a.properties.citycode.slice(0, 2)}`;
+      a.properties.label = `${a.properties.label}, ${a.properties.citycode >= '97' ? a.properties.citycode.slice(0, 3) : a.properties.citycode.slice(0, 2)}`;
     }
     return a;
   });

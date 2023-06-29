@@ -7,5 +7,6 @@ export interface Address {
     label: string;
     type: string;
     citycode: string;
+    context: string;
   };
 }

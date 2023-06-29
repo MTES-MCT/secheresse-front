@@ -3,7 +3,7 @@ import faq from '../../data/faq.json'
 import { Ref } from "vue";
 
 const expandedIndex: Ref<string | null> = ref(null);
-
+const domainName = useRuntimeConfig().public.domainName;
 const onAccordionClick = (index: string) => {
   expandedIndex.value = index !== expandedIndex.value ? index : null;
 }
@@ -32,7 +32,7 @@ const onAccordionClick = (index: string) => {
         Vous souhaitez-nous poser une question qui n’apparaît pas ici ?
         <a class="fr-link"
            title="Contactez-nous"
-           href="mailto:contact@preservonsleau.beta.gouv.fr">
+           :href="'mailto:contact@' + domainName">
           Contactez nous
         </a>
       </div>
