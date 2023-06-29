@@ -9,7 +9,7 @@ const operatorImgStyle: any = {
 };
 const a11yCompliance: string = 'Non conforme';
 const descText: string = useRuntimeConfig().public.appName;
-const quickLinks: any[] = [];
+let quickLinks: any[] = [];
 const mandatoryLinks: any[] = [{
   label: `Accessibilité : ${a11yCompliance}`,
   to: '/accessibilite',
@@ -20,12 +20,14 @@ const mandatoryLinks: any[] = [{
   label: 'Données personnelles',
   to: '/donnees-personnelles',
 }];
+const key = ref(0);
 
 const preferences = reactive({
   theme: undefined,
   scheme: undefined,
 })
 const runTimeConfig = useRuntimeConfig().public;
+const route = useRoute();
 
 onMounted(() => {
   const {theme, scheme, setScheme} = useScheme()
@@ -37,16 +39,29 @@ onMounted(() => {
   })
 
   watchEffect(() => setScheme(preferences.scheme))
+
+  watch(() => route.path, newPath => {
+    quickLinks = newPath === '/situation' ? [{
+      label: 'Effectuer une nouvelle recherche',
+      icon: 'ri-search-line',
+      iconRight: true,
+      to: '/'
+    }] : [];
+    key.value ++;
+    }, { immediate: true }
+  )
 })
 </script>
 
 <template>
-  <DsfrNotice v-if="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'" title="Version beta en cours de conception" />
+  <DsfrNotice v-if="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
+              title="Version beta en cours de conception"/>
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
               :operatorImgStyle="operatorImgStyle"
               :quickLinks="quickLinks"
+              :key="key"
               serviceTitle=" "
   />
   <div class="fr-container fr-mb-8w">

@@ -33,7 +33,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Naviguer',
   thematique: 'Navigation fluviale'
 }, {
-  label: 'Prélèver',
+  label: 'Prélever',
   thematique: 'Prélèvement en canaux'
 }, {
   label: 'ICPE',
