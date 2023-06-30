@@ -26,13 +26,10 @@ const index = {
   },
 
   showRestrictions(restrictions: Restriction[]): boolean {
-    let show = false;
-    restrictions.forEach((r: Restriction) => {
-      if (r.usages && r.usages.filter(u => u.thematique !== 'Autre').length > 0) {
-        show = true;
-      }
-    });
-    return show;
+    if (!restrictions || restrictions.length < 1 || restrictions[0].niveauAlerte === 'Vigilance') {
+      return false;
+    }
+    return (restrictions[0].usages && restrictions[0].usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
   getRestrictionRank(restriction: Restriction): number | undefined {
