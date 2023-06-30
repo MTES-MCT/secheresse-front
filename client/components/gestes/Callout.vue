@@ -27,7 +27,7 @@
 
 <style lang="scss">
 .callout {
-  border: 1px solid var(--yellow-tournesol-850-200);
+  border: 1px solid var(--yellow-tournesol-main-731);
   background-color: var(--yellow-tournesol-975-75);
 
   h4 {
