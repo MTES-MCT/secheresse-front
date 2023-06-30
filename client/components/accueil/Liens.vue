@@ -5,7 +5,7 @@ import liens from '../../data/liens.json'
 <template>
   <div class="liens fr-pt-8w fr-pb-8w">
     <div class="section-title fr-mb-4w">
-      <h1>Les liens utiles</h1>
+      <h2>Les liens utiles</h2>
       <span>Toutes les ressources officielles sur la gestion de l'eau :</span>
     </div>
     <div>

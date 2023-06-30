@@ -8,7 +8,6 @@
       <img src="/callout_simulateur.svg"
            style="max-width: 100%"
            width="120" height="121"
-           alt="Image d'illustration arrosoir"
            title="Image d'illustration arrosoir"
       />
     </div>
@@ -31,7 +30,7 @@
   background-color: var(--yellow-tournesol-975-75);
 
   h4 {
-    color: var(--yellow-tournesol-main-731);
+    color: var(--yellow-moutarde-main-679);
   }
 }
 

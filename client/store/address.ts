@@ -19,6 +19,14 @@ export const useAddressStore = defineStore('addressStore', () => {
     address.value = null;
     geo.value = null;
   }
+  
+  function adressString(): string | undefined{
+    if (address.value) {
+      return address.value.properties.label
+    } else if (geo.value) {
+      return geo.value.nom
+    }
+  }
 
-  return {setAddress, setGeo, resetAddress, address, geo}
+  return {setAddress, setGeo, resetAddress, adressString, address, geo}
 })

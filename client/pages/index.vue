@@ -4,7 +4,7 @@ definePageMeta({
 })
 
 useHead({
-  title: `${useRuntimeConfig().public.appName} - Accueil`
+  title: `Accueil - ${useRuntimeConfig().public.appName}`
 })
 </script>
 

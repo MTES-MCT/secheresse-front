@@ -57,7 +57,7 @@ const cardIcon = computed((): string => {
     <div class="eau-card__header">
       <VIcon :name="cardIcon" scale="5"/>
     </div>
-    <h6 class="eau-card__title fr-my-2w">
+    <div class="h6 eau-card__title fr-my-2w">
       {{ usage.usage }}
 
       <DsfrButton icon="ri-question-line"
@@ -67,7 +67,7 @@ const cardIcon = computed((): string => {
                   size="small"
                   @click="modalOpened = true"
                   no-outline/>
-    </h6>
+    </div>
     <div class="eau-card__desc">
       {{ cardDesc }}
     </div>

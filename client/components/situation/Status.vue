@@ -11,15 +11,10 @@ const addressStore = useAddressStore();
 const restrictionsStore = useRestrictionsStore();
 const {address, geo} = storeToRefs(addressStore);
 const {restrictions}: Ref<Restriction[]> = storeToRefs(restrictionsStore);
-const {resetAddress} = addressStore;
+const {resetAddress, adressString} = addressStore;
 const {isParticulier} = restrictionsStore;
 
-const addressToUse: Ref<any> = ref(null);
-if (address.value) {
-  addressToUse.value = address.value.properties.label
-} else if (geo.value) {
-  addressToUse.value = geo.value.nom
-}
+const addressToUse: Ref<any> = ref(adressString());
 resetAddress();
 
 const arretes = computed<Arrete[]>(() => {

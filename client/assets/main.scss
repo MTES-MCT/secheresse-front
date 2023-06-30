@@ -48,12 +48,12 @@ body {
   }
 
   &-3 {
-    background-color: var(--orange-terre-battue-main-645);
+    background-color: var(--pink-tuile-main-556);
     color: var(--grey-1000-50);
   }
 
   &-2 {
-    background-color: var(--yellow-tournesol-main-731);
+    background-color: var(--yellow-moutarde-main-679);
     color: var(--grey-1000-50);
   }
 
@@ -69,15 +69,35 @@ body {
   }
 
   &-3 {
-    color: var(--orange-terre-battue-main-645);
+    color: var(--pink-tuile-main-556);
   }
 
   &-2 {
-    color: var(--yellow-tournesol-main-731);
+    color: var(--yellow-moutarde-main-679);
   }
 
   &-1 {
     color: var(--green-menthe-main-548);
+  }
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+
+  @media (min-width: 48em) {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+}
+
+.h6 {
+  font-weight: 700;
+  font-size: 1.125rem;
+
+  @media (min-width: 48em) {
+    font-size: 1.25rem;
   }
 }
 

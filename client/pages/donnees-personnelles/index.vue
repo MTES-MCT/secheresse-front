@@ -7,7 +7,7 @@ definePageMeta({
 
 const appName = useRuntimeConfig().public.appName;
 useHead({
-  title: `${appName}- Données personnelles`
+  title: `Données personnelles - ${useRuntimeConfig().public.appName}`
 })
 
 const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Données personnelles"}])

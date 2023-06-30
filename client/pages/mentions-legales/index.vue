@@ -7,7 +7,7 @@ definePageMeta({
 
 const appName = useRuntimeConfig().public.appName;
 useHead({
-  title: `${appName} - Mentions légales`
+  title: `Mentions légales - ${appName}`
 })
 
 const domainName = useRuntimeConfig().public.domainName;
