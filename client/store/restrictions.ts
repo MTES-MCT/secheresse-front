@@ -31,7 +31,6 @@ export const useRestrictionsStore = defineStore('restrictionStore', () => {
       restrictions.sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
     }
     return restrictions.map(r => {
-      console.log('POULET');
       r.profil = profile;
       r.usages = r.usages?.sort((a, b) => a.usage.localeCompare(b.usage));
       return r;
