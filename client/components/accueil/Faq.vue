@@ -12,12 +12,12 @@ const onAccordionClick = (index: string) => {
 <template>
   <div class="faq fr-mt-8w">
     <div class="section-title fr-mb-8w">
-      <h1>Les questions fréquemment posées</h1>
+      <h2>Les questions fréquemment posées</h2>
     </div>
     <div class="section-title">
       <DsfrAccordionsGroup>
         <template v-for="(category, x) in faq.categories">
-          <h6 class="fr-mt-4w">{{ category.name }}</h6>
+          <h3 class="fr-mt-4w h6">{{ category.name }}</h3>
           <li v-for="(item, y) in category.data">
             <DsfrAccordion :title="item.question"
                            :expanded-id="expandedIndex"

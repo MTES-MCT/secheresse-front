@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useRestrictionsStore } from "../../store/restrictions";
+import { useAddressStore } from "../../store/address";
 
 definePageMeta({
   layout: 'basic',
   middleware: 'situation-address'
 })
 
+const addressStore = useAddressStore();
+const {adressString} = addressStore;
+
 useHead({
-  title: `${useRuntimeConfig().public.appName} - Situation`
+  title: `Situation ${adressString()} - ${useRuntimeConfig().public.appName}`
 })
 
-const restrictionsStore = useRestrictionsStore();
-const {isParticulier} = restrictionsStore;
 </script>
 
 <template>

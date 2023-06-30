@@ -7,7 +7,7 @@ definePageMeta({
 
 const appName = useRuntimeConfig().public.appName;
 useHead({
-  title: `${appName} - Accessibilité`
+  title: `Accessibilité - ${useRuntimeConfig().public.appName}`
 })
 
 const domainName = useRuntimeConfig().public.domainName;

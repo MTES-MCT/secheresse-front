@@ -7,7 +7,7 @@ const props = defineProps<{
 <template>
   <div class="fr-col-12 fr-col-md-4" :class="geste.large ? '' : 'fr-col-lg-3'">
     <div class="eau-card fr-p-2w">
-      <h6 class="eau-card__title fr-my-2w">
+      <div class="h6 eau-card__title fr-my-2w">
         <div class="fr-grid-row">
           <div v-if="geste.icon" class="fr-col-3" :style="'max-width: 60px'">
             <VIcon :name="geste.icon"
@@ -17,7 +17,7 @@ const props = defineProps<{
             {{ geste.title }}
           </div>
         </div>
-      </h6>
+      </div>
       <div class="eau-card__desc" v-html="geste.description">
       </div>
     </div>

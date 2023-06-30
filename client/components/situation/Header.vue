@@ -80,13 +80,13 @@ onMounted(() => {
         <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
       </div>
-      <h3 v-if="restriction.idZone">Votre êtes sur une zone en <span
+      <h1 v-if="restriction.idZone" class="h2">Vous êtes sur une zone en <span
         :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
           situationLabel
-        }}</span></h3>
-      <h3 v-else>
+        }}</span></h1>
+      <h1 class="h2" v-else>
         Vous êtes sur une zone qui n'est pas concernée par des restrictions
-      </h3>
+      </h1>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"
          v-if="utils.showRestrictions(restrictions)">
@@ -159,8 +159,10 @@ onMounted(() => {
     background-color: var(--grey-1000-50);
   }
 
-  h3 span {
-    text-transform: lowercase;
+  h1 {
+    span {
+      text-transform: lowercase;
+    }
   }
 
   &__btn-wrapper {
