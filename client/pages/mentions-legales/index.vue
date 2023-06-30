@@ -39,6 +39,11 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
       <br/>
       Siège social :15 avenue du Rhin, 67100 Strasbourg, France.
     </p>
+    <p>
+      Le formulaire de retours utilisateurs est géré par la société Tally.
+      <br/>
+      Siège social : Muidepoort 19A, 9000 Gand, Belgique.
+    </p>
     <h2>Accessibilité</h2>
     <p>Voir la page
       <router-link to="/accessibilite">Déclaration d'accessibilité</router-link>

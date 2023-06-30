@@ -213,5 +213,16 @@ const index = {
         };
     }
   },
+  
+  openTally() {
+    window.Tally.openPopup('w54YQZ', {
+      width: 376,
+      autoClose: 2000,
+      emoji: {
+        text: '👋',
+        animation: 'wave'
+      }
+    });
+  }
 }
 export default index;

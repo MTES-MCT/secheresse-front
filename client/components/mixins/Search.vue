@@ -17,14 +17,18 @@ const emit = defineEmits<{
   }]
 }>();
 
+const _closeModal = (): void => {
+  modalOpened.value = false;
+};
+
 const addressQuery: Ref<string> = ref('');
 const addresses: Ref<Address[]> = ref([]);
 const loadAddresses: Ref<boolean> = ref(true);
-const modalTitle: Ref<string> = ref('');
-const modalText: Ref<string> = ref('');
 const loadingAdresses: Ref<boolean> = ref(false);
 const profileTags: Ref<any[]> = ref([]);
 const selectedTagType: Ref<string> = ref('particulier');
+const modalOpened: Ref<boolean> = ref(false);
+const modalActions: Ref<any[]> = ref([{label: "Recommencer", onClick: _closeModal}]);
 
 for (let profile in Profile) {
   profileTags.value.push({
@@ -77,6 +81,9 @@ watch(addressQuery, utils.debounce(async () => {
   }
   loadingAdresses.value = true;
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
+  if (error?.value) {
+    modalOpened.value = true;
+  }
   loadingAdresses.value = false;
   addresses.value = response.value ? _formatAddresses(response.value.features) : [];
 }, 500));
@@ -114,6 +121,15 @@ if (props.query) {
   </div>
   <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
               class="notice-light fr-mt-2w"/>
+  <DsfrModal :opened="modalOpened"
+             title="Cela n'a pas fonctionné comme prévu !"
+             icon="ri-arrow-right-line"
+             :actions=modalActions
+             @close="_closeModal">
+    <div>
+      Nous sommes désolés, une erreur s’est glissée dans notre système et nous n’avons pas pu traiter correctement votre requête
+    </div>
+  </DsfrModal>
 </template>
 
 <style scoped lang="scss">
