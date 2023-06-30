@@ -16,7 +16,7 @@ export const useRestrictionsStore = defineStore('restrictionStore', () => {
   }
 
   function formatRestrictions(restrictions: Restriction[], profile: string, departementConfig: Departement): Restriction[] {
-    if (!restrictions) {
+    if (!restrictions || restrictions.length < 1) {
       return restrictions;
     }
     // @ts-ignore
@@ -31,6 +31,7 @@ export const useRestrictionsStore = defineStore('restrictionStore', () => {
       restrictions.sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
     }
     return restrictions.map(r => {
+      console.log('POULET');
       r.profil = profile;
       r.usages = r.usages?.sort((a, b) => a.usage.localeCompare(b.usage));
       return r;

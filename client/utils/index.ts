@@ -134,7 +134,6 @@ const index = {
       return;
     }
 
-    // SI DATA RENVOYEE
     address ? setAddress(address) : setGeo(geo);
     setRestrictions(data?.value ? data.value : [], profile, departementConfig.value);
     let query: any = {};
