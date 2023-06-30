@@ -28,11 +28,11 @@ const selectedTagIndex: Ref<number> = ref(0);
     </div>
     <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle">
       <div class="fr-col-12 fr-col-md-6">
-        <img src="/repartition_consommation.svg"
-             style="max-width: 100%"
-             width="424" height="304"
-             alt="Répartition de la consommation d'eau potable des français selon les usages"
-             title="Répartition de la consommation d'eau potable des français selon les usages"
+        <DsfrPicture src="/repartition_consommation.svg"
+                     size="small"
+                     alt="Répartition de la consommation d'eau potable des français selon les usages"
+                     title="Répartition de la consommation d'eau potable des français selon les usages"
+                     legend="Source: Ademe"
         />
       </div>
       <div class="fr-col-12 fr-col-md-6">
@@ -87,6 +87,10 @@ const selectedTagIndex: Ref<number> = ref(0);
     background: linear-gradient(180deg, var(--yellow-tournesol-975-75), var(--blue-france-850-200));
     opacity: 0.5;
     z-index: -1;
+  }
+  
+  img {
+    aspect-ratio: auto !important;
   }
 }
 </style>

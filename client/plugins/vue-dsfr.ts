@@ -13,7 +13,7 @@ import {
   DsfrModal,
   DsfrBadge,
   DsfrButton,
-  DsfrCallout,
+  DsfrCallout, DsfrPicture,
 } from '@gouvminint/vue-dsfr'
 import {
   EauArrosoir,
@@ -86,6 +86,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('DsfrBadge', DsfrBadge);
   nuxtApp.vueApp.component('DsfrButton', DsfrButton);
   nuxtApp.vueApp.component('DsfrCallout', DsfrCallout);
+  nuxtApp.vueApp.component('DsfrPicture', DsfrPicture);
   addIcons(...icons);
   nuxtApp.vueApp.component('VIcon', OhVueIcon);
 })

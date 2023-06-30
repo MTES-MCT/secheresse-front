@@ -107,7 +107,7 @@ if (lat && lon) {
 
 .search-card {
   background-color: var(--background-default-grey);
-  border: 1px var(--blue-france-925-125) solid;
+  border: 1px var(--blue-cumulus-main-526) solid;
 
   &-wrapper {
     max-width: 700px;

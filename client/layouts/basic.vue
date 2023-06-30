@@ -54,8 +54,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <DsfrNotice v-if="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
-              title="Version beta en cours de conception"/>
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
@@ -64,6 +62,8 @@ onMounted(() => {
               :key="key"
               serviceTitle=" "
   />
+  <DsfrNotice v-if="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
+              title="Version beta en cours de conception"/>
   <div class="fr-container fr-mb-8w">
     <slot/>
   </div>
