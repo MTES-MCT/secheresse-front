@@ -97,7 +97,7 @@ watch(addressQuery, utils.debounce(async () => {
   }
   loadingAdresses.value = true;
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
-  if (error?.value) {
+  if (error?.value && error?.value.statusCode === 500) {
     modalOpened.value = true;
   }
   loadingAdresses.value = false;
