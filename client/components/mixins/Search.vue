@@ -83,7 +83,6 @@ const geoloc = () => {
   };
 
   const errorCallback = () => {
-    modalOpened.value = true;
   };
 
   navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -97,9 +96,6 @@ watch(addressQuery, utils.debounce(async () => {
   }
   loadingAdresses.value = true;
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
-  if (error?.value && error?.value.statusCode === 500) {
-    modalOpened.value = true;
-  }
   loadingAdresses.value = false;
   addresses.value = response.value ? _formatAddresses(response.value.features) : [];
 }, 500));
