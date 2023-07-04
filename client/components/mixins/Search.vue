@@ -73,6 +73,22 @@ const _formatAddresses = (addresses: Address[]): Address[] => {
   });
 }
 
+const geoloc = () => {
+  const successCallback = async (position) => {
+    const {data} = await api.searchAdressByLonLat(position.coords.longitude, position.coords.latitude);
+    if (data.value?.features[0]) {
+      addressQuery.value = data.value?.features[0].properties.label;
+      selectAddress(data.value?.features[0]);
+    }
+  };
+
+  const errorCallback = () => {
+    modalOpened.value = true;
+  };
+
+  navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+}
+
 watch(addressQuery, utils.debounce(async () => {
   if (!addressQuery.value || !loadAddresses.value) {
     loadAddresses.value = true;
@@ -119,8 +135,16 @@ if (props.query) {
       </div>
     </div>
   </div>
+  <div class="btn-geoloc">
+    <DsfrButton label="Géo-localisez moi"
+                icon="ri-map-pin-user-line"
+                class="fr-mt-1w"
+                iconRight
+                @click="geoloc()"
+                tertiary/>
+  </div>
   <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
-              class="notice-light fr-mt-2w"/>
+              class="notice-light fr-mt-1w"/>
   <DsfrModal :opened="modalOpened"
              title="Cela n'a pas fonctionné comme prévu !"
              icon="ri-arrow-right-line"
@@ -133,8 +157,9 @@ if (props.query) {
 </template>
 
 <style scoped lang="scss">
-.fr-notice {
-  margin: auto
+.fr-notice, .btn-geoloc {
+  margin: auto;
+  width: fit-content;
 }
 
 .autocomplete-wrapper {
