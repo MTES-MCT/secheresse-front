@@ -36,7 +36,13 @@ export default defineNuxtConfig({
       ],
       htmlAttrs: {
         lang: 'fr'
-      }
+      },
+      script: [
+        {
+          src: 'https://tally.so/widgets/embed.js',
+          async: true
+        }
+      ]
     }
   },
   css: [

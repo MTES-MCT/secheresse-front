@@ -46,6 +46,12 @@ onMounted(() => {
       icon: 'ri-search-line',
       iconRight: true,
       to: '/'
+    }, {
+      label: 'Donner mon avis',
+      icon: 'ri-survey-line',
+      iconRight: true,
+      button: true,
+      onclick: utils.openTally
     }] : [];
     key.value ++;
     }, { immediate: true }

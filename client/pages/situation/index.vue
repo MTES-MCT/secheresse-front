@@ -12,14 +12,13 @@ const {adressString} = addressStore;
 useHead({
   title: `Situation ${adressString()} - ${useRuntimeConfig().public.appName}`
 })
-
 </script>
 
 <template>
   <div>
     <SituationStatus/>
-    <AccueilGestes />
-    <AccueilLiens />
+    <AccueilGestes/>
+    <AccueilLiens/>
     <AccueilFaq/>
   </div>
 </template>

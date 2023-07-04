@@ -97,10 +97,17 @@ onMounted(() => {
       </div>
     </div>
     <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
-      <router-link to="/" class="fr-link fr-ml-1w">
+      <router-link to="/"
+                   class="fr-btn fr-btn--secondary full-width fr-grid-row--center">
         Effectuer une nouvelle recherche
-        <VIcon name="ri-search-line"/>
+        <VIcon class="fr-ml-1w" name="ri-search-line"/>
       </router-link>
+      <DsfrButton class="full-width fr-mt-1w fr-grid-row--center"
+                  secondary
+                  @click="utils.openTally">
+        Donner mon avis
+        <VIcon class="fr-ml-1w" name="ri-survey-line"/>
+      </DsfrButton>
     </div>
   </div>
   <DsfrModal :opened="modalOpened"
