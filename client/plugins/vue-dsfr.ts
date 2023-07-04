@@ -54,6 +54,7 @@ const icons = [
   RiDownload2Line,
   RiQuestionLine,
   RiSurveyLine,
+  RiMapPinUserLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,
