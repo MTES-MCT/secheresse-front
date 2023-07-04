@@ -47,31 +47,29 @@ if (lat && lon) {
 </script>
 
 <template>
-  <div class="presentation fr-grid-row fr-grid-row--center fr-my-8w">
+  <div class="presentation fr-grid-row fr-grid-row--center fr-mb-8w">
     <div class="section-title presentation-title">
-      <div>
-        <b>Particuliers, agriculteurs, entreprises, collectivités,</b>
-      </div>
       <img src="/logo_chaque_geste_compte.svg"
            style="max-width: 100%"
            width="410" height="180"
            alt="Chaque geste compte, préservons nos ressources"
            title="Chaque geste compte, préservons nos ressources"
       />
-      <div>
-        Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec
-        <b><i>{{ domainName }}</i></b>, nous
-        vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.
-      </div>
     </div>
 
-    <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-4w">
+    <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w">
       <div class="search-card-wrapper">
         <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
         <MixinsSearch @search="searchRestriction($event.address, null, $event.type)"
                       :query="adressQuery"
                       :loading="loadingRestrictions"/>
       </div>
+    </div>
+
+    <div class="section-title fr-mt-4w">
+      Nos nappes phréatiques sont basses, nous devons tous faire attention à notre consommation d’eau. Avec
+      <b><i>{{ domainName }}</i></b>, nous
+      vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.
     </div>
 
     <DsfrModal :opened="modalOpened"
@@ -86,7 +84,7 @@ if (lat && lon) {
 
 <style scoped lang="scss">
 .presentation {
-  .section-title {
+  .presentation-title {
     position: relative;
 
     &:before {
