@@ -39,8 +39,8 @@ const sameUsages = computed<boolean>(() => {
       <SituationRestrictions v-if="utils.showRestrictions(restrictions)"
                              :restrictions="restrictions"/>
       <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
-        L’état de la ressource en eau appelle à la vigilance de chacun, aucune restriction ne s'applique encore à votre adresse. Nous vous
-        conseillons tout de même de suivre les eco-gestes ci-dessous.
+        L’état de la ressource en eau appelle à la vigilance de chacun. Nous vous
+        conseillons de suivre les eco-gestes ci-dessous.
         <br/>
         Chaque geste compte pour économiser l’eau.
       </div>
