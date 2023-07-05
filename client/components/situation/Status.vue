@@ -38,12 +38,6 @@ const sameUsages = computed<boolean>(() => {
     <template v-if="isParticulier()">
       <SituationRestrictions v-if="utils.showRestrictions(restrictions)"
                              :restrictions="restrictions"/>
-      <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-mt-4w" v-else>
-        L’état de la ressource en eau appelle à la vigilance de chacun. Nous vous
-        conseillons de suivre les eco-gestes ci-dessous.
-        <br/>
-        Chaque geste compte pour économiser l’eau.
-      </div>
       <div class="section-title fr-mt-8w">
         <DsfrCallout title=""
                      content="">
