@@ -61,10 +61,12 @@ onMounted(() => {
            v-if="restriction.idZone">
         <DsfrBadge small
                    class="show-sm"
+                   no-icon
                    :class="classObject(utils.getRestrictionRank(restriction))"
                    :label="badgeLabel(utils.getRestrictionRank(restriction))"/>
         <DsfrBadge v-for="rank of restrictionRanks"
                    small
+                   no-icon
                    class="fr-ml-1w hide-sm"
                    :class="classObject(rank)"
                    :label="badgeLabel(rank)"/>
