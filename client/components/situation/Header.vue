@@ -92,8 +92,15 @@ onMounted(() => {
          v-if="utils.showRestrictions(restrictions)">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
-    <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-if="!restriction.idZone">
-      <div>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
+    <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-else>
+      <div v-if="!restriction.idZone">
+        Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
+      </div>
+      <div v-else>
+        L’état de la ressource en eau appelle à la vigilance de chacun. Nous vous
+        conseillons de suivre les eco-gestes ci-dessous.
+        <br/>
+        Chaque geste compte pour économiser l’eau.
       </div>
     </div>
     <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
