@@ -33,7 +33,7 @@ const onAccordionClick = (index: string) => {
         <a class="fr-link"
            title="Contactez-nous sur contact.vigieau@beta.gouv.fr"
            :href="'mailto:contact.vigieau@beta.gouv.fr'">
-          Contactez nous
+          Contactez nous sur contact.vigieau@beta.gouv.fr
         </a>
       </div>
     </div>
