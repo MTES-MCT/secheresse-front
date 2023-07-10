@@ -1,14 +1,14 @@
 import { useAddressStore } from "../store/address";
 import { storeToRefs } from "pinia";
-import { useRestrictionsStore } from "../store/restrictions";
+import { useRestrictionStore } from "../store/restrictions";
 
 export default defineNuxtRouteMiddleware((to: any, from: any) => {
   const addressStore = useAddressStore();
   const {address, geo} = storeToRefs(addressStore);
-  const restrictionsStore = useRestrictionsStore();
-  const {restrictions} = storeToRefs(restrictionsStore);
+  const restrictionStore = useRestrictionStore();
+  const {restriction} = storeToRefs(restrictionStore);
 
-  if ((!address.value && !geo.value) || !restrictions.value) {
+  if ((!address.value && !geo.value) || !restriction.value) {
     return navigateTo({path: '/', query: to.query})
   }
 })

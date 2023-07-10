@@ -2,13 +2,11 @@
 import utils from "../../utils";
 import { Restriction } from "../../dto/restriction.dto";
 import { Ref } from "vue";
-import { Arrete } from "../../dto/arrete.dto";
 
 const props = defineProps<{
-  restrictions: Restriction[]
+  restriction: Restriction
   address: string
 }>();
-let restriction: Ref<Restriction> = ref();
 
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situation'}]);
 const modalOpened: Ref<boolean> = ref(false);
@@ -22,30 +20,16 @@ const classObject = (rank: number | undefined): any => {
   const bgClass = `situation-level-bg-${rank}`;
   const colorClass = `situation-level-c-${rank}`;
   const cssClass: any = {
-    'situation-disabled': utils.getRestrictionRank(restriction.value) !== rank
+    'situation-disabled': utils.getRestrictionRank(props.restriction) !== rank
   }
   cssClass[bgClass] = true;
-  cssClass[colorClass] = utils.getRestrictionRank(restriction.value) !== rank;
+  cssClass[colorClass] = utils.getRestrictionRank(props.restriction) !== rank;
   return cssClass;
 }
 
 const situationLabel = computed<string>(() => {
-  return utils.getShortSituationLabel(utils.getRestrictionRank(restriction.value))
+  return utils.getShortSituationLabel(utils.getRestrictionRank(props.restriction))
 });
-
-const arretes = computed<Arrete[]>(() => {
-  return utils.getArretes(props.restrictions);
-});
-
-onMounted(() => {
-  if (props.restrictions.length > 0) {
-    restriction.value = props.restrictions[0];
-  } else {
-    //@ts-ignore
-    restriction.value = {};
-  }
-})
-
 </script>
 
 <template>
@@ -91,7 +75,7 @@ onMounted(() => {
       </h1>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"
-         v-if="utils.showRestrictions(restrictions)">
+         v-if="utils.showRestrictions(restriction)">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
     <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-else>

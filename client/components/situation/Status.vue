@@ -2,56 +2,43 @@
 import { useAddressStore } from "../../store/address";
 import { storeToRefs } from "pinia";
 import { Ref } from "vue";
-import { useRestrictionsStore } from "../../store/restrictions";
+import { useRestrictionStore } from "../../store/restrictions";
 import { Restriction } from "../../dto/restriction.dto";
-import { Arrete } from "../../dto/arrete.dto";
 import utils from "../../utils";
 
 const addressStore = useAddressStore();
-const restrictionsStore = useRestrictionsStore();
+const restrictionStore = useRestrictionStore();
 const {address, geo} = storeToRefs(addressStore);
-const {restrictions}: Ref<Restriction[]> = storeToRefs(restrictionsStore);
+const {restriction}: Ref<Restriction> = storeToRefs(restrictionStore);
 const {resetAddress, adressString} = addressStore;
-const {isParticulier} = restrictionsStore;
+const {isParticulier} = restrictionStore;
 
 const addressToUse: Ref<any> = ref(adressString());
 resetAddress();
-
-const arretes = computed<Arrete[]>(() => {
-  return utils.getArretes(restrictions.value);
-});
-
-const sameUsages = computed<boolean>(() => {
-  if (!restrictions.value[0].usagesHash) {
-    return false;
-  }
-  const usagesHash = restrictions.value[0].usagesHash;
-  return restrictions.value.every(r => r.usagesHash === usagesHash);
-});
 </script>
 
 <template>
   <div class="situation-status fr-grid-row fr-grid-row--center"
        v-if="addressToUse">
     <SituationHeader :address="addressToUse"
-                     :restrictions="restrictions"/>
+                     :restriction="restriction"/>
     <template v-if="isParticulier()">
-      <SituationRestrictions v-if="utils.showRestrictions(restrictions)"
-                             :restrictions="restrictions"/>
+      <SituationRestrictions v-if="utils.showRestrictions(restriction)"
+                             :restriction="restriction"/>
       <div class="section-title fr-mt-8w">
         <DsfrCallout title=""
                      content="">
           <p class="fr-callout__text">
-            <span v-if="restrictions.length > 1 && !sameUsages">
-              Attention, si vous utilisez de l'eau provenant {{ utils.getProvenanceLabel(restrictions[0], true, true) }}, les restrictions sont consultables via
+            <span v-if="false">
+              Attention, si vous utilisez de l'eau provenant {{ utils.getProvenanceLabel(restriction, true, true) }}, les restrictions sont consultables via
               cet <a class="fr-link"
-                     :href="arretes[0].cheminFichier"
+                     :href="restriction.arrete.cheminFichier"
                      onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
                      target="_blank"
                      rel="noopener">
             arrêté de restriction</a>
-            <span v-if="arretes[0].cheminFichierArreteCadre"> et cet <a class="fr-link"
-                                                                        :href="arretes[0].cheminFichierArreteCadre"
+            <span v-if="restriction.arrete.cheminFichierArreteCadre"> et cet <a class="fr-link"
+                                                                        :href="restriction.arrete.cheminFichierArreteCadre"
                                                                         onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
                                                                         target="_blank"
                                                                         rel="noopener">
@@ -63,13 +50,13 @@ const sameUsages = computed<boolean>(() => {
               Certaines restrictions peuvent avoir fait l'objet de précisions
             <br/>
             Pour le vérifier, merci de <a class="fr-link"
-                                          :href="arretes[0].cheminFichier"
+                                          :href="restriction.arrete.cheminFichier"
                                           onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
                                           target="_blank"
                                           rel="noopener">
             consulter l'arrêté de restriction</a>
-            <span v-if="arretes[0].cheminFichierArreteCadre"> et de <a class="fr-link"
-                                                                       :href="arretes[0].cheminFichierArreteCadre"
+            <span v-if="restriction.arrete.cheminFichierArreteCadre"> et de <a class="fr-link"
+                                                                       :href="restriction.arrete.cheminFichierArreteCadre"
                                                                        onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
                                                                        target="_blank"
                                                                        rel="noopener">

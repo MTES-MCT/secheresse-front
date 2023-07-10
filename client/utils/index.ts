@@ -3,7 +3,7 @@ import { Address } from "../dto/address.dto";
 import api from "../api";
 import { Ref } from "vue";
 import { useAddressStore } from "../store/address";
-import { useRestrictionsStore } from "../store/restrictions";
+import { useRestrictionStore } from "../store/restrictions";
 import { FetchError } from "ofetch";
 import { Arrete } from "../dto/arrete.dto";
 import { Geo } from "../dto/geo.dto";
@@ -25,11 +25,11 @@ const index = {
     }
   },
 
-  showRestrictions(restrictions: Restriction[]): boolean {
-    if (!restrictions || restrictions.length < 1 || restrictions[0].niveauAlerte === 'Vigilance') {
+  showRestrictions(restriction: Restriction): boolean {
+    if (!restriction || restriction.niveauAlerte === 'Vigilance') {
       return false;
     }
-    return (restrictions[0].usages && restrictions[0].usages.filter(u => u.thematique !== 'Autre').length > 0);
+    return (restriction.usages && restriction.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
   getRestrictionRank(restriction: Restriction): number | undefined {
@@ -101,9 +101,9 @@ const index = {
                           router: any,
                           loadingRestrictions: Ref<boolean>) {
     const addressStore = useAddressStore();
-    const restrictionsStore = useRestrictionsStore();
+    const restrictionStore = useRestrictionStore();
     const {setAddress, setGeo} = addressStore;
-    const {setRestrictions} = restrictionsStore;
+    const {setRestriction} = restrictionStore;
 
     loadingRestrictions.value = true;
     const [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
@@ -135,7 +135,7 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setRestrictions(data?.value ? [data.value] : [], profile, departementConfig.value);
+    setRestriction(data?.value ? data.value : null, profile, departementConfig.value);
     let query: any = {};
     query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
       {code_insee: address.properties.citycode} : {
@@ -144,13 +144,6 @@ const index = {
       }) : {code_insee: geo?.code};
     query.profil = profile;
     router.push({path: '/situation', query});
-  },
-
-  getArretes(restrictions: Restriction[]): Arrete[] {
-    const arretes: Arrete[] = restrictions.map(r => r.arrete);
-    return arretes.filter((arrete, index, arretes) => {
-      return arretes.findIndex(a => a.idArrete === arrete.idArrete) === index;
-    });
   },
 
   handleRestrictionError(error: FetchError, data: Restriction[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
@@ -213,7 +206,7 @@ const index = {
         };
     }
   },
-  
+
   openTally() {
     window.Tally.openPopup('w54YQZ', {
       width: 376,
