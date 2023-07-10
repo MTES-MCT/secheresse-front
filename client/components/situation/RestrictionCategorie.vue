@@ -3,12 +3,12 @@ import { Restriction } from "../../dto/restriction.dto";
 import { Usage } from "~/client/dto/usage.dto";
 
 const props = defineProps<{
-  thematique: string,
+  thematique: any,
   restriction: Restriction
 }>();
 
 const usagesFiltered = (restriction: Restriction): Usage[] => {
-  return restriction.usages.filter(u => u.thematique === props.thematique);
+  return restriction.usages.filter(u => u.thematique === props.thematique.thematique);
 };
 </script>
 

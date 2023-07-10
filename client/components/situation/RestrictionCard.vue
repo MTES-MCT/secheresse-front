@@ -5,7 +5,7 @@ import { Ref } from "vue";
 const props = defineProps<{
   usage: Usage,
   departement: string,
-  thematique: string
+  thematique: any
 }>()
 
 const closeModal = () => {
@@ -45,7 +45,9 @@ const cardIcon = computed((): string => {
     case 'Nettoyage':
       return 'eau-goutte-nettoyage-interdiction'
     case 'Alimentation des fontaines publiques et privées':
-      return 'eau-goutte-robinet-interdiction'
+      return 'eau-goutte-fontaine-interdiction'
+    case 'Travaux en cours d’eau':
+      return 'eau-goutte-travaux-interdiction'
     default:
       return 'eau-goutte-robinet-interdiction'
   }
@@ -55,7 +57,7 @@ const cardIcon = computed((): string => {
 <template>
   <div class="eau-card fr-p-2w">
     <div class="eau-card__header">
-      <VIcon :name="cardIcon" scale="5"/>
+      <VIcon :name="thematique.icone" scale="5"/>
     </div>
     <div class="h6 eau-card__title fr-my-2w">
       {{ usage.usage }}

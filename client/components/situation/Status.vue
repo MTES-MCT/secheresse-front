@@ -29,25 +29,7 @@ resetAddress();
         <DsfrCallout title=""
                      content="">
           <p class="fr-callout__text">
-            <span v-if="false">
-              Attention, si vous utilisez de l'eau provenant {{ utils.getProvenanceLabel(restriction, true, true) }}, les restrictions sont consultables via
-              cet <a class="fr-link"
-                     :href="restriction.arrete.cheminFichier"
-                     onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
-                     target="_blank"
-                     rel="noopener">
-            arrêté de restriction</a>
-            <span v-if="restriction.arrete.cheminFichierArreteCadre"> et cet <a class="fr-link"
-                                                                        :href="restriction.arrete.cheminFichierArreteCadre"
-                                                                        onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
-                                                                        target="_blank"
-                                                                        rel="noopener">
-            arrêté cadre préfectoral</a></span>.
-            <br/><br/>
-            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
-            </span>
-            <span v-else>
-              Certaines restrictions peuvent avoir fait l'objet de précisions
+            Certaines restrictions peuvent avoir fait l'objet de précisions
             <br/>
             Pour le vérifier, merci de <a class="fr-link"
                                           :href="restriction.arrete.cheminFichier"
@@ -56,14 +38,13 @@ resetAddress();
                                           rel="noopener">
             consulter l'arrêté de restriction</a>
             <span v-if="restriction.arrete.cheminFichierArreteCadre && restriction.idZone !== '12072'"> et de <a class="fr-link"
-                                                                       :href="restriction.arrete.cheminFichierArreteCadre"
-                                                                       onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
-                                                                       target="_blank"
-                                                                       rel="noopener">
+                                                                                                                 :href="restriction.arrete.cheminFichierArreteCadre"
+                                                                                                                 onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                                                                                                 target="_blank"
+                                                                                                                 rel="noopener">
             consulter l'arrêté cadre préfectoral</a></span>.
             <br/><br/>
             Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
-            </span>
           </p>
         </DsfrCallout>
       </div>
