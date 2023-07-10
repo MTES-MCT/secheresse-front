@@ -8,7 +8,12 @@ const operatorImgStyle: any = {
   'max-width': '150px'
 };
 const a11yCompliance: string = 'Non conforme';
-const descText: string = useRuntimeConfig().public.appName;
+const descText: string = `plateforme élaborée en collaboration avec <a class="fr-link"
+         target="_blank"
+         rel="external"
+         href="https://lareserve.tech">
+        lareserve.tech
+      </a>`;
 let quickLinks: any[] = [];
 const mandatoryLinks: any[] = [{
   label: `Accessibilité : ${a11yCompliance}`,
@@ -75,9 +80,12 @@ onMounted(() => {
   </div>
   <DsfrFooter :logo-text="logoText"
               :mandatoryLinks="mandatoryLinks"
-              :descText="descText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
-              :operatorImgStyle="operatorImgStyle"
-  />
+              :operatorImgStyle="operatorImgStyle">
+    <template v-slot:description>
+      <p v-html="descText">
+      </p>
+    </template>
+  </DsfrFooter>
 </template>
