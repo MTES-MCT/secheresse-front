@@ -15,7 +15,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
 }, {
   label: 'Remplir ou vidanger',
   thematique: 'Remplissage vidange',
-  icone: 'eau-goutte-remplissage-interdiction'
+  icone: 'eau-goutte-piscine-interdiction'
 }, {
   label: 'Nettoyer',
   thematique: 'Nettoyage',

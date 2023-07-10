@@ -22,7 +22,7 @@ import {
   EauGoutteDouche, EauGoutteFontaineInterdiction,
   EauGoutteFuite,
   EauGoutteMachine, EauGoutteNavigationInterdiction,
-  EauGoutteNettoyageInterdiction, EauGoutteRemplissageInterdiction,
+  EauGoutteNettoyageInterdiction, EauGouttePiscineInterdiction, EauGoutteRemplissageInterdiction,
   EauGoutteRobinet, EauGoutteRobinetInterdiction, EauGoutteTravauxInterdiction,
   EauGoutteVoiture,
   EauMaison,
@@ -73,7 +73,8 @@ const icons = [
   EauGoutteTravauxInterdiction,
   EauGoutteAbreuvementInterdiction,
   EauGoutteNavigationInterdiction,
-  EauGoutteCanauxInterdiction
+  EauGoutteCanauxInterdiction,
+  EauGouttePiscineInterdiction
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {

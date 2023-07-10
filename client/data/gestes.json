@@ -2,14 +2,14 @@
   "data": [
     {
       "title": "En évitant de laisser couler l’eau du robinet,",
-      "description": "j’économise 12L d’eau par minute en moyenne !",
+      "description": "j’économise 10L d’eau par minute en moyenne !",
       "icon": "eau-goutte-robinet",
       "home": true,
       "large": true
     },
     {
       "title": "En prenant des douches de 4 à 5 minutes plutôt que des bains,",
-      "description": "j'économise 110L d’eau à chaque douche !",
+      "description": "j'économise 100L d’eau à chaque fois !",
       "icon": "eau-goutte-douche",
       "home": true,
       "large": true
