@@ -55,7 +55,7 @@ resetAddress();
                                           target="_blank"
                                           rel="noopener">
             consulter l'arrêté de restriction</a>
-            <span v-if="restriction.arrete.cheminFichierArreteCadre"> et de <a class="fr-link"
+            <span v-if="restriction.arrete.cheminFichierArreteCadre && restriction.idZone !== '12072'"> et de <a class="fr-link"
                                                                        :href="restriction.arrete.cheminFichierArreteCadre"
                                                                        onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
                                                                        target="_blank"
