@@ -26,7 +26,8 @@ const index = {
   },
 
   showRestrictions(restriction: Restriction): boolean {
-    if (!restriction || restriction.niveauAlerte === 'Vigilance') {
+    const departement = ['59', '62'];
+    if (!restriction || (restriction.niveauAlerte === 'Vigilance' && !departement.includes(restriction.departement))) {
       return false;
     }
     return (restriction.usages && restriction.usages.filter(u => u.thematique !== 'Autre').length > 0);
