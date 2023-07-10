@@ -135,7 +135,7 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setRestrictions(data?.value ? data.value : [], profile, departementConfig.value);
+    setRestrictions(data?.value ? [data.value] : [], profile, departementConfig.value);
     let query: any = {};
     query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
       {code_insee: address.properties.citycode} : {

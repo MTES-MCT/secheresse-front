@@ -20,7 +20,7 @@ const index = {
     });
   },
 
-  searchAdressByLonLat(lon: string, lat: string): Promise<any> {
+  searchAdressByLonLat(lon: string, lat: string, citycode: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/reverse/?lat=${lat}&lon=${lon}&type=housenumber&limit=1`, {
       method: 'GET',
@@ -31,8 +31,8 @@ const index = {
   searchRestrictionByAdress(address: Address, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     let options = ['municipality'].includes(address.properties.type) ?
-      `/zones?commune=${address.properties.citycode}` :
-      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}`;
+      `/reglementation?commune=${address.properties.citycode}` :
+      `/reglementation?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}&commune=${address.properties.citycode}`;
     options += `&profil=${profile}`;
     return useFetch(options, {
       method: 'GET',
@@ -42,7 +42,7 @@ const index = {
 
   searchRestrictionByGeo(geo: Geo, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/zones?commune=${geo.code}&profil=${profile}`, {
+    return useFetch(`/reglementation?commune=${geo.code}&profil=${profile}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
