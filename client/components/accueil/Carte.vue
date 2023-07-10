@@ -64,14 +64,14 @@ const date = computed(() => {
     <div class="section-title fr-mb-8w">
       <h2>Carte des niveaux de gravité sécheresse définis par arrêté au {{ date }}</h2>
     </div>
-    <div class="fr-grid-row fr-grid-row--center ">
-      <div class="legende fr-mb-1w fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--gutters">
-        <div v-for="legend in legends" class="fr-grid-row fr-grid-row--center fr-col-lg-3 fr-col-md-6 fr-col-12">
-          <div class="legende-carre fr-mr-1w" :class="legend.class">
-          </div>
-          {{ legend.text }}
+    <div class="legende fr-mb-1w fr-grid-row fr-grid-row--center fr-grid-row--gutters">
+      <div v-for="legend in legends" class="fr-grid-row fr-grid-row--center fr-col-lg-3 fr-col-md-6 fr-col-12">
+        <div class="legende-carre fr-mr-1w" :class="legend.class">
         </div>
+        {{ legend.text }}
       </div>
+    </div>
+    <div class="fr-grid-row fr-grid-row--top">
       <div class="fr-col-lg-7 fr-col-12">
         <div>
           <h3 class="h6 text-align-center">{{ territoires[0].name }}</h3>
@@ -82,7 +82,7 @@ const date = computed(() => {
           />
         </div>
       </div>
-      <div class="fr-col-lg-5 fr-col-12 fr-grid-row">
+      <div class="fr-col-lg-5 fr-col-12 fr-grid-row fr-grid-row--center">
         <template v-for="(territoire, index) in territoires">
           <div v-if="index > 0"
                class="fr-col-4">
