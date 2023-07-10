@@ -11,36 +11,47 @@ const selectedTagIndex: Ref<number> = ref(0);
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   thematique: 'Arrosage',
+  icone: 'eau-goutte-arrosoir-interdiction'
 }, {
   label: 'Remplir ou vidanger',
   thematique: 'Remplissage vidange',
+  icone: 'eau-goutte-remplissage-interdiction'
 }, {
   label: 'Nettoyer',
   thematique: 'Nettoyage',
+  icone: 'eau-goutte-nettoyage-interdiction'
 }, {
   label: 'Alimenter des fontaines',
   thematique: 'Alimentation des fontaines publiques et privées',
+  icone: 'eau-goutte-fontaine-interdiction'
 }, {
   label: 'Irriguer',
-  thematique: 'Irrigation'
+  thematique: 'Irrigation',
+  icone: 'eau-goutte-remplissage-interdiction'
 }, {
   label: 'Effectuer des travaux',
-  thematique: 'Travaux en cours d’eau'
+  thematique: 'Travaux en cours d’eau',
+  icone: 'eau-goutte-travaux-interdiction'
 }, {
   label: 'Abreuver',
-  thematique: 'Abreuvement'
+  thematique: 'Abreuvement',
+  icone: 'eau-goutte-abreuvement-interdiction'
 }, {
   label: 'Naviguer',
-  thematique: 'Navigation fluviale'
+  thematique: 'Navigation fluviale',
+  icone: 'eau-goutte-navigation-interdiction'
 }, {
   label: 'Prélever',
-  thematique: 'Prélèvement en canaux'
+  thematique: 'Prélèvement en canaux',
+  icone: 'eau-goutte-canaux-interdiction'
 }, {
   label: 'ICPE',
-  thematique: 'ICPE'
+  thematique: 'ICPE',
+  icone: 'eau-goutte-robinet-interdiction'
 }, {
   label: 'Installations de production d`\'électricité d\'origine nucléaire, hydraulique, et thermique à flamme',
-  thematique: 'Installations de production d\'électricité d\'origine nucléaire, hydraulique, et thermique à flamme'
+  thematique: 'Installations de production d\'électricité d\'origine nucléaire, hydraulique, et thermique à flamme',
+  icone: 'eau-goutte-robinet-interdiction'
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
@@ -77,7 +88,7 @@ const title = computed<string>(() => {
         <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-            <SituationRestrictionCategorie :thematique="thematique.thematique"
+            <SituationRestrictionCategorie :thematique="thematique"
                                            :restriction="restriction"
             />
           </div>
