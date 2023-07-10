@@ -35,23 +35,6 @@ const cardDesc = computed((): string => {
   cardDesc += props.usage.erreur ? `Consulter l'arrêté` : '';
   return cardDesc;
 })
-
-const cardIcon = computed((): string => {
-  switch (props.thematique) {
-    case 'Arrosage':
-      return 'eau-goutte-arrosoir-interdiction'
-    case 'Remplissage vidange':
-      return 'eau-goutte-remplissage-interdiction'
-    case 'Nettoyage':
-      return 'eau-goutte-nettoyage-interdiction'
-    case 'Alimentation des fontaines publiques et privées':
-      return 'eau-goutte-fontaine-interdiction'
-    case 'Travaux en cours d’eau':
-      return 'eau-goutte-travaux-interdiction'
-    default:
-      return 'eau-goutte-robinet-interdiction'
-  }
-})
 </script>
 
 <template>

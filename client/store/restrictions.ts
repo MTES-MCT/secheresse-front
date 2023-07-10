@@ -12,6 +12,7 @@ export const useRestrictionStore = defineStore('restrictionStore', () => {
 
   function resetRestriction(): void {
     restriction.value = null;
+    departementConfig.value = null;
   }
 
   function formatRestriction(restriction: Restriction, profile: string, departementConfig: Departement): Restriction {
@@ -20,6 +21,7 @@ export const useRestrictionStore = defineStore('restrictionStore', () => {
     }
     restriction.profil = profile;
     restriction.usages = restriction.usages?.sort((a, b) => a.usage.localeCompare(b.usage));
+    restriction.departementConfig = departementConfig;
     return restriction;
   }
 
