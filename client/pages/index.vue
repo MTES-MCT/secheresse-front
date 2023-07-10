@@ -11,6 +11,7 @@ useHead({
 <template>
   <div>
     <AccueilPresentation/>
+    <AccueilCarte />
     <AccueilGestes/>
     <AccueilLiens />
     <AccueilFaq />
