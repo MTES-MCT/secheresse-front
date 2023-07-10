@@ -25,7 +25,7 @@ resetAddress();
     <template v-if="isParticulier()">
       <SituationRestrictions v-if="utils.showRestrictions(restriction)"
                              :restriction="restriction"/>
-      <div class="section-title fr-mt-8w">
+      <div class="section-title fr-mt-8w" v-if="restriction && restriction.idZone">
         <DsfrCallout title=""
                      content="">
           <p class="fr-callout__text">
