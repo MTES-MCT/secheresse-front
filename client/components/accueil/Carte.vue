@@ -72,7 +72,7 @@ const date = computed(() => {
           {{ legend.text }}
         </div>
       </div>
-      <div class="fr-col-lg-6 fr-col-12">
+      <div class="fr-col-lg-7 fr-col-12">
         <div>
           <h3 class="h6 text-align-center">{{ territoires[0].name }}</h3>
           <img :src="territoires[0].image"
@@ -82,7 +82,7 @@ const date = computed(() => {
           />
         </div>
       </div>
-      <div class="fr-col-lg-6 fr-col-12 fr-grid-row">
+      <div class="fr-col-lg-5 fr-col-12 fr-grid-row">
         <template v-for="(territoire, index) in territoires">
           <div v-if="index > 0"
                class="fr-col-4">
