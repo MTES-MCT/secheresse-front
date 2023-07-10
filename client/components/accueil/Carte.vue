@@ -70,7 +70,7 @@ const date = computed(() => {
       <span>{{ date }}</span>
     </div>
     <div class="legende fr-mb-1w fr-grid-row fr-grid-row--center fr-grid-row--gutters">
-      <div v-for="legend in legends" class="fr-grid-row fr-grid-row--center fr-col-lg-3 fr-col-md-6 fr-col-12">
+      <div v-for="legend in legends" class="fr-grid-row fr-grid-row--center fr-col-xl-2 fr-col-12">
         <div class="legende-carre fr-mr-1w" :class="legend.class">
         </div>
         {{ legend.text }}
