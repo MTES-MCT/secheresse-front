@@ -4,7 +4,7 @@ import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.
 import { Restriction } from "../../dto/restriction.dto";
 
 const props = defineProps<{
-  restrictions: Restriction[]
+  restriction: Restriction
 }>()
 
 const selectedTagIndex: Ref<number> = ref(0);
@@ -44,12 +44,12 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
-  let usages = props.restrictions[0].usages;
+  let usages = props.restriction.usages;
   return thematiqueTags.value.filter(t => usages.findIndex(u => u.thematique === t.thematique) >= 0);
 });
 
 const title = computed<string>(() => {
-  switch (props.restrictions[0].profil) {
+  switch (props.restriction.profil) {
     case 'exploitation':
       return `En tant qu'agriculteur, ai-je des restrictions pour ?`
     case 'collectivite':
@@ -78,7 +78,7 @@ const title = computed<string>(() => {
                         :selected="selectedTagIndex === index">
           <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <SituationRestrictionCategorie :thematique="thematique.thematique"
-                                           :restrictions="restrictions"
+                                           :restriction="restriction"
             />
           </div>
         </DsfrTabContent>

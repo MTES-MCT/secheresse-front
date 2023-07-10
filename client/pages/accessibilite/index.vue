@@ -36,7 +36,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
       contenu sous une autre forme.
     </p>
     <ul>
-      <li>E-mail : contact@{{ domainName }}</li>
+      <li>E-mail : contact.vigieau@beta.gouv.fr</li>
     </ul>
     <h2>Voie de recours</h2>
     <p>Cette procédure est à utiliser dans le cas suivant&nbsp;: vous avez signalé au responsable du site internet un défaut d’accessibilité

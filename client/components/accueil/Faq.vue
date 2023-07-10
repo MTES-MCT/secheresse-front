@@ -31,8 +31,8 @@ const onAccordionClick = (index: string) => {
       <div class="fr-mt-2w">
         Vous souhaitez-nous poser une question qui n’apparaît pas ici ?
         <a class="fr-link"
-           title="Contactez-nous"
-           :href="'mailto:contact@' + domainName">
+           title="Contactez-nous sur contact.vigieau@beta.gouv.fr"
+           :href="'mailto:contact.vigieau@beta.gouv.fr'">
           Contactez nous
         </a>
       </div>
