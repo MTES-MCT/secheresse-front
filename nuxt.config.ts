@@ -1,7 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import istanbul from "vite-plugin-istanbul";
 
-const appName =  `VigiEau`;
+const appName = `VigiEau`;
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -64,8 +64,8 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
-    process.env.APP_ENV !== 'local' ? '@nuxtjs/robots' : '',
     'nuxt-simple-sitemap',
+    'nuxt-simple-robots'
   ],
   runtimeConfig: {
     public: {
@@ -144,12 +144,9 @@ export default defineNuxtConfig({
     },
   },
   robots: {
-    rules: {
-      UserAgent: '*',
-      Disallow: process.env.APP_ENV === 'prod' ? '' : '/'
-    }
+    disallow: process.env.APP_ENV === 'prod' ? '' : '/'
   },
-  sitemap: {
-    siteUrl: `https://${process.env.DOMAIN_NAME}`,
+  site: {
+    url: `https://${process.env.DOMAIN_NAME}`,
   },
 })

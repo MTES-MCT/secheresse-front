@@ -85,10 +85,9 @@ const date = computed(() => {
       <div class="fr-col-lg-4 fr-col-12 fr-grid-row fr-grid-row--center">
         <template v-for="(territoire, index) in territoires">
           <div v-if="index > 0"
-               class="fr-col-6">
-            <h3 class="h6 text-align-center">{{ territoire.name }}</h3>
+               class="fr-col-6 carte-drom text-align-center">
+            <h3 class="h6">{{ territoire.name }}</h3>
             <img :src="territoire.image"
-                 style="max-width: 100%"
                  :alt="territoire.name"
                  :title="territoire.name"
             />
@@ -107,6 +106,13 @@ const date = computed(() => {
     &-carre {
       height: 20px;
       width: 20px;
+    }
+  }
+  
+  &-drom {
+    img {
+      width: 100%;
+      max-width: 150px;
     }
   }
 }
