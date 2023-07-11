@@ -100,7 +100,7 @@
     json5 "^2.2.2"
     semver "^6.3.0"
 
-"@babel/core@^7.20.7", "@babel/core@^7.21.3":
+"@babel/core@^7.20.7":
   version "7.22.6"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.22.6.tgz#aafafbe86e9a1679d876b99dc46382964ef72494"
   integrity sha512-HPIyDa6n+HKw5dEuway3vVAhBboYCtREBMp+IWeseZy6TFtzn6MHkCH2KKYUOC/vKKwgSMHQW4htBOrmuRPXfw==
@@ -121,7 +121,7 @@
     gensync "^1.0.0-beta.2"
     json5 "^2.2.2"
 
-"@babel/core@^7.7.5":
+"@babel/core@^7.21.3", "@babel/core@^7.7.5":
   version "7.22.8"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.22.8.tgz#386470abe884302db9c82e8e5e87be9e46c86785"
   integrity sha512-75+KxFB4CZqYRXjx4NlR4J7yGvKumBuZTmV4NV6v09dVXXkuYVYLT68N6HCzLvfJ+fWCxQsntNzKwwIXL4bHnw==
@@ -1124,9 +1124,9 @@
     regenerator-runtime "^0.13.11"
 
 "@babel/standalone@^7.21.3":
-  version "7.22.6"
-  resolved "https://registry.yarnpkg.com/@babel/standalone/-/standalone-7.22.6.tgz#fde2297fb2c7da4b3fd079ecc7991b35b76325e4"
-  integrity sha512-xVLT1r+JZMnvt47EmIr7cJb3xUDqHmyc/wr783/+Q+pLJfSVmV8bwwcSjXnqT4ajteUT0CufADWpcqRcwidL4w==
+  version "7.22.8"
+  resolved "https://registry.yarnpkg.com/@babel/standalone/-/standalone-7.22.8.tgz#88ab3d5a8b1037849b6b861f656488168d85fce3"
+  integrity sha512-Bm9Sn+FfDqcvxYo/lz5BFo/PWBcjhxD6rtifkchFes/rU8/u4FacCFY/WdqwPtycH54THlXqMYMjaWigQaMpYA==
 
 "@babel/template@^7.18.10":
   version "7.20.7"
@@ -3107,10 +3107,15 @@ acorn-jsx@^5.3.2:
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
   integrity sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==
 
-acorn@8.9.0, acorn@^8.5.0, acorn@^8.6.0, acorn@^8.8.0, acorn@^8.8.2, acorn@^8.9.0:
+acorn@8.9.0, acorn@^8.5.0, acorn@^8.6.0, acorn@^8.8.0:
   version "8.9.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.9.0.tgz#78a16e3b2bcc198c10822786fa6679e245db5b59"
   integrity sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==
+
+acorn@^8.8.2, acorn@^8.9.0:
+  version "8.10.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.10.0.tgz#8be5b3907a67221a81ab23c7889c4c5526b62ec5"
+  integrity sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==
 
 agent-base@6:
   version "6.0.2"
@@ -3906,10 +3911,15 @@ consola@^2.15.3:
   resolved "https://registry.yarnpkg.com/consola/-/consola-2.15.3.tgz#2e11f98d6a4be71ff72e0bdf07bd23e12cb61550"
   integrity sha512-9vAdYbHj6x2fLKC4+oPH0kFzY/orMZyG2Aj+kNylHxKGJ/Ed4dpNyAQYwJOdqO4zdM7XpVHmyejQDcQHrnuXbw==
 
-consola@^3.0.1, consola@^3.1.0, consola@^3.2.2:
+consola@^3.0.1, consola@^3.1.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/consola/-/consola-3.2.2.tgz#be9b295e1e556355a09ac475b4394016144e0c32"
   integrity sha512-r921u0vbF4lQsoIqYvSSER+yZLPQGijOHrYcWoCNVNBZmn/bRR+xT/DgerTze/nLD9TTGzdDa378TVhx7RDOYg==
+
+consola@^3.2.2:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/consola/-/consola-3.2.3.tgz#0741857aa88cfa0d6fd53f1cff0375136e98502f"
+  integrity sha512-I5qxpzLv+sJhTVEoLYNcTW+bThDCPsit0vLNKShZx6rLtpilNpmmeTPaeqJb9ZE9dV3DGaeby6Vuhrw38WjeyQ==
 
 console-control-strings@^1.0.0, console-control-strings@^1.1.0:
   version "1.1.0"
@@ -7299,9 +7309,9 @@ nuxt-simple-robots@^3.0.2:
     ufo "^1.1.2"
 
 nuxt-simple-sitemap@^3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/nuxt-simple-sitemap/-/nuxt-simple-sitemap-3.0.8.tgz#255c8e6f37a34f73444d9757466e08c6fb754607"
-  integrity sha512-j3RwVTwcYqGZKlaWoih4BzCNvj+as5yPX8TXCtNQ6n1Et799hLkExStnVZwPMzgJx6qSI5Rm/5zHdtll9yazOQ==
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/nuxt-simple-sitemap/-/nuxt-simple-sitemap-3.0.9.tgz#6a17d1cad195da2e7f5d58bacc9e9fdfb39c7627"
+  integrity sha512-+g5DaJazFnrzB10O8bWLiJtTo9c4147WmG03wzQuocd+Jp03EKBdBugSc6alGlWYkJWwfhaMrNMANUFYxFWnQQ==
   dependencies:
     "@nuxt/devtools-kit" "^0.6.7"
     "@nuxt/kit" "^3.6.2"
@@ -7310,14 +7320,14 @@ nuxt-simple-sitemap@^3.0.8:
     escape-string-regexp "^5.0.0"
     fast-glob "^3.3.0"
     knitwork "^1.0.0"
-    nuxt-site-config "^1.0.3"
-    nuxt-site-config-kit "^1.0.3"
+    nuxt-site-config "^1.0.5"
+    nuxt-site-config-kit "^1.0.5"
     pathe "^1.1.1"
     radix3 "^1.0.1"
     semver "^7.5.4"
     ufo "^1.1.2"
 
-nuxt-site-config-kit@1.0.5, nuxt-site-config-kit@^1.0.3, nuxt-site-config-kit@^1.0.5:
+nuxt-site-config-kit@1.0.5, nuxt-site-config-kit@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nuxt-site-config-kit/-/nuxt-site-config-kit-1.0.5.tgz#21a7fcb673293c6853070820722d83dd80981161"
   integrity sha512-2en2IG0pwSSvtE46UWMM7Cv2GbfU1VdSWrBhK7NxXfj4B/OPRtI+UjgK0I9fjf2PixaVhTCZLMQqd0Oxau/sHA==
@@ -7329,7 +7339,7 @@ nuxt-site-config-kit@1.0.5, nuxt-site-config-kit@^1.0.3, nuxt-site-config-kit@^1
     site-config-stack "1.0.5"
     ufo "^1.1.2"
 
-nuxt-site-config@^1.0.3, nuxt-site-config@^1.0.5:
+nuxt-site-config@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nuxt-site-config/-/nuxt-site-config-1.0.5.tgz#1f8ffd6d4cbc2dfd1b26767cbf795061095ebdf7"
   integrity sha512-aQ/imSl4dVCuCQftJsQsuYfiFOluuxT+vwTc5ScQ4C+EDoqhsXvGBVU1f+yY5TTAtdG+7NMshCzBjTf/D3uErg==
