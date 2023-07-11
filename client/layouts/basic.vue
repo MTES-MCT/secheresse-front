@@ -8,12 +8,6 @@ const operatorImgStyle: any = {
   'max-width': '150px'
 };
 const a11yCompliance: string = 'Non conforme';
-const descText: string = `Plateforme élaborée en collaboration avec <a class="fr-link"
-         target="_blank"
-         rel="external"
-         href="https://lareserve.tech">
-        lareserve.tech
-      </a>`;
 let quickLinks: any[] = [];
 const mandatoryLinks: any[] = [{
   label: `Accessibilité : ${a11yCompliance}`,
@@ -98,9 +92,5 @@ onMounted(() => {
               :operatorImgAlt="operatorImgAlt"
               :operatorImgStyle="operatorImgStyle"
               :ecosystemLinks="ecosystemLinks">
-    <template v-slot:description>
-      <p v-html="descText">
-      </p>
-    </template>
   </DsfrFooter>
 </template>
