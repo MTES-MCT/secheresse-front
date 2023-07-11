@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig();
 const legends = [
   {
     text: 'Pas de restrictions',
@@ -25,28 +26,28 @@ const legends = [
 const territoires = [
   {
     name: 'France métropolitaine',
-    image: '/metropole.png',
+    image: `${runtimeConfig.public.apiSecheresseUrl}/maps/metropole.png`,
     large: true
   },
   {
     name: 'Mayotte',
-    image: '/mayotte.png'
+    image: `${runtimeConfig.public.apiSecheresseUrl}/maps/mayotte.png`,
   },
   {
     name: 'La Réunion',
-    image: '/reunion.png'
+    image: `${runtimeConfig.public.apiSecheresseUrl}/maps/reunion.png`,
   },
   {
     name: 'Guadeloupe',
-    image: '/guadeloupe.png'
+    image: `${runtimeConfig.public.apiSecheresseUrl}/maps/guadeloupe.png`,
   },
   {
     name: 'Martinique',
-    image: '/martinique.png'
+    image: `${runtimeConfig.public.apiSecheresseUrl}/maps/martinique.png`,
   },
   {
     name: 'Guyane',
-    image: '/guyane.png'
+    image: `${runtimeConfig.public.apiSecheresseUrl}/maps/guyane.png`,
   },
 ];
 
