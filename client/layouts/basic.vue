@@ -25,6 +25,20 @@ const mandatoryLinks: any[] = [{
   label: 'Données personnelles',
   to: '/donnees-personnelles',
 }];
+const ecosystemLinks: any[] = [
+  {
+    "label": "beta.gouv.fr",
+    "href": "https://beta.gouv.fr"
+  },
+  {
+    "label": "gouvernement.fr",
+    "href": "https://gouvernement.fr"
+  },
+  {
+    "label": "data.gouv.fr",
+    "href": "https://data.gouv.fr"
+  }
+];
 const key = ref(0);
 
 const preferences = reactive({
@@ -82,7 +96,8 @@ onMounted(() => {
               :mandatoryLinks="mandatoryLinks"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
-              :operatorImgStyle="operatorImgStyle">
+              :operatorImgStyle="operatorImgStyle"
+              :ecosystemLinks="ecosystemLinks">
     <template v-slot:description>
       <p v-html="descText">
       </p>
