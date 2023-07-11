@@ -5,7 +5,6 @@ import { Ref } from "vue";
 import { useAddressStore } from "../store/address";
 import { useRestrictionStore } from "../store/restrictions";
 import { FetchError } from "ofetch";
-import { Arrete } from "../dto/arrete.dto";
 import { Geo } from "../dto/geo.dto";
 import { Departement } from "../dto/departement.dto";
 

@@ -32,7 +32,7 @@ const selectedTagIndex: Ref<number> = ref(0);
                      size="small"
                      alt="Répartition de la consommation d'eau potable des français selon les usages. 39% - Se laver, 20% - Aller au WC, 12% - Laver son linge, 10% - Faire la vaisselle, 6% - Cuisiner, 6% - Laver sa voiture ou arroser son jardin, 1% - Boire, 6% - Divers"
                      title="Répartition de la consommation d'eau potable des français selon les usages"
-                     legend="Source: Ademe"
+                     legend="Source : Ademe"
         />
       </div>
       <div class="fr-col-12 fr-col-md-6">
