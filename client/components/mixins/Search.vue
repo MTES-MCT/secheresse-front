@@ -4,6 +4,7 @@ import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
 import { Profile } from "../../dto/profile.enum";
+import { Geo } from "~/client/dto/geo.dto";
 
 const props = defineProps<{
   loading: boolean,
@@ -13,6 +14,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   search: [{
     address: Address | null,
+    geo: Geo | null,
     type: string
   }]
 }>();
@@ -37,8 +39,8 @@ for (let profile in Profile) {
   })
 }
 
-const selectAddress = (address: string | Address) => {
-  if (!address) {
+const selectAddress = (address: string | Address | null, geo = null) => {
+  if (!address && !geo) {
     return;
   }
   if (typeof address === 'string') {
@@ -46,21 +48,23 @@ const selectAddress = (address: string | Address) => {
     if (address === '') {
       emit('search', {
         type: selectedTagType.value,
-        address: null
+        address: null,
+        geo: null
       });
     }
     return;
   }
-  // Si c'est un objet Adresse
-  if (addressQuery.value === address.properties.label) {
+  // Si c'est un objet Adresse ou Geo
+  if ((address && addressQuery.value === address.properties.label) || (geo && addressQuery.value === geo.nom)) {
     addresses.value = [];
   } else {
     loadAddresses.value = false;
   }
-  addressQuery.value = address.properties.label;
+  addressQuery.value = address ? address.properties.label : geo.nom;
   emit('search', {
     type: selectedTagType.value,
-    address: address
+    address: address,
+    geo: geo
   });
 }
 
@@ -75,10 +79,10 @@ const _formatAddresses = (addresses: Address[]): Address[] => {
 
 const geoloc = () => {
   const successCallback = async (position) => {
-    const {data} = await api.searchAdressByLonLat(position.coords.longitude, position.coords.latitude);
-    if (data.value?.features[0]) {
-      addressQuery.value = data.value?.features[0].properties.label;
-      selectAddress(data.value?.features[0]);
+    const {data} = await api.searchGeoByLatlon(position.coords.longitude, position.coords.latitude);
+    if (data.value && data.value[0]) {
+      addressQuery.value = data.value[0].nom;
+      selectAddress(null, data.value[0]);
     }
   };
 
@@ -107,15 +111,15 @@ if (props.query) {
 
 <template>
   <div class="search fr-grid-row fr-grid-row--gutters">
-<!--    <div class="fr-col-12 text-align-center">-->
-<!--      <div>Agissez-vous en tant que ?</div>-->
-<!--      <DsfrTag v-for="tag in profileTags"-->
-<!--               :label="tag.label"-->
-<!--               class="fr-m-1w tag-lg"-->
-<!--               :selected="selectedTagType === tag.type"-->
-<!--               @click="selectedTagType = tag.type"-->
-<!--               tag-name="button"/>-->
-<!--    </div>-->
+    <!--    <div class="fr-col-12 text-align-center">-->
+    <!--      <div>Agissez-vous en tant que ?</div>-->
+    <!--      <DsfrTag v-for="tag in profileTags"-->
+    <!--               :label="tag.label"-->
+    <!--               class="fr-m-1w tag-lg"-->
+    <!--               :selected="selectedTagType === tag.type"-->
+    <!--               @click="selectedTagType = tag.type"-->
+    <!--               tag-name="button"/>-->
+    <!--    </div>-->
     <div class="fr-col-12">
       <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
       <div class="autocomplete-wrapper">
