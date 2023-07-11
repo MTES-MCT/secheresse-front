@@ -18,13 +18,13 @@ export default defineNuxtConfig({
         {name: 'viewport', content: 'width=device-width, initial-scale=1'},
         {
           name: 'description',
-          content: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
+          content: `Avec ${process.env.DOMAIN_NAME}, restez informés sur la situation locale de la sécheresse et adoptez les gestes les plus appropriés.`
         },
         {name: 'format-detection', content: 'telephone=no'},
         {property: 'og:title', content: appName},
         {
           property: 'og:description',
-          content: `Avec ${process.env.DOMAIN_NAME}, nous vous permettons de rester informé sur votre situation locale tout en vous partageant les conseils les plus appropriés.`
+          content: `Avec ${process.env.DOMAIN_NAME}, restez informés sur la situation locale de la sécheresse et adoptez les gestes les plus appropriés.`
         },
         {property: 'og:type', content: 'website'},
         {property: 'og:url', content: `https://${process.env.DOMAIN_NAME}`},
