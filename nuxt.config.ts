@@ -5,11 +5,7 @@ const appName = `VigiEau`;
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  ssr: true,
-  routeRules: {
-    '/situation': {ssr: false},
-    '/': {ssr: false}
-  },
+  ssr: false,
   app: {
     head: {
       title: appName,

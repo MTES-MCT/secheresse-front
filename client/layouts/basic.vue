@@ -79,10 +79,9 @@ onMounted(() => {
               :operatorImgStyle="operatorImgStyle"
               :quickLinks="quickLinks"
               :key="key"
+              :show-beta="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
               serviceTitle=" "
   />
-  <DsfrNotice v-if="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
-              title="Version beta en cours de conception"/>
   <div class="fr-container fr-mb-8w">
     <slot/>
   </div>
