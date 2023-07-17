@@ -22,6 +22,8 @@ cp env.example .env
 
 Doc [API Adresse](https://adresse.data.gouv.fr/api-doc/adresse)
 
+Doc [API Geo](https://geo.api.gouv.fr/decoupage-administratif)
+
 Doc API Sécheresse à venir
 
 ### Installation des dépendances
