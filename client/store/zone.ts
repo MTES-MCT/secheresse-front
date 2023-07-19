@@ -4,14 +4,15 @@ import { Ref } from "vue";
 import { Departement } from "../dto/departement.dto";
 
 export const useZoneStore = defineStore('zoneStore', () => {
-  const zone: Ref<Zone | null> = ref(null);
+  const zones: Ref<Zone[] | null> = ref(null);
+  const zone: Ref<Zone | null> = computed(() => zones.value ? zones.value[0] : null);
 
-  function setRestriction(value: Zone, profile: string, departementConfig: Departement): void {
-    zone.value = formatZone(value, profile, departementConfig);
+  function setZone(value: Zone, profile: string, departementConfig: Departement): void {
+    zones.value = [formatZone(value, profile, departementConfig)];
   }
 
-  function resetRestriction(): void {
-    zone.value = null;
+  function resetZones(): void {
+    zones.value = null;
   }
 
   function formatZone(zone: Zone, profile: string, departementConfig: Departement): Zone {
@@ -28,5 +29,5 @@ export const useZoneStore = defineStore('zoneStore', () => {
     return zone.value ? zone.value.profil === 'particulier' : false;
   }
 
-  return {setRestriction, resetRestriction, zone, isParticulier}
+  return {setZone, resetZones, zones, zone, isParticulier}
 })
