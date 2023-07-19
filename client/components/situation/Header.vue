@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import utils from "../../utils";
-import { Restriction } from "../../dto/restriction.dto";
+import { Zone } from "../../dto/zone.dto";
 import { Ref } from "vue";
 
 const props = defineProps<{
-  restriction: Restriction
+  zone: Zone
   address: string
 }>();
 
@@ -20,34 +20,34 @@ const classObject = (rank: number | undefined): any => {
   const bgClass = `situation-level-bg-${rank}`;
   const colorClass = `situation-level-c-${rank}`;
   const cssClass: any = {
-    'situation-disabled': utils.getRestrictionRank(props.restriction) !== rank
+    'situation-disabled': utils.getRestrictionRank(props.zone) !== rank
   }
   cssClass[bgClass] = true;
-  cssClass[colorClass] = utils.getRestrictionRank(props.restriction) !== rank;
+  cssClass[colorClass] = utils.getRestrictionRank(props.zone) !== rank;
   return cssClass;
 }
 
 const situationLabel = computed<string>(() => {
-  return utils.getShortSituationLabel(utils.getRestrictionRank(props.restriction))
+  return utils.getShortSituationLabel(utils.getRestrictionRank(props.zone))
 });
 </script>
 
 <template>
   <div class="situation-status-header fr-grid-row fr-pb-4w"
-       v-if="restriction"
-       :class="'situation-level-' + utils.getRestrictionRank(restriction)">
+       v-if="zone"
+       :class="'situation-level-' + utils.getRestrictionRank(zone)">
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"
-         :class="!restriction.idZone ? 'fr-col-md-8' : ''">
+         :class="!zone.idZone ? 'fr-col-md-8' : ''">
       <div class="fr-grid-row fr-grid-row--middle fr-mb-2w"
-           v-if="restriction.idZone">
+           v-if="zone.idZone">
         <DsfrBadge small
                    class="show-sm"
                    no-icon
-                   :class="classObject(utils.getRestrictionRank(restriction))"
-                   :label="badgeLabel(utils.getRestrictionRank(restriction))"/>
+                   :class="classObject(utils.getRestrictionRank(zone))"
+                   :label="badgeLabel(utils.getRestrictionRank(zone))"/>
         <DsfrBadge v-for="rank of restrictionRanks"
                    small
                    no-icon
@@ -66,8 +66,8 @@ const situationLabel = computed<string>(() => {
         <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
       </div>
-      <h1 v-if="restriction.idZone" class="h2">Vous êtes sur une zone en <span
-        :class="'situation-level-c-' + utils.getRestrictionRank(restriction)">{{
+      <h1 v-if="zone.idZone" class="h2">Vous êtes sur une zone en <span
+        :class="'situation-level-c-' + utils.getRestrictionRank(zone)">{{
           situationLabel
         }}</span></h1>
       <h1 class="h2" v-else>
@@ -75,11 +75,11 @@ const situationLabel = computed<string>(() => {
       </h1>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"
-         v-if="utils.showRestrictions(restriction)">
+         v-if="utils.showRestrictions(zone)">
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
     <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-else>
-      <div v-if="!restriction.idZone">
+      <div v-if="!zone.idZone">
         Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
       </div>
       <div v-else>

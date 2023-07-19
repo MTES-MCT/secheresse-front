@@ -20,14 +20,14 @@ const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const modalIcon: Ref<string> = ref('');
 const modalActions: Ref<any[]> = ref([]);
-const loadingRestrictions: Ref<boolean> = ref(false);
+const loadingZones: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
-const searchRestriction = (address: Address | null, geo: Geo | null, profile: string) => {
+const searchZone = (address: Address | null, geo: Geo | null, profile: string) => {
   if (!address && !geo) {
     return;
   }
-  utils.searchRestriction(address, geo, profile, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingRestrictions);
+  utils.searchZone(address, geo, profile, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
 }
 
 const closeModal = () => {
@@ -37,12 +37,12 @@ profile = profile && Object.keys(Profile).includes(profile) ? profile : 'particu
 if (citycode) {
   const {data} = await api.searchGeoByCitycode(citycode);
   adressQuery.value = data.value?.nom ? data.value?.nom : '';
-  searchRestriction(null, data.value, profile);
+  searchZone(null, data.value, profile);
 }
 if (lat && lon) {
   const {data} = await api.searchAdressByLonLat(lon, lat);
   adressQuery.value = data.value?.features[0] ? data.value?.features[0].properties.label : '';
-  searchRestriction(data.value?.features[0], null, profile);
+  searchZone(data.value?.features[0], null, profile);
 }
 </script>
 
@@ -60,9 +60,9 @@ if (lat && lon) {
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w">
       <div class="search-card-wrapper">
         <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
-        <MixinsSearch @search="searchRestriction($event.address, $event.geo, $event.type)"
+        <MixinsSearch @search="searchZone($event.address, $event.geo, $event.type)"
                       :query="adressQuery"
-                      :loading="loadingRestrictions"/>
+                      :loading="loadingZones"/>
       </div>
     </div>
 
