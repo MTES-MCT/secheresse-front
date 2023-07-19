@@ -1,5 +1,6 @@
 import { Address } from "../dto/address.dto";
 import { Geo } from "../dto/geo.dto";
+import { Zone } from "../dto/zone.dto";
 
 const _adresseOptions: string = '&limit=10';
 
@@ -36,7 +37,7 @@ const index = {
     });
   },
 
-  searchRestrictionByAdress(address: Address, profile: string): Promise<any> {
+  searchReglementationByAdress(address: Address, profile: string): Promise<Zone> {
     const runtimeConfig = useRuntimeConfig();
     let options = ['municipality'].includes(address.properties.type) ?
       `/reglementation?commune=${address.properties.citycode}` :
@@ -48,9 +49,29 @@ const index = {
     });
   },
 
-  searchRestrictionByGeo(geo: Geo, profile: string): Promise<any> {
+  searchReglementationByGeo(geo: Geo, profile: string): Promise<Zone> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/reglementation?commune=${geo.code}&profil=${profile}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  searchZonesByAdress(address: Address, profile: string): Promise<Zone[]> {
+    const runtimeConfig = useRuntimeConfig();
+    let options = ['municipality'].includes(address.properties.type) ?
+      `/zones?commune=${address.properties.citycode}` :
+      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}&commune=${address.properties.citycode}`;
+    options += `&profil=${profile}`;
+    return useFetch(options, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  searchZonesByGeo(geo: Geo, profile: string): Promise<Zone[]> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/zones?commune=${geo.code}&profil=${profile}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });

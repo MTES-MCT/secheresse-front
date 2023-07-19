@@ -1,9 +1,9 @@
-import { Restriction } from "../dto/restriction.dto";
+import { Zone } from "../dto/zone.dto";
 import { Address } from "../dto/address.dto";
 import api from "../api";
 import { Ref } from "vue";
 import { useAddressStore } from "../store/address";
-import { useRestrictionStore } from "../store/restrictions";
+import { useZoneStore } from "../store/zone";
 import { FetchError } from "ofetch";
 import { Geo } from "../dto/geo.dto";
 import { Departement } from "../dto/departement.dto";
@@ -24,7 +24,7 @@ const index = {
     }
   },
 
-  showRestrictions(restriction: Restriction): boolean {
+  showRestrictions(restriction: Zone): boolean {
     const departement = ['59', '62'];
     if (!restriction || (restriction.niveauAlerte === 'Vigilance' && !departement.includes(restriction.departement))) {
       return false;
@@ -32,7 +32,7 @@ const index = {
     return (restriction.usages && restriction.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
-  getRestrictionRank(restriction: Restriction): number | undefined {
+  getRestrictionRank(restriction: Zone): number | undefined {
     switch (restriction.niveauAlerte) {
       case 'Crise':
         return 4;
@@ -78,7 +78,7 @@ const index = {
     return label;
   },
 
-  getProvenanceLabel(restriction: Restriction, light: boolean = false, inverse: boolean = false): string | undefined {
+  getProvenanceLabel(restriction: Zone, light: boolean = false, inverse: boolean = false): string | undefined {
     const type = !inverse ? restriction.type : restriction.type === 'SUP' ? 'SOU' : 'SUP';
     switch (type) {
       case 'SOU':
@@ -90,24 +90,24 @@ const index = {
     }
   },
 
-  async searchRestriction(address: Address | null,
-                          geo: Geo | null,
-                          profile: string,
-                          modalTitle: Ref<string>,
-                          modalText: Ref<string>,
-                          modalIcon: Ref<string>,
-                          modalActions: Ref<any[]>,
-                          modalOpened: Ref<boolean>,
-                          router: any,
-                          loadingRestrictions: Ref<boolean>) {
+  async searchZone(address: Address | null,
+                   geo: Geo | null,
+                   profile: string,
+                   modalTitle: Ref<string>,
+                   modalText: Ref<string>,
+                   modalIcon: Ref<string>,
+                   modalActions: Ref<any[]>,
+                   modalOpened: Ref<boolean>,
+                   router: any,
+                   loadingRestrictions: Ref<boolean>) {
     const addressStore = useAddressStore();
-    const restrictionStore = useRestrictionStore();
+    const restrictionStore = useZoneStore();
     const {setAddress, setGeo} = addressStore;
     const {setRestriction} = restrictionStore;
 
     loadingRestrictions.value = true;
     const [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
-      address ? api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile),
+      address ? api.searchReglementationByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
       api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
     ]);
     try {
@@ -146,7 +146,7 @@ const index = {
     router.push({path: '/situation', query});
   },
 
-  handleRestrictionError(error: FetchError, data: Restriction[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
+  handleRestrictionError(error: FetchError, data: Zone[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
     title: string,
     text: string,
     icon: string,
