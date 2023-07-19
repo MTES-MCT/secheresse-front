@@ -9,9 +9,8 @@ import utils from "../../utils";
 const addressStore = useAddressStore();
 const zoneStore = useZoneStore();
 const {address, geo} = storeToRefs(addressStore);
-const {zone}: Ref<Zone> = storeToRefs(zoneStore);
+const {zones, zone}: Ref<Zone> = storeToRefs(zoneStore);
 const {resetAddress, adressString} = addressStore;
-const {isParticulier} = zoneStore;
 
 const addressToUse: Ref<any> = ref(adressString());
 resetAddress();
@@ -22,33 +21,31 @@ resetAddress();
        v-if="addressToUse">
     <SituationHeader :address="addressToUse"
                      :zone="zone"/>
-    <template v-if="isParticulier()">
-      <SituationRestrictions v-if="utils.showRestrictions(zone)"
-                             :zone="zone"/>
-      <div class="section-title fr-mt-8w" v-if="zone && zone.idZone">
-        <DsfrCallout title=""
-                     content="">
-          <p class="fr-callout__text">
-            Certaines restrictions peuvent avoir fait l'objet de précisions
-            <br/>
-            Pour le vérifier, merci de <a class="fr-link"
-                                          :href="zone.arrete.cheminFichier"
-                                          onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
-                                          target="_blank"
-                                          rel="noopener">
-            consulter l'arrêté de restriction</a>
-            <span v-if="zone.arrete.cheminFichierArreteCadre && !zone.departementConfig.arDifferentAc"> et de <a class="fr-link"
-                                                                                                                 :href="zone.arrete.cheminFichierArreteCadre"
-                                                                                                                 onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
-                                                                                                                 target="_blank"
-                                                                                                                 rel="noopener">
+    <SituationRestrictions v-if="utils.showRestrictions(zone)"
+                           :zones="zones"/>
+    <div class="section-title fr-mt-8w" v-if="zone && zone.idZone">
+      <DsfrCallout title=""
+                   content="">
+        <p class="fr-callout__text">
+          Certaines restrictions peuvent avoir fait l'objet de précisions
+          <br/>
+          Pour le vérifier, merci de <a class="fr-link"
+                                        :href="zone.arrete.cheminFichier"
+                                        onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
+                                        target="_blank"
+                                        rel="noopener">
+          consulter l'arrêté de restriction</a>
+          <span v-if="zone.arrete.cheminFichierArreteCadre && !zone.departementConfig.arDifferentAc"> et de <a class="fr-link"
+                                                                                                               :href="zone.arrete.cheminFichierArreteCadre"
+                                                                                                               onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                                                                                               target="_blank"
+                                                                                                               rel="noopener">
             consulter l'arrêté cadre préfectoral</a></span>.
-            <br/><br/>
-            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
-          </p>
-        </DsfrCallout>
-      </div>
-    </template>
+          <br/><br/>
+          Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+        </p>
+      </DsfrCallout>
+    </div>
   </div>
 </template>
 

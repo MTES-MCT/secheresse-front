@@ -24,12 +24,12 @@ const index = {
     }
   },
 
-  showRestrictions(restriction: Zone): boolean {
+  showRestrictions(zone: Zone): boolean {
     const departement = ['59', '62'];
-    if (!restriction || (restriction.niveauAlerte === 'Vigilance' && !departement.includes(restriction.departement))) {
+    if (!zone || (zone.niveauAlerte === 'Vigilance' && !departement.includes(zone.departement))) {
       return false;
     }
-    return (restriction.usages && restriction.usages.filter(u => u.thematique !== 'Autre').length > 0);
+    return (zone.usages && zone.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
   getRestrictionRank(restriction: Zone): number | undefined {
@@ -90,20 +90,20 @@ const index = {
     }
   },
 
-  async searchZone(address: Address | null,
-                   geo: Geo | null,
-                   profile: string,
-                   modalTitle: Ref<string>,
-                   modalText: Ref<string>,
-                   modalIcon: Ref<string>,
-                   modalActions: Ref<any[]>,
-                   modalOpened: Ref<boolean>,
-                   router: any,
-                   loadingRestrictions: Ref<boolean>) {
+  async searchZones(address: Address | null,
+                    geo: Geo | null,
+                    profile: string,
+                    modalTitle: Ref<string>,
+                    modalText: Ref<string>,
+                    modalIcon: Ref<string>,
+                    modalActions: Ref<any[]>,
+                    modalOpened: Ref<boolean>,
+                    router: any,
+                    loadingRestrictions: Ref<boolean>) {
     const addressStore = useAddressStore();
     const restrictionStore = useZoneStore();
     const {setAddress, setGeo} = addressStore;
-    const {setRestriction} = restrictionStore;
+    const {setZone} = restrictionStore;
 
     loadingRestrictions.value = true;
     const [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
@@ -119,7 +119,7 @@ const index = {
     loadingRestrictions.value = false;
 
     // SI ERREUR
-    if ((error?.value && error.value.statusCode !== 404) || profile !== 'particulier') {
+    if (error?.value && error.value.statusCode !== 404) {
       const {
         title,
         text,
@@ -135,7 +135,7 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setRestriction(data?.value ? data.value : {}, profile, departementConfig.value);
+    setZone(data?.value ? data.value : {}, profile, departementConfig.value);
     let query: any = {};
     query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
       {code_insee: address.properties.citycode} : {
@@ -156,27 +156,7 @@ const index = {
     const _closeModal = (): void => {
       modalOpened.value = false;
     };
-    const _downloadArrete = (): void => {
-      // @ts-ignore
-      window.open(data[0].arrete.cheminFichier, '_blank').focus();
-      modalOpened.value = false;
-      try {
-        window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', profile, 1]);
-      } catch (e) {
-      }
-    };
-    if (profile !== 'particulier' && !error?.statusCode && data.length > 0) {
-      return {
-        title: `Télécharger l’arrêté préfectoral`,
-        text: `Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`,
-        icon: `ri-download-2-line`,
-        actions: [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
-          label: "Annuler",
-          onClick: _closeModal,
-          secondary: true
-        }]
-      };
-    }
+
     switch (error?.statusCode) {
       case 404:
       case undefined:
