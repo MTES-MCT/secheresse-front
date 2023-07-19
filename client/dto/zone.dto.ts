@@ -1,8 +1,8 @@
 import { Usage } from "./usage.dto";
 import { Arrete } from "./arrete.dto";
-import { Departement } from "./dto/departement.dto";
+import { Departement } from "./departement.dto";
 
-export interface Restriction {
+export interface Zone {
   idZone: string;
   type: 'SUP' | 'SOU';
   profil: string;
