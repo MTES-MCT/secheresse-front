@@ -117,6 +117,9 @@ if (props.query) {
   autoSelectAddress.value = true;
   addressQuery.value = props.query;
 }
+if (props.profile) {
+  selectedTagType.value = props.profile;
+}
 </script>
 
 <template>
