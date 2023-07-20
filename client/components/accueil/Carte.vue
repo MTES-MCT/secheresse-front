@@ -107,6 +107,10 @@ const date = computed(() => {
       height: 20px;
       width: 20px;
     }
+
+    .situation-level-bg-1 {
+      background-color: #FFEDA0;
+    }
   }
   
   &-drom {

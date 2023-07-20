@@ -43,45 +43,49 @@ body {
 
 .situation-level-bg {
   &-4 {
-    background-color: var(--red-marianne-main-472);
+    background-color: #B10026;
     color: var(--grey-1000-50);
   }
 
   &-3 {
-    background-color: var(--pink-tuile-main-556);
+    background-color: #FC4E2A;
     color: var(--grey-1000-50);
   }
 
   &-2 {
-    background-color: var(--yellow-moutarde-main-679);
+    background-color: #FEB24C;
     color: var(--grey-1000-50);
   }
 
   &-1 {
-    background-color: var(--green-menthe-main-548);
+    background-color: #BCA12B;
     color: var(--grey-1000-50);
   }
 
   &-0 {
-    background-color: var(--grey-900-175);
+    background-color: var(--info-950-100);
   }
 }
 
 .situation-level-c {
   &-4 {
-    color: var(--red-marianne-main-472);
+    color: #B10026;
   }
 
   &-3 {
-    color: var(--pink-tuile-main-556);
+    color: #FC4E2A;
   }
 
   &-2 {
-    color: var(--yellow-moutarde-main-679);
+    color: #FEB24C;
   }
 
   &-1 {
-    color: var(--green-menthe-main-548);
+    color: #BCA12B;
+  }
+
+  &-0 {
+    color: var(--info-425-625);
   }
 }
 

@@ -71,7 +71,7 @@ const situationLabel = computed<string>(() => {
           situationLabel
         }}</span></h1>
       <h1 class="h2" v-else>
-        Vous êtes sur une zone qui n'est pas concernée par des restrictions
+        Vous êtes sur une zone qui n'est <span class="situation-level-c-0">pas concernée par des restrictions</span>
       </h1>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"
