@@ -100,7 +100,7 @@ const onAccordionClick = (index: string) => {
       </li>
     </DsfrAccordionsGroup>
   </div>
-  <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+  <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
     <template v-if="usagesFiltered(zones[0]).length > 0">
       <div v-for="usage in usagesFiltered(zones[0])"
            class="fr-col-12 fr-col-md-4">

@@ -103,19 +103,31 @@ const index = {
     const addressStore = useAddressStore();
     const restrictionStore = useZoneStore();
     const {setAddress, setGeo} = addressStore;
-    const {setZone} = restrictionStore;
+    const {setZones} = restrictionStore;
 
     loadingRestrictions.value = true;
-    const [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
-      address ? api.searchReglementationByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
-      api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
-    ]);
+
+    let data, error, departementConfig, errorDepartement;
+    if (profile === 'particulier') {
+      [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
+        address ? api.searchReglementationByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
+        api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
+      ]);
+    } else {
+      [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
+        address ? api.searchZonesByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
+        api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
+      ]);
+    }
+
+    // STATS MATOMO
     try {
       window._paq.push(['trackEvent', 'API CALL', 'CODE INSEE', address ? address.properties.citycode : geo?.code, 1]);
       window._paq.push(['trackEvent', 'API CALL', 'CODE DEPARTEMENT', address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement, 1]);
       window._paq.push(['trackEvent', 'API CALL', 'PROFIL', profile, 1]);
     } catch (e) {
     }
+
     loadingRestrictions.value = false;
 
     // SI ERREUR
@@ -135,7 +147,7 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setZone(data?.value ? data.value : {}, profile, departementConfig.value);
+    setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], profile, departementConfig.value);
     let query: any = {};
     query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
       {code_insee: address.properties.citycode} : {
