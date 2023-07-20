@@ -20,10 +20,9 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
     <h1>Mentions légales</h1>
     <h2>Éditeur</h2>
     <p>{{ appName }} est édité par la Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la
-      Cohésion
-      des territoires et des Relations avec les collectivités territoriales (Grande Arche de la Défense, 92055 La Défense CEDEX), avec
-      l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="external">l’incubateur de services numériques beta.gouv.fr</a> de la
-      direction interministérielle du numérique (DINUM).</p>
+      Cohésion des territoires et des Relations avec les collectivités territoriales (Grande Arche de la Défense, 92055 La Défense CEDEX),
+      avec l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="external">l’incubateur de services numériques beta.gouv.fr</a> de
+      la direction interministérielle du numérique (DINUM).</p>
     <h2>Directeur de la publication</h2>
     <ul>
       <li>Monsieur Brice HUET, directeur général par intérim de l'aménagement, du logement et de la nature (DGALN)</li>
@@ -43,6 +42,11 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
       Le formulaire de retours utilisateurs est géré par la société Tally.
       <br/>
       Siège social : Muidepoort 19A, 9000 Gand, Belgique.
+    </p>
+    <p>
+      La newsletter est géré par la société Brevo.
+      <br/>
+      Siège social : 106 boulevard Haussmann, 75008 Paris, France.
     </p>
     <h2>Accessibilité</h2>
     <p>Voir la page

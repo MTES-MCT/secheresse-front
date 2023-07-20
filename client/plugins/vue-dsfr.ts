@@ -42,7 +42,8 @@ import {
   RiQuestionLine,
   RiSearchLine,
   RiSurveyLine,
-  RiTimerLine
+  RiTimerLine,
+  RiMailLine
 } from 'oh-vue-icons/icons/ri/index.js';
 
 const icons = [
@@ -59,6 +60,7 @@ const icons = [
   RiQuestionLine,
   RiSurveyLine,
   RiMapPinUserLine,
+  RiMailLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,
