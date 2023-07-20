@@ -120,7 +120,7 @@ const situationLabel = computed<string>(() => {
       </DsfrButton>
     </div>
     <div class="fr-col-12 fr-mt-2w">
-      <DsfrShare title="Partagez votre situation"
+      <DsfrShare title="Partagez votre situation - Attention l'adresse utilisée sera visible"
                  :networks="networks"/>
     </div>
   </div>
