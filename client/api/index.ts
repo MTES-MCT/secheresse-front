@@ -12,27 +12,11 @@ const index = {
     });
   },
 
-  searchGeoByCitycode(citycode: string): Promise<any> {
-    const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/communes/${citycode}?fields=code,nom,codeDepartement`, {
-      method: 'GET',
-      baseURL: runtimeConfig.public.apiGeoUrl
-    });
-  },
-
   searchGeoByLatlon(lon: string, lat: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/communes?lon=${lon}&lat=${lat}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiGeoUrl
-    });
-  },
-
-  searchAdressByLonLat(lon: string, lat: string, citycode: string): Promise<any> {
-    const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/reverse/?lat=${lat}&lon=${lon}&type=housenumber,locality`, {
-      method: 'GET',
-      baseURL: runtimeConfig.public.apiAdresseUrl
     });
   },
 
