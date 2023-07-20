@@ -45,6 +45,9 @@ resetAddress();
           Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
         </p>
       </DsfrCallout>
+      <div class="fr-mb-2w">
+        <MixinsEmail/>
+      </div>
     </div>
   </div>
 </template>

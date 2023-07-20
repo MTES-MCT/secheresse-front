@@ -149,7 +149,6 @@ if (props.query) {
     <DsfrButton label="Géo-localisez moi"
                 icon="ri-map-pin-user-line"
                 class="fr-mt-1w"
-                iconRight
                 @click="geoloc()"
                 tertiary/>
   </div>

@@ -18,6 +18,9 @@ const mandatoryLinks: any[] = [{
 }, {
   label: 'Données personnelles',
   to: '/donnees-personnelles',
+}, {
+  label: 'Cookies',
+  to: '/cookies',
 }];
 const ecosystemLinks: any[] = [
   {
@@ -57,12 +60,10 @@ onMounted(() => {
     quickLinks = newPath === '/situation' ? [{
       label: 'Effectuer une nouvelle recherche',
       icon: 'ri-search-line',
-      iconRight: true,
       to: '/'
     }, {
       label: 'Donner mon avis',
       icon: 'ri-survey-line',
-      iconRight: true,
       button: true,
       onclick: utils.openTally
     }] : [];

@@ -6,6 +6,7 @@ definePageMeta({
 })
 
 const appName = useRuntimeConfig().public.appName;
+const email = useRuntimeConfig().public.email;
 useHead({
   title: `Accessibilité - ${useRuntimeConfig().public.appName}`
 })
@@ -36,7 +37,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
       contenu sous une autre forme.
     </p>
     <ul>
-      <li>E-mail : contact.vigieau@beta.gouv.fr</li>
+      <li>E-mail : {{ email }}</li>
     </ul>
     <h2>Voie de recours</h2>
     <p>Cette procédure est à utiliser dans le cas suivant&nbsp;: vous avez signalé au responsable du site internet un défaut d’accessibilité
