@@ -9,10 +9,8 @@ import { Profile } from "../../dto/profile.enum";
 const route = useRoute();
 const router = useRouter();
 
-const citycode: string | null = route.query.code_insee ? route.query.code_insee : null;
 let profile: string | null = route.query.profil ? route.query.profil : null;
-const lat: string | null = route.query.lat ? route.query.lat : null;
-const lon: string | null = route.query.lon ? route.query.lon : null;
+let address: string | null = route.query.adresse ? route.query.adresse : null;
 
 const domainName = useRuntimeConfig().public.domainName;
 const modalOpened: Ref<boolean> = ref(false);
@@ -34,15 +32,8 @@ const closeModal = () => {
   modalOpened.value = false;
 }
 profile = profile && Object.keys(Profile).includes(profile) ? profile : 'particulier';
-if (citycode) {
-  const {data} = await api.searchGeoByCitycode(citycode);
-  adressQuery.value = data.value?.nom ? data.value?.nom : '';
-  searchZone(null, data.value, profile);
-}
-if (lat && lon) {
-  const {data} = await api.searchAdressByLonLat(lon, lat);
-  adressQuery.value = data.value?.features[0] ? data.value?.features[0].properties.label : '';
-  searchZone(data.value?.features[0], null, profile);
+if (address) {
+  adressQuery.value = address ? address : '';
 }
 </script>
 
@@ -62,6 +53,7 @@ if (lat && lon) {
         <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
         <MixinsSearch @search="searchZone($event.address, $event.geo, $event.type)"
                       :query="adressQuery"
+                      :profile="profile"
                       :loading="loadingZones"/>
       </div>
     </div>

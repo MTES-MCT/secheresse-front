@@ -149,12 +149,8 @@ const index = {
     address ? setAddress(address) : setGeo(geo);
     setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], profile, departementConfig.value);
     let query: any = {};
-    query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
-      {code_insee: address.properties.citycode} : {
-        lon: address.geometry.coordinates[0],
-        lat: address.geometry.coordinates[1]
-      }) : {code_insee: geo?.code};
     query.profil = profile;
+    query.adresse = address?.properties.label;
     router.push({path: '/situation', query});
   },
 
