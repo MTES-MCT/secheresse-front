@@ -11,6 +11,23 @@ const props = defineProps<{
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situation'}]);
 const modalOpened: Ref<boolean> = ref(false);
 const restrictionRanks = [1, 2, 3, 4];
+const networks = [
+  {
+    name: "facebook",
+    label: "Partager sur Facebook", 
+    url: `https://www.facebook.com/sharer.php?u=${window.location.href}`
+  },
+  {
+    name: "twitter",
+    label: "Partager sur Twitter",
+    url: `https://twitter.com/intent/tweet?url=${window.location.href}&text=Situation ${props.address} - ${useRuntimeConfig().public.appName}&hashtags=#VigiEau`
+  },
+  {
+    name: "linkedin",
+    label: "Partager sur LinkedIn",
+    url: `https://www.linkedin.com/shareArticle?url=${window.location.href}&title=Situation ${props.address} - ${useRuntimeConfig().public.appName}`
+  }
+];
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
   return showRank ? utils.getSituationBadgeLabel(rank) : utils.getShortSituationLabel(rank);
@@ -101,6 +118,10 @@ const situationLabel = computed<string>(() => {
         Donner mon avis
         <VIcon class="fr-ml-1w" name="ri-survey-line"/>
       </DsfrButton>
+    </div>
+    <div class="fr-col-12 fr-mt-2w">
+      <DsfrShare title="Partagez votre situation"
+                 :networks="networks"/>
     </div>
   </div>
   <DsfrModal :opened="modalOpened"
