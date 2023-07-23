@@ -80,15 +80,6 @@
       ]
     },
     {
-      "name": "Agriculture",
-      "data": [
-        {
-          "question": "Y-a-t-il un plan d’accompagnement des agriculteurs pour faire face à la sécheresse, notamment lorsqu’ils ont perdu une part importante de leur récolte ?",
-          "response": "Lorsqu’une sécheresse entraîne des pertes de récolte importantes (plus de 30% de pertes) en fourrages, en maraichage, en arboriculture ou en apiculture, ces dommages peuvent être reconnus comme des « calamités agricoles ». Les agriculteurs peuvent alors être indemnisés par un fonds spécial : le Fonds national de gestion des risques en agriculture (FNGRA), alimenté par l’État et les agriculteurs (contribution additionnelle aux primes d’assurance de leurs contrats d’assurance).\n\nLes Directions départementales des territoires (DDT) préparent les dossiers de reconnaissance en calamités agricoles, qui sont ensuite expertisés et validés par le ministère en charge de l'agriculture, après passage en Comité national de gestion des risques en agriculture (CNGRA). Une fois les communes et les productions reconnues en calamités agricoles, la DDT ouvre la procédure qui permet aux exploitants de déposer une demande d'indemnisation individuelle. Ces indemnités couvrent en moyenne 20 à 30% des dommages.\n\n<a class=\"fr-link\" target=\"_blank\" rel=\"noopener\" href='https://www.mesdemarches.agriculture.gouv.fr/demarches/exploitation-agricole/demander-une-aide-pac/article/demander-une-indemnisation?id_rubrique=1&rubrique_all=1'>Demander une indemnisation calamités agricoles</a>."
-        }
-      ]
-    },
-    {
       "name": "Ressources énergétiques",
       "data": [
         {
