@@ -12,14 +12,6 @@ const index = {
     });
   },
 
-  searchGeoByCitycode(citycode: string): Promise<any> {
-    const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/communes/${citycode}?fields=code,nom,codeDepartement`, {
-      method: 'GET',
-      baseURL: runtimeConfig.public.apiGeoUrl
-    });
-  },
-
   searchGeoByLatlon(lon: string, lat: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/communes?lon=${lon}&lat=${lat}`, {
@@ -28,15 +20,7 @@ const index = {
     });
   },
 
-  searchAdressByLonLat(lon: string, lat: string, citycode: string): Promise<any> {
-    const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/reverse/?lat=${lat}&lon=${lon}&type=housenumber,locality`, {
-      method: 'GET',
-      baseURL: runtimeConfig.public.apiAdresseUrl
-    });
-  },
-
-  searchRestrictionByAdress(address: Address, profile: string): Promise<any> {
+  searchReglementationByAdress(address: Address, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     let options = ['municipality'].includes(address.properties.type) ?
       `/reglementation?commune=${address.properties.citycode}` :
@@ -48,9 +32,29 @@ const index = {
     });
   },
 
-  searchRestrictionByGeo(geo: Geo, profile: string): Promise<any> {
+  searchReglementationByGeo(geo: Geo, profile: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/reglementation?commune=${geo.code}&profil=${profile}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  searchZonesByAdress(address: Address, profile: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    let options = ['municipality'].includes(address.properties.type) ?
+      `/zones?commune=${address.properties.citycode}` :
+      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}&commune=${address.properties.citycode}`;
+    options += `&profil=${profile}`;
+    return useFetch(options, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  searchZonesByGeo(geo: Geo, profile: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/zones?commune=${geo.code}&profil=${profile}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });

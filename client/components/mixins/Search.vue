@@ -8,7 +8,8 @@ import { Geo } from "~/client/dto/geo.dto";
 
 const props = defineProps<{
   loading: boolean,
-  query: string
+  query: string,
+  profile: string
 }>()
 
 const emit = defineEmits<{
@@ -27,6 +28,7 @@ const addressQuery: Ref<string> = ref('');
 const addresses: Ref<Address[]> = ref([]);
 const loadAddresses: Ref<boolean> = ref(true);
 const loadingAdresses: Ref<boolean> = ref(false);
+const autoSelectAddress: Ref<boolean> = ref(false);
 const profileTags: Ref<any[]> = ref([]);
 const selectedTagType: Ref<string> = ref('particulier');
 const modalOpened: Ref<boolean> = ref(false);
@@ -102,24 +104,32 @@ watch(addressQuery, utils.debounce(async () => {
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
   loadingAdresses.value = false;
   addresses.value = response.value ? _formatAddresses(response.value.features) : [];
+  if(autoSelectAddress.value) {
+    autoSelectAddress.value = false;
+    selectAddress(addresses.value[0]);
+  }
 }, 500));
 
+if (props.profile) {
+  selectedTagType.value = props.profile;
+}
 if (props.query) {
+  autoSelectAddress.value = true;
   addressQuery.value = props.query;
 }
 </script>
 
 <template>
   <div class="search fr-grid-row fr-grid-row--gutters">
-    <!--    <div class="fr-col-12 text-align-center">-->
-    <!--      <div>Agissez-vous en tant que ?</div>-->
-    <!--      <DsfrTag v-for="tag in profileTags"-->
-    <!--               :label="tag.label"-->
-    <!--               class="fr-m-1w tag-lg"-->
-    <!--               :selected="selectedTagType === tag.type"-->
-    <!--               @click="selectedTagType = tag.type"-->
-    <!--               tag-name="button"/>-->
-    <!--    </div>-->
+    <div class="fr-col-12 text-align-center">
+      <div>Agissez-vous en tant que ?</div>
+      <DsfrTag v-for="tag in profileTags"
+               :label="tag.label"
+               class="fr-m-1w tag-lg"
+               :selected="selectedTagType === tag.type"
+               @click="selectedTagType = tag.type"
+               tag-name="button"/>
+    </div>
     <div class="fr-col-12">
       <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
       <div class="autocomplete-wrapper">

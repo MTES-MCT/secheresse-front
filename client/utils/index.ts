@@ -1,9 +1,9 @@
-import { Restriction } from "../dto/restriction.dto";
+import { Zone } from "../dto/zone.dto";
 import { Address } from "../dto/address.dto";
 import api from "../api";
 import { Ref } from "vue";
 import { useAddressStore } from "../store/address";
-import { useRestrictionStore } from "../store/restrictions";
+import { useZoneStore } from "../store/zone";
 import { FetchError } from "ofetch";
 import { Geo } from "../dto/geo.dto";
 import { Departement } from "../dto/departement.dto";
@@ -24,15 +24,15 @@ const index = {
     }
   },
 
-  showRestrictions(restriction: Restriction): boolean {
+  showRestrictions(zone: Zone): boolean {
     const departement = ['59', '62'];
-    if (!restriction || (restriction.niveauAlerte === 'Vigilance' && !departement.includes(restriction.departement))) {
+    if (!zone || (zone.niveauAlerte === 'Vigilance' && !departement.includes(zone.departement))) {
       return false;
     }
-    return (restriction.usages && restriction.usages.filter(u => u.thematique !== 'Autre').length > 0);
+    return (zone.usages && zone.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
-  getRestrictionRank(restriction: Restriction): number | undefined {
+  getRestrictionRank(restriction: Zone): number | undefined {
     switch (restriction.niveauAlerte) {
       case 'Crise':
         return 4;
@@ -78,7 +78,7 @@ const index = {
     return label;
   },
 
-  getProvenanceLabel(restriction: Restriction, light: boolean = false, inverse: boolean = false): string | undefined {
+  getProvenanceLabel(restriction: Zone, light: boolean = false, inverse: boolean = false): string | undefined {
     const type = !inverse ? restriction.type : restriction.type === 'SUP' ? 'SOU' : 'SUP';
     switch (type) {
       case 'SOU':
@@ -90,36 +90,48 @@ const index = {
     }
   },
 
-  async searchRestriction(address: Address | null,
-                          geo: Geo | null,
-                          profile: string,
-                          modalTitle: Ref<string>,
-                          modalText: Ref<string>,
-                          modalIcon: Ref<string>,
-                          modalActions: Ref<any[]>,
-                          modalOpened: Ref<boolean>,
-                          router: any,
-                          loadingRestrictions: Ref<boolean>) {
+  async searchZones(address: Address | null,
+                    geo: Geo | null,
+                    profile: string,
+                    modalTitle: Ref<string>,
+                    modalText: Ref<string>,
+                    modalIcon: Ref<string>,
+                    modalActions: Ref<any[]>,
+                    modalOpened: Ref<boolean>,
+                    router: any,
+                    loadingRestrictions: Ref<boolean>) {
     const addressStore = useAddressStore();
-    const restrictionStore = useRestrictionStore();
+    const restrictionStore = useZoneStore();
     const {setAddress, setGeo} = addressStore;
-    const {setRestriction} = restrictionStore;
+    const {setZones} = restrictionStore;
 
     loadingRestrictions.value = true;
-    const [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
-      address ? api.searchRestrictionByAdress(address, profile) : await api.searchRestrictionByGeo(geo, profile),
-      api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
-    ]);
+
+    let data, error, departementConfig, errorDepartement;
+    if (profile === 'particulier') {
+      [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
+        address ? api.searchReglementationByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
+        api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
+      ]);
+    } else {
+      [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
+        address ? api.searchZonesByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
+        api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
+      ]);
+    }
+
+    // STATS MATOMO
     try {
       window._paq.push(['trackEvent', 'API CALL', 'CODE INSEE', address ? address.properties.citycode : geo?.code, 1]);
       window._paq.push(['trackEvent', 'API CALL', 'CODE DEPARTEMENT', address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement, 1]);
       window._paq.push(['trackEvent', 'API CALL', 'PROFIL', profile, 1]);
     } catch (e) {
     }
+
     loadingRestrictions.value = false;
 
     // SI ERREUR
-    if ((error?.value && error.value.statusCode !== 404) || profile !== 'particulier') {
+    if (error?.value && error.value.statusCode !== 404) {
       const {
         title,
         text,
@@ -135,18 +147,14 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setRestriction(data?.value ? data.value : {}, profile, departementConfig.value);
+    setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], profile, departementConfig.value);
     let query: any = {};
-    query = address ? (['municipality', 'locality'].includes(address.properties.type) ?
-      {code_insee: address.properties.citycode} : {
-        lon: address.geometry.coordinates[0],
-        lat: address.geometry.coordinates[1]
-      }) : {code_insee: geo?.code};
     query.profil = profile;
+    query.adresse = address?.properties.label;
     router.push({path: '/situation', query});
   },
 
-  handleRestrictionError(error: FetchError, data: Restriction[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
+  handleRestrictionError(error: FetchError, data: Zone[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
     title: string,
     text: string,
     icon: string,
@@ -156,27 +164,7 @@ const index = {
     const _closeModal = (): void => {
       modalOpened.value = false;
     };
-    const _downloadArrete = (): void => {
-      // @ts-ignore
-      window.open(data[0].arrete.cheminFichier, '_blank').focus();
-      modalOpened.value = false;
-      try {
-        window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', profile, 1]);
-      } catch (e) {
-      }
-    };
-    if (profile !== 'particulier' && !error?.statusCode && data.length > 0) {
-      return {
-        title: `Télécharger l’arrêté préfectoral`,
-        text: `Afin de recevoir des informations sur les restrictions, vous pouvez télécharger l’arrêté préfectoral lié à votre adresse !`,
-        icon: `ri-download-2-line`,
-        actions: [{label: "Consulter l'arrêté préfectoral", onClick: _downloadArrete}, {
-          label: "Annuler",
-          onClick: _closeModal,
-          secondary: true
-        }]
-      };
-    }
+
     switch (error?.statusCode) {
       case 404:
       case undefined:

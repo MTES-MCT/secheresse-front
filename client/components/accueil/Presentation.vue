@@ -9,10 +9,8 @@ import { Profile } from "../../dto/profile.enum";
 const route = useRoute();
 const router = useRouter();
 
-const citycode: string | null = route.query.code_insee ? route.query.code_insee : null;
 let profile: string | null = route.query.profil ? route.query.profil : null;
-const lat: string | null = route.query.lat ? route.query.lat : null;
-const lon: string | null = route.query.lon ? route.query.lon : null;
+let address: string | null = route.query.adresse ? route.query.adresse : null;
 
 const domainName = useRuntimeConfig().public.domainName;
 const modalOpened: Ref<boolean> = ref(false);
@@ -20,29 +18,22 @@ const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const modalIcon: Ref<string> = ref('');
 const modalActions: Ref<any[]> = ref([]);
-const loadingRestrictions: Ref<boolean> = ref(false);
+const loadingZones: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
-const searchRestriction = (address: Address | null, geo: Geo | null, profile: string) => {
+const searchZone = (address: Address | null, geo: Geo | null, profile: string) => {
   if (!address && !geo) {
     return;
   }
-  utils.searchRestriction(address, geo, profile, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingRestrictions);
+  utils.searchZones(address, geo, profile, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
 }
 
 const closeModal = () => {
   modalOpened.value = false;
 }
 profile = profile && Object.keys(Profile).includes(profile) ? profile : 'particulier';
-if (citycode) {
-  const {data} = await api.searchGeoByCitycode(citycode);
-  adressQuery.value = data.value?.nom ? data.value?.nom : '';
-  searchRestriction(null, data.value, profile);
-}
-if (lat && lon) {
-  const {data} = await api.searchAdressByLonLat(lon, lat);
-  adressQuery.value = data.value?.features[0] ? data.value?.features[0].properties.label : '';
-  searchRestriction(data.value?.features[0], null, profile);
+if (address) {
+  adressQuery.value = address ? address : '';
 }
 </script>
 
@@ -60,9 +51,10 @@ if (lat && lon) {
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w">
       <div class="search-card-wrapper">
         <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
-        <MixinsSearch @search="searchRestriction($event.address, $event.geo, $event.type)"
+        <MixinsSearch @search="searchZone($event.address, $event.geo, $event.type)"
                       :query="adressQuery"
-                      :loading="loadingRestrictions"/>
+                      :profile="profile"
+                      :loading="loadingZones"/>
       </div>
     </div>
 

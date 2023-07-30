@@ -1,8 +1,10 @@
-# Préservons l'eau - frontend
+![Logo VigiEau](https://vigieau.gouv.fr/logo_vigie_eau.svg)
+
+# VigiEau - frontend
 
 ## Description
 
-Préservons l'eau a été lancée par le Ministère de la Transition Ecologique pour aider les citoyens à avoir un accès facile et clair à
+VigiEau a été lancée par le Ministère de la Transition Ecologique pour aider les citoyens à avoir un accès facile et clair à
 l'information concernant les restrictions en vigueur lors d'épisodes d'alertes sécheresse.
 
 ## Installation
