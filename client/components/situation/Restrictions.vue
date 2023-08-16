@@ -8,7 +8,7 @@ const props = defineProps<{
 }>()
 
 const selectedTagIndex: Ref<number> = ref(0);
-const expandedIndex: Ref<string | null> = ref(null);
+const expandedIndex: Ref<string | null> = ref(props.zones.length > 1 ? null : '0');
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   thematique: 'Arrosage',

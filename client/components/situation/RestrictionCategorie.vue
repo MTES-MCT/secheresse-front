@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Zone } from "../../dto/zone.dto";
-import { Usage } from "~/client/dto/usage.dto";
+import { Usage } from "../../dto/usage.dto";
+import { useZoneStore } from "../../store/zone";
 
 const props = defineProps<{
   thematique: any,
@@ -10,6 +11,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:expandedIndex']);
+const zoneStore = useZoneStore();
+const {isParticulier} = zoneStore;
 
 const sameUsages = computed<boolean>(() => {
   if (!props.zones[0].usagesHash) {
@@ -50,7 +53,7 @@ const onAccordionClick = (index: string) => {
 </script>
 
 <template>
-  <div class="fr-col-12" v-if="zones.length > 1 && !sameUsages">
+  <div class="fr-col-12" v-if="(zones.length > 1 && !sameUsages) || !isParticulier()">
     <DsfrAccordionsGroup>
       <li v-for="(zone, index) in zones">
         <DsfrAccordion :expanded-id="expandedIndex"
@@ -89,7 +92,7 @@ const onAccordionClick = (index: string) => {
               </div>
             </template>
           </div>
-          <div v-if="index === 0">
+          <div v-if="index === 0 && zones.length > 1">
             <p class="fr-mt-4w fr-mb-0">
               Attention ces restrictions s'appliquent à l'eau qui provient
               {{ zone.type === 'SUP' ? 'des cours d\'eau' : 'de nappes souterraines' }}. Si vous utilisez de l'eau qui provient
