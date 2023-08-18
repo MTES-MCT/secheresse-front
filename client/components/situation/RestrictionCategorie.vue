@@ -29,9 +29,9 @@ const usagesFiltered = (zone: Zone): Usage[] => {
 const accordionTitle = (zone: Zone): string => {
   switch (zone.type) {
     case 'SOU':
-      return `Si j'utilise de l'eau qui provient de nappes souterraines (formations géologiques, aquifères, puits ...)`
+      return `Si j’utilise de l’eau de nappe souterraine provenant d’un puit, d’un forage, etc`
     case 'SUP':
-      return `Si j'utilise de l'eau qui provient des cours d'eau (rivières, lacs, étangs ...)`
+      return `Si j’utilise de l’eau superficielle provenant de cours d’eau, plan d’eau, etc`
   }
 };
 
