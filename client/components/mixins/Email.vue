@@ -1,16 +1,27 @@
 <script setup lang="ts">
 import { Ref } from "vue";
+import api from "../../api";
 
 const modalOpened: Ref<boolean> = ref(false);
-const runtimeConfig = useRuntimeConfig();
+const modalSuccessOpened: Ref<boolean> = ref(false);
+const subscribing: Ref<boolean> = ref(false);
 
 const closeModal = () => {
   modalOpened.value = false;
+  modalSuccessOpened.value = false;
+}
+
+const subscribe = async (form: any) => {
+  subscribing.value = true;
+  const {data, error} = await api.subscribeMail(form);
+  subscribing.value = false;
+  closeModal();
+  modalSuccessOpened.value = true;
 }
 </script>
 
 <template>
-  <div class="full-width text-align-center" v-if="runtimeConfig.public.newsletterUrl">
+  <div class="full-width text-align-center">
     <DsfrButton @click="modalOpened = true"
                 icon="ri-mail-line">
       M'abonner à VigiEau
@@ -19,11 +30,15 @@ const closeModal = () => {
   <DsfrModal :opened="modalOpened"
              title=" "
              @close="closeModal">
-    <div>
-      <iframe :src="runtimeConfig.public.newsletterUrl"
-              allowfullscreen
-              style="display: block;margin-left: auto;margin-right: auto;width: 100%;height: 50vh">
-      </iframe>
-    </div>
+    <h1>M'abonner à VigiEau</h1>
+    <p>Tenez vous au courant des changements de situation de votre territoire</p>
+    <MailForm :subscribing="subscribing"
+              @subscribe="subscribe($event)"
+              @close="closeModal" />
+  </DsfrModal>
+  <DsfrModal :opened="modalSuccessOpened"
+             title=" "
+             @close="closeModal">
+    <h1>Vous êtes abonnés !</h1>
   </DsfrModal>
 </template>

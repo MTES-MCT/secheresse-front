@@ -3198,6 +3198,20 @@
   resolved "https://registry.yarnpkg.com/@vue/tsconfig/-/tsconfig-0.4.0.tgz#f01e2f6089b5098136fb084a0dd0cdd4533b72b0"
   integrity sha512-CPuIReonid9+zOG/CGTT05FXrPYATEqoDGNrEaqS4hwcw5BUNM2FguC0mOwJD4Jr16UpRVl9N0pY3P+srIbqmg==
 
+"@vuelidate/core@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.3.tgz#40468c5ed15b72bde880a026b0699c2f0f1ecede"
+  integrity sha512-AN6l7KF7+mEfyWG0doT96z+47ljwPpZfi9/JrNMkOGLFv27XVZvKzRLXlmDPQjPl/wOB1GNnHuc54jlCLRNqGA==
+  dependencies:
+    vue-demi "^0.13.11"
+
+"@vuelidate/validators@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.3.tgz#f55d168adeb91ac25a3045c942a2354516226667"
+  integrity sha512-P4WtmczPRbwmVihKlSAs3pIjIil4xjHW+Qoi58MCw7vnKuYr/IHarOFkwp0K8eIIqiQqY4URM5Gb4aeDjna6Yw==
+  dependencies:
+    vue-demi "^0.13.11"
+
 abab@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.6.tgz#41b80f2c871d19686216b82309231cfd3cb3d291"
@@ -9827,6 +9841,11 @@ vue-demi@^0.12.5:
   version "0.12.5"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.12.5.tgz#8eeed566a7d86eb090209a11723f887d28aeb2d1"
   integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==
+
+vue-demi@^0.13.11:
+  version "0.13.11"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
+  integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
 vue-devtools-stub@^0.1.0:
   version "0.1.0"
