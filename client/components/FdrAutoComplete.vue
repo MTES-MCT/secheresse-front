@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 
 const container = ref(undefined)
@@ -25,6 +25,14 @@ const props = defineProps({
   label: {
     type: String,
     default: '',
+  },
+  light: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -139,7 +147,8 @@ function displayOption(option) {
                    :label="label"
                    v-bind="$attrs"
                    :required="true"
-                   large
+                   :large="!light"
+                   :disabled="disabled"
                    buttonText="Rechercher"
                    @update:model-value="$emit('update:modelValue', $event)"
                    ref="input"
