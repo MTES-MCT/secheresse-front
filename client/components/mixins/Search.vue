@@ -6,18 +6,36 @@ import { Address } from "../../dto/address.dto";
 import { Profile } from "../../dto/profile.enum";
 import { Geo } from "~/client/dto/geo.dto";
 
-const props = defineProps<{
-  loading: boolean,
-  query: string,
-  profile: string
-}>()
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  query: {
+    type: String,
+    default: ''
+  },
+  profile: {
+    type: String,
+    default: ''
+  },
+  light: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const emit = defineEmits<{
   search: [{
     address: Address | null,
     geo: Geo | null,
     type: string
-  }]
+  }],
+  profileUpdate: string
 }>();
 
 const _closeModal = (): void => {
@@ -43,6 +61,11 @@ for (let profile in Profile) {
 
 const selectAddress = (address: string | Address | null, geo = null) => {
   if (!address && !geo) {
+    emit('search', {
+      type: selectedTagType.value,
+      address: null,
+      geo: null
+    });
     return;
   }
   if (typeof address === 'string') {
@@ -68,6 +91,11 @@ const selectAddress = (address: string | Address | null, geo = null) => {
     address: address,
     geo: geo
   });
+}
+
+const selectProfile = (profile: string) => {
+  selectedTagType.value = profile;
+  emit('profileUpdate', selectedTagType.value);
 }
 
 const _formatAddresses = (addresses: Address[]): Address[] => {
@@ -104,15 +132,14 @@ watch(addressQuery, utils.debounce(async () => {
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
   loadingAdresses.value = false;
   addresses.value = response.value ? _formatAddresses(response.value.features) : [];
-  if(autoSelectAddress.value) {
+  if (autoSelectAddress.value) {
     autoSelectAddress.value = false;
     selectAddress(addresses.value[0]);
   }
 }, 500));
 
-if (props.profile) {
-  selectedTagType.value = props.profile;
-}
+
+selectProfile(props.profile ? props.profile : selectedTagType.value);
 if (props.query) {
   autoSelectAddress.value = true;
   addressQuery.value = props.query;
@@ -120,14 +147,15 @@ if (props.query) {
 </script>
 
 <template>
-  <div class="search fr-grid-row fr-grid-row--gutters">
+  <div class="search fr-grid-row fr-grid-row--gutters" :class="{light: light}">
     <div class="fr-col-12 text-align-center">
       <div>Agissez-vous en tant que ?</div>
       <DsfrTag v-for="tag in profileTags"
                :label="tag.label"
                class="fr-m-1w tag-lg"
                :selected="selectedTagType === tag.type"
-               @click="selectedTagType = tag.type"
+               :disabled="disabled"
+               @click="selectProfile(tag.type)"
                tag-name="button"/>
     </div>
     <div class="fr-col-12">
@@ -139,21 +167,23 @@ if (props.query) {
                          label="Champ de recherche d'adresse"
                          display-key="properties.label"
                          data-cy="AddressSearchInput"
+                         :light="light"
+                         :disabled="disabled"
                          @update:modelValue="selectAddress($event)"
                          @search="selectAddress($event)"/>
         <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
       </div>
     </div>
   </div>
-  <div class="btn-geoloc">
+  <div v-if="!light" class="btn-geoloc">
     <DsfrButton label="Géo-localisez moi"
                 icon="ri-map-pin-user-line"
                 class="fr-mt-1w"
-                iconRight
                 @click="geoloc()"
                 tertiary/>
   </div>
-  <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
+  <DsfrNotice v-if="!light"
+              title="Nous ne conservons pas vos données et votre adresse"
               class="notice-light fr-mt-1w"/>
   <DsfrModal :opened="modalOpened"
              title="Cela n'a pas fonctionné comme prévu !"
@@ -180,6 +210,10 @@ if (props.query) {
     top: 8px;
     left: 0;
   }
+}
+
+.search.light {
+  text-align: center;
 }
 
 @media screen and (max-width: 991px) {

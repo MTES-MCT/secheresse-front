@@ -70,7 +70,8 @@ export default defineNuxtConfig({
       apiSecheresseUrl: process.env.API_SECHERESSE_URL,
       domainName: process.env.DOMAIN_NAME,
       domainProdNotActivated: process.env.DOMAIN_PROD_NOT_ACTIVATED,
-      appName: appName
+      appName: appName,
+      email: 'contact.vigieau@beta.gouv.fr'
     }
   },
   vite: {

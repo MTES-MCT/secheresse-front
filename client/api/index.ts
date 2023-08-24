@@ -66,6 +66,15 @@ const index = {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
+  },
+
+  subscribeMail(form: any): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/mail/subscribe`, {
+      method: 'POST',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      body: form
+    });
   }
 }
 

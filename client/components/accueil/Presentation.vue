@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 import utils from "../../utils";
-import api from "../../api";
 import { Address } from "../../dto/address.dto";
 import { Geo } from "../../dto/geo.dto";
 import { Profile } from "../../dto/profile.enum";
