@@ -11,9 +11,14 @@ const zoneStore = useZoneStore();
 const {address, geo} = storeToRefs(addressStore);
 const {zones, zone}: Ref<Zone> = storeToRefs(zoneStore);
 const {resetAddress, adressString} = addressStore;
+const {resetZones} = zoneStore;
 
 const addressToUse: Ref<any> = ref(adressString());
-resetAddress();
+
+onBeforeUnmount(() => {
+  resetAddress();
+  resetZones();
+})
 </script>
 
 <template>

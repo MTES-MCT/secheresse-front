@@ -34,11 +34,13 @@ const subscribe = async (form: any) => {
     <p>Tenez vous au courant des changements de situation de votre territoire</p>
     <MailForm :subscribing="subscribing"
               @subscribe="subscribe($event)"
-              @close="closeModal" />
+              @close="closeModal"/>
   </DsfrModal>
   <DsfrModal :opened="modalSuccessOpened"
              title=" "
              @close="closeModal">
     <h1>Vous êtes abonnés !</h1>
+    <p>Le système de notification de changement de situation sur votre territoire sera mis en place fin 2023, vous recevrez un email lorsque
+      celui-ci sera activé !</p>
   </DsfrModal>
 </template>

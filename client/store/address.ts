@@ -19,8 +19,8 @@ export const useAddressStore = defineStore('addressStore', () => {
     address.value = null;
     geo.value = null;
   }
-  
-  function adressString(): string | undefined{
+
+  function adressString(): string | undefined {
     if (address.value) {
       return address.value.properties.label
     } else if (geo.value) {

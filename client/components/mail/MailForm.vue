@@ -4,6 +4,11 @@ import { Address } from "~/client/dto/address.dto";
 import { Geo } from "~/client/dto/geo.dto";
 import { email, helpers, required, requiredIf, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import { useAddressStore } from "../../store/address";
+import { useZoneStore } from "../../store/zone";
+import { storeToRefs } from "pinia";
+import { Ref } from "vue/dist/vue";
+import { Zone } from "../../dto/zone.dto";
 
 const props = defineProps({
   subscribing: {
@@ -17,8 +22,13 @@ const emit = defineEmits<{
   close: any
 }>();
 
+const addressStore = useAddressStore();
+const zoneStore = useZoneStore();
+const {zone}: Ref<Zone> = storeToRefs(zoneStore);
+const {adressString} = addressStore;
+
 const formData = reactive({
-  profile: '',
+  profile: zone?.value ? zone.value.profil : '',
   email: null,
   lon: null,
   lat: null,
@@ -99,7 +109,7 @@ watch(v$, () => {
   <form @submit.prevent="submitForm" class="mail-form">
     <DsfrInputGroup :error-message="errorMessage" :valid-message="''">
       <MixinsSearch :profile="formData.profile"
-                    :query="''"
+                    :query="adressString()"
                     :light="true"
                     :disabled="subscribing"
                     @search="setAddress($event.address, $event.geo)"
