@@ -115,7 +115,7 @@ const index = {
       ]);
     } else {
       [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
-        address ? api.searchZonesByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
+        address ? api.searchZonesByAdress(address, profile) : await api.searchZonesByGeo(geo, profile),
         api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
       ]);
     }
@@ -147,7 +147,7 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], profile, departementConfig.value);
+    setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], departementConfig.value);
     let query: any = {};
     query.profil = profile;
     query.adresse = address?.properties.label;

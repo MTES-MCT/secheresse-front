@@ -4,6 +4,7 @@ import { Ref } from "vue";
 
 const expandedIndex: Ref<string | null> = ref(null);
 const domainName = useRuntimeConfig().public.domainName;
+const email = useRuntimeConfig().public.email;
 const onAccordionClick = (index: string) => {
   expandedIndex.value = index !== expandedIndex.value ? index : null;
 }
@@ -31,9 +32,9 @@ const onAccordionClick = (index: string) => {
       <div class="fr-mt-2w">
         Vous souhaitez-nous poser une question qui n’apparaît pas ici ?
         <a class="fr-link"
-           title="Contactez-nous sur contact.vigieau@beta.gouv.fr"
-           :href="'mailto:contact.vigieau@beta.gouv.fr'">
-          Contactez nous sur contact.vigieau@beta.gouv.fr
+           :title="`Contactez-nous sur ${email}`"
+           :href="`mailto:${email}`">
+          Contactez nous sur {{ email }}
         </a>
       </div>
     </div>

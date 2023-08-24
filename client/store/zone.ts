@@ -7,20 +7,19 @@ export const useZoneStore = defineStore('zoneStore', () => {
   const zones: Ref<Zone[] | null> = ref(null);
   const zone: Ref<Zone | null> = computed(() => zones.value ? zones.value[0] : null);
 
-  function setZones(value: Zone[], profile: string, departementConfig: Departement): void {
-    zones.value = formatZones(value, profile, departementConfig);
+  function setZones(value: Zone[], departementConfig: Departement): void {
+    zones.value = formatZones(value, departementConfig);
   }
 
   function resetZones(): void {
     zones.value = null;
   }
 
-  function formatZones(zones: Zone[], profile: string, departementConfig: Departement): Zone[] {
+  function formatZones(zones: Zone[], departementConfig: Departement): Zone[] {
     if (!zones || zones.length < 1) {
       return zones;
     }
     zones.map(zone => {
-      zone.profil = profile;
       zone.usages = zone.usages?.sort((a, b) => a.usage.localeCompare(b.usage));
       zone.departementConfig = departementConfig;
     })
@@ -29,9 +28,5 @@ export const useZoneStore = defineStore('zoneStore', () => {
     return zones;
   }
 
-  function isParticulier(): boolean {
-    return zone.value ? zone.value.profil === 'particulier' : false;
-  }
-
-  return {setZones, resetZones, zones, zone, isParticulier}
+  return {setZones, resetZones, zones, zone}
 })

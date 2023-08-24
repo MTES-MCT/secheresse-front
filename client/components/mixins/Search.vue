@@ -3,20 +3,31 @@ import { Ref } from "vue";
 import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
-import { Profile } from "../../dto/profile.enum";
 import { Geo } from "~/client/dto/geo.dto";
 
-const props = defineProps<{
-  loading: boolean,
-  query: string,
-  profile: string
-}>()
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  query: {
+    type: String,
+    default: ''
+  },
+  light: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+})
 
 const emit = defineEmits<{
   search: [{
     address: Address | null,
     geo: Geo | null,
-    type: string
   }]
 }>();
 
@@ -29,27 +40,21 @@ const addresses: Ref<Address[]> = ref([]);
 const loadAddresses: Ref<boolean> = ref(true);
 const loadingAdresses: Ref<boolean> = ref(false);
 const autoSelectAddress: Ref<boolean> = ref(false);
-const profileTags: Ref<any[]> = ref([]);
-const selectedTagType: Ref<string> = ref('particulier');
 const modalOpened: Ref<boolean> = ref(false);
 const modalActions: Ref<any[]> = ref([{label: "Recommencer", onClick: _closeModal}]);
 
-for (let profile in Profile) {
-  profileTags.value.push({
-    label: Profile[profile],
-    type: profile
-  })
-}
-
 const selectAddress = (address: string | Address | null, geo = null) => {
   if (!address && !geo) {
+    emit('search', {
+      address: null,
+      geo: null
+    });
     return;
   }
   if (typeof address === 'string') {
     addressQuery.value = address;
     if (address === '') {
       emit('search', {
-        type: selectedTagType.value,
         address: null,
         geo: null
       });
@@ -64,7 +69,6 @@ const selectAddress = (address: string | Address | null, geo = null) => {
   }
   addressQuery.value = address ? address.properties.label : geo.nom;
   emit('search', {
-    type: selectedTagType.value,
     address: address,
     geo: geo
   });
@@ -104,15 +108,13 @@ watch(addressQuery, utils.debounce(async () => {
   const {data: response, error} = await api.searchAddresses(addressQuery.value);
   loadingAdresses.value = false;
   addresses.value = response.value ? _formatAddresses(response.value.features) : [];
-  if(autoSelectAddress.value) {
+  if (autoSelectAddress.value) {
     autoSelectAddress.value = false;
     selectAddress(addresses.value[0]);
   }
 }, 500));
 
-if (props.profile) {
-  selectedTagType.value = props.profile;
-}
+
 if (props.query) {
   autoSelectAddress.value = true;
   addressQuery.value = props.query;
@@ -120,16 +122,7 @@ if (props.query) {
 </script>
 
 <template>
-  <div class="search fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-12 text-align-center">
-      <div>Agissez-vous en tant que ?</div>
-      <DsfrTag v-for="tag in profileTags"
-               :label="tag.label"
-               class="fr-m-1w tag-lg"
-               :selected="selectedTagType === tag.type"
-               @click="selectedTagType = tag.type"
-               tag-name="button"/>
-    </div>
+  <div class="search fr-grid-row fr-grid-row--gutters" :class="{light: light}">
     <div class="fr-col-12">
       <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
       <div class="autocomplete-wrapper">
@@ -139,21 +132,23 @@ if (props.query) {
                          label="Champ de recherche d'adresse"
                          display-key="properties.label"
                          data-cy="AddressSearchInput"
+                         :light="light"
+                         :disabled="disabled"
                          @update:modelValue="selectAddress($event)"
                          @search="selectAddress($event)"/>
         <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
       </div>
     </div>
   </div>
-  <div class="btn-geoloc">
+  <div v-if="!light" class="btn-geoloc">
     <DsfrButton label="Géo-localisez moi"
                 icon="ri-map-pin-user-line"
                 class="fr-mt-1w"
-                iconRight
                 @click="geoloc()"
                 tertiary/>
   </div>
-  <DsfrNotice title="Nous ne conservons pas vos données et votre adresse"
+  <DsfrNotice v-if="!light"
+              title="Nous ne conservons pas vos données et votre adresse"
               class="notice-light fr-mt-1w"/>
   <DsfrModal :opened="modalOpened"
              title="Cela n'a pas fonctionné comme prévu !"
@@ -180,6 +175,10 @@ if (props.query) {
     top: 8px;
     left: 0;
   }
+}
+
+.search.light {
+  text-align: center;
 }
 
 @media screen and (max-width: 991px) {

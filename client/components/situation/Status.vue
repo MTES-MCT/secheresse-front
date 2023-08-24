@@ -8,12 +8,17 @@ import utils from "../../utils";
 
 const addressStore = useAddressStore();
 const zoneStore = useZoneStore();
-const {address, geo} = storeToRefs(addressStore);
+const {address, geo, profile} = storeToRefs(addressStore);
 const {zones, zone}: Ref<Zone> = storeToRefs(zoneStore);
 const {resetAddress, adressString} = addressStore;
+const {resetZones} = zoneStore;
 
 const addressToUse: Ref<any> = ref(adressString());
-resetAddress();
+
+onBeforeUnmount(() => {
+  resetAddress();
+  resetZones();
+})
 </script>
 
 <template>
@@ -22,6 +27,7 @@ resetAddress();
     <SituationHeader :address="addressToUse"
                      :zone="zone"/>
     <SituationRestrictions v-if="utils.showRestrictions(zone)"
+                           :profile="profile"
                            :zones="zones"/>
     <div class="section-title fr-mt-8w" v-if="zone && zone.idZone">
       <DsfrCallout title=""
@@ -45,6 +51,9 @@ resetAddress();
           Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
         </p>
       </DsfrCallout>
+      <div class="fr-mb-2w">
+        <MixinsEmail/>
+      </div>
     </div>
   </div>
 </template>

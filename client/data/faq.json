@@ -43,11 +43,11 @@
       "data": [
         {
           "question": "Quels sont les bons gestes pour économiser l’eau ?",
-          "response": "En période de sécheresse, que l’on soit soumis ou non à des mesures de restriction, professionnels et particuliers doivent maîtriser leur consommation d’eau. Les agriculteurs et les industriels sont notamment encouragés à réduire leur consommation d’eau par de nouvelles pratiques et modes opératoires, comme le recyclage des eaux de nettoyage.\n\nChacun d’entre nous peut également maîtriser sa consommation d’eau quotidienne grâce à des gestes simples : privilégier les douches, installer des équipements sanitaires économes en eau, faire fonctionner les appareils de lavage à plein, réutiliser l’eau de pluie etc."
+          "response": "En période de sécheresse, que l’on soit soumis ou non à des mesures de restriction, professionnels et particuliers doivent maîtriser leur consommation d’eau. Les agriculteurs et les industriels sont notamment encouragés à réduire leur consommation d’eau par de nouvelles pratiques et modes opératoires, comme le recyclage des eaux de nettoyage.\n\nChacun d’entre nous peut également maîtriser sa consommation d’eau quotidienne grâce à des gestes simples : privilégier les douches, installer des équipements sanitaires économes en eau, faire fonctionner les appareils de lavage à plein, réutiliser l’eau de pluie, etc."
         },
         {
           "question": "Va-t-il y avoir une pénurie d’eau potable dans toute la France ?",
-          "response": "En cas de sécheresse, des difficultés d'approvisionnement en eau potable peuvent survenir, c’est pourquoi, suite aux sécheresses récentes, l’État (via les agences de l’eau) a investi pour sécuriser l'approvisionnement des communes fragiles et réduire les fuites. Le relèvement du plafond de dépense de 100 M€, intervenu par arrêté du 10 janvier 2023, compte 54 millions d’euros pour le domaine « eau potable et assainissement ». Le projet de loi de finances rectificative 2022 a attribué 50 M€ pour la résorption des fuites ."
+          "response": "En cas de sécheresse, des difficultés d'approvisionnement en eau potable peuvent survenir, c’est pourquoi, suite aux sécheresses récentes, l’État (via les agences de l’eau) a investi pour sécuriser l'approvisionnement des communes fragiles et réduire les fuites. Le relèvement du plafond de dépense de 100 M€, intervenu par arrêté du 10 janvier 2023, compte 54 millions d’euros pour le domaine « eau potable et assainissement ». Le projet de loi de finances rectificative 2022 a attribué 50 M€ pour la résorption des fuites."
         },
         {
           "question": "Est-ce que le maire, au titre de ses pouvoirs de police, peut couper l’approvisionnement en eau potable pour préserver les ressources ?",
@@ -66,7 +66,7 @@
           "response": "En France, l’eau du robinet est l’un des aliments les plus contrôlés. Elle fait l’objet d’un suivi sanitaire permanent, destiné à en garantir la sécurité sanitaire.\n\nPour connaître les résultats des derniers prélèvements dans votre commune, consultez la cartographie en ligne sur le site du ministère de la Santé et de la Prévention sur : <a class=\"fr-link\" target=\"_blank\" rel=\"noopener\" href='https://eaupotable.sante.gouv.fr'>eaupotable.sante.gouv.fr</a>\n\nEn complément, il est important de rester attentif aux messages délivrés par la personne responsable de la production et de la distribution de l’eau sur sa commune, sur la qualité de l’eau distribuée.\n"
         },
         {
-          "question": "En cas de sécheresse, est ce que les hôpitaux ou les EHPAD seront privés d’eau ?",
+          "question": "En cas de sécheresse, est-ce que les hôpitaux ou les EHPAD seront privés d’eau ?",
           "response": "En situation de sécheresse, il est du ressort des services de l’État compétents d’établir au préalable les listes des usagers prioritaires et des activités essentielles pour l’alimentation en eau potable, de définir les différents niveaux de priorité correspondants et de tenir à jour ces listes.\n\nCette priorisation permet d’opérer une gradation de la segmentation des réseaux de distribution au fur et à mesure que les volumes disponibles s’amenuisent.\n\nCertains usagers sont donc considérés comme prioritaires pour l’alimentation en eau potable et sont identifiés dans une liste spécifique, établie dans chaque département.\n\nPar exemple, les établissements de santé (hôpitaux, cliniques, maternités, centres de dialyse) et les personnes dialysées à domicile font partie des usagers prioritaires. Les EHPAD font également partie des cibles dont l’eau ne serait coupée qu’en dernier recours (et non sans avoir organisé l’approvisionnement en eau de secours le plus rapidement possible).\n\nPour en savoir plus, consulter l'<a class=\"fr-link\" target=\"_blank\" rel=\"noopener\" href='https://sante.gouv.fr/fichiers/bo/2017/17-09/ste_20170009_0000_0109.pdf'>instruction interministérielle ORSEC Eau potable</a> (PDF)."
         },
         {
@@ -83,7 +83,7 @@
       "name": "Ressources énergétiques",
       "data": [
         {
-          "question": "Y-a-t-il un risque que nous ne puissions pas refroidir correctement les réacteurs nucléaires de nos centrales ?",
+          "question": "Y a-t-il un risque que nous ne puissions pas refroidir correctement les réacteurs nucléaires de nos centrales ?",
           "response": "Concernant la sûreté des installations nucléaires, dans la situation météorologique actuelle, aucun risque pour le refroidissement des réacteurs électronucléaire n'a été identifié."
         }
       ]
