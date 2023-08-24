@@ -50,7 +50,7 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
   thematique: 'ICPE',
   icone: 'eau-goutte-robinet-interdiction'
 }, {
-  label: 'Installations de production d`\'électricité d\'origine nucléaire, hydraulique, et thermique à flamme',
+  label: 'Installations de production d\'électricité',
   thematique: 'Installations de production d\'électricité d\'origine nucléaire, hydraulique, et thermique à flamme',
   icone: 'eau-goutte-robinet-interdiction'
 }]);

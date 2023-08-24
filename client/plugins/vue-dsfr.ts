@@ -34,10 +34,14 @@ import {
 import { addIcons, OhVueIcon } from 'oh-vue-icons';
 import {
   RiArrowRightLine,
-  RiCheckboxCircleLine, RiCheckLine, RiDownload2Line, RiErrorWarningLine,
-  RiInformationFill, RiInformationLine,
-  RiMapPinUserLine, RiQuestionLine,
-  RiSearchLine, RiSurveyLine,
+  RiCheckboxCircleLine,
+  RiDownload2Line,
+  RiInformationFill,
+  RiInformationLine,
+  RiMapPinUserLine,
+  RiQuestionLine,
+  RiSearchLine,
+  RiSurveyLine,
   RiTimerLine
 } from 'oh-vue-icons/icons/ri/index.js';
 
