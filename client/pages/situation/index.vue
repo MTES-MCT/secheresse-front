@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAddressStore } from "../../store/address";
+import { useZoneStore } from "../../store/zone";
 
 definePageMeta({
   layout: 'basic',
@@ -7,7 +8,9 @@ definePageMeta({
 })
 
 const addressStore = useAddressStore();
+const zoneStore = useZoneStore();
 const {adressString} = addressStore;
+const {isParticulier} = zoneStore;
 
 useHead({
   title: `Situation ${adressString()} - ${useRuntimeConfig().public.appName}`
@@ -17,7 +20,7 @@ useHead({
 <template>
   <div>
     <SituationStatus/>
-    <AccueilGestes/>
+    <AccueilGestes v-if="isParticulier()"/>
     <AccueilLiens/>
     <AccueilFaq/>
   </div>
