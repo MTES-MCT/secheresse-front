@@ -8,7 +8,7 @@ import utils from "../../utils";
 
 const addressStore = useAddressStore();
 const zoneStore = useZoneStore();
-const {address, geo} = storeToRefs(addressStore);
+const {address, geo, profile} = storeToRefs(addressStore);
 const {zones, zone}: Ref<Zone> = storeToRefs(zoneStore);
 const {resetAddress, adressString} = addressStore;
 const {resetZones} = zoneStore;
@@ -27,6 +27,7 @@ onBeforeUnmount(() => {
     <SituationHeader :address="addressToUse"
                      :zone="zone"/>
     <SituationRestrictions v-if="utils.showRestrictions(zone)"
+                           :profile="profile"
                            :zones="zones"/>
     <div class="section-title fr-mt-8w" v-if="zone && zone.idZone">
       <DsfrCallout title=""

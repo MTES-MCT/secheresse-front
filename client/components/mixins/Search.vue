@@ -3,7 +3,6 @@ import { Ref } from "vue";
 import utils from "../../utils";
 import api from "../../api";
 import { Address } from "../../dto/address.dto";
-import { Profile } from "../../dto/profile.enum";
 import { Geo } from "~/client/dto/geo.dto";
 
 const props = defineProps({
@@ -12,10 +11,6 @@ const props = defineProps({
     default: false
   },
   query: {
-    type: String,
-    default: ''
-  },
-  profile: {
     type: String,
     default: ''
   },
@@ -33,9 +28,7 @@ const emit = defineEmits<{
   search: [{
     address: Address | null,
     geo: Geo | null,
-    type: string
-  }],
-  profileUpdate: string
+  }]
 }>();
 
 const _closeModal = (): void => {
@@ -47,22 +40,12 @@ const addresses: Ref<Address[]> = ref([]);
 const loadAddresses: Ref<boolean> = ref(true);
 const loadingAdresses: Ref<boolean> = ref(false);
 const autoSelectAddress: Ref<boolean> = ref(false);
-const profileTags: Ref<any[]> = ref([]);
-const selectedTagType: Ref<string> = ref('particulier');
 const modalOpened: Ref<boolean> = ref(false);
 const modalActions: Ref<any[]> = ref([{label: "Recommencer", onClick: _closeModal}]);
-
-for (let profile in Profile) {
-  profileTags.value.push({
-    label: Profile[profile],
-    type: profile
-  })
-}
 
 const selectAddress = (address: string | Address | null, geo = null) => {
   if (!address && !geo) {
     emit('search', {
-      type: selectedTagType.value,
       address: null,
       geo: null
     });
@@ -72,7 +55,6 @@ const selectAddress = (address: string | Address | null, geo = null) => {
     addressQuery.value = address;
     if (address === '') {
       emit('search', {
-        type: selectedTagType.value,
         address: null,
         geo: null
       });
@@ -87,15 +69,9 @@ const selectAddress = (address: string | Address | null, geo = null) => {
   }
   addressQuery.value = address ? address.properties.label : geo.nom;
   emit('search', {
-    type: selectedTagType.value,
     address: address,
     geo: geo
   });
-}
-
-const selectProfile = (profile: string) => {
-  selectedTagType.value = profile;
-  emit('profileUpdate', selectedTagType.value);
 }
 
 const _formatAddresses = (addresses: Address[]): Address[] => {
@@ -139,7 +115,6 @@ watch(addressQuery, utils.debounce(async () => {
 }, 500));
 
 
-selectProfile(props.profile ? props.profile : selectedTagType.value);
 if (props.query) {
   autoSelectAddress.value = true;
   addressQuery.value = props.query;
@@ -148,16 +123,6 @@ if (props.query) {
 
 <template>
   <div class="search fr-grid-row fr-grid-row--gutters" :class="{light: light}">
-    <div class="fr-col-12 text-align-center">
-      <div>Agissez-vous en tant que ?</div>
-      <DsfrTag v-for="tag in profileTags"
-               :label="tag.label"
-               class="fr-m-1w tag-lg"
-               :selected="selectedTagType === tag.type"
-               :disabled="disabled"
-               @click="selectProfile(tag.type)"
-               tag-name="button"/>
-    </div>
     <div class="fr-col-12">
       <div class="fr-mb-1w">Où habitez-vous ? (Adresse complète)</div>
       <div class="autocomplete-wrapper">

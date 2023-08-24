@@ -4,11 +4,13 @@ import utils from "../../utils";
 import { Address } from "../../dto/address.dto";
 import { Geo } from "../../dto/geo.dto";
 import { Profile } from "../../dto/profile.enum";
+import { useAddressStore } from "../../store/address";
+import { storeToRefs } from "pinia";
 
 const route = useRoute();
 const router = useRouter();
 
-let profile: string | null = route.query.profil ? route.query.profil : null;
+let profileQuery: string | null = route.query.profil ? route.query.profil : null;
 let address: string | null = route.query.adresse ? route.query.adresse : null;
 
 const domainName = useRuntimeConfig().public.domainName;
@@ -20,17 +22,21 @@ const modalActions: Ref<any[]> = ref([]);
 const loadingZones: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
-const searchZone = (address: Address | null, geo: Geo | null, profile: string) => {
+const adressStore = useAddressStore();
+const {isParticulier, setProfile} = adressStore;
+const {profile} = storeToRefs(adressStore);
+
+const searchZone = (address: Address | null, geo: Geo | null) => {
   if (!address && !geo) {
     return;
   }
-  utils.searchZones(address, geo, profile, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
+  utils.searchZones(address, geo, profile.value, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
 }
 
 const closeModal = () => {
   modalOpened.value = false;
 }
-profile = profile && Object.keys(Profile).includes(profile) ? profile : 'particulier';
+setProfile(profileQuery && Object.keys(Profile).includes(profileQuery) ? profileQuery : profile.value);
 if (address) {
   adressQuery.value = address ? address : '';
 }
@@ -47,12 +53,12 @@ if (address) {
       />
     </div>
 
-    <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w">
+    <MixinsProfile :profile="profile" @profileUpdate="setProfile($event)"/>
+    <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-2w">
       <div class="search-card-wrapper">
         <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
-        <MixinsSearch @search="searchZone($event.address, $event.geo, $event.type)"
+        <MixinsSearch @search="searchZone($event.address, $event.geo)"
                       :query="adressQuery"
-                      :profile="profile"
                       :loading="loadingZones"/>
       </div>
     </div>

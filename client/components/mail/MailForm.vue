@@ -5,10 +5,8 @@ import { Geo } from "~/client/dto/geo.dto";
 import { email, helpers, required, requiredIf, sameAs } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
 import { useAddressStore } from "../../store/address";
-import { useZoneStore } from "../../store/zone";
 import { storeToRefs } from "pinia";
 import { Ref } from "vue/dist/vue";
-import { Zone } from "../../dto/zone.dto";
 
 const props = defineProps({
   subscribing: {
@@ -23,12 +21,11 @@ const emit = defineEmits<{
 }>();
 
 const addressStore = useAddressStore();
-const zoneStore = useZoneStore();
-const {zone}: Ref<Zone> = storeToRefs(zoneStore);
+const {profile}: Ref<string> = storeToRefs(addressStore);
 const {adressString} = addressStore;
 
 const formData = reactive({
-  profile: zone?.value ? zone.value.profil : '',
+  profile: profile,
   email: null,
   lon: null,
   lat: null,
@@ -108,12 +105,16 @@ watch(v$, () => {
 <template>
   <form @submit.prevent="submitForm" class="mail-form">
     <DsfrInputGroup :error-message="errorMessage" :valid-message="''">
+      <MixinsProfile :profile="formData.profile"
+                     class="fr-mb-2w"
+                     @profileUpdate="formData.profile = $event"
+      />
       <MixinsSearch :profile="formData.profile"
                     :query="adressString()"
                     :light="true"
                     :disabled="subscribing"
                     @search="setAddress($event.address, $event.geo)"
-                    @profileUpdate="formData.profile = $event"/>
+      />
 
       <div class="fr-mt-2w text-align-center">
         <DsfrInput placeholder="Ex: test@exemple.com"

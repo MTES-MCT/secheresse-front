@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Zone } from "../../dto/zone.dto";
 import { Usage } from "../../dto/usage.dto";
-import { useZoneStore } from "../../store/zone";
+import { useAddressStore } from "../../store/address";
 
 const props = defineProps<{
   thematique: any,
@@ -11,8 +11,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:expandedIndex']);
-const zoneStore = useZoneStore();
-const {isParticulier} = zoneStore;
+const adressStore = useAddressStore();
+const {isParticulier} = adressStore;
 
 const sameUsages = computed<boolean>(() => {
   if (!props.zones[0].usagesHash) {

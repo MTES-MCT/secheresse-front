@@ -4,7 +4,8 @@ import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.
 import { Zone } from "../../dto/zone.dto";
 
 const props = defineProps<{
-  zones: Zone[]
+  zones: Zone[],
+  profile: string
 }>()
 
 const selectedTagIndex: Ref<number> = ref(0);
@@ -62,7 +63,7 @@ const thematiqueTagsFiltered = computed<TagProps[]>(() => {
 });
 
 const title = computed<string>(() => {
-  switch (props.zones[0].profil) {
+  switch (props.profile) {
     case 'exploitation':
       return `En tant qu'agriculteur, ai-je des restrictions pour ?`
     case 'collectivite':
