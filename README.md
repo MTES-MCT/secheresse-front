@@ -26,7 +26,7 @@ Doc [API Adresse](https://adresse.data.gouv.fr/api-doc/adresse)
 
 Doc [API Geo](https://geo.api.gouv.fr/decoupage-administratif)
 
-Doc API Sécheresse à venir
+Doc [API Sécheresse](https://github.com/MTES-MCT/secheresse-api)
 
 ### Installation des dépendances
 
