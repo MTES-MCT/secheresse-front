@@ -4663,9 +4663,9 @@ escape-string-regexp@^5.0.0:
   integrity sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==
 
 eslint-config-standard-with-typescript@^38.0.0:
-  version "38.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-standard-with-typescript/-/eslint-config-standard-with-typescript-38.0.0.tgz#4e25e47011d51a30c8c68934e65e7d744b222cda"
-  integrity sha512-G7JR6I8tmWEQjzbESo/9gVq4AQctbVO4J8PINQj8l2lgbJF/W9KCJ4uDLiKmLMjWszW/F5SsucoA/5VpHvfwOQ==
+  version "38.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-standard-with-typescript/-/eslint-config-standard-with-typescript-38.1.0.tgz#26e981539db7fcd4728caf88694ffc9e24a3e0cc"
+  integrity sha512-sdgN8Gf7BMVhVKlY7/mB426yO/MozU1zV7TKnh0z1wIoPq4lD0CHQ+b/UkgqKfiZ4Io0j3xIY1j+lHhVXQck0g==
   dependencies:
     "@typescript-eslint/parser" "^6.1.0"
     eslint-config-standard "17.1.0"
