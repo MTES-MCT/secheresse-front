@@ -137,7 +137,9 @@ watch(v$, () => {
       />
     </DsfrInputGroup>
 
-    <p>Vous pouvez vous désinscrire à tout moment en cliquant sur le lien présent dans nos emails.</p>
+    <p>Les <router-link to="/donnees-personnelles" target="_blank">données collectées</router-link> lors de votre inscription sont utilisées dans le cadre d’une mission de
+      service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de la Nature (DGALN).
+      Vous pouvez à tout moment vous opposer à ces traitements en vous désinscrivant en cliquant sur le lien présent dans nos emails.</p>
 
     <DsfrButton type="submit"
                 class="full-width fr-grid-row--center"

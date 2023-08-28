@@ -17,25 +17,130 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Donnée
 <template>
   <DsfrBreadcrumb :links='links'/>
   <div class="fr-mt-8w">
-    <h1>Gestion des données personnelles</h1>
-    <h2>Responsables de traitement</h2>
+    <h1>Politique de confidentialité</h1>
+    <h2>Qui est responsable ?</h2>
     <p>
-      La Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la Cohésion des territoires et des
-      Relations avec les collectivités territoriales est la responsable du traitement de vos données à caractère personnel.<br/><br/>
-
-      Les coordonnées de la Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la Cohésion des
-      territoires et des Relations avec les collectivités territoriales sont: Grande Arche de la Défense, 92055 La Défense CEDEX
+      {{ appName }} est un service numérique développé au sein de la Direction générale de l’Aménagement, du Logement et de la Nature. Ce
+      service permet d’informer les personnes sur les restrictions de l’usage de l’eau en vigueur localement en France.<br/><br/>
+      Le responsable de l’utilisation des données est la DGALN, représentée par M. Philippe Mazenc, directeur général de l’aménagement, du
+      logement et de la nature.
     </p>
-    <h2>Destinataires et sous-traitants</h2>
+    <h2>Pourquoi traitons-nous ces données ?</h2>
     <p>
-      La Direction interministérielle du numérique (DINUM) assure, pour le compte de la DGS et de la DGPR, la supervision de l’équipe
-      produit (produit «{{ appName }}» conçu selon l'approche Startup d’Etat dans le cadre du programme beta.gouv.fr) qui gère et déploie
-      le
-      service.<br/><br/>
+      {{ appName }} traite des données à caractère personnel pour :<br/>
+      <ul>
+        <li>Mettre en place un système d’alerte par mail des restrictions d’eau.</li>
+      </ul>
+    </p>
+    <h2>Quelles sont les données que nous traitons ?</h2>
+    <p>
+      {{ appName }} traite les données à caractère personnel suivantes :<br/>
+      <ul>
+        <li>Adresse e-mail</li>
+        <li>Adresse postale</li>
+        <li>Type de profil : particulier, collectivité, entreprise, agriculteur</li>
+      </ul>
+    </p>
+    <h2>Qu’est-ce qui nous autorise à traiter ces données ?</h2>
+    <p>
+      {{ appName }} traite des données à caractère personnel en se basant sur :<br/>
+      <ul>
+        <li>
+          L’exécution d’une mission d’intérêt public ou relevant de l’exercice de l’autorité publique dont est investi le responsable de
+          traitement au sens de l’article 6-1 e) du RPGD.
+        </li>
+      </ul>
+      Cette mission d’intérêt public ou relevant de l’exercice de l’autorité publique se traduit par :<br/>
+      <ul>
+        <li>
+          L’article 7 de la Charte de l’environnement, ayant valeur constitutionnelle, qui dispose que « toute personne a le droit, dans
+          les conditions et les limites définies par la loi, d’accéder aux informations relatives à l’environnement détenues par les
+          autorités publiques »
+        </li>
+        <li>
+          L’article 7 du décret n° 2008-680 du 9 juillet 2008 portant organisation de l’administration centrale des ministères chargés de la
+          transition écologique, de la cohésion des territoires et de la mer.
+        </li>
+      </ul>
+    </p>
+    <h2>Pendant combien de temps conservons-nous ces données ?</h2>
+    <p>
+      <div class="fr-table">
+        <table>
+          <thead>
+          <tr>
+            <th scope="col">Type de données</th>
+            <th scope="col">Durée de la conservation</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Données de contact : adresse e-mail</td>
+            <td>Jusqu’à ce que l’utilisateur se désinscrit de la lettre d’information</td>
+          </tr>
+          <tr>
+            <td>Adresse postale</td>
+            <td>2 ans à compter du dernier contact avec l’utilisateur</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </p>
+    <h2>Quels droits avez-vous ?</h2>
+    <p>
+      Vous disposez :<br/>
+      <ul>
+        <li>D’un droit d’information et d’un droit d’accès à vos données</li>
+        <li>D’un droit de rectification</li>
+        <li>D’un droit d’opposition</li>
+        <li>D’un droit à la limitation du traitement</li>
+      </ul>
+      Pour les exercer, contactez-nous à : <a class="fr-link"
+                                              :title="email"
+                                              :href="`mailto:${email}`">
+      {{ email }}
+    </a><br/><br/>
+      Puisque ce sont des droits personnels, nous ne traiterons votre demande que si nous sommes en mesure de vous identifier. Dans le cas
+      où nous ne parvenons pas à vous identifier, nous pouvons être amenés à vous demander une preuve de votre identité.}<br/><br/>
+      Pour vous aider dans votre démarche, vous trouverez un modèle de courrier élaboré par la CNIL ici :
+      <a href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces" target="_blank"
+         rel="external">https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces</a><br/><br/>
+      Nous nous engageons à vous répondre dans un délai raisonnable qui ne saurait dépasser 1 mois à compter de la réception de votre
+      demande.
 
-      Les sociétés Scalingo (hébergeur), Brevo et Tally interviennent également en tant que sous-traitants. {{ appName }} s’est
-      assurée de la mise en œuvre par ses sous-traitants de garanties adéquates et du respect de conditions strictes de confidentialité,
-      d’usage et de protection des données.
+    </p>
+    <h2>Qui va avoir accès à ces données ?</h2>
+    <p>
+      Les accès aux données sont strictement encadrés et juridiquement justifiés. Les personnes suivantes vont avoir accès aux données
+      :<br/>
+      <ul>
+        <li>
+          Les membres du service numérique {{ appName }} qui ont besoin des données dans leurs missions ou qui y ont accès de fait
+          (développeur, etc.).
+        </li>
+      </ul>
+    </p>
+    <h2>
+      Quelles mesures de sécurité mettons-nous en place ?
+    </h2>
+    <p>
+      Nous mettons en place plusieurs mesures pour sécuriser les données :<br/>
+      <ul>
+        <li>Stockage des données en base de données</li>
+        <li>Cloisonnement des données</li>
+        <li>Mesures de traçabilité</li>
+        <li>Surveillance</li>
+        <li>Protection contre les virus, malwares et logiciels espions</li>
+        <li>Protection des réseaux</li>
+        <li>Sauvegarde</li>
+        <li>Mesures restrictives limitant l’accès physiques aux données à caractère personnel</li>
+      </ul>
+    </p>
+    <h2>Qui nous aide à traiter les données ?</h2>
+    <p>
+      Certaines des données sont envoyées à d’autres acteurs, appelés “sous-traitants de données”, pour qu’ils nous aident à les manipuler.
+      Nous nous assurons qu’ils respectent strictement le RGPD et qu’ils apportent des garanties suffisantes en matière de
+      sécurité.
       <div class="fr-table">
         <table>
           <thead>
@@ -70,77 +175,6 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Donnée
           </tbody>
         </table>
       </div>
-    </p>
-    <h2>Données collectées</h2>
-    <p>
-      Les données personnelles traitées sont:
-      <ul>
-        <li>
-          Identification: adresse mail, commune de résidence
-        </li>
-        <li>
-          Inscription à la lettre d'information
-        </li>
-        <li>
-          Inscription aux notifications de changement d'état d'alerte
-        </li>
-      </ul>
-
-      A noter: les données sont collectées sur un mode binaire (case cochée ou non) et non détaillées selon la personne. Aucun justificatif
-      n’est collecté ni stocké sur la plateforme.<br/><br/>
-
-      Les données collectées lors de l’inscription sont utilisées exclusivement pour envoyer les informations souhaitées par l'utilisateur.
-    </p>
-    <h2>Base légale du traitement</h2>
-    <p>
-      La base légale du traitement est l'exercice d'une mission d'intérêt public, fondée sur:
-      <ul>
-        <li>
-          l’article 7 de la Charte de l’environnement, inscrite dans la Constitution, qui dispose que toute personne a le droit, dans les
-          conditions et les limites définies par la loi, d'accéder aux informations relatives à l'environnement détenues par les autorités
-          publiques.
-        </li>
-      </ul>
-    </p>
-    <h2>Finalité du traitement</h2>
-    <p>
-      La finalité du traitement de données réalisé par VigiEau est de transmettre des informations et recommandations aux utilisateurs pour
-      les aider à mieux comprendre les épisodes de sécheresses et à appliquer les mesures nécessaires.
-    </p>
-    <h2>Durée de conservation des données</h2>
-    <p>
-      Les données collectées sont supprimées dès lors que l'utilisateur se désinscrit de la lettre d'information.
-    </p>
-    <h2>Sécurité et confidentialité</h2>
-    <p>
-      Les données personnelles sont traitées dans des conditions sécurisées, selon les moyens actuels de la technique, dans le respect des
-      dispositions relatives à la protection de la vie privée et notamment au référentiel général de sécurité, prévu à l’article 9 de
-      l’ordonnance 2005-1516 du 8 décembre 2005 relative aux échanges électroniques entre les usagers et les autorités administratives et
-      entre les autorités administratives.<br/><br/>
-    </p>
-    <h2>Droits des personnes</h2>
-    <p>
-      Vous disposez des droits suivants concernant vos données à caractère personnel:
-      <ul>
-        <li>
-          Droit d’information, d’accès et de communication des données;
-        </li>
-        <li>
-          Droit à la limitation;
-        </li>
-        <li>
-          Droit de rectification des données;
-        </li>
-        <li>
-          Droit d'opposition.
-        </li>
-      </ul>
-      Pour toute demande, vous pouvez écrire un email à l’équipe {{ appName }}: {{ email }}<br/><br/>
-
-      Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés ou que le traitement n’est pas conforme à la
-      réglementation sur la protection des données à caractère personnel, vous pouvez adresser une réclamation à la CNIL: <a
-      href="https://www.cnil.fr"
-      target="_blank" rel="external">https://www.cnil.fr</a>.
     </p>
   </div>
 </template>
