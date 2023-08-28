@@ -94,7 +94,6 @@ const date = computed(() => {
           </div>
         </template>
       </div>
-      <MixinsEmail />
     </div>
   </div>
 </template>
