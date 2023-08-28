@@ -21,9 +21,14 @@ const subscribe = async (form: any) => {
 </script>
 
 <template>
-  <div class="full-width text-align-center">
+  <div class="section-title fr-mb-4w">
+    <div>
+      Restez informé de la situation sécheresse sur votre territoire . Abonnez vous pour recevoir une alerte par mail dès que les
+      restrictions vous concernant changent.
+    </div>
     <DsfrButton @click="modalOpened = true"
-                icon="ri-mail-line">
+                icon="ri-mail-line"
+                class="fr-mt-1w">
       M'abonner à VigiEau
     </DsfrButton>
   </div>
