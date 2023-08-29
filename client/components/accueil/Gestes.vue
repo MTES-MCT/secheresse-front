@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import gestes from '../../data/gestes.json'
-import repartition from '../../data/repartition.json'
 import { Ref } from "vue";
-import { TagProps } from "@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue";
 
-const gesteTags: Ref<TagProps[]> = ref([{
+const gesteTags: Ref<any[]> = ref([{
   label: "À la maison",
   icon: "eau-maison",
   home: true

@@ -1,37 +1,21 @@
+import VueDsfr from '@gouvminint/vue-dsfr'
 import {
-  DsfrFooter,
-  DsfrHeader,
-  DsfrBreadcrumb,
-  DsfrSearchBar,
-  DsfrAccordionsGroup,
-  DsfrAccordion,
-  DsfrCard,
-  DsfrTag,
-  DsfrTabs,
-  DsfrTabContent,
-  DsfrNotice,
-  DsfrModal,
-  DsfrBadge,
-  DsfrButton,
-  DsfrCallout,
-  DsfrPicture,
-  DsfrShare,
-  DsfrInput,
-  DsfrInputGroup,
-  DsfrCheckbox,
-  DsfrNewsLetter,
-  DsfrFollow,
-  DsfrCheckboxSet,
-} from '@gouvminint/vue-dsfr'
-import {
-  EauArrosoir, EauGoutteAbreuvementInterdiction,
+  EauArrosoir,
+  EauGoutteAbreuvementInterdiction,
   EauGoutteArrosoir,
-  EauGoutteArrosoirInterdiction, EauGoutteCanauxInterdiction,
-  EauGoutteDouche, EauGoutteFontaineInterdiction,
+  EauGoutteArrosoirInterdiction,
+  EauGoutteCanauxInterdiction,
+  EauGoutteDouche,
+  EauGoutteFontaineInterdiction,
   EauGoutteFuite,
-  EauGoutteMachine, EauGoutteNavigationInterdiction,
-  EauGoutteNettoyageInterdiction, EauGouttePiscineInterdiction, EauGoutteRemplissageInterdiction,
-  EauGoutteRobinet, EauGoutteRobinetInterdiction, EauGoutteTravauxInterdiction,
+  EauGoutteMachine,
+  EauGoutteNavigationInterdiction,
+  EauGoutteNettoyageInterdiction,
+  EauGouttePiscineInterdiction,
+  EauGoutteRemplissageInterdiction,
+  EauGoutteRobinet,
+  EauGoutteRobinetInterdiction,
+  EauGoutteTravauxInterdiction,
   EauGoutteVoiture,
   EauMaison,
   EauPiscine,
@@ -92,30 +76,7 @@ const icons = [
 ]
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // Ajout des composants un par un pour alléger l'application
-  nuxtApp.vueApp.component('DsfrHeader', DsfrHeader);
-  nuxtApp.vueApp.component('DsfrFooter', DsfrFooter);
-  nuxtApp.vueApp.component('DsfrBreadcrumb', DsfrBreadcrumb);
-  nuxtApp.vueApp.component('DsfrSearchBar', DsfrSearchBar);
-  nuxtApp.vueApp.component('DsfrAccordionsGroup', DsfrAccordionsGroup);
-  nuxtApp.vueApp.component('DsfrAccordion', DsfrAccordion);
-  nuxtApp.vueApp.component('DsfrCard', DsfrCard);
-  nuxtApp.vueApp.component('DsfrTag', DsfrTag);
-  nuxtApp.vueApp.component('DsfrTabs', DsfrTabs);
-  nuxtApp.vueApp.component('DsfrTabContent', DsfrTabContent);
-  nuxtApp.vueApp.component('DsfrNotice', DsfrNotice);
-  nuxtApp.vueApp.component('DsfrModal', DsfrModal);
-  nuxtApp.vueApp.component('DsfrBadge', DsfrBadge);
-  nuxtApp.vueApp.component('DsfrButton', DsfrButton);
-  nuxtApp.vueApp.component('DsfrCallout', DsfrCallout);
-  nuxtApp.vueApp.component('DsfrPicture', DsfrPicture);
-  nuxtApp.vueApp.component('DsfrShare', DsfrShare);
-  nuxtApp.vueApp.component('DsfrInput', DsfrInput);
-  nuxtApp.vueApp.component('DsfrInputGroup', DsfrInputGroup);
-  nuxtApp.vueApp.component('DsfrCheckbox', DsfrCheckbox);
-  nuxtApp.vueApp.component('DsfrFollow', DsfrFollow);
-  nuxtApp.vueApp.component('DsfrNewsLetter', DsfrNewsLetter);
-  nuxtApp.vueApp.component('DsfrCheckboxSet', DsfrCheckboxSet);
+  nuxtApp.vueApp.use(VueDsfr);
   addIcons(...icons);
   nuxtApp.vueApp.component('VIcon', OhVueIcon);
 })

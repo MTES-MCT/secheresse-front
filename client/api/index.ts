@@ -12,6 +12,14 @@ const index = {
     });
   },
 
+  searchAddressByLatlon(lon: string, lat: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/reverse?lon=${lon}&lat=${lat}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiAdresseUrl
+    });
+  },
+
   searchGeoByLatlon(lon: string, lat: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/communes?lon=${lon}&lat=${lat}`, {
@@ -79,6 +87,14 @@ const index = {
       method: 'POST',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       body: form
+    });
+  },
+
+  getDepartmentsData(): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/departements`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   }
 }

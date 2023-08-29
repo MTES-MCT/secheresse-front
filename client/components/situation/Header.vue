@@ -23,21 +23,21 @@ const classObject = (rank: number | undefined): any => {
   const bgClass = `situation-level-bg-${rank}`;
   const colorClass = `situation-level-c-${rank}`;
   const cssClass: any = {
-    'situation-disabled': utils.getRestrictionRank(props.zone) !== rank
+    'situation-disabled': utils.getRestrictionRank(props.zone?.niveauAlerte) !== rank
   }
   cssClass[bgClass] = true;
-  cssClass[colorClass] = utils.getRestrictionRank(props.zone) !== rank;
+  cssClass[colorClass] = utils.getRestrictionRank(props.zone?.niveauAlerte) !== rank;
   return cssClass;
 }
 
 const situationLabel = computed<string>(() => {
-  return utils.getShortSituationLabel(utils.getRestrictionRank(props.zone))
+  return utils.getShortSituationLabel(utils.getRestrictionRank(props.zone?.niveauAlerte))
 });
 </script>
 
 <template>
   <div class="situation-status-header fr-grid-row fr-pb-4w"
-       :class="'situation-level-' + utils.getRestrictionRank(zone)">
+       :class="'situation-level-' + utils.getRestrictionRank(zone?.niveauAlerte)">
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
@@ -48,8 +48,8 @@ const situationLabel = computed<string>(() => {
         <DsfrBadge small
                    class="show-sm"
                    no-icon
-                   :class="classObject(utils.getRestrictionRank(zone))"
-                   :label="badgeLabel(utils.getRestrictionRank(zone))"/>
+                   :class="classObject(utils.getRestrictionRank(zone?.niveauAlerte))"
+                   :label="badgeLabel(utils.getRestrictionRank(zone?.niveauAlerte))"/>
         <DsfrBadge v-for="rank of restrictionRanks"
                    small
                    no-icon
@@ -69,7 +69,7 @@ const situationLabel = computed<string>(() => {
         {{ address }}
       </div>
       <h1 v-if="zone?.idZone" class="h2">Vous êtes sur une zone en <span
-        :class="'situation-level-c-' + utils.getRestrictionRank(zone)">{{
+        :class="'situation-level-c-' + utils.getRestrictionRank(zone?.niveauAlerte)">{{
           situationLabel
         }}</span></h1>
       <h1 class="h2" v-else>

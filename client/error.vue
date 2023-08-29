@@ -1,30 +1,39 @@
 <script setup lang="ts">
 useHead({
-  title: `Préservons l'eau - 404`
+  title: `Préservons l'eau - Erreur`
 })
 
 const props = defineProps<{
   error: any
 }>()
+const router = useRouter();
+
+const title = computed<string>(() => {
+  return props.error.statusCode === 404 ? 'Page non trouvée, ne paniquez pas' : 'Une erreur est survenue, ne paniquez pas'
+});
+const subtitle = computed<string>(() => {
+  return `Erreur ${props.error.statusCode} !`
+});
+const buttons = [
+  {
+    label: 'Page d\'accueil',
+    onClick: () => {
+      router.push('/');
+    }
+  },
+]
 </script>
 
 <template>
   <div>
     <NuxtLayout name="basic">
-      <div class="fr-grid-row fr-my-8w">
-        <div class="fr-col-12 text-align-center">
-          <h1>{{ error.statusCode }}</h1>
-        </div>
-        <div class="fr-col-12 text-align-center">
-          <h2 v-if="error.statusCode === 404">Page non trouvée</h2>
-          <h2 v-else>Une erreur est survenue </h2>
-        </div>
-        <div class="fr-col-12 text-align-center">
-          <router-link to="/" class="fr-btn">
-            Retourner à l'accueil
-          </router-link>
-        </div>
-      </div>
+      <DsfrErrorPage class="fr-mt-8w"
+                     :title="title"
+                     :subtitle="subtitle"
+                     description=""
+                     help=""
+                     :buttons="buttons"
+      />
     </NuxtLayout>
   </div>
 </template>
