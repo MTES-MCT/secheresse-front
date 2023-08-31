@@ -31,8 +31,19 @@ const formData = reactive({
   lat: null,
   citycode: null,
   confirmSubscription: false,
+  typeZone: ['SUP', 'SOU'],
 });
 const errorMessage = ref('');
+const typeZoneOptions = [
+  {
+    label: 'Eau souterraine',
+    name: 'SOU',
+  },
+  {
+    label: 'Eau de surface',
+    name: 'SUP',
+  },
+];
 
 const rules = computed(() => {
   return {
@@ -56,6 +67,9 @@ const rules = computed(() => {
     },
     citycode: {
       requiredIf: requiredIf(!formData.lon && !formData.lat)
+    },
+    typeZone: {
+      requiredIf: requiredIf(formData.profile !== 'particulier')
     }
   };
 });
@@ -103,12 +117,17 @@ watch(v$, () => {
 </script>
 
 <template>
-  <form @submit.prevent="submitForm" class="mail-form">
+  <form @submit.prevent="" class="mail-form">
     <DsfrInputGroup :error-message="errorMessage" :valid-message="''">
       <MixinsProfile :profile="formData.profile"
                      class="fr-mb-2w"
-                     @profileUpdate="formData.profile = $event"
+                     @profileUpdate="formData.profile = $event;"
       />
+      <div class="fr-mt-2w" v-if="formData.profile !== 'particulier'">
+        <DsfrCheckboxSet legend="Avez-vous une préférence d'alerte pour les types d'eau ?"
+                         v-model="formData.typeZone"
+                         :options="typeZoneOptions"/>
+      </div>
       <MixinsSearch :profile="formData.profile"
                     :query="adressString()"
                     :light="true"
@@ -141,7 +160,7 @@ watch(v$, () => {
       service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de la Nature (DGALN).
       Vous pouvez à tout moment vous opposer à ces traitements en vous désinscrivant en cliquant sur le lien présent dans nos emails.</p>
 
-    <DsfrButton type="submit"
+    <DsfrButton @click="submitForm()"
                 class="full-width fr-grid-row--center"
                 :disabled="v$.$invalid || subscribing">
       <div class="fr-grid-row fr-grid-row--center">
