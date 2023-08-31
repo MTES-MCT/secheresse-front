@@ -21,16 +21,15 @@ const subscribe = async (form: any) => {
 </script>
 
 <template>
-  <div class="section-title fr-mb-4w">
-    <div>
-      Restez informé de la situation sécheresse sur votre territoire . Abonnez vous pour recevoir une alerte par mail dès que les
-      restrictions vous concernant changent.
-    </div>
-    <DsfrButton @click="modalOpened = true"
-                icon="ri-mail-line"
-                class="fr-mt-1w">
-      M'abonner à VigiEau
-    </DsfrButton>
+  <div class="section-title fr-mb-4w text-align-left">
+    <DsfrFollow>
+      <div class="fr-col-12">
+        <DsfrNewsLetter title="Restez informé de la situation sécheresse sur votre territoire."
+                        description="Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent."
+                        :buttonAction="() => modalOpened = true"
+                        :onlyCallout="true"/>
+      </div>
+    </DsfrFollow>
   </div>
   <DsfrModal :opened="modalOpened"
              title=" "
@@ -49,3 +48,9 @@ const subscribe = async (form: any) => {
       celui-ci sera activé !</p>
   </DsfrModal>
 </template>
+
+<style scoped lang="scss">
+.section-title {
+  text-align: left;
+}
+</style>

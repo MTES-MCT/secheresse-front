@@ -18,7 +18,10 @@ import {
   DsfrShare,
   DsfrInput,
   DsfrInputGroup,
-  DsfrCheckbox, DsfrCheckboxSet,
+  DsfrCheckbox,
+  DsfrNewsLetter,
+  DsfrFollow,
+  DsfrCheckboxSet,
 } from '@gouvminint/vue-dsfr'
 import {
   EauArrosoir, EauGoutteAbreuvementInterdiction,
@@ -110,6 +113,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('DsfrInput', DsfrInput);
   nuxtApp.vueApp.component('DsfrInputGroup', DsfrInputGroup);
   nuxtApp.vueApp.component('DsfrCheckbox', DsfrCheckbox);
+  nuxtApp.vueApp.component('DsfrFollow', DsfrFollow);
+  nuxtApp.vueApp.component('DsfrNewsLetter', DsfrNewsLetter);
   nuxtApp.vueApp.component('DsfrCheckboxSet', DsfrCheckboxSet);
   addIcons(...icons);
   nuxtApp.vueApp.component('VIcon', OhVueIcon);
