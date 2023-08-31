@@ -51,6 +51,7 @@ onBeforeUnmount(() => {
           Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
         </p>
       </DsfrCallout>
+      <MixinsEmail />
     </div>
   </div>
 </template>

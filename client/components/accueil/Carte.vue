@@ -59,7 +59,7 @@ const date = computed(() => {
 </script>
 
 <template>
-  <div class="carte fr-mb-8w">
+  <div class="carte fr-my-8w">
     <div class="section-title fr-mb-8w">
       <h2>La situation de la sécheresse en France</h2>
       <span>Arrêtés publiés avant le {{ date }}</span>

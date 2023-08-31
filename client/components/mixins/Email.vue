@@ -21,7 +21,7 @@ const subscribe = async (form: any) => {
 </script>
 
 <template>
-  <div class="fr-mt-4w">
+  <div class="follow-wrap fr-mt-4w">
     <div class="fr-follow">
       <div class="fr-container">
         <div class="fr-grid-row">
@@ -41,14 +41,14 @@ const subscribe = async (form: any) => {
         </div>
       </div>
     </div>
-<!--    <DsfrFollow>-->
-<!--      <div class="fr-col-12">-->
-<!--        <DsfrNewsLetter title="Restez informé de la situation sécheresse sur votre territoire."-->
-<!--                        description="Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent."-->
-<!--                        :buttonAction="() => modalOpened = true"-->
-<!--                        :onlyCallout="true"/>-->
-<!--      </div>-->
-<!--    </DsfrFollow>-->
+    <!--    <DsfrFollow>-->
+    <!--      <div class="fr-col-12">-->
+    <!--        <DsfrNewsLetter title="Restez informé de la situation sécheresse sur votre territoire."-->
+    <!--                        description="Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent."-->
+    <!--                        :buttonAction="() => modalOpened = true"-->
+    <!--                        :onlyCallout="true"/>-->
+    <!--      </div>-->
+    <!--    </DsfrFollow>-->
   </div>
   <DsfrModal :opened="modalOpened"
              title=" "
@@ -67,3 +67,28 @@ const subscribe = async (form: any) => {
       celui-ci sera activé !</p>
   </DsfrModal>
 </template>
+
+<style scoped lang="scss">
+.follow-wrap {
+  height: 176px;
+}
+
+.fr-follow {
+  position: absolute;
+  width: 100vw;
+  max-width:100%;
+  left: 0;
+}
+
+@media screen and (max-width: 637px) {
+  .follow-wrap {
+    height: 216px;
+  }
+}
+
+@media screen and (max-width: 342px) {
+  .follow-wrap {
+    height: 268px;
+  }
+}
+</style>

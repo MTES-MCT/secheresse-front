@@ -86,7 +86,6 @@ onMounted(() => {
   <div class="fr-container fr-mb-8w">
     <slot/>
   </div>
-  <MixinsEmail />
   <DsfrFooter :logo-text="logoText"
               :mandatoryLinks="mandatoryLinks"
               :operatorImgSrc="operatorImgSrc"

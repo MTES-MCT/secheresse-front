@@ -16,6 +16,7 @@ const {isParticulier} = addressStore;
 <template>
   <div>
     <AccueilPresentation/>
+    <MixinsEmail />
     <AccueilCarte />
     <AccueilGestes v-if="isParticulier()"/>
     <AccueilLiens />
