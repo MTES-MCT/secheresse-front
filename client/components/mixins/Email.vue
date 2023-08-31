@@ -21,16 +21,34 @@ const subscribe = async (form: any) => {
 </script>
 
 <template>
-  <div class="section-title fr-mb-4w">
-    <div>
-      Restez informé de la situation sécheresse sur votre territoire . Abonnez vous pour recevoir une alerte par mail dès que les
-      restrictions vous concernant changent.
+  <div class="fr-mt-4w">
+    <div class="fr-follow">
+      <div class="fr-container">
+        <div class="fr-grid-row">
+          <div class="fr-col-12">
+            <div class="fr-follow__newsletter">
+              <div>
+                <h2 class="fr-h5">Restez informé de la situation sécheresse sur votre territoire.</h2>
+                <p class="fr-text--sm">Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent.</p>
+              </div>
+              <div>
+                <button class="fr-btn" title="S‘abonner à notre lettre d’information" @click="() => modalOpened = true">
+                  S'abonner
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <DsfrButton @click="modalOpened = true"
-                icon="ri-mail-line"
-                class="fr-mt-1w">
-      M'abonner à VigiEau
-    </DsfrButton>
+<!--    <DsfrFollow>-->
+<!--      <div class="fr-col-12">-->
+<!--        <DsfrNewsLetter title="Restez informé de la situation sécheresse sur votre territoire."-->
+<!--                        description="Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent."-->
+<!--                        :buttonAction="() => modalOpened = true"-->
+<!--                        :onlyCallout="true"/>-->
+<!--      </div>-->
+<!--    </DsfrFollow>-->
   </div>
   <DsfrModal :opened="modalOpened"
              title=" "
