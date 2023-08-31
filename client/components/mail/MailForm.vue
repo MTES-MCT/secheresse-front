@@ -25,7 +25,7 @@ const {profile}: Ref<string> = storeToRefs(addressStore);
 const {adressString} = addressStore;
 
 const formData = reactive({
-  profile: profile,
+  profile: JSON.parse(JSON.stringify(profile)),
   email: null,
   lon: null,
   lat: null,
