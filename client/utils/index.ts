@@ -188,9 +188,9 @@ const index = {
       default:
         return {
           title: `Cela n'a pas fonctionné comme prévu !`,
-          text: `Nous sommes désolés, une erreur s’est glissée dans notre système et nous n’avons pas pu traiter correctement votre requête`,
+          text: `Nous sommes désolés, une erreur s'est glissée dans la saisie des données pour cette adresse. Nous ne pouvons pas traiter correctement votre demande. Nous faisons remonter le problème.`,
           icon: `ri-arrow-right-line`,
-          actions: [{label: "Recommencer", onClick: _closeModal}]
+          actions: []
         };
     }
   },

@@ -33,7 +33,7 @@ const subscribe = async (form: any) => {
               </div>
               <div>
                 <button class="fr-btn" title="S‘abonner à notre lettre d’information" @click="() => modalOpened = true">
-                  S'abonner
+                  Je m'abonne
                 </button>
               </div>
             </div>

@@ -18,7 +18,7 @@
          target="_blank"
          rel="external"
          href="https://www.cieau.com/le-metier-de-leau/usages-consommation-conseils/calculateur-consommation-eau-annuelle/">
-        Découvrez le calculateur Cieau
+        Je découvre le calculateur Cieau
       </a>
     </div>
   </div>
