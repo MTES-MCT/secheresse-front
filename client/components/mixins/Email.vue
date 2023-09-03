@@ -4,11 +4,13 @@ import api from "../../api";
 
 const modalOpened: Ref<boolean> = ref(false);
 const modalSuccessOpened: Ref<boolean> = ref(false);
+const modalErrorOpened: Ref<boolean> = ref(false);
 const subscribing: Ref<boolean> = ref(false);
 
 const closeModal = () => {
   modalOpened.value = false;
   modalSuccessOpened.value = false;
+  modalErrorOpened.value = false;
 }
 
 const subscribe = async (form: any) => {
@@ -16,7 +18,11 @@ const subscribe = async (form: any) => {
   const {data, error} = await api.subscribeMail(form);
   subscribing.value = false;
   closeModal();
-  modalSuccessOpened.value = true;
+  if(!error.value) {
+    modalSuccessOpened.value = true;    
+  } else {
+    modalErrorOpened.value = true;
+  }
 }
 </script>
 
@@ -65,6 +71,12 @@ const subscribe = async (form: any) => {
     <h1>Vous êtes abonnés !</h1>
     <p>Le système de notification de changement de situation sur votre territoire sera mis en place fin 2023, vous recevrez un email lorsque
       celui-ci sera activé !</p>
+  </DsfrModal>
+  <DsfrModal :opened="modalErrorOpened"
+             title=" "
+             @close="closeModal">
+    <h1>Une erreur est survenue !</h1>
+    <p>Veuillez ré-essayer avec une autre adresse.</p>
   </DsfrModal>
 </template>
 

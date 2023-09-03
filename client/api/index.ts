@@ -69,8 +69,13 @@ const index = {
   },
 
   subscribeMail(form: any): Promise<any> {
+    for (const key in form) {
+      if(!form[key]) {
+        delete form[key];
+      }
+    }
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/mail/subscribe`, {
+    return useFetch(`/subscribe`, {
       method: 'POST',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       body: form
