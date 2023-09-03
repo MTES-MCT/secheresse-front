@@ -25,16 +25,17 @@ const {profile}: Ref<string> = storeToRefs(addressStore);
 const {adressString} = addressStore;
 
 const formData = reactive({
-  profile: JSON.parse(JSON.stringify(profile)),
+  profil: ref(profile.value),
   email: null,
+  idAdresse: null,
   lon: null,
   lat: null,
-  citycode: null,
+  commune: null,
   confirmSubscription: false,
-  typeZone: ['SUP', 'SOU'],
+  typesZones: ['SUP', 'SOU'],
 });
 const errorMessage = ref('');
-const typeZoneOptions = [
+const typesZonesOptions = [
   {
     label: 'Eau souterraine',
     name: 'SOU',
@@ -52,7 +53,7 @@ const rules = computed(() => {
       email: helpers.withMessage(`L'email n'est pas valide.`, email),
       $autoDirty: true
     },
-    profile: {
+    profil: {
       required: helpers.withMessage('Le profil est obligatoire.', required)
     },
     confirmSubscription: {
@@ -60,16 +61,19 @@ const rules = computed(() => {
       $autoDirty: true
     },
     lon: {
-      requiredIf: requiredIf(!formData.citycode)
+      requiredIf: requiredIf(!formData.commune)
     },
     lat: {
-      requiredIf: requiredIf(!formData.citycode)
+      requiredIf: requiredIf(!formData.commune)
     },
-    citycode: {
+    commune: {
       requiredIf: requiredIf(!formData.lon && !formData.lat)
     },
-    typeZone: {
-      requiredIf: requiredIf(formData.profile !== 'particulier')
+    idAdresse: {
+      requiredIf: requiredIf(!formData.commune)
+    },
+    typesZones: {
+      requiredIf: requiredIf(formData.profil !== 'particulier')
     }
   };
 });
@@ -78,17 +82,20 @@ const v$ = useVuelidate(rules, formData);
 
 const setAddress = (address: Address | null, geo: Geo | null) => {
   if (!address && !geo) {
-    formData.citycode = null;
+    formData.idAdresse = null;
+    formData.commune = null;
     formData.lon = null;
     formData.lat = null;
     return;
   }
   if (geo || ['municipality'].includes(address.properties.type)) {
-    formData.citycode = geo ? geo.code : address.properties.citycode;
+    formData.idAdresse = null;
+    formData.commune = geo ? geo.code : address.properties.citycode;
     formData.lon = null;
     formData.lat = null;
   } else {
-    formData.citycode = null;
+    formData.idAdresse = address.properties.id;
+    formData.commune = null;
     formData.lon = address.geometry.coordinates[0];
     formData.lat = address.geometry.coordinates[1];
   }
@@ -119,16 +126,16 @@ watch(v$, () => {
 <template>
   <form @submit.prevent="" class="mail-form">
     <DsfrInputGroup :error-message="errorMessage" :valid-message="''">
-      <MixinsProfile :profile="formData.profile"
+      <MixinsProfile :profile="formData.profil"
                      class="fr-mb-2w"
-                     @profileUpdate="formData.profile = $event;"
+                     @profileUpdate="formData.profil = $event;"
       />
-      <div class="fr-mt-2w" v-if="formData.profile !== 'particulier'">
+      <div class="fr-mt-2w" v-if="formData.profil !== 'particulier'">
         <DsfrCheckboxSet legend="Avez-vous une préférence d'alerte pour les types d'eau ?"
-                         v-model="formData.typeZone"
-                         :options="typeZoneOptions"/>
+                         v-model="formData.typesZones"
+                         :options="typesZonesOptions"/>
       </div>
-      <MixinsSearch :profile="formData.profile"
+      <MixinsSearch :profile="formData.profil"
                     :query="adressString()"
                     :light="true"
                     :disabled="subscribing"
