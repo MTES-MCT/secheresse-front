@@ -81,6 +81,7 @@ const subscribe = async (form: any) => {
 
 <style scoped lang="scss">
 .follow-wrap {
+  width: 100%;
   height: 176px;
 }
 
