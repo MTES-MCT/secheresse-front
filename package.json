@@ -14,7 +14,7 @@
     "purgecss": "purgecss --config ./purgecss.config.js"
   },
   "dependencies": {
-    "@gouvfr/dsfr": "^1.9.0",
+    "@gouvfr/dsfr": "^1.10.1",
     "@gouvminint/vue-dsfr": "^4.0.2",
     "@pinia/nuxt": "^0.4.10",
     "@vuelidate/core": "^2.0.3",
