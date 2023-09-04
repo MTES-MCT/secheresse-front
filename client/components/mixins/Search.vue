@@ -21,6 +21,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  excludedCitycodes: {
+    type: Array,
+    default: null
   }
 })
 
@@ -75,7 +79,7 @@ const selectAddress = (address: string | Address | null, geo = null) => {
 }
 
 const _formatAddresses = (addresses: Address[]): Address[] => {
-  return addresses.map(a => {
+  return addresses.filter(a => props.excludedCitycodes ? !props.excludedCitycodes.includes(a.properties.citycode) : true).map(a => {
     if (a.properties.type === 'municipality') {
       a.properties.label = `${a.properties.label}, ${a.properties.citycode >= '97' ? a.properties.citycode.slice(0, 3) : a.properties.citycode.slice(0, 2)}`;
     }

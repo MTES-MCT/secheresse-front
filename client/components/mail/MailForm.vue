@@ -139,6 +139,7 @@ watch(v$, () => {
                     :query="adressString()"
                     :light="true"
                     :disabled="subscribing"
+                    :excludedCitycodes="['75056', '13055', '69123']"
                     @search="setAddress($event.address, $event.geo)"
       />
 
