@@ -36,7 +36,8 @@ selectProfile(props.profile ? props.profile : selectedTagType.value);
 </script>
 
 <template>
-  <div class="text-align-center full-width">
+  <div class="text-align-center full-width"
+       data-cy="ProfileSelection">
     <div>Agissez-vous en tant que ?</div>
     <DsfrTag v-for="tag in profileTags"
              :label="tag.label"
