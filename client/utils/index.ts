@@ -33,7 +33,7 @@ const index = {
   },
 
   getRestrictionRank(restriction: Zone): number | undefined {
-    switch (restriction.niveauAlerte) {
+    switch (restriction?.niveauAlerte) {
       case 'Crise':
         return 4;
       case 'Alerte renforcée':

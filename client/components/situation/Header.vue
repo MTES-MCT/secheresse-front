@@ -2,19 +2,22 @@
 import utils from "../../utils";
 import { Zone } from "../../dto/zone.dto";
 import { Ref } from "vue";
+import { useAddressStore } from "../../store/address";
 
 const props = defineProps<{
   zone: Zone
   address: string
 }>();
 
+const adressStore = useAddressStore();
+const {isParticulier} = adressStore;
 const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situation'}]);
 const modalOpened: Ref<boolean> = ref(false);
 const restrictionRanks = [1, 2, 3, 4];
 const networks = [
   {
     name: "facebook",
-    label: "Partager sur Facebook", 
+    label: "Partager sur Facebook",
     url: `https://www.facebook.com/sharer.php?u=${window.location.href}`
   },
   {
@@ -51,15 +54,14 @@ const situationLabel = computed<string>(() => {
 
 <template>
   <div class="situation-status-header fr-grid-row fr-pb-4w"
-       v-if="zone"
        :class="'situation-level-' + utils.getRestrictionRank(zone)">
     <div class="fr-col-12">
       <DsfrBreadcrumb :links='links'/>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper"
-         :class="!zone.idZone ? 'fr-col-md-8' : ''">
+         :class="!zone?.idZone ? 'fr-col-md-8' : ''">
       <div class="fr-grid-row fr-grid-row--middle fr-mb-2w"
-           v-if="zone.idZone">
+           v-if="zone?.idZone">
         <DsfrBadge small
                    class="show-sm"
                    no-icon
@@ -83,7 +85,7 @@ const situationLabel = computed<string>(() => {
         <VIcon name="ri-map-pin-user-line"/>
         {{ address }}
       </div>
-      <h1 v-if="zone.idZone" class="h2">Vous êtes sur une zone en <span
+      <h1 v-if="zone?.idZone" class="h2">Vous êtes sur une zone en <span
         :class="'situation-level-c-' + utils.getRestrictionRank(zone)">{{
           situationLabel
         }}</span></h1>
@@ -96,12 +98,13 @@ const situationLabel = computed<string>(() => {
       <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
     </div>
     <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-else>
-      <div v-if="!zone.idZone">
-        Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
+      <div v-if="!zone?.idZone">
+        Aucune restriction n'est à appliquer à votre adresse.
+        <template v-if="isParticulier()">Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.</template>
       </div>
       <div v-else>
-        L’état de la ressource en eau appelle à la vigilance de chacun. Nous vous
-        conseillons de suivre les eco-gestes ci-dessous.
+        L’état de la ressource en eau appelle à la vigilance de chacun.
+        <template v-if="isParticulier()"> Nous vous conseillons de suivre les eco-gestes ci-dessous.</template>
         <br/>
         Chaque geste compte pour économiser l’eau.
       </div>

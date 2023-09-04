@@ -131,7 +131,7 @@ watch(v$, () => {
                      @profileUpdate="formData.profil = $event;"
       />
       <div class="fr-mt-2w" v-if="formData.profil !== 'particulier'">
-        <DsfrCheckboxSet legend="Avez-vous une préférence d'alerte pour les types d'eau ?"
+        <DsfrCheckboxSet legend="Je souhaite être informé par mail des changement de restrictions me concernant et portant sur :"
                          v-model="formData.typesZones"
                          :options="typesZonesOptions"/>
       </div>
