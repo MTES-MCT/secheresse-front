@@ -82,6 +82,10 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Donnée
             <td>Adresse postale</td>
             <td>2 ans à compter du dernier contact avec l’utilisateur</td>
           </tr>
+          <tr>
+            <td>Type de profil</td>
+            <td>Jusqu’à ce que l’utilisateur se désinscrit de la lettre d’information</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -94,6 +98,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Donnée
         <li>D’un droit de rectification</li>
         <li>D’un droit d’opposition</li>
         <li>D’un droit à la limitation du traitement</li>
+        <li>D’un droit à l'effacement</li>
       </ul>
       Pour les exercer, contactez-nous à : <a class="fr-link"
                                               :title="email"

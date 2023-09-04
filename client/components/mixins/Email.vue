@@ -69,7 +69,7 @@ const subscribe = async (form: any) => {
              title=" "
              @close="closeModal">
     <h1>Vous êtes abonnés !</h1>
-    <p>Le système de notification de changement de situation sur votre territoire sera mis en place très prochainement, vous recevrez un email lorsque celui-ci sera activé !</p>
+    <p>Le système de notification des changements de situation sur votre territoire sera mis en place très prochainement, vous recevrez un email lorsque celui-ci sera activé !</p>
   </DsfrModal>
   <DsfrModal :opened="modalErrorOpened"
              title=" "
