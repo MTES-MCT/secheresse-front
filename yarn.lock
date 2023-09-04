@@ -1669,14 +1669,14 @@
     purgecss "^5.0.0"
 
 "@gouvfr/dsfr@^1.9.0", "@gouvfr/dsfr@~1.10.0":
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr/-/dsfr-1.10.0.tgz#a3f4939c728e35d8c9ecf06f7a62369ae46256db"
-  integrity sha512-fHqGCvc8jGtkX2AKRCWi9o3jf/kirP/BeeZ2FBVGwS9Oxd8KsG22xk/6Tls8nA+qPaI+2ZkZQxATBV8KlhwNhQ==
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@gouvfr/dsfr/-/dsfr-1.10.1.tgz#a8470374d1f52d4195bd7c3c2b218fe3aaddac90"
+  integrity sha512-epBjsV9zmaOev+Sv2rrV9jgKfcs0U+gOVirthfG7EymeKUVX0eLQit+ra9yrDzLgk4mm7ZkWfy/6FekOuNgj1w==
 
 "@gouvminint/vue-dsfr@^4.0.2":
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/@gouvminint/vue-dsfr/-/vue-dsfr-4.5.1.tgz#5c3da220469c63b26f31a5ad9efe402d726dfcdf"
-  integrity sha512-9ZDKBXplIMWJR3rYNZWuxrKxXTRFt5Bwom8Ho0+W5xJygBuNCQOaHE6sgzLbS2IQKH/9QBARF7tralc7prUncw==
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@gouvminint/vue-dsfr/-/vue-dsfr-4.6.0.tgz#91e06f18108f1a1342325a112dbbe43de300c2cb"
+  integrity sha512-WoCo6WSex1HWYkcysX27Y2bR505a3lrUQTKEuff5hgHbGBTueRonFoeH3uOQFiQNccyOVGQVTH6Z+w+6mHf31w==
   dependencies:
     "@gouvfr/dsfr" "~1.10.0"
     focus-trap "^7.5.2"
