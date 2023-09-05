@@ -33,7 +33,7 @@ const componentKey = ref(0);
 
 const {data, error} = await api.getDepartmentsData();
 data.value?.forEach((d: any) => {
-  rows.push([d.departementNum, d.departementNom, d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions']);
+  rows.push([d.code, d.nom, d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions']);
   const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions'));
   if (dr) dr.number++;
 });
