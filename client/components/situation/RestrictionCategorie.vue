@@ -43,7 +43,7 @@ const classObject = (rank: number | undefined): any => {
 }
 
 const badgeLabel = (zone: Zone): string => {
-  return utils.getSituationBadgeLabel(utils.getRestrictionRank(zone));
+  return utils.getSituationBadgeLabel(utils.getRestrictionRank(zone.niveauAlerte));
 };
 
 const onAccordionClick = (index: string) => {
@@ -67,7 +67,7 @@ const onAccordionClick = (index: string) => {
               <div class="fr-col-12 fr-col-md-4 text-align-right">
                 <DsfrBadge small
                            class="fr-mr-1w"
-                           :class="classObject(utils.getRestrictionRank(zone))"
+                           :class="classObject(utils.getRestrictionRank(zone.niveauAlerte))"
                            type=""
                            :label="badgeLabel(zone)"/>
               </div>

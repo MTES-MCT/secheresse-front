@@ -24,7 +24,7 @@ export const useZoneStore = defineStore('zoneStore', () => {
       zone.departementConfig = departementConfig;
     })
 
-    zones.sort((a, b) => utils.getRestrictionRank(b) - utils.getRestrictionRank(a));
+    zones.sort((a, b) => utils.getRestrictionRank(b.niveauAlerte) - utils.getRestrictionRank(a.niveauAlerte));
     return zones;
   }
 

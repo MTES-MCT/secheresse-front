@@ -23,7 +23,7 @@ const loadingZones: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
 const adressStore = useAddressStore();
-const {isParticulier, setProfile} = adressStore;
+const {setProfile} = adressStore;
 const {profile} = storeToRefs(adressStore);
 
 const searchZone = (address: Address | null, geo: Geo | null) => {

@@ -22,7 +22,7 @@ describe(`Test de l'affichage des situations pour les particuliers`, () => {
 
   describe(`Quand il y a des paramètres dans l'URL`, () => {
     it(`La page doit s'afficher correctement pour un état avec des restrictions`, () => {
-      cy.visit('/situation?code_insee=13212&profil=particulier');
+      cy.visit('/situation?adresse=Marseille+12e+Arrondissement,+13&profil=particulier');
       cy.location('pathname').should('equal', '/situation');
 
       cy.get('body .fr-header').should('exist');
@@ -34,8 +34,8 @@ describe(`Test de l'affichage des situations pour les particuliers`, () => {
       cy.get('body .situation-status').find('.fr-tag').should('exist');
     });
 
-    it(`La page doit s'afficher correctement pour un état de vigilance`, () => {
-      cy.visit('/situation?code_insee=13201&profil=particulier');
+    it(`La page doit s'afficher correctement pour un état sans restrictions`, () => {
+      cy.visit('/situation?adresse=Brest,+29&profil=particulier');
       cy.location('pathname').should('equal', '/situation');
 
       cy.get('body .fr-header').should('exist');

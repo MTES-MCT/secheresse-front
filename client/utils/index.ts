@@ -32,8 +32,8 @@ const index = {
     return (zone.usages && zone.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
-  getRestrictionRank(restriction: Zone): number | undefined {
-    switch (restriction?.niveauAlerte) {
+  getRestrictionRank(niveauAlerte: string | undefined | null): number {
+    switch (niveauAlerte) {
       case 'Crise':
         return 4;
       case 'Alerte renforcée':
@@ -150,7 +150,7 @@ const index = {
     setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], departementConfig.value);
     let query: any = {};
     query.profil = profile;
-    query.adresse = address?.properties.label;
+    query.adresse = address ? address?.properties.label : `${geo?.nom}, ${geo?.codeDepartement}`;
     router.push({path: '/situation', query});
   },
 
@@ -204,6 +204,41 @@ const index = {
         animation: 'wave'
       }
     });
+  },
+
+  generatePopupHtml(pmtilesData: any) {
+    return `
+<div class="map-popup-zone">${pmtilesData.nom_zone}</div>
+<div class="fr-my-1w">
+<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.nom_niveau)}">${pmtilesData.nom_niveau}</p>
+</div>
+<div>
+<button class="fr-btn btn-map-popup">
+Voir les restrictions
+</button>
+</div>
+`;
+  },
+
+  isWebglSupported() {
+    if (window.WebGLRenderingContext) {
+      const canvas = document.createElement('canvas');
+      try {
+        // Note that { failIfMajorPerformanceCaveat: true } can be passed as a second argument
+        // to canvas.getContext(), causing the check to fail if hardware rendering is not available. See
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext
+        // for more details.
+        const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
+        if (context && typeof context.getParameter == 'function') {
+          return true;
+        }
+      } catch (e) {
+        // WebGL is supported, but disabled
+      }
+      return false;
+    }
+    // WebGL not supported
+    return false;
   }
 }
 export default index;
