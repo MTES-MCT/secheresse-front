@@ -78,6 +78,9 @@ onMounted(() => {
 
   const isStickyHeader = () => {
     const header = document.getElementsByClassName('fr-nav__sticky')[0];
+    if(!header) {
+      return;
+    }
     if (window.scrollY > sticky) {
       header.classList.add('visible');
     } else {
@@ -174,6 +177,10 @@ onMounted(() => {
     &.visible {
       display: block;
     }
+  }
+  
+  &__list {
+    justify-content: center;
   }
 }
 

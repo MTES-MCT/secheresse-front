@@ -132,7 +132,7 @@ onMounted(() => {
   const popup = new maplibregl.Popup({
     closeButton: true,
     closeOnClick: false
-  });
+  }).setMaxWidth('300px');
 
   map.value?.on('click', 'zones-data', (e) => {
     zoneSelected.value = e.features[0].properties.id_zone;
@@ -333,7 +333,7 @@ const closeModal = () => {
       background-color: #FFEDA0;
     }
   }
-  
+
   .fr-tag {
     display: block;
   }
@@ -343,15 +343,19 @@ h6 {
   font-size: 16px;
 }
 
+.maplibregl-map {
+  font-family: inherit;
+}
+
 .maplibregl-popup-content {
   border-radius: 4px;
-  box-shadow: 0 1px 2px var(--background-action-high-blue-france);
   padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
 
   .map-popup {
     &-zone {
       font-weight: bold;
-      font-size: 16px;
     }
   }
 

@@ -16,7 +16,7 @@ const selectedTabIndex: Ref<number> = ref(0);
 <template>
   <div class="carte-wrapper fr-my-8w">
     <div class="section-title fr-mb-8w">
-      <h2>La situation de la sécheresse en France</h2>
+      <h2 class="fr-mb-0">La situation de la sécheresse en France</h2>
       <span>Arrêtés publiés avant le {{ date }}</span>
     </div>
     <DsfrTabs :tab-titles="tabTitles"

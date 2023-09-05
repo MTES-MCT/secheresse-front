@@ -207,17 +207,42 @@ const index = {
   },
 
   generatePopupHtml(pmtilesData: any) {
-    return `
+    let popupHtml = `
 <div class="map-popup-zone">${pmtilesData.nom_zone}</div>
 <div class="fr-my-1w">
 <p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.nom_niveau)}">${pmtilesData.nom_niveau}</p>
 </div>
+`;
+    if(pmtilesData.numero_arrete) {
+      popupHtml += `
+<div class="fr-my-1w">
+Arrêté : ${pmtilesData.numero_arrete}
+</div>
+`;
+    }
+    if(pmtilesData.debut_validite_arrete) {
+      popupHtml += `
+<div class="fr-my-1w">
+Début validité arrêté : ${pmtilesData.debut_validite_arrete}
+</div>
+`;
+    }
+    if(pmtilesData.fin_validite_arrete) {
+      popupHtml += `
+<div class="fr-my-1w">
+Fin validité arrêté : ${pmtilesData.fin_validite_arrete}
+</div>
+`;
+    }
+    
+    popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">
 Voir les restrictions
 </button>
 </div>
 `;
+    return popupHtml;
   },
 
   isWebglSupported() {

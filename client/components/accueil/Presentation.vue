@@ -30,6 +30,20 @@ const searchZone = (address: Address | null, geo: Geo | null) => {
   utils.searchZones(address, geo, profile.value, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
 }
 
+const title = computed<string>(() => {
+  switch (profile.value) {
+    case 'exploitation':
+      return `En tant qu'agriculteur, les restrictions d'eau me concernent-elles ?`
+    case 'collectivite':
+      return `En tant que collectivité, les restrictions d'eau me concernent-elles ?`
+    case 'entreprise':
+      return `En tant qu'entreprise, les restrictions d'eau me concernent-elles ?`
+    case 'particulier':
+    default:
+      return `En tant que particulier, les restrictions d'eau me concernent-elles ?`
+  }
+});
+
 const closeModal = () => {
   modalOpened.value = false;
 }
@@ -51,7 +65,7 @@ if (address) {
 
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-2w">
       <div class="search-card-wrapper">
-        <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
+        <h1 class="text-align-center h2">{{ title }}</h1>
         <MixinsSearch @search="searchZone($event.address, $event.geo)"
                       :query="adressQuery"
                       :loading="loadingZones"/>
