@@ -45,7 +45,7 @@ const ecosystemLinks: any[] = [
   }
 ];
 const showNav = ref(true);
-let navItems = [];
+const navItems = ref([]);
 const key = ref(0);
 
 const preferences = reactive({
@@ -55,9 +55,9 @@ const preferences = reactive({
 const runTimeConfig = useRuntimeConfig().public;
 
 const generateNavItems = () => {
-  navItems = [];
+  navItems.value = [];
   for (let profile in Profile) {
-    navItems.push({
+    navItems.value.push({
       text: Profile[profile],
       to: {path: '/', query: {profil: profile}},
       class: {'router-link-active-overwrite': route.href === `/?profil=${profile}`}
@@ -69,6 +69,21 @@ onMounted(() => {
   const {theme, scheme, setScheme} = useScheme()
   // preferences.scheme = 'dark';
   preferences.scheme = 'light';
+
+  window.onscroll = function () {
+    isStickyHeader()
+  };
+  let nav = document.getElementsByTagName('nav')[0];
+  const sticky = nav.offsetTop;
+
+  const isStickyHeader = () => {
+    const header = document.getElementsByClassName('fr-nav__sticky')[0];
+    if (window.scrollY > sticky) {
+      header.classList.add('visible');
+    } else {
+      header.classList.remove('visible');
+    }
+  }
 
   watchEffect(() => {
     preferences.theme = theme.value
@@ -94,7 +109,7 @@ onMounted(() => {
   watch(() => route.query.profil, profileQuery => {
       generateNavItems();
       key.value++;
-      setProfile(profileQuery && Object.keys(Profile).includes(profileQuery) ? profileQuery : profile.value)
+      setProfile(profileQuery && Object.keys(Profile).includes(profileQuery) ? profileQuery : profile.value);
     }, {immediate: true}
   );
 })
@@ -112,6 +127,11 @@ onMounted(() => {
     <DsfrNavigation v-if="showNav"
                     :nav-items="navItems"/>
   </DsfrHeader>
+  <div v-if="showNav"
+       class="fr-header fr-nav__sticky">
+    <DsfrNavigation class="fr-container"
+                    :nav-items="navItems"/>
+  </div>
   <div class="fr-container fr-mb-8w">
     <slot/>
   </div>
@@ -128,7 +148,7 @@ onMounted(() => {
 .fr-nav {
   .fr-nav__link[aria-current] {
     color: inherit;
-    
+
     &:before {
       display: none;
     }
@@ -140,6 +160,26 @@ onMounted(() => {
     &:before {
       display: initial;
     }
+  }
+
+  &__sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--grey-1000-50);
+    display: none;
+    
+    &.visible {
+      display: block;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .fr-nav__sticky {
+    display: none !important;
   }
 }
 </style>
