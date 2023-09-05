@@ -3,14 +3,12 @@ import { Ref } from "vue";
 import utils from "../../utils";
 import { Address } from "../../dto/address.dto";
 import { Geo } from "../../dto/geo.dto";
-import { Profile } from "../../dto/profile.enum";
 import { useAddressStore } from "../../store/address";
 import { storeToRefs } from "pinia";
 
 const route = useRoute();
 const router = useRouter();
 
-let profileQuery: string | null = route.query.profil ? route.query.profil : null;
 let address: string | null = route.query.adresse ? route.query.adresse : null;
 
 const domainName = useRuntimeConfig().public.domainName;
@@ -23,7 +21,6 @@ const loadingZones: Ref<boolean> = ref(false);
 const adressQuery: Ref<string> = ref('');
 
 const adressStore = useAddressStore();
-const {setProfile} = adressStore;
 const {profile} = storeToRefs(adressStore);
 
 const searchZone = (address: Address | null, geo: Geo | null) => {
@@ -36,7 +33,6 @@ const searchZone = (address: Address | null, geo: Geo | null) => {
 const closeModal = () => {
   modalOpened.value = false;
 }
-setProfile(profileQuery && Object.keys(Profile).includes(profileQuery) ? profileQuery : profile.value);
 if (address) {
   adressQuery.value = address ? address : '';
 }
@@ -53,7 +49,6 @@ if (address) {
       />
     </div>
 
-    <MixinsProfile :profile="profile" @profileUpdate="setProfile($event)"/>
     <div class="search-card fr-col-12 fr-p-md-6w fr-p-1w fr-mt-2w">
       <div class="search-card-wrapper">
         <h1 class="text-align-center h2">Les restrictions d'eau me concernent-elles ?</h1>
@@ -88,8 +83,8 @@ if (address) {
       content: "";
       position: absolute;
       width: 100vw;
-      height: calc(100% + 18rem);
-      top: -4rem;
+      height: calc(100% + 10rem);
+      top: 0;
       left: 50%;
       -webkit-transform: translateX(-50%);
       transform: translateX(-50%);

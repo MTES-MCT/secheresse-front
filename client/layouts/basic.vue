@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import { useScheme } from '@gouvminint/vue-dsfr'
+import { Profile } from "../dto/profile.enum";
+import { useAddressStore } from "../store/address";
+import { storeToRefs } from "pinia";
+
+const adressStore = useAddressStore();
+const {setProfile} = adressStore;
+const {profile} = storeToRefs(adressStore);
+const route = useRoute();
 
 const logoText: string[] = ['Gouvernement']
 const operatorImgSrc: string = '/logo_vigie_eau.svg'
@@ -36,6 +44,8 @@ const ecosystemLinks: any[] = [
     "href": "https://data.gouv.fr"
   }
 ];
+const showNav = ref(true);
+let navItems = [];
 const key = ref(0);
 
 const preferences = reactive({
@@ -43,7 +53,17 @@ const preferences = reactive({
   scheme: undefined,
 })
 const runTimeConfig = useRuntimeConfig().public;
-const route = useRoute();
+
+const generateNavItems = () => {
+  navItems = [];
+  for (let profile in Profile) {
+    navItems.push({
+      text: Profile[profile],
+      to: {path: '/', query: {profil: profile}},
+      class: {'router-link-active-overwrite': route.href === `/?profil=${profile}`}
+    })
+  }
+}
 
 onMounted(() => {
   const {theme, scheme, setScheme} = useScheme()
@@ -57,19 +77,26 @@ onMounted(() => {
   watchEffect(() => setScheme(preferences.scheme))
 
   watch(() => route.path, newPath => {
-    quickLinks = newPath === '/situation' ? [{
-      label: 'Effectuer une nouvelle recherche',
-      icon: 'ri-search-line',
-      to: '/'
-    }, {
-      label: 'Donner mon avis',
-      icon: 'ri-survey-line',
-      button: true,
-      onclick: utils.openTally
-    }] : [];
-    key.value ++;
-    }, { immediate: true }
-  )
+      quickLinks = newPath === '/situation' ? [{
+        label: 'Effectuer une nouvelle recherche',
+        icon: 'ri-search-line',
+        to: '/'
+      }, {
+        label: 'Donner mon avis',
+        icon: 'ri-survey-line',
+        button: true,
+        onclick: utils.openTally
+      }] : [];
+      showNav.value = newPath === '/';
+      key.value++;
+    }, {immediate: true}
+  );
+  watch(() => route.query.profil, profileQuery => {
+      generateNavItems();
+      key.value++;
+      setProfile(profileQuery && Object.keys(Profile).includes(profileQuery) ? profileQuery : profile.value)
+    }, {immediate: true}
+  );
 })
 </script>
 
@@ -81,8 +108,10 @@ onMounted(() => {
               :quickLinks="quickLinks"
               :key="key"
               :show-beta="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
-              serviceTitle=" "
-  />
+              serviceTitle=" ">
+    <DsfrNavigation v-if="showNav"
+                    :nav-items="navItems"/>
+  </DsfrHeader>
   <div class="fr-container fr-mb-8w">
     <slot/>
   </div>
@@ -94,3 +123,23 @@ onMounted(() => {
               :ecosystemLinks="ecosystemLinks">
   </DsfrFooter>
 </template>
+
+<style lang="scss">
+.fr-nav {
+  .fr-nav__link[aria-current] {
+    color: inherit;
+    
+    &:before {
+      display: none;
+    }
+  }
+
+  .fr-nav__link.router-link-active-overwrite {
+    color: var(--text-active-blue-france);
+
+    &:before {
+      display: initial;
+    }
+  }
+}
+</style>

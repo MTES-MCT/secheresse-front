@@ -3,6 +3,7 @@ import { useAddressStore } from "../store/address";
 
 definePageMeta({
   layout: 'basic',
+  middleware: 'home'
 })
 
 useHead({
