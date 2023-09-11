@@ -16,10 +16,9 @@ const mapContainer = shallowRef(null);
 const map: Ref<any> = shallowRef(null);
 const isMapSupported: boolean = utils.isWebglSupported();
 const runtimeConfig = useRuntimeConfig();
-const breakpointSmall = 768;
 const zoneSelected = ref(0);
 
-const initialState = {lng: 2.0517, lat: 46.2192649, zoom: 5};
+const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
 let protocol = new Protocol();
 maplibregl.addProtocol('pmtiles', protocol.tile);
@@ -36,8 +35,7 @@ onMounted(() => {
   map.value = new maplibregl.Map({
     container: mapContainer.value,
     style: `https://etalab-tiles.fr/styles/osm-bright/style.json`,
-    center: [initialState.lng, initialState.lat],
-    zoom: window.screen.width < breakpointSmall ? initialState.zoom - 1 : initialState.zoom
+    bounds: initialState
   });
 
 
@@ -169,16 +167,16 @@ onUnmounted(() => {
 
 const mapTags: Ref<any[]> = ref([{
   label: 'Métropole',
-  coords: initialState
+  bounds: initialState
 }, {
   label: 'Guyane',
-  coords: {lng: -53, lat: 4, zoom: 6}
+  bounds: [[-55.261230, 1.790480], [-51.130371, 6.107784]]
 }, {
   label: 'Océan Indien',
-  coords: {lng: 48.5, lat: -18.07, zoom: 5}
+  bounds: [[44.582520, -21.881890], [56.359863, -12.425848]]
 }, {
   label: 'Antilles',
-  coords: {lng: -61.5, lat: 15.5, zoom: 7}
+  bounds: [[-62.490234, 14.195163], [-60.249023, 16.667769]]
 }]);
 
 const typeEauTags: Ref<any[]> = ref([{
@@ -216,15 +214,8 @@ const {isParticulier} = adressStore;
 const {profile} = storeToRefs(adressStore);
 const router = useRouter();
 
-const flyToLocation = (coords: any) => {
-  map.value?.flyTo({
-    center: [
-      coords.lng,
-      coords.lat
-    ],
-    zoom: window.screen.width < breakpointSmall ? coords.zoom - 1 : coords.zoom,
-    essential: true // this animation is considered essential with respect to prefers-reduced-motion
-  });
+const flyToLocation = (bounds: any) => {
+  map.value?.fitBounds(bounds);
 };
 
 const updateLayerFilter = () => {
@@ -269,7 +260,7 @@ const closeModal = () => {
                  :label="tag.label"
                  class="fr-m-1w"
                  small
-                 @click="flyToLocation(tag.coords)"
+                 @click="flyToLocation(tag.bounds)"
                  tag-name="button"/>
       </div>
     </div>
