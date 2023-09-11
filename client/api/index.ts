@@ -8,7 +8,8 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/search/?q=${addressQuery}${_adresseOptions}`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiAdresseUrl
+      baseURL: runtimeConfig.public.apiAdresseUrl,
+      parseResponse: _formatAddresses
     });
   },
 
@@ -78,7 +79,7 @@ const index = {
 
   subscribeMail(form: any): Promise<any> {
     for (const key in form) {
-      if(!form[key]) {
+      if (!form[key]) {
         delete form[key];
       }
     }
@@ -97,6 +98,17 @@ const index = {
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   }
+}
+
+const _formatAddresses = (response: string): Address[] => {
+  const addresses = JSON.parse(response);
+  addresses.features.map((a: Address) => {
+    if (a.properties.type === 'municipality') {
+      a.properties.label = `${a.properties.label}, ${a.properties.citycode >= '97' ? a.properties.citycode.slice(0, 3) : a.properties.citycode.slice(0, 2)}`;
+    }
+    return a;
+  });
+  return addresses;
 }
 
 export default index;
