@@ -27,7 +27,7 @@ const searchZone = (address: Address | null, geo: Geo | null) => {
   if (!address && !geo) {
     return;
   }
-  utils.searchZones(address, geo, profile.value, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
+  utils.searchZones(address, geo, profile.value, router, modalTitle, modalText, modalIcon, modalActions, modalOpened, loadingZones);
 }
 
 const title = computed<string>(() => {

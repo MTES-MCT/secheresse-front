@@ -93,19 +93,19 @@ const index = {
   async searchZones(address: Address | null,
                     geo: Geo | null,
                     profile: string,
-                    modalTitle: Ref<string>,
-                    modalText: Ref<string>,
-                    modalIcon: Ref<string>,
-                    modalActions: Ref<any[]>,
-                    modalOpened: Ref<boolean>,
                     router: any,
-                    loadingRestrictions: Ref<boolean>) {
+                    modalTitle?: Ref<string>,
+                    modalText?: Ref<string>,
+                    modalIcon?: Ref<string>,
+                    modalActions?: Ref<any[]>,
+                    modalOpened?: Ref<boolean>,
+                    loadingRestrictions?: Ref<boolean>) {
     const addressStore = useAddressStore();
     const restrictionStore = useZoneStore();
     const {setAddress, setGeo} = addressStore;
     const {setZones} = restrictionStore;
 
-    loadingRestrictions.value = true;
+    if (loadingRestrictions) loadingRestrictions.value = true;
 
     let data, error, departementConfig, errorDepartement;
     if (profile === 'particulier') {
@@ -128,21 +128,23 @@ const index = {
     } catch (e) {
     }
 
-    loadingRestrictions.value = false;
+    if (loadingRestrictions) loadingRestrictions.value = false;
 
     // SI ERREUR
     if (error?.value && error.value.statusCode !== 404) {
-      const {
-        title,
-        text,
-        icon,
-        actions
-      } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened, departementConfig);
-      modalTitle.value = title;
-      modalText.value = text;
-      modalIcon.value = icon;
-      modalActions.value = actions;
-      modalOpened.value = true;
+      if (modalTitle && modalText && modalIcon && modalActions && modalOpened) {
+        const {
+          title,
+          text,
+          icon,
+          actions
+        } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened, departementConfig);
+        modalTitle.value = title;
+        modalText.value = text;
+        modalIcon.value = icon;
+        modalActions.value = actions;
+        modalOpened.value = true;
+      }
       return;
     }
 
@@ -213,28 +215,28 @@ const index = {
 <p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.nom_niveau)}">${pmtilesData.nom_niveau}</p>
 </div>
 `;
-    if(pmtilesData.numero_arrete) {
+    if (pmtilesData.numero_arrete) {
       popupHtml += `
 <div class="fr-my-1w">
 Arrêté : ${pmtilesData.numero_arrete}
 </div>
 `;
     }
-    if(pmtilesData.debut_validite_arrete) {
+    if (pmtilesData.debut_validite_arrete) {
       popupHtml += `
 <div class="fr-my-1w">
 Début validité arrêté : ${pmtilesData.debut_validite_arrete}
 </div>
 `;
     }
-    if(pmtilesData.fin_validite_arrete) {
+    if (pmtilesData.fin_validite_arrete) {
       popupHtml += `
 <div class="fr-my-1w">
 Fin validité arrêté : ${pmtilesData.fin_validite_arrete}
 </div>
 `;
     }
-    
+
     popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">

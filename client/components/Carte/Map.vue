@@ -147,7 +147,7 @@ onMounted(() => {
       if (!dataAddress.value?.features[0]) {
         dataGeo = (await api.searchGeoByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
       }
-      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null, dataGeo?.value ? dataGeo.value[0] : null, profile.value, modalTitle, modalText, modalIcon, modalActions, modalOpened, router, loadingZones);
+      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null, dataGeo?.value ? dataGeo.value[0] : null, profile.value, router, modalTitle, modalText, modalIcon, modalActions, modalOpened, loadingZones);
     });
   });
 
