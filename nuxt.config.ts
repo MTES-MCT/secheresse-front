@@ -36,7 +36,8 @@ export default defineNuxtConfig({
       script: [
         {
           src: 'https://tally.so/widgets/embed.js',
-          async: true
+          async: true,
+          defer: true
         }
       ]
     }

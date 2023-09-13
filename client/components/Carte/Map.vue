@@ -169,14 +169,20 @@ const mapTags: Ref<any[]> = ref([{
   label: 'Métropole',
   bounds: initialState
 }, {
+  label: 'La Réunion',
+  bounds: [[54.615784, -21.749296], [56.497192, -20.522216]]
+}, {
+  label: 'Guadeloupe',
+  bounds: [[-62.119446, 15.612456], [-60.762634, 16.617770]]
+}, {
+  label: 'Martinique',
+  bounds: [[-61.480865, 14.193832], [-60.570374, 14.964687]]
+}, {
+  label: 'Mayotte',
+  bounds: [[44.748688, -13.175771], [45.532837, -12.507643]]
+}, {
   label: 'Guyane',
   bounds: [[-55.261230, 1.790480], [-51.130371, 6.107784]]
-}, {
-  label: 'Océan Indien',
-  bounds: [[44.582520, -21.881890], [56.359863, -12.425848]]
-}, {
-  label: 'Antilles',
-  bounds: [[-62.490234, 14.195163], [-60.249023, 16.667769]]
 }]);
 
 const typeEauTags: Ref<any[]> = ref([{
@@ -245,12 +251,15 @@ const closeModal = () => {
         />
         <div class="map-legende">
           <div class="fr-grid-row">
-            <!--              {{ legend.text }}-->
-            <!-- TODO tooltip -->
-            <div v-for="legend in legends"
-                 class="map-legende-carre"
-                 :class="legend.class">
-            </div>
+            <template v-for="(legend, index) in legends">
+              <div :aria-describedby="'tooltip-' + index"
+                   class="map-legende-carre"
+                   :class="legend.class">
+              </div>
+              <span class="fr-tooltip fr-placement" :id="'tooltip-' + index" role="tooltip" aria-hidden="true">
+                {{ legend.text }}
+              </span>
+            </template>
           </div>
         </div>
       </div>
@@ -322,6 +331,10 @@ const closeModal = () => {
 
     .situation-level-bg-1 {
       background-color: #FFEDA0;
+    }
+
+    .situation-level-bg-0 {
+      background-color: #F8F4F0;
     }
   }
 
