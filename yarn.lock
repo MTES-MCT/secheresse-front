@@ -7233,10 +7233,10 @@ nuxt-simple-robots@^3.0.2:
     pathe "^1.1.1"
     ufo "^1.3.0"
 
-nuxt-simple-sitemap@^3.0.8:
-  version "3.2.8"
-  resolved "https://registry.yarnpkg.com/nuxt-simple-sitemap/-/nuxt-simple-sitemap-3.2.8.tgz#1c04766c2c4b98578553a4d16e4fb9cc0ce957b7"
-  integrity sha512-qWPrMuPvarbnHWTnxs2MNkrrrw1vW5rObRqKRPoCODVF/npqObGfmNeE7cOMnVOV8NAe0DFF/K1lCdAQord18w==
+nuxt-simple-sitemap@3.2.7:
+  version "3.2.7"
+  resolved "https://registry.yarnpkg.com/nuxt-simple-sitemap/-/nuxt-simple-sitemap-3.2.7.tgz#114e152cc7e6e7610a767001646a1623f238b2fb"
+  integrity sha512-iyuqO/w7rF7SzWzPB8MDeDW1HXOTmiOhyiNzIWol8PJqDSA1ARCzg7T4/tvhIMO0N2D0jle4xdWGqAOyytFH1w==
   dependencies:
     "@nuxt/devtools-kit" "^0.8.3"
     "@nuxt/kit" "^3.7.1"
@@ -7245,12 +7245,12 @@ nuxt-simple-sitemap@^3.0.8:
     escape-string-regexp "^5.0.0"
     fast-glob "^3.3.1"
     knitwork "^1.0.0"
-    nuxt-site-config "^1.2.0"
-    nuxt-site-config-kit "^1.2.0"
+    nuxt-site-config "^1.0.12"
+    nuxt-site-config-kit "^1.0.12"
     pathe "^1.1.1"
     radix3 "^1.1.0"
     semver "^7.5.4"
-    site-config-stack "^1.2.0"
+    site-config-stack "^1.0.12"
     ufo "^1.3.0"
 
 nuxt-site-config-kit@1.1.0, nuxt-site-config-kit@^1.0.11:
@@ -7264,7 +7264,7 @@ nuxt-site-config-kit@1.1.0, nuxt-site-config-kit@^1.0.11:
     site-config-stack "1.1.0"
     ufo "^1.3.0"
 
-nuxt-site-config-kit@1.2.1, nuxt-site-config-kit@^1.2.0:
+nuxt-site-config-kit@1.2.1, nuxt-site-config-kit@^1.0.12:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/nuxt-site-config-kit/-/nuxt-site-config-kit-1.2.1.tgz#58065ca70094514f8beab1678899cc9555ae4f9d"
   integrity sha512-7VH8RfH6AyRg+2MoxgZXXWfpz4Bp4/wUbZqZ4nFssSXwyvpxktgYQ1whvUrxkbkkuxO3Nc1742VWvJ+iky4LJg==
@@ -7288,7 +7288,7 @@ nuxt-site-config@^1.0.11:
     site-config-stack "1.1.0"
     ufo "^1.3.0"
 
-nuxt-site-config@^1.2.0:
+nuxt-site-config@^1.0.12:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/nuxt-site-config/-/nuxt-site-config-1.2.1.tgz#2f822aa7faae0a55c180e429bcb8d5dc15c78669"
   integrity sha512-s5hpeEPwAh1vJZnmwGEeJh00NH7b5oDJMWK05GpN1r8qcCC8lDOf17kYa6CIPBnBz9wzK5JU7CFE/4DqPtQTUQ==
@@ -8744,7 +8744,7 @@ site-config-stack@1.1.0:
   dependencies:
     ufo "^1.3.0"
 
-site-config-stack@1.2.1, site-config-stack@^1.2.0:
+site-config-stack@1.2.1, site-config-stack@^1.0.12:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/site-config-stack/-/site-config-stack-1.2.1.tgz#f64b4777f75562ee58aa96055f2654b29355e0cb"
   integrity sha512-LjIOGoI5zx0o63vS61vZUlKz4zEJBZ6Lx0VduOMwyrKrhDlTaSpVTKz3tQU5bPOkACNUgxClxOwrEkdP31HkRA==
