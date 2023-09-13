@@ -252,13 +252,14 @@ const closeModal = () => {
         <div class="map-legende">
           <div class="fr-grid-row">
             <template v-for="(legend, index) in legends">
-              <div :aria-describedby="'tooltip-' + index"
-                   class="map-legende-carre"
-                   :class="legend.class">
-              </div>
-              <span class="fr-tooltip fr-placement" :id="'tooltip-' + index" role="tooltip" aria-hidden="true">
-                {{ legend.text }}
-              </span>
+              <MixinsTmpTooltip :id="'tooltip-' + index"
+                                :onHover="true"
+                                :content="legend.text">
+                <div :aria-describedby="'tooltip-' + index"
+                     class="map-legende-carre"
+                     :class="legend.class">
+                </div>
+              </MixinsTmpTooltip>
             </template>
           </div>
         </div>
