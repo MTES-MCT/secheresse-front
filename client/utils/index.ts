@@ -32,8 +32,8 @@ const index = {
     return (zone.usages && zone.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
-  getRestrictionRank(restriction: Zone): number | undefined {
-    switch (restriction?.niveauAlerte) {
+  getRestrictionRank(niveauAlerte: string | undefined | null): number {
+    switch (niveauAlerte) {
       case 'Crise':
         return 4;
       case 'Alerte renforcée':
@@ -93,19 +93,19 @@ const index = {
   async searchZones(address: Address | null,
                     geo: Geo | null,
                     profile: string,
-                    modalTitle: Ref<string>,
-                    modalText: Ref<string>,
-                    modalIcon: Ref<string>,
-                    modalActions: Ref<any[]>,
-                    modalOpened: Ref<boolean>,
                     router: any,
-                    loadingRestrictions: Ref<boolean>) {
+                    modalTitle?: Ref<string>,
+                    modalText?: Ref<string>,
+                    modalIcon?: Ref<string>,
+                    modalActions?: Ref<any[]>,
+                    modalOpened?: Ref<boolean>,
+                    loadingRestrictions?: Ref<boolean>) {
     const addressStore = useAddressStore();
     const restrictionStore = useZoneStore();
     const {setAddress, setGeo} = addressStore;
     const {setZones} = restrictionStore;
 
-    loadingRestrictions.value = true;
+    if (loadingRestrictions) loadingRestrictions.value = true;
 
     let data, error, departementConfig, errorDepartement;
     if (profile === 'particulier') {
@@ -128,21 +128,23 @@ const index = {
     } catch (e) {
     }
 
-    loadingRestrictions.value = false;
+    if (loadingRestrictions) loadingRestrictions.value = false;
 
     // SI ERREUR
     if (error?.value && error.value.statusCode !== 404) {
-      const {
-        title,
-        text,
-        icon,
-        actions
-      } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened, departementConfig);
-      modalTitle.value = title;
-      modalText.value = text;
-      modalIcon.value = icon;
-      modalActions.value = actions;
-      modalOpened.value = true;
+      if (modalTitle && modalText && modalIcon && modalActions && modalOpened) {
+        const {
+          title,
+          text,
+          icon,
+          actions
+        } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened, departementConfig);
+        modalTitle.value = title;
+        modalText.value = text;
+        modalIcon.value = icon;
+        modalActions.value = actions;
+        modalOpened.value = true;
+      }
       return;
     }
 
@@ -150,7 +152,7 @@ const index = {
     setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], departementConfig.value);
     let query: any = {};
     query.profil = profile;
-    query.adresse = address?.properties.label;
+    query.adresse = address ? address?.properties.label : `${geo?.nom}, ${geo?.codeDepartement}`;
     router.push({path: '/situation', query});
   },
 
@@ -204,6 +206,66 @@ const index = {
         animation: 'wave'
       }
     });
+  },
+
+  generatePopupHtml(pmtilesData: any) {
+    let popupHtml = `
+<div class="map-popup-zone">${pmtilesData.nom_zone}</div>
+<div class="fr-my-1w">
+<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.nom_niveau)}">${pmtilesData.nom_niveau}</p>
+</div>
+`;
+    if (pmtilesData.numero_arrete) {
+      popupHtml += `
+<div class="fr-my-1w">
+Arrêté : ${pmtilesData.numero_arrete}
+</div>
+`;
+    }
+    if (pmtilesData.debut_validite_arrete) {
+      popupHtml += `
+<div class="fr-my-1w">
+Début validité arrêté : ${pmtilesData.debut_validite_arrete}
+</div>
+`;
+    }
+    if (pmtilesData.fin_validite_arrete) {
+      popupHtml += `
+<div class="fr-my-1w">
+Fin validité arrêté : ${pmtilesData.fin_validite_arrete}
+</div>
+`;
+    }
+
+    popupHtml += `
+<div>
+<button class="fr-btn btn-map-popup">
+Voir les restrictions
+</button>
+</div>
+`;
+    return popupHtml;
+  },
+
+  isWebglSupported() {
+    if (window.WebGLRenderingContext) {
+      const canvas = document.createElement('canvas');
+      try {
+        // Note that { failIfMajorPerformanceCaveat: true } can be passed as a second argument
+        // to canvas.getContext(), causing the check to fail if hardware rendering is not available. See
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext
+        // for more details.
+        const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
+        if (context && typeof context.getParameter == 'function') {
+          return true;
+        }
+      } catch (e) {
+        // WebGL is supported, but disabled
+      }
+      return false;
+    }
+    // WebGL not supported
+    return false;
   }
 }
 export default index;

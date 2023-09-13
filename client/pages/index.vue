@@ -3,6 +3,7 @@ import { useAddressStore } from "../store/address";
 
 definePageMeta({
   layout: 'basic',
+  middleware: 'home'
 })
 
 useHead({
@@ -16,10 +17,11 @@ const {isParticulier} = addressStore;
 <template>
   <div>
     <AccueilPresentation/>
-    <MixinsEmail />
-    <AccueilCarte />
+    <MixinsEmail/>
+    <AccueilCarte v-if="isParticulier()"/>
+    <CarteWrapper v-if="!isParticulier()"/>
     <AccueilGestes v-if="isParticulier()"/>
-    <AccueilLiens />
-    <AccueilFaq />
+    <AccueilLiens/>
+    <AccueilFaq/>
   </div>
 </template>

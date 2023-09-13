@@ -8,6 +8,15 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/search/?q=${addressQuery}${_adresseOptions}`, {
       method: 'GET',
+      baseURL: runtimeConfig.public.apiAdresseUrl,
+      parseResponse: _formatAddresses
+    });
+  },
+
+  searchAddressByLatlon(lon: string, lat: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/reverse?lon=${lon}&lat=${lat}`, {
+      method: 'GET',
       baseURL: runtimeConfig.public.apiAdresseUrl
     });
   },
@@ -70,7 +79,7 @@ const index = {
 
   subscribeMail(form: any): Promise<any> {
     for (const key in form) {
-      if(!form[key]) {
+      if (!form[key]) {
         delete form[key];
       }
     }
@@ -80,7 +89,26 @@ const index = {
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       body: form
     });
+  },
+
+  getDepartmentsData(): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/departements`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
   }
+}
+
+const _formatAddresses = (response: string): Address[] => {
+  const addresses = JSON.parse(response);
+  addresses.features.map((a: Address) => {
+    if (a.properties.type === 'municipality') {
+      a.properties.label = `${a.properties.label}, ${a.properties.citycode >= '97' ? a.properties.citycode.slice(0, 3) : a.properties.citycode.slice(0, 2)}`;
+    }
+    return a;
+  });
+  return addresses;
 }
 
 export default index;

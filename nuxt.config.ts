@@ -36,7 +36,8 @@ export default defineNuxtConfig({
       script: [
         {
           src: 'https://tally.so/widgets/embed.js',
-          async: true
+          async: true,
+          defer: true
         }
       ]
     }
@@ -44,7 +45,9 @@ export default defineNuxtConfig({
   css: [
     '@gouvfr/dsfr/dist/core/core.main.min.css',
     '@gouvfr/dsfr/dist/component/component.main.min.css',
+    '@gouvfr/dsfr/dist/utility/icons/icons-system/icons-system.min.css',
     '@gouvminint/vue-dsfr/styles',
+    'maplibre-gl/dist/maplibre-gl.css',
 
     'assets/main.scss',
   ],
@@ -70,6 +73,7 @@ export default defineNuxtConfig({
       apiSecheresseUrl: process.env.API_SECHERESSE_URL,
       domainName: process.env.DOMAIN_NAME,
       domainProdNotActivated: process.env.DOMAIN_PROD_NOT_ACTIVATED,
+      pmtilesUrl: process.env.PMTILES_URL,
       appName: appName,
       email: 'contact.vigieau@beta.gouv.fr'
     }

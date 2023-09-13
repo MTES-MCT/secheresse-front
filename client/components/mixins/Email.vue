@@ -18,8 +18,8 @@ const subscribe = async (form: any) => {
   const {data, error} = await api.subscribeMail(form);
   subscribing.value = false;
   closeModal();
-  if(!error.value) {
-    modalSuccessOpened.value = true;    
+  if (!error.value) {
+    modalSuccessOpened.value = true;
   } else {
     modalErrorOpened.value = true;
   }
@@ -36,25 +36,24 @@ const subscribe = async (form: any) => {
               <div>
                 <h2 class="fr-h5">Restez informé de la situation sécheresse sur votre territoire.</h2>
                 <p class="fr-text--sm">Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent.</p>
+                <button class="fr-btn fr-my-1w"
+                        @click="modalOpened = true"
+                        title="S‘abonner à notre lettre d’information">
+                  M'abonner aux alertes mails
+                </button>
               </div>
               <div>
-                <button class="fr-btn" title="S‘abonner à notre lettre d’information" @click="() => modalOpened = true">
-                  Je m'abonne
-                </button>
+                <img src="/newsletter_img.png"
+                     style="max-width: 100%;"
+                     width="260" height="500"
+                     title="Image d'illustration newsletter email"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--    <DsfrFollow>-->
-    <!--      <div class="fr-col-12">-->
-    <!--        <DsfrNewsLetter title="Restez informé de la situation sécheresse sur votre territoire."-->
-    <!--                        description="Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent."-->
-    <!--                        :buttonAction="() => modalOpened = true"-->
-    <!--                        :onlyCallout="true"/>-->
-    <!--      </div>-->
-    <!--    </DsfrFollow>-->
   </div>
   <DsfrModal :opened="modalOpened"
              title=" "
@@ -69,7 +68,8 @@ const subscribe = async (form: any) => {
              title=" "
              @close="closeModal">
     <h1>Vous êtes abonnés !</h1>
-    <p>Le système de notification de changement de situation sur votre territoire sera mis en place très prochainement, vous recevrez un email lorsque celui-ci sera activé !</p>
+    <p>Le système de notification de changement de situation sur votre territoire sera mis en place très prochainement, vous recevrez un
+      email lorsque celui-ci sera activé !</p>
   </DsfrModal>
   <DsfrModal :opened="modalErrorOpened"
              title=" "
@@ -82,25 +82,23 @@ const subscribe = async (form: any) => {
 <style scoped lang="scss">
 .follow-wrap {
   width: 100%;
-  height: 176px;
+  height: 570px;
 }
 
 .fr-follow {
   position: absolute;
   width: 100vw;
-  max-width:100%;
+  max-width: 100%;
   left: 0;
 }
 
-@media screen and (max-width: 637px) {
+@media screen and (max-width: 767px) {
   .follow-wrap {
-    height: 216px;
+    height: 738px;
   }
-}
-
-@media screen and (max-width: 342px) {
-  .follow-wrap {
-    height: 268px;
+  
+  .fr-follow {
+    text-align: center;
   }
 }
 </style>

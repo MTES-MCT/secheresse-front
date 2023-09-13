@@ -23,8 +23,8 @@ const networks = [
     url: `https://www.facebook.com/sharer.php?u=${urlToShare}`
   },
   {
-    name: "twitter",
-    label: "Partager sur Twitter",
+    name: "twitter-x",
+    label: "Partager sur X",
     url: `https://twitter.com/intent/tweet?url=${urlToShare}&text=${socialMediaText.value}&hashtags=#VigiEau`
   },
   {
