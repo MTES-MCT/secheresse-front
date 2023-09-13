@@ -34,12 +34,12 @@ const subscribe = async (form: any) => {
           <div class="fr-col-12">
             <div class="fr-follow__newsletter">
               <div>
-                <h2 class="fr-h5">Restez informé de la situation sécheresse sur votre territoire.</h2>
+                <h2>Restez informé de la situation sécheresse sur votre territoire.</h2>
                 <p class="fr-text--sm">Abonnez vous pour recevoir une alerte par mail dès que les restrictions vous concernant changent.</p>
                 <button class="fr-btn fr-my-1w"
                         @click="modalOpened = true"
                         title="S‘abonner à notre lettre d’information">
-                  M'abonner aux alertes mails
+                  Je m'abonne aux alertes mails
                 </button>
               </div>
               <div>
@@ -94,7 +94,7 @@ const subscribe = async (form: any) => {
 
 @media screen and (max-width: 767px) {
   .follow-wrap {
-    height: 738px;
+    height: 754px;
   }
   
   .fr-follow {
