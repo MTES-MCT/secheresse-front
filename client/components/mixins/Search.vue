@@ -14,6 +14,14 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  address: {
+    type: Object,
+    default: null
+  },
+  geo: {
+    type: Object,
+    default: null
+  },
   light: {
     type: Boolean,
     default: false
@@ -97,6 +105,14 @@ const geoloc = () => {
   navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 }
 
+if (props.address || props.geo) {
+  if((props.address && !props.excludedCitycodes.includes(props.address.properties.citycode))
+    || (props.geo && !props.excludedCitycodes.includes(props.geo.code))) {
+    addressQuery.value = props.address ? props.address.properties.label : props.geo.nom;
+    selectAddress(props.address, props.geo);
+  }
+}
+
 watch(addressQuery, utils.debounce(async () => {
   if (!addressQuery.value || !loadAddresses.value) {
     loadAddresses.value = true;
@@ -114,7 +130,7 @@ watch(addressQuery, utils.debounce(async () => {
 }, 500));
 
 
-if (props.query) {
+if (props.query && !props.address && !props.geo) {
   autoSelectAddress.value = true;
   addressQuery.value = props.query;
 }

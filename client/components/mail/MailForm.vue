@@ -21,7 +21,7 @@ const emit = defineEmits<{
 }>();
 
 const addressStore = useAddressStore();
-const {profile}: Ref<string> = storeToRefs(addressStore);
+const {address, geo, profile}: Ref<string> = storeToRefs(addressStore);
 const {adressString} = addressStore;
 
 const formData = reactive({
@@ -137,6 +137,8 @@ watch(v$, () => {
       </div>
       <MixinsSearch :profile="formData.profil"
                     :query="adressString()"
+                    :address="address"
+                    :geo="geo"
                     :light="true"
                     :disabled="subscribing"
                     :excludedCitycodes="['75056', '13055', '69123']"
