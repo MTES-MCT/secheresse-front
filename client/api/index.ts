@@ -97,6 +97,39 @@ const index = {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
+  },
+
+  getUserSubscriptions(token: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/subscriptions`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+  },
+
+  unsubscribe(id: string, token: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/unsubscribe/${id}`, {
+      method: 'DELETE',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+  },
+
+  unsubscribeAll(token: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/unsubscribe/all`, {
+      method: 'DELETE',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
   }
 }
 
