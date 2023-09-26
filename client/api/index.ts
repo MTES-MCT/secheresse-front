@@ -84,7 +84,7 @@ const index = {
       }
     }
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/subscribe`, {
+    return useFetch(`/subscriptions`, {
       method: 'POST',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       body: form
@@ -96,6 +96,39 @@ const index = {
     return useFetch(`/departements`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  getUserSubscriptions(token: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/subscriptions`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+  },
+
+  unsubscribe(id: string, token: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/subscriptions/${id}`, {
+      method: 'DELETE',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+  },
+
+  unsubscribeAll(token: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/subscriptions/all`, {
+      method: 'DELETE',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
     });
   }
 }
