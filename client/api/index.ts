@@ -4,9 +4,9 @@ import { Geo } from "../dto/geo.dto";
 const _adresseOptions: string = '&limit=10';
 
 const index = {
-  searchAddresses(addressQuery: string): Promise<any> {
+  searchAddresses(addressQuery: string, exactAddress = false): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/search/?q=${addressQuery}${_adresseOptions}`, {
+    return useFetch(`/search/?q=${addressQuery}${_adresseOptions}${exactAddress ? '&type=housenumber' : ''}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiAdresseUrl,
       parseResponse: _formatAddresses
