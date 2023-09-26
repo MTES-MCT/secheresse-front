@@ -84,7 +84,7 @@ const index = {
       }
     }
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/subscribe`, {
+    return useFetch(`/subscriptions`, {
       method: 'POST',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       body: form
