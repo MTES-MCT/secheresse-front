@@ -30,9 +30,9 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  excludedCitycodes: {
-    type: Array,
-    default: null
+  exactAddress: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -86,10 +86,6 @@ const selectAddress = (address: string | Address | null, geo = null) => {
   });
 }
 
-const _formatAddresses = (addresses: Address[]): Address[] => {
-  return addresses.filter(a => props.excludedCitycodes ? !props.excludedCitycodes.includes(a.properties.citycode) : true);
-}
-
 const geoloc = () => {
   const successCallback = async (position) => {
     const {data} = await api.searchGeoByLatlon(position.coords.longitude, position.coords.latitude);
@@ -106,8 +102,7 @@ const geoloc = () => {
 }
 
 if (props.address || props.geo) {
-  if((props.address && !props.excludedCitycodes.includes(props.address.properties.citycode))
-    || (props.geo && !props.excludedCitycodes.includes(props.geo.code))) {
+  if (!props.exactAddress || (props.address && props.address.properties.type === 'housenumber')) {
     addressQuery.value = props.address ? props.address.properties.label : props.geo.nom;
     selectAddress(props.address, props.geo);
   }
@@ -120,9 +115,9 @@ watch(addressQuery, utils.debounce(async () => {
     return;
   }
   loadingAdresses.value = true;
-  const {data: response, error} = await api.searchAddresses(addressQuery.value);
+  const {data: response, error} = await api.searchAddresses(addressQuery.value, props.exactAddress);
   loadingAdresses.value = false;
-  addresses.value = response.value ? _formatAddresses(response.value.features) : [];
+  addresses.value = response.value ? response.value.features : [];
   if (autoSelectAddress.value) {
     autoSelectAddress.value = false;
     selectAddress(addresses.value[0]);

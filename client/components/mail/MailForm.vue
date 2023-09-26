@@ -81,24 +81,17 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, formData);
 
 const setAddress = (address: Address | null, geo: Geo | null) => {
-  if (!address && !geo) {
+  if (!address || ['municipality'].includes(address.properties.type)) {
     formData.idAdresse = null;
     formData.commune = null;
     formData.lon = null;
     formData.lat = null;
     return;
   }
-  if (geo || ['municipality'].includes(address.properties.type)) {
-    formData.idAdresse = null;
-    formData.commune = geo ? geo.code : address.properties.citycode;
-    formData.lon = null;
-    formData.lat = null;
-  } else {
-    formData.idAdresse = address.properties.id;
-    formData.commune = null;
-    formData.lon = address.geometry.coordinates[0];
-    formData.lat = address.geometry.coordinates[1];
-  }
+  formData.idAdresse = address.properties.id;
+  formData.commune = null;
+  formData.lon = address.geometry.coordinates[0];
+  formData.lat = address.geometry.coordinates[1];
 }
 
 const submitForm = async () => {
@@ -141,7 +134,7 @@ watch(v$, () => {
                     :geo="geo"
                     :light="true"
                     :disabled="subscribing"
-                    :excludedCitycodes="['75056', '13055', '69123']"
+                    :exactAddress="true"
                     @search="setAddress($event.address, $event.geo)"
       />
 
@@ -166,9 +159,12 @@ watch(v$, () => {
       />
     </DsfrInputGroup>
 
-    <p>Les <router-link to="/donnees-personnelles" target="_blank">données collectées</router-link> lors de votre inscription sont utilisées dans le cadre d’une mission de
+    <p>Les
+      <router-link to="/donnees-personnelles" target="_blank">données collectées</router-link>
+      lors de votre inscription sont utilisées dans le cadre d’une mission de
       service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de la Nature (DGALN).
-      Vous pouvez à tout moment vous opposer à ces traitements en vous désinscrivant en cliquant sur le lien présent dans nos emails.</p>
+      Vous pouvez à tout moment vous opposer à ces traitements en vous désinscrivant en cliquant sur le lien présent dans nos emails.
+    </p>
 
     <DsfrButton @click="submitForm()"
                 class="full-width fr-grid-row--center"
