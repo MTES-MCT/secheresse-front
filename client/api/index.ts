@@ -112,7 +112,7 @@ const index = {
 
   unsubscribe(id: string, token: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/unsubscribe/${id}`, {
+    return useFetch(`/subscriptions/${id}`, {
       method: 'DELETE',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       headers: {
@@ -123,7 +123,7 @@ const index = {
 
   unsubscribeAll(token: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/unsubscribe/all`, {
+    return useFetch(`/subscriptions/all`, {
       method: 'DELETE',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       headers: {
