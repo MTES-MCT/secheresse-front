@@ -64,7 +64,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
     'nuxt-simple-sitemap',
-    'nuxt-simple-robots'
+    'nuxt-simple-robots',
+    '@nuxt/image'
   ],
   runtimeConfig: {
     public: {
@@ -150,4 +151,7 @@ export default defineNuxtConfig({
   site: {
     url: `https://${process.env.DOMAIN_NAME}`,
   },
+  image: {
+    // Options
+  }
 })

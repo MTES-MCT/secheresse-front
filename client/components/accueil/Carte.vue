@@ -53,7 +53,7 @@ const territoires = [
 
 const date = computed(() => {
   const today = new Date();
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {year: 'numeric', month: 'long', day: 'numeric'};
   return today.toLocaleDateString('fr-FR', options);
 });
 </script>
@@ -77,10 +77,11 @@ const date = computed(() => {
       <div class="fr-col-lg-8 fr-col-12">
         <div>
           <h3 class="h6 text-align-center">{{ territoires[0].name }}</h3>
-          <img :src="territoires[0].image"
-               style="max-width: 100%"
-               :alt="territoires[0].name"
-               :title="territoires[0].name"
+          <NuxtImg :src="territoires[0].image"
+                   style="max-width: 100%"
+                   :alt="territoires[0].name"
+                   :title="territoires[0].name"
+                   format="webp"
           />
         </div>
       </div>
@@ -89,9 +90,10 @@ const date = computed(() => {
           <div v-if="index > 0"
                class="fr-col-6 carte-drom text-align-center">
             <h3 class="h6">{{ territoire.name }}</h3>
-            <img :src="territoire.image"
-                 :alt="territoire.name"
-                 :title="territoire.name"
+            <NuxtImg :src="territoire.image"
+                     :alt="territoire.name"
+                     :title="territoire.name"
+                     format="webp"
             />
           </div>
         </template>
@@ -114,7 +116,7 @@ const date = computed(() => {
       background-color: #FFEDA0;
     }
   }
-  
+
   &-drom {
     img {
       width: 100%;
