@@ -16,7 +16,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
 
 <template>
   <DsfrBreadcrumb :links='links'/>
-  <div class="fr-mt-8w">
+  <div>
     <h1>Mentions légales</h1>
     <h2>Éditeur</h2>
     <p>{{ appName }} est édité par la Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la

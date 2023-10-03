@@ -6,7 +6,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  BarElement,
   CategoryScale,
   LinearScale,
   LineElement,
@@ -34,41 +33,45 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Statist
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement)
 
 const {data, error} = await api.getStats();
-const chartLineData = {
-  labels: data.value.statsByDay.map((s: any) => s.date),
-  datasets: [
-    {
-      label: 'Visiteurs',
-      backgroundColor: '#000091',
-      borderColor: '#000091',
-      data: data.value.statsByDay.map((s: any) => s.visits)
-    },
-    {
-      label: 'Recherche de restrictions',
-      backgroundColor: '#c9191e',
-      borderColor: '#c9191e',
-      data: data.value.statsByDay.map((s: any) => s.restrictionsSearch)
-    },
-    {
-      label: 'Téléchargement d\'arrêtés',
-      backgroundColor: '#18753c',
-      borderColor: '#18753c',
-      data: data.value.statsByDay.map((s: any) => s.arreteDownloads)
-    }
-  ]
-};
 
-const chartePieData = {
-  labels: Object.values(Profile),
-  datasets: [{
-    backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-    data: []
-  }]
-};
-const profiles = Object.keys(Profile);
-profiles.forEach(p => {
-  chartePieData.datasets[0].data.push(data.value.profileRepartition[p]);
-})
+if (data.value) {
+
+  const chartLineData = {
+    labels: data.value.statsByDay.map((s: any) => s.date),
+    datasets: [
+      {
+        label: 'Visiteurs',
+        backgroundColor: '#000091',
+        borderColor: '#000091',
+        data: data.value.statsByDay.map((s: any) => s.visits)
+      },
+      {
+        label: 'Recherche de restrictions',
+        backgroundColor: '#c9191e',
+        borderColor: '#c9191e',
+        data: data.value.statsByDay.map((s: any) => s.restrictionsSearch)
+      },
+      {
+        label: 'Téléchargement d\'arrêtés',
+        backgroundColor: '#18753c',
+        borderColor: '#18753c',
+        data: data.value.statsByDay.map((s: any) => s.arreteDownloads)
+      }
+    ]
+  };
+
+  const chartePieData = {
+    labels: Object.values(Profile),
+    datasets: [{
+      backgroundColor: ['#000091', '#c9191e', '#18753c', '#FEB24C'],
+      data: []
+    }]
+  };
+  const profiles = Object.keys(Profile);
+  profiles.forEach(p => {
+    chartePieData.datasets[0].data.push(data.value.profileRepartition[p]);
+  });
+}
 
 const tooltipTitle = (tooltipItems: any[]): string => {
   const date = new Date(tooltipItems[0].parsed.x);
@@ -88,6 +91,7 @@ const tooltipTitle = (tooltipItems: any[]): string => {
 
 const chartLineOptions: ChartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   scales: {
     x: {
       type: 'time',
@@ -109,26 +113,52 @@ const chartLineOptions: ChartOptions = {
   }
 };
 
+const tooltipPieLabel = (tooltipItem: any): string => {
+  let sum = tooltipItem.dataset.data.reduce((a: number, b: number) => {
+    return a + b;
+  })
+  const percentage = (tooltipItem.raw * 100 / sum).toFixed(2) + "%";
+
+  return `${sum} (${percentage})`;
+};
+
 const chartPieOptions: ChartOptions = {
   responsive: true,
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: tooltipPieLabel,
+      }
+    }
+  }
 }
 </script>
 
 <template>
   <DsfrBreadcrumb :links='links'/>
-  <div class="fr-mt-8w">
-    <h1>Statistiques</h1>
+  <div>
+    <h1>Statistiques depuis le 10 Juillet 2023</h1>
     <template v-if="data">
-      <Line :options="chartLineOptions" :data="chartLineData"/>
-      <div class="fr-grid-row fr-grid-row--middle">
-        <DsfrCallout :title="data.subscriptions"
-                     class="fr-col-12 fr-col-md-6"
-                     content="personnes abonnées aux notifications de changement de niveau d'alerte"
-        />
-        <Doughnut :options="chartPieOptions"
-                  :data="chartePieData"
-                  class="fr-col-12 fr-col-md-6"
-                  :style="{'max-height': '400px'}"/>
+      <div class="fr-grid-row fr-grid-row--top fr-grid-row--gutters">
+        <div class="fr-col-12">
+          <DsfrCallout>
+            <Line :options="chartLineOptions"
+                  :data="chartLineData"
+                  :style="{'min-height': '400px'}"/>
+          </DsfrCallout>
+        </div>
+        <div class="fr-col-12 fr-col-md-6">
+          <DsfrCallout title="Répartition des profils des visiteurs sur les 30 derniers jours">
+            <Doughnut :options="chartPieOptions"
+                      :data="chartePieData"
+                      :style="{'max-height': '400px'}"/>
+          </DsfrCallout>
+        </div>
+        <div class="fr-col-12 fr-col-md-6">
+          <DsfrCallout :title="data.subscriptions"
+                       content="personnes abonnées aux notifications de changement de niveau d'alerte"
+          />
+        </div>
       </div>
     </template>
   </div>
