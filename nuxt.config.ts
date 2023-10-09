@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     '@gouvminint/vue-dsfr/styles',
     'maplibre-gl/dist/maplibre-gl.css',
 
-    'assets/main.scss',
+    'assets/main.scss'
   ],
   ignore: [
     '**/*.test.*',
