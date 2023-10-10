@@ -43,11 +43,10 @@ const subscribe = async (form: any) => {
                 </button>
               </div>
               <div>
-                <NuxtImg src="/newsletter_img.png"
-                         format="webp"
-                         style="max-width: 100%;"
-                         width="260" height="500"
-                         title="Image d'illustration newsletter email"
+                <img src="/newsletter_img.png"
+                     style="max-width: 100%;"
+                     width="260" height="500"
+                     title="Image d'illustration newsletter email"
                 />
               </div>
             </div>
