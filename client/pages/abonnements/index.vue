@@ -59,7 +59,7 @@ const closeModal = () => {
 
 <template>
   <DsfrBreadcrumb :links='links'/>
-  <div class="fr-mt-8w" v-if="userSubscriptions">
+  <div v-if="userSubscriptions">
     <h1>Abonnements</h1>
     <h2>{{ route.query.email }}</h2>
     <div class="fr-grid-row fr-grid-row--gutters">

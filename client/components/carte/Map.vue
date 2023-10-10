@@ -132,7 +132,7 @@ onMounted(() => {
     closeOnClick: false
   }).setMaxWidth('300px');
 
-  map.value?.on('click', 'zones-data', (e) => {
+  map.value?.on('click', 'zones-data', (e: any) => {
     zoneSelected.value = e.features[0].properties.id_zone;
     updateContourFilter();
     const description = utils.generatePopupHtml(e.features[0].properties);

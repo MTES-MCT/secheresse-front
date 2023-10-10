@@ -15,7 +15,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Cookies
 
 <template>
   <DsfrBreadcrumb :links='links'/>
-  <div class="fr-mt-8w">
+  <div>
     <h1>Cookies et mesure d'audience</h1>
     <h2>Cookies</h2>
     <p>{{ appName }} dépose un petit fichier texte (un « cookie ») sur votre ordinateur lorsque vous le consultez. Cela nous permet de

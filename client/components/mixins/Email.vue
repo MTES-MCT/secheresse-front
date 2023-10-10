@@ -43,10 +43,11 @@ const subscribe = async (form: any) => {
                 </button>
               </div>
               <div>
-                <img src="/newsletter_img.png"
-                     style="max-width: 100%;"
-                     width="260" height="500"
-                     title="Image d'illustration newsletter email"
+                <NuxtImg src="/newsletter_img.png"
+                         format="webp"
+                         style="max-width: 100%;"
+                         width="260" height="500"
+                         title="Image d'illustration newsletter email"
                 />
               </div>
             </div>
@@ -96,7 +97,7 @@ const subscribe = async (form: any) => {
   .follow-wrap {
     height: 754px;
   }
-  
+
   .fr-follow {
     text-align: center;
   }

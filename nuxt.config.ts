@@ -49,7 +49,7 @@ export default defineNuxtConfig({
     '@gouvminint/vue-dsfr/styles',
     'maplibre-gl/dist/maplibre-gl.css',
 
-    'assets/main.scss',
+    'assets/main.scss'
   ],
   ignore: [
     '**/*.test.*',
@@ -64,7 +64,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
     'nuxt-simple-sitemap',
-    'nuxt-simple-robots'
+    'nuxt-simple-robots',
+    '@nuxt/image'
   ],
   runtimeConfig: {
     public: {
@@ -150,4 +151,7 @@ export default defineNuxtConfig({
   site: {
     url: `https://${process.env.DOMAIN_NAME}`,
   },
+  image: {
+    // Options
+  }
 })

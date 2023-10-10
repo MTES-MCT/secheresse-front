@@ -130,6 +130,14 @@ const index = {
         Authorization: `Bearer ${token}`
       },
     });
+  },
+
+  getStats(): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/statistics`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
   }
 }
 
