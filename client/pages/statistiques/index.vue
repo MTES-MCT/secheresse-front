@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import api from "../../api";
+import utils from "../../utils";
 
 definePageMeta({
   layout: 'basic',
@@ -45,8 +46,8 @@ const {data, error} = await api.getStats();
           <StatsProfileRepartition :stats="data"/>
         </div>
         <div class="fr-col-12 fr-col-md-6">
-          <DsfrCallout :title="data.subscriptions"
-                       content="personnes abonnées aux notifications de changement de niveau d'alerte"
+          <DsfrCallout :title="utils.numberWithSpaces(data.subscriptions)"
+                       content="personnes abonnées aux alertes mail - qui informent l'usager sur un changement de niveau de gravité sur sa zone"
           />
         </div>
         <div class="fr-col-12">

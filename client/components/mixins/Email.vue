@@ -67,8 +67,9 @@ const subscribe = async (form: any) => {
   <DsfrModal :opened="modalSuccessOpened"
              title=" "
              @close="closeModal">
-    <h1>Vous êtes abonnés !</h1>
-    <p>Vous recevrez un email très prochainement. Vous pouvez remplir le formulaire avec une adresse différente si vous souhaitez être abonné à plusieurs adresses.</p>
+    <h1>Vous êtes désormais abonné !</h1>
+    <p>Vous recevrez un email très prochainement. Vous souhaitez recevoir les alertes pour plusieurs adresses ? Il vous suffit de re-remplir
+      le formulaire avec la ou les nouvelles adresses.</p>
   </DsfrModal>
   <DsfrModal :opened="modalErrorOpened"
              title=" "

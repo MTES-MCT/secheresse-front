@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Ref } from "vue/dist/vue";
+import utils from "../../utils";
 
 const props = defineProps<{
   stats: any
@@ -14,7 +15,7 @@ const sumSearches = Object.values(props.stats.departementRepartition).reduce((a:
   return a + b;
 });
 Object.keys(props.stats.departementRepartition).forEach((d: any) => {
-  rows.push([d, `${props.stats.departementRepartition[d]}`, `${(props.stats.departementRepartition[d] * 100 / sumSearches).toFixed(2)}%`]);
+  rows.push([d, `${utils.numberWithSpaces(props.stats.departementRepartition[d])}`, `${(props.stats.departementRepartition[d] * 100 / sumSearches).toFixed(2)}%`]);
 });
 rowsFiltered.value = [...rows];
 

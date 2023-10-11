@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import * as maplibregl from 'maplibre-gl';
 import { Ref } from "vue";
+import utils from "../../utils";
 
 const props = defineProps<{
   stats: any
@@ -126,17 +127,17 @@ onMounted(() => {
 
     const searches = props.stats.departementRepartition[e.features[0].properties.code];
     const description = `<div>${e.features[0].properties.nom} (${e.features[0].properties.code})</div>
-<div>${searches} (${(searches * 100 / sumSearches).toFixed(2)}%)</div>`;
+<div>${utils.numberWithSpaces(searches)} (${(searches * 100 / sumSearches).toFixed(2)}%)</div>`;
 
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
   });
-  
+
   map.value?.on('mousemove', 'regions-data', (e: any) => {
     map.value.getCanvas().style.cursor = 'pointer';
 
     const searches = props.stats.regionRepartition[e.features[0].properties.code];
     const description = `<div>${e.features[0].properties.nom}</div>
-<div>${searches} (${(searches * 100 / sumSearches).toFixed(2)}%)</div>`;
+<div>${utils.numberWithSpaces(searches)} (${(searches * 100 / sumSearches).toFixed(2)}%)</div>`;
 
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
   });
@@ -207,14 +208,10 @@ const updateLayerFilter = () => {
                          @update:modelValue="selectedRepartitionTag = $event; updateLayerFilter();"
         />
         <div class="map-legende">
-          <div class="fr-grid-row">
-              <MixinsTmpTooltip id="tooltip-0"
-                                :onHover="true"
-                                :content="legendTooltip">
-                <div aria-describedby="tooltip-0"
-                     class="map-legende-carre">
-                </div>
-              </MixinsTmpTooltip>
+          <div class="map-legende-carre"></div>
+          <div class="map-legende-text">
+            {{ legendTooltip }}
+            <span> </span>
           </div>
         </div>
       </div>
@@ -273,8 +270,20 @@ const updateLayerFilter = () => {
   .map-legende {
     &-carre {
       height: 20px;
-      width: 200px;
+      min-width: 200px;
+      width: 100%;
       background: linear-gradient(0.25turn, rgb(230, 230, 255), rgb(0, 0, 255));
+    }
+
+    &-text {
+      text-align: justify;
+      height: 21px;
+      overflow: hidden;
+
+      span {
+        width: 100%;
+        display: inline-block;
+      }
     }
   }
 

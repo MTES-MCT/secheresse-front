@@ -2,6 +2,7 @@
 import { ChartOptions } from "chart.js";
 import { Doughnut } from "vue-chartjs";
 import { Profile } from "../../dto/profile.enum";
+import utils from "../../utils";
 
 const props = defineProps<{
   stats: any
@@ -25,7 +26,7 @@ const tooltipPieLabel = (tooltipItem: any): string => {
   })
   const percentage = (tooltipItem.raw * 100 / sum).toFixed(2) + "%";
 
-  return `${sum} (${percentage})`;
+  return `${utils.numberWithSpaces(tooltipItem.raw)} (${percentage})`;
 };
 
 const chartPieOptions: ChartOptions = {
