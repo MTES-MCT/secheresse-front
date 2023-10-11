@@ -198,7 +198,7 @@ const updateLayerFilter = () => {
   <div v-if="isMapSupported">
     <div class="map-pre-actions">
       <div class="map-pre-actions-card fr-p-1w fr-m-1w">
-        <h6 class="fr-mb-1w fr-mr-2w">Situation par ressource :</h6>
+        <h6 class="fr-mb-1w fr-mr-2w">Maille :</h6>
         <DsfrRadioButton v-for="option of repartitionTags"
                          :modelValue="selectedRepartitionTag"
                          v-bind="option"
