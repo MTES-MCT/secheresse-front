@@ -59,7 +59,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.22.20.tgz#8df6e96661209623f1975d66c35ffca66f3306d0"
   integrity sha512-BQYjKbpXjoXwFW5jGqiizJQQT/aC7pFm9Ok1OWssonuguICi264lbgMzRp2ZMmRSlfkX6DsWDDcsrctK8Rwfiw==
 
-"@babel/core@^7.11.1", "@babel/core@^7.7.5":
+"@babel/core@^7.11.1":
   version "7.22.17"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.22.17.tgz#2f9b0b395985967203514b24ee50f9fd0639c866"
   integrity sha512-2EENLmhpwplDux5PSsZnSbnSkB3tZ6QTksgO25xwEL7pIDcNOMhF5v/s6RzwjMZzZzw9Ofc30gHv5ChCC8pifQ==
@@ -101,7 +101,7 @@
     json5 "^2.2.2"
     semver "^6.3.0"
 
-"@babel/core@^7.22.10", "@babel/core@^7.22.9":
+"@babel/core@^7.22.10", "@babel/core@^7.22.9", "@babel/core@^7.7.5":
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.23.0.tgz#f8259ae0e52a123eb40f552551e647b506a94d83"
   integrity sha512-97z/ju/Jy1rZmDxybphrBuI+jtJjFVoz7Mr9yUQVVVi+DNZE333uFQeMOqcCIy1x3WYBIbWftUSLmbNXNT7qFQ==
@@ -1207,11 +1207,11 @@
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
 "@cypress/code-coverage@^3.10.4":
-  version "3.12.1"
-  resolved "https://registry.yarnpkg.com/@cypress/code-coverage/-/code-coverage-3.12.1.tgz#cdfd155f9e4788d56ba55caff10c70abfbf72fd1"
-  integrity sha512-4gSVkgcTo8NSWrOwLO0NxyvD2apIZFM/2k9sxdmP3eR3ko8tZVYrWfTdfxSXLDSkNnzVh+oXv7utaOLn+yemUg==
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/@cypress/code-coverage/-/code-coverage-3.12.2.tgz#d1f45c1684dd787bda384a2006d212b9a555b2c9"
+  integrity sha512-xh5pxq3msBxn925k0FlKwJPr2GAc05GRi6QnFe0m7r4YROejOMK2kZqwQjqispAiWX1h4DyQitaK/uF1v3cvUg==
   dependencies:
-    "@cypress/webpack-preprocessor" "^5.11.0"
+    "@cypress/webpack-preprocessor" "^6.0.0"
     chalk "4.1.2"
     dayjs "1.11.9"
     debug "4.3.4"
@@ -1245,10 +1245,10 @@
     tunnel-agent "^0.6.0"
     uuid "^8.3.2"
 
-"@cypress/webpack-preprocessor@^5.11.0":
-  version "5.17.1"
-  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-5.17.1.tgz#19c3f6ceb89e156824917b4ec31717ade34592ec"
-  integrity sha512-FE/e8ikPc8z4EVopJCaior3RGy0jd2q9Xcp5NtiwNG4XnLfEnUFTZlAGwXe75sEh4fNMPrBJW1KIz77PX5vGAw==
+"@cypress/webpack-preprocessor@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@cypress/webpack-preprocessor/-/webpack-preprocessor-6.0.0.tgz#e4779978c76b1efbfd2173c65960d2ef73b0b3b7"
+  integrity sha512-1AS1Et5CNPJii0+DdBZBS8e0hlM2BkBNmYRdZO4/16A3KS3em1sjPZtFw7jJF00m6DYAdB9iy6QW/lLZ2bN0gg==
   dependencies:
     bluebird "3.7.1"
     debug "^4.3.4"
@@ -4558,9 +4558,9 @@ electron-to-chromium@^1.4.526:
   integrity sha512-W1+g9qs9hviII0HAwOdehGYkr+zt7KKdmCcJcjH0mYg6oL8+ioT3Skjmt7BLoAQqXhjf40AXd+HlR4oAWMlXjA==
 
 electron-to-chromium@^1.4.535:
-  version "1.4.548"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.548.tgz#e695d769e0e801fa6d438b63f6bc9b80372000d6"
-  integrity sha512-R77KD6mXv37DOyKLN/eW1rGS61N6yHOfapNSX9w+y9DdPG83l9Gkuv7qkCFZ4Ta4JPhrjgQfYbv4Y3TnM1Hi2Q==
+  version "1.4.549"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.549.tgz#ab223f5d85c55a9def358db163bc8cacba72df69"
+  integrity sha512-gpXfJslSi4hYDkA0mTLEpYKRv9siAgSUgZ+UWyk+J5Cttpd1ThCVwdclzIwQSclz3hYn049+M2fgrP1WpvF8xg==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
@@ -6900,9 +6900,9 @@ map-stream@~0.1.0:
   integrity sha512-CkYQrPYZfWnu/DAmVCpTSX/xHpKZ80eKh2lAkyA6AJTef6bW+6JpbQZN5rofum7da+SyN1bi5ctTm+lTfcCW3g==
 
 maplibre-gl@^3.3.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/maplibre-gl/-/maplibre-gl-3.4.0.tgz#e0f48b658a983a0339a4f85eb4c41c95df2d33a2"
-  integrity sha512-5Q36HD2mJoPcd85O2wIDq2t6kl9KMBpITO12A9wPKpQ6ieYKKf5Dp4U/XNjmZWtSTIX2hnx+OwlInkAVLdav6Q==
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/maplibre-gl/-/maplibre-gl-3.4.1.tgz#a22487f981e07d5b04bb525a1927ead2ef1bdb69"
+  integrity sha512-RPcdaiZ52G3X+PaHQxqQ1d4I8iTIPRl4OXhPU/3o37kDf+ImLXpUVZj4p0qBCGm71n79daVzaCMG9QxfSSQbnQ==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.2"
     "@mapbox/jsonlint-lines-primitives" "^2.0.2"
@@ -8675,9 +8675,9 @@ sass-loader@^13.2.2:
     neo-async "^2.6.2"
 
 sass@^1.62.1:
-  version "1.69.1"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.69.1.tgz#659b3b04452245dcf82f731684831e990ddb0c89"
-  integrity sha512-nc969GvTVz38oqKgYYVHM/Iq7Yl33IILy5uqaH2CWSiSUmRCvw+UR7tA3845Sp4BD5ykCUimvrT3k1EjTwpVUA==
+  version "1.69.2"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.69.2.tgz#8aeaeb6c1dcdbeaa26bbfeddece67c9fcd4b1d93"
+  integrity sha512-48lDtG/9OuSQZ9oNmJMUXI2QdCakAWrAGjpX/Fy6j4Og8dEAyE598x5GqCqnHkwV7+I5w8DJpqjm581q5HNh3w==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"
