@@ -53,7 +53,7 @@ const territoires = [
 
 const date = computed(() => {
   const today = new Date();
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = {year: 'numeric', month: 'long', day: 'numeric'};
   return today.toLocaleDateString('fr-FR', options);
 });
 </script>
@@ -114,7 +114,7 @@ const date = computed(() => {
       background-color: #FFEDA0;
     }
   }
-  
+
   &-drom {
     img {
       width: 100%;

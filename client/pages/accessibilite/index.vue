@@ -17,7 +17,7 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Accessi
 
 <template>
   <DsfrBreadcrumb :links='links'/>
-  <div class="fr-mt-8w">
+  <div>
     <h1>Déclaration d’accessibilité</h1>
     <p>Établie le <span>10 mai 2023</span>.</p>
     <p>Le <span>Ministère de la Transition écologique et de la Cohésion des territoires</span> s’engage à rendre son service accessible,

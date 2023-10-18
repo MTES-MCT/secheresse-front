@@ -67,9 +67,9 @@ const subscribe = async (form: any) => {
   <DsfrModal :opened="modalSuccessOpened"
              title=" "
              @close="closeModal">
-    <h1>Vous êtes abonnés !</h1>
-    <p>Le système de notification de changement de situation sur votre territoire sera mis en place très prochainement, vous recevrez un
-      email lorsque celui-ci sera activé !</p>
+    <h1>Vous êtes désormais abonné !</h1>
+    <p>Vous recevrez un email très prochainement. Vous souhaitez recevoir les alertes pour plusieurs adresses ? Il vous suffit de re-remplir
+      le formulaire avec la ou les nouvelles adresses.</p>
   </DsfrModal>
   <DsfrModal :opened="modalErrorOpened"
              title=" "
@@ -96,7 +96,7 @@ const subscribe = async (form: any) => {
   .follow-wrap {
     height: 754px;
   }
-  
+
   .fr-follow {
     text-align: center;
   }
