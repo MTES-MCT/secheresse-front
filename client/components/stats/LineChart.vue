@@ -11,20 +11,14 @@ const chartLineData = {
   datasets: [
     {
       label: 'Visiteurs',
-      backgroundColor: '#000091',
-      borderColor: '#000091',
       data: props.stats.statsByDay.map((s: any) => s.visits)
     },
     {
       label: 'Recherche de restrictions',
-      backgroundColor: '#c9191e',
-      borderColor: '#c9191e',
       data: props.stats.statsByDay.map((s: any) => s.restrictionsSearch)
     },
     {
       label: 'Téléchargement d\'arrêtés',
-      backgroundColor: '#18753c',
-      borderColor: '#18753c',
       data: props.stats.statsByDay.map((s: any) => s.arreteDownloads)
     }
   ]

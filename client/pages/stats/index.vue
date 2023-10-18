@@ -11,7 +11,8 @@ import {
   PointElement,
   LineController,
   TimeScale,
-  ArcElement
+  ArcElement, 
+  Colors
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import api from "../../api";
@@ -28,7 +29,7 @@ useHead({
 
 const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Statistiques"}])
 
-ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement)
+ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement, Colors)
 
 const {data, error} = await api.getStats();
 </script>

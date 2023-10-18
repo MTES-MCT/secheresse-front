@@ -11,7 +11,6 @@ const props = defineProps<{
 const chartePieData = {
   labels: Object.values(Profile),
   datasets: [{
-    backgroundColor: ['#000091', '#c9191e', '#18753c', '#FEB24C'],
     data: []
   }]
 };

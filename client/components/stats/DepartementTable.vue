@@ -7,7 +7,7 @@ const props = defineProps<{
 }>();
 
 const headers = ['N° Département', 'Nombre recherches', '% recherches'];
-const rows = [];
+let rows: any[] = [];
 const query: Ref<string> = ref('');
 const rowsFiltered: Ref<any[]> = ref([]);
 const componentKey = ref(0);
@@ -17,7 +17,7 @@ const sumSearches = Object.values(props.stats.departementRepartition).reduce((a:
 Object.keys(props.stats.departementRepartition).forEach((d: any) => {
   rows.push([d, `${utils.numberWithSpaces(props.stats.departementRepartition[d])}`, `${(props.stats.departementRepartition[d] * 100 / sumSearches).toFixed(2)}%`]);
 });
-rowsFiltered.value = [...rows];
+rows = rows.sort(new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'}).compare)
 
 function checkKeyboardNav($event) {
   if (['search', 'Enter'].includes($event.key)) {
@@ -31,6 +31,8 @@ function filterDepartments() {
   });
   componentKey.value += 1;
 }
+
+filterDepartments()
 </script>
 
 <template>

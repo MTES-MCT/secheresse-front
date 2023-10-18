@@ -29,9 +29,6 @@ const mandatoryLinks: any[] = [{
 }, {
   label: 'Cookies',
   to: '/cookies',
-}, {
-  label: 'Statistiques',
-  to: '/statistiques',
 }];
 const ecosystemLinks: any[] = [
   {
