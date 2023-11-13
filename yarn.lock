@@ -1881,7 +1881,7 @@
     which "^3.0.1"
     ws "^8.14.2"
 
-"@nuxt/kit@3.8.1", "@nuxt/kit@^3.5.3", "@nuxt/kit@^3.7.4", "@nuxt/kit@^3.8.0", "@nuxt/kit@^3.8.1":
+"@nuxt/kit@3.8.1", "@nuxt/kit@^3.6.2", "@nuxt/kit@^3.7.4", "@nuxt/kit@^3.8.0", "@nuxt/kit@^3.8.1":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.8.1.tgz#64b3f161fdf56175af0f535c465b0c76b9730da0"
   integrity sha512-DrhG1Z85iH68QOTkgfb0HVfM2g7+CfcMWrFWMDwck9ofyM2RXQUZyfmvMedwBnui1AjjpgpLO9078yZM+RqNUg==
@@ -3089,12 +3089,14 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@vite-pwa/nuxt@^0.1.0":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.1.2.tgz#c2ff1355a23ad9813c64dc8bf6a9fa0c6a7f0ee5"
-  integrity sha512-y+DxNJbV5VyCTrCrjCgpFKubkWeoqMr0LkCsUdgR/6B4KXJLXTqCcrEm4I5WyGL0Cbhb8Swv+Q7sH+1TxZ1EBA==
+"@vite-pwa/nuxt@^0.2.0":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.2.1.tgz#68433576534f8ac3be92a41c22a3047e1ca89df2"
+  integrity sha512-+WYKgY5aOGEZMJ6la1jcntn2V/BYni/MRMaVuNK72UsmNIT+skIOMT4h8UVDogwzaUF3P6utLVvnKh1yAQiBBA==
   dependencies:
-    "@nuxt/kit" "^3.5.3"
+    "@nuxt/kit" "^3.6.2"
+    pathe "^1.1.1"
+    ufo "^1.3.1"
     vite-plugin-pwa ">=0.16.5 <1"
 
 "@vitejs/plugin-vue-jsx@^3.0.2":
