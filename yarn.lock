@@ -3407,9 +3407,9 @@
     resolve-from "^5.0.0"
 
 "@vite-pwa/nuxt@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.2.1.tgz#68433576534f8ac3be92a41c22a3047e1ca89df2"
-  integrity sha512-+WYKgY5aOGEZMJ6la1jcntn2V/BYni/MRMaVuNK72UsmNIT+skIOMT4h8UVDogwzaUF3P6utLVvnKh1yAQiBBA==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.2.3.tgz#e53bfeb3b2cf39bc5e71571cfbe4b3eaab88e15e"
+  integrity sha512-dAf7crzDth3/hXQ/JAcO0vh9alFl6gUZ3Sw2so1wL4W4VZOMYIA8D3sMo5AH8zV+loUlkqsb6kutmz8IKdpjmQ==
   dependencies:
     "@nuxt/kit" "^3.6.2"
     pathe "^1.1.1"
