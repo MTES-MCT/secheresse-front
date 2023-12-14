@@ -8,8 +8,12 @@ const props = defineProps<{
 }>()
 const router = useRouter();
 
+if(props.error.statusCode === 404) {
+  navigateTo('/')
+}
+
 const title = computed<string>(() => {
-  return props.error.statusCode === 404 ? 'Page non trouvée, ne paniquez pas' : 'Une erreur est survenue, ne paniquez pas'
+  return 'Une erreur est survenue, ne paniquez pas'
 });
 const subtitle = computed<string>(() => {
   return `Erreur ${props.error.statusCode} !`
