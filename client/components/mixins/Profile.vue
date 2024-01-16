@@ -42,7 +42,7 @@ selectProfile(props.profile ? props.profile : selectedTagType.value);
     <DsfrTag v-for="tag in profileTags"
              :label="tag.label"
              class="fr-m-1w tag-lg"
-             :selected="selectedTagType === tag.type"
+             :aria-pressed="selectedTagType === tag.type"
              :disabled="disabled"
              @click="selectProfile(tag.type)"
              tag-name="button"/>

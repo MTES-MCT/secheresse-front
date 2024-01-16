@@ -28,7 +28,7 @@ const typesZones = {
         <template v-if="subscription.profil !== 'particulier'">
           <DsfrTag v-for="typeZone in subscription.typesZones"
                    class="fr-mx-1w fr-mb-1w"
-                   selected
+                   :aria-pressed="true"
                    :label="typesZones[typeZone]"/>
         </template>
       </div>

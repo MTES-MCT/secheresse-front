@@ -84,7 +84,7 @@ const title = computed<string>(() => {
       <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
                :label="thematique.label"
                class="fr-m-1w no-checkmark tag-lg"
-               :selected="selectedTagIndex === index"
+               :aria-pressed="selectedTagIndex === index"
                @click="selectedTagIndex = index"
                tag-name="button"/>
       <DsfrTabs class="tabs-light">
