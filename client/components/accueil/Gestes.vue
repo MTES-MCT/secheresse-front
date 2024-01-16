@@ -47,7 +47,7 @@ const selectedTagIndex: Ref<number> = ref(0);
                  :label="tag.label"
                  class="fr-mx-1w tag-lg"
                  :icon="tag.icon"
-                 :selected="selectedTagIndex === index"
+                 :aria-pressed="selectedTagIndex === index"
                  @click="selectedTagIndex = index"
                  tag-name="button"/>
       </div>
