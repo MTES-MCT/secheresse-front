@@ -42,7 +42,7 @@ const tooltipTitle = (tooltipItems: any[]): string => {
 
 const chartLineOptions: ChartOptions = {
   responsive: true,
-  maintainAspectRatio: false,
+  maintainAspectRatio: true,
   scales: {
     x: {
       type: 'time',
