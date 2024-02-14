@@ -136,11 +136,11 @@ onMounted(() => {
                     :nav-items="navItems"/>
   </div>
   <div class="fr-container fr-mb-8w">
-    <DsfrAlert description="Les données affichées sur Vigieau datent du 5 février 2024. Certaines informations peuvent ne pas être à jour."
-               type="warning"
-               class="fr-my-2w"
-               :closeable="false"
-    />
+<!--    <DsfrAlert description="Les données affichées sur Vigieau datent du 5 février 2024. Certaines informations peuvent ne pas être à jour."-->
+<!--               type="warning"-->
+<!--               class="fr-my-2w"-->
+<!--               :closeable="false"-->
+<!--    />-->
     <slot/>
   </div>
   <DsfrFooter :logo-text="logoText"
