@@ -63,7 +63,7 @@
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
     "start-server-and-test": "^2.0.0",
-    "typescript": "~5.2.2",
+    "typescript": "~5.4.0",
     "vite-plugin-istanbul": "^5.0.0"
   }
 }
