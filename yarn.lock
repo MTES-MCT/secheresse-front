@@ -1981,30 +1981,6 @@
     unimport "^3.0.7"
     untyped "^1.3.2"
 
-"@nuxt/kit@^3.6.2":
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.8.2.tgz#f4548f3449d2566dbd2febe2b84f47060f7c668c"
-  integrity sha512-LrXCm8hAkw+zpX8teUSD/LqXRarlXjbRiYxDkaqw739JSHFReWzBFgJbojsJqL4h1XIEScDGGOWiEgO4QO1sMg==
-  dependencies:
-    "@nuxt/schema" "3.8.2"
-    c12 "^1.5.1"
-    consola "^3.2.3"
-    defu "^6.1.3"
-    globby "^14.0.0"
-    hash-sum "^2.0.0"
-    ignore "^5.3.0"
-    jiti "^1.21.0"
-    knitwork "^1.0.0"
-    mlly "^1.4.2"
-    pathe "^1.1.1"
-    pkg-types "^1.0.3"
-    scule "^1.1.0"
-    semver "^7.5.4"
-    ufo "^1.3.2"
-    unctx "^2.3.1"
-    unimport "^3.5.0"
-    untyped "^1.4.0"
-
 "@nuxt/schema@3.5.1":
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/@nuxt/schema/-/schema-3.5.1.tgz#33ae4b8689633be4ed69c03226035848cdd2cf0a"
@@ -2019,23 +1995,6 @@
     ufo "^1.1.2"
     unimport "^3.0.7"
     untyped "^1.3.2"
-
-"@nuxt/schema@3.8.2":
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/@nuxt/schema/-/schema-3.8.2.tgz#6eab0cc6152b921f3fe101b65e341e05c6c36864"
-  integrity sha512-AMpysQ/wHK2sOujLShqYdC4OSj/S3fFJGjhYXqA2g6dgmz+FNQWJRG/ie5sI9r2EX9Ela1wt0GN1jZR3wYNE8Q==
-  dependencies:
-    "@nuxt/ui-templates" "^1.3.1"
-    consola "^3.2.3"
-    defu "^6.1.3"
-    hookable "^5.5.3"
-    pathe "^1.1.1"
-    pkg-types "^1.0.3"
-    scule "^1.1.0"
-    std-env "^3.5.0"
-    ufo "^1.3.2"
-    unimport "^3.5.0"
-    untyped "^1.4.0"
 
 "@nuxt/schema@3.9.1", "@nuxt/schema@^3.8.2", "@nuxt/schema@^3.9.1":
   version "3.9.1"
@@ -3514,15 +3473,15 @@
     node-gyp-build "^4.2.2"
     resolve-from "^5.0.0"
 
-"@vite-pwa/nuxt@^0.2.1":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.2.3.tgz#e53bfeb3b2cf39bc5e71571cfbe4b3eaab88e15e"
-  integrity sha512-dAf7crzDth3/hXQ/JAcO0vh9alFl6gUZ3Sw2so1wL4W4VZOMYIA8D3sMo5AH8zV+loUlkqsb6kutmz8IKdpjmQ==
+"@vite-pwa/nuxt@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@vite-pwa/nuxt/-/nuxt-0.6.0.tgz#5468422787dd2ce586bfd1e7b06d8467b6e197d2"
+  integrity sha512-oW2fQ18yC7p81F4NeZe7y14dqzWR0IBljoEp5Ns2hHh44EyBsPP8kdFYqDOLJsbVGjqZdSmWdxESgLfT3SGpLA==
   dependencies:
-    "@nuxt/kit" "^3.6.2"
+    "@nuxt/kit" "^3.9.0"
     pathe "^1.1.1"
-    ufo "^1.3.1"
-    vite-plugin-pwa ">=0.16.5 <1"
+    ufo "^1.3.2"
+    vite-plugin-pwa ">=0.19.2 <1"
 
 "@vitejs/plugin-vue-jsx@^3.1.0":
   version "3.1.0"
@@ -11069,7 +11028,7 @@ unimport@^3.0.7:
     strip-literal "^1.3.0"
     unplugin "^1.4.0"
 
-unimport@^3.5.0, unimport@^3.6.0, unimport@^3.7.1:
+unimport@^3.6.0, unimport@^3.7.1:
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/unimport/-/unimport-3.7.1.tgz#37250d0f3f2dcf1e1b66ed13728db0e9f50ba0c3"
   integrity sha512-V9HpXYfsZye5bPPYUgs0Otn3ODS1mDUciaBlXljI4C2fTwfFpvFZRywmlOu943puN9sncxROMZhsZCjNXEpzEQ==
@@ -11374,10 +11333,10 @@ vite-plugin-istanbul@^5.0.0:
     picocolors "^1.0.0"
     test-exclude "^6.0.0"
 
-"vite-plugin-pwa@>=0.16.5 <1":
-  version "0.17.4"
-  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.17.4.tgz#be3b3714d4148681bc73e8e0b1e6ce1a71fa79f2"
-  integrity sha512-j9iiyinFOYyof4Zk3Q+DtmYyDVBDAi6PuMGNGq6uGI0pw7E+LNm9e+nQ2ep9obMP/kjdWwzilqUrlfVRj9OobA==
+"vite-plugin-pwa@>=0.19.2 <1":
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-pwa/-/vite-plugin-pwa-0.19.2.tgz#60d91c667b3ed22196a072a00dc0fe4f91603c03"
+  integrity sha512-LSQJFPxCAQYbRuSyc9EbRLRqLpaBA9onIZuQFomfUYjWSgHuQLonahetDlPSC9zsxmkSEhQH8dXZN8yL978h3w==
   dependencies:
     debug "^4.3.4"
     fast-glob "^3.3.2"
@@ -11858,6 +11817,7 @@ workbox-window@7.0.0, workbox-window@^7.0.0:
     workbox-core "7.0.0"
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
