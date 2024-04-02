@@ -83,14 +83,14 @@ onMounted(() => {
       paint: {
         'fill-color': [
           'match',
-          ['get', 'nom_niveau'],
-          'Vigilance',
+          ['get', 'niveauGravite'],
+          'vigilance',
           '#FFEDA0',
-          'Alerte',
+          'alerte',
           '#FEB24C',
-          'Alerte renforcée',
+          'alerte_renforcee',
           '#FC4E2A',
-          'Crise',
+          'crise',
           '#B10026',
           '#e8edff'
         ],
@@ -118,7 +118,7 @@ onMounted(() => {
       type: 'line',
       source: 'zones',
       'source-layer': 'zones_arretes_en_vigueur',
-      filter: ['all', ['==', 'type_zone', selectedTypeEau.value], ['==', 'id_zone', zoneSelected.value]],
+      filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'idZone', zoneSelected.value]],
       paint: {
         'line-color': '#000091',
         'line-width': 3
@@ -186,13 +186,16 @@ const mapTags: Ref<any[]> = ref([{
 }]);
 
 const typeEauTags: Ref<any[]> = ref([{
+  label: 'Eau potable',
+  value: 'AEP'
+}, {
   label: 'Eau superficielle',
   value: 'SUP'
 }, {
   label: 'Eau souterraine',
   value: 'SOU'
 }]);
-const selectedTypeEau: Ref<string> = ref('SUP');
+const selectedTypeEau: Ref<string> = ref('AEP');
 const legends = [
   {
     text: 'Pas de restrictions',
@@ -225,11 +228,11 @@ const flyToLocation = (bounds: any) => {
 };
 
 const updateLayerFilter = () => {
-  map.value?.setFilter('zones-data', ['==', 'type_zone', selectedTypeEau.value]);
+  map.value?.setFilter('zones-data', ['==', 'type', selectedTypeEau.value]);
 };
 
 const updateContourFilter = () => {
-  map.value?.setFilter('zones-contour', ['all', ['==', 'type_zone', selectedTypeEau.value], ['==', 'id_zone', zoneSelected.value]]);
+  map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'idZone', zoneSelected.value]]);
 };
 
 const closeModal = () => {
@@ -239,7 +242,7 @@ const closeModal = () => {
 
 <template>
   <div v-if="isMapSupported">
-    <div class="map-pre-actions" v-if="!isParticulier()">
+    <div class="map-pre-actions">
       <div class="map-pre-actions-card fr-p-1w fr-m-1w">
         <h6 class="fr-mb-1w fr-mr-2w">Situation par ressource :</h6>
         <DsfrRadioButton v-for="option of typeEauTags"
