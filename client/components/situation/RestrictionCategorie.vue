@@ -23,11 +23,13 @@ const sameUsages = computed<boolean>(() => {
 });
 
 const usagesFiltered = (zone: Zone): Usage[] => {
-  return zone.usages.filter(u => u.thematique === props.thematique.thematique);
+  return zone.usages.filter(u => u.thematique === props.thematique.label);
 };
 
 const accordionTitle = (zone: Zone): string => {
   switch (zone.type) {
+    case 'AEP':
+      return `Si j’utilise de l’eau potable, du robinet.`
     case 'SOU':
       return `Si j’utilise de l’eau de nappe souterraine provenant d’un puit, d’un forage, etc`
     case 'SUP':
@@ -43,7 +45,7 @@ const classObject = (rank: number | undefined): any => {
 }
 
 const badgeLabel = (zone: Zone): string => {
-  return utils.getSituationBadgeLabel(utils.getRestrictionRank(zone.niveauAlerte));
+  return utils.getSituationBadgeLabel(utils.getRestrictionRank(zone.niveauGravite));
 };
 
 const onAccordionClick = (index: string) => {
@@ -53,7 +55,7 @@ const onAccordionClick = (index: string) => {
 </script>
 
 <template>
-  <div class="fr-col-12" v-if="(zones.length > 1 && !sameUsages) || !isParticulier()">
+  <div class="fr-col-12" v-if="(zones.length > 1 && !sameUsages)">
     <DsfrAccordionsGroup>
       <li v-for="(zone, index) in zones">
         <DsfrAccordion :expanded-id="expandedIndex"
@@ -67,7 +69,7 @@ const onAccordionClick = (index: string) => {
               <div class="fr-col-12 fr-col-md-4 text-align-right">
                 <DsfrBadge small
                            class="fr-mr-1w"
-                           :class="classObject(utils.getRestrictionRank(zone.niveauAlerte))"
+                           :class="classObject(utils.getRestrictionRank(zone.niveauGravite))"
                            type=""
                            :label="badgeLabel(zone)"/>
               </div>
@@ -102,24 +104,5 @@ const onAccordionClick = (index: string) => {
         </DsfrAccordion>
       </li>
     </DsfrAccordionsGroup>
-  </div>
-  <div class="fr-col-12 fr-grid-row fr-grid-row--gutters fr-grid-row--center" v-else>
-    <template v-if="usagesFiltered(zones[0]).length > 0">
-      <div v-for="usage in usagesFiltered(zones[0])"
-           class="fr-col-12 fr-col-md-4">
-        <SituationRestrictionCard :usage="usage"
-                                  :thematique="thematique"
-                                  :departement="zones[0].departement"/>
-      </div>
-    </template>
-    <template v-else>
-      <div class="fr-col-12 fr-col-md-4">
-        <div class="eau-card fr-p-2w">
-          <div class="eau-card__desc">
-            Aucune restriction
-          </div>
-        </div>
-      </div>
-    </template>
   </div>
 </template>

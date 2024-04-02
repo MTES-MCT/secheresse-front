@@ -19,13 +19,13 @@ const links: Ref<any[]> = ref([{"to": "/", "text": "Accueil"}, {"text": "Mention
   <div>
     <h1>Mentions légales</h1>
     <h2>Éditeur</h2>
-    <p>{{ appName }} est édité par la Fabrique Numérique du Ministère de la Transition écologique et solidaire et du Ministère de la
-      Cohésion des territoires et des Relations avec les collectivités territoriales (Grande Arche de la Défense, 92055 La Défense CEDEX),
+    <p>{{ appName }} est édité par la Fabrique Numérique du Ministère de la Transition écologique et de la
+      Cohésion des territoires (Grande Arche de la Défense, 92055 La Défense CEDEX),
       avec l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="external">l’incubateur de services numériques beta.gouv.fr</a> de
       la direction interministérielle du numérique (DINUM).</p>
     <h2>Directeur de la publication</h2>
     <ul>
-      <li>Monsieur Brice HUET, directeur général par intérim de l'aménagement, du logement et de la nature (DGALN)</li>
+      <li>Monsieur Philippe MAZENC, directeur général par intérim de l'aménagement, du logement et de la nature (DGALN)</li>
       <li>Adresse : Tour Séquoïa 1, place Carpeaux 92055 La Défense Cedex</li>
     </ul>
     <p></p>

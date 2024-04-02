@@ -1,46 +1,45 @@
-import { Zone } from "../dto/zone.dto";
-import { Address } from "../dto/address.dto";
-import api from "../api";
-import { Ref } from "vue";
-import { useAddressStore } from "../store/address";
-import { useZoneStore } from "../store/zone";
-import { FetchError } from "ofetch";
-import { Geo } from "../dto/geo.dto";
-import { Departement } from "../dto/departement.dto";
+import { Zone } from '../dto/zone.dto';
+import { Address } from '../dto/address.dto';
+import api from '../api';
+import { Ref } from 'vue';
+import { useAddressStore } from '../store/address';
+import { useZoneStore } from '../store/zone';
+import { FetchError } from 'ofetch';
+import { Geo } from '../dto/geo.dto';
 
 const index = {
   debounce(fn: Function, delay: number) {
-    let timeoutID: any = null
-    return function () {
-      clearTimeout(timeoutID)
+    let timeoutID: any = null;
+    return function() {
+      clearTimeout(timeoutID);
       // eslint-disable-next-line prefer-rest-params
-      const args = arguments
+      const args = arguments;
       // @ts-ignore
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const that = this
-      timeoutID = setTimeout(function () {
-        fn.apply(that, args)
-      }, delay)
-    }
+      const that = this;
+      timeoutID = setTimeout(function() {
+        fn.apply(that, args);
+      }, delay);
+    };
   },
 
   showRestrictions(zone: Zone): boolean {
     const departement = ['59', '62'];
-    if (!zone || (zone.niveauAlerte === 'Vigilance' && !departement.includes(zone.departement))) {
+    if (!zone || (zone.niveauGravite === 'vigilance' && !departement.includes(zone.departement))) {
       return false;
     }
     return (zone.usages && zone.usages.filter(u => u.thematique !== 'Autre').length > 0);
   },
 
-  getRestrictionRank(niveauAlerte: string | undefined | null): number {
-    switch (niveauAlerte) {
-      case 'Crise':
+  getRestrictionRank(niveauGravite: string | undefined | null): number {
+    switch (niveauGravite) {
+      case 'crise':
         return 4;
-      case 'Alerte renforcée':
+      case 'alerte_renforcee':
         return 3;
-      case 'Alerte':
+      case 'alerte':
         return 2;
-      case 'Vigilance':
+      case 'vigilance':
         return 1;
       default:
         return 0;
@@ -48,17 +47,18 @@ const index = {
   },
 
   getSituationBadgeLabel(situationRank: number | undefined): string {
+    console.log('SITUATION RANK', situationRank)
     if (!situationRank) {
-      return '';
+      return 'Pas de restrictions';
     }
-    let label = `${situationRank}/4 - `
-    label += this.getShortSituationLabel(situationRank)
+    let label = `${situationRank}/4 - `;
+    label += this.getShortSituationLabel(situationRank);
     return label;
   },
 
   getShortSituationLabel(situationRank: number | undefined): string {
     if (!situationRank) {
-      return '';
+      return 'Pas de restrictions';
     }
     let label = '';
     switch (situationRank) {
@@ -83,15 +83,15 @@ const index = {
     switch (type) {
       case 'SOU':
         return !light ? `Si j'utilise de l'eau qui provient de nappes souterraines (puits, forages ...) des restrictions différentes s'appliquent` :
-          `de nappes souterraines (puits, forages ...)`
+          `de nappes souterraines (puits, forages ...)`;
       case 'SUP':
         return !light ? `Si j'utilise de l'eau qui provient des cours d'eau (rivières, mares, étangs ...) des restrictions différentes s'appliquent` :
-          `des cours d'eau (rivières, mares, étangs ...)`
+          `des cours d'eau (rivières, mares, étangs ...)`;
     }
   },
 
   numberWithSpaces(x: number) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   },
 
   async searchZones(address: Address | null,
@@ -106,23 +106,12 @@ const index = {
                     loadingRestrictions?: Ref<boolean>) {
     const addressStore = useAddressStore();
     const restrictionStore = useZoneStore();
-    const {setAddress, setGeo} = addressStore;
-    const {setZones} = restrictionStore;
+    const { setAddress, setGeo } = addressStore;
+    const { setZones } = restrictionStore;
 
     if (loadingRestrictions) loadingRestrictions.value = true;
 
-    let data, error, departementConfig, errorDepartement;
-    if (profile === 'particulier') {
-      [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
-        address ? api.searchReglementationByAdress(address, profile) : await api.searchReglementationByGeo(geo, profile),
-        api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
-      ]);
-    } else {
-      [{data, error}, {data: departementConfig, error: errorDepartement}] = await Promise.all([
-        address ? api.searchZonesByAdress(address, profile) : await api.searchZonesByGeo(geo, profile),
-        api.searchDepartementConfig(address ? address.properties.citycode >= '97' ? address.properties.citycode.slice(0, 3) : address.properties.citycode.slice(0, 2) : geo.codeDepartement)
-      ]);
-    }
+    const { data, error } = address ? await api.searchZonesByAdress(address, profile) : await api.searchZonesByGeo(geo, profile);
 
     // STATS MATOMO
     try {
@@ -141,8 +130,8 @@ const index = {
           title,
           text,
           icon,
-          actions
-        } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened, departementConfig);
+          actions,
+        } = this.handleRestrictionError(error.value, data?.value, profile, modalOpened);
         modalTitle.value = title;
         modalText.value = text;
         modalIcon.value = icon;
@@ -153,14 +142,14 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
-    setZones(profile === 'particulier' && data?.value ? [data.value] : data?.value ? data.value : [], departementConfig.value);
+    setZones(data?.value ? data.value : []);
     let query: any = {};
     query.profil = profile;
     query.adresse = address ? address?.properties.label : `${geo?.nom}, ${geo?.codeDepartement}`;
-    router.push({path: '/situation', query});
+    router.push({ path: '/situation', query });
   },
 
-  handleRestrictionError(error: FetchError, data: Zone[], profile: string, modalOpened: Ref<boolean>, departementConfig: Departement): {
+  handleRestrictionError(error: FetchError, data: Zone[], profile: string, modalOpened: Ref<boolean>): {
     title: string,
     text: string,
     icon: string,
@@ -179,7 +168,7 @@ const index = {
           text: `Votre adresse n'est actuellement pas concernée par un arrêté préfectoral.
 <br/>Aucune restriction n'est à appliquer à votre adresse, nous vous conseillons tout de même de suivre les eco-gestes présents sur notre site !`,
           icon: `ri-arrow-right-line`,
-          actions: []
+          actions: [],
         };
       case 409:
         return {
@@ -187,16 +176,16 @@ const index = {
           text: `Afin de vous communiquer des informations de qualité, nous avons besoin du : nom de votre rue, le code postal et le nom de votre ville.`,
           icon: `ri-map-pin-user-line`,
           actions: [{
-            label: "Entrer une adresse plus précise",
-            onClick: _closeModal
-          }, {label: "Fermer", onClick: _closeModal, secondary: true}]
+            label: 'Entrer une adresse plus précise',
+            onClick: _closeModal,
+          }, { label: 'Fermer', onClick: _closeModal, secondary: true }],
         };
       default:
         return {
           title: `Cela n'a pas fonctionné comme prévu !`,
           text: `Nous sommes désolés, une erreur s'est glissée dans la saisie des données pour cette adresse. Nous ne pouvons pas traiter correctement votre demande. Nous faisons remonter le problème.`,
           icon: `ri-arrow-right-line`,
-          actions: []
+          actions: [],
         };
     }
   },
@@ -207,41 +196,17 @@ const index = {
       autoClose: 2000,
       emoji: {
         text: '👋',
-        animation: 'wave'
-      }
+        animation: 'wave',
+      },
     });
   },
 
   generatePopupHtml(pmtilesData: any) {
     let popupHtml = `
-<div class="map-popup-zone">${pmtilesData.nom_zone}</div>
+<div class="map-popup-zone">${pmtilesData.nom}</div>
 <div class="fr-my-1w">
-<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.nom_niveau)}">${pmtilesData.nom_niveau}</p>
+<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${pmtilesData.niveauGravite}</p>
 </div>
-`;
-    if (pmtilesData.numero_arrete) {
-      popupHtml += `
-<div class="fr-my-1w">
-Arrêté : ${pmtilesData.numero_arrete}
-</div>
-`;
-    }
-    if (pmtilesData.debut_validite_arrete) {
-      popupHtml += `
-<div class="fr-my-1w">
-Début validité arrêté : ${pmtilesData.debut_validite_arrete}
-</div>
-`;
-    }
-    if (pmtilesData.fin_validite_arrete) {
-      popupHtml += `
-<div class="fr-my-1w">
-Fin validité arrêté : ${pmtilesData.fin_validite_arrete}
-</div>
-`;
-    }
-
-    popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">
 Voir les restrictions
@@ -270,6 +235,6 @@ Voir les restrictions
     }
     // WebGL not supported
     return false;
-  }
-}
+  },
+};
 export default index;

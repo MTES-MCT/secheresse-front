@@ -5,6 +5,7 @@ import { PMTiles, Protocol } from "pmtiles";
 import { useAddressStore } from "../../store/address";
 import { storeToRefs } from "pinia";
 import api from "../../api";
+import niveauxGravite from '../../dto/niveauGravite';
 
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
@@ -133,7 +134,7 @@ onMounted(() => {
   }).setMaxWidth('300px');
 
   map.value?.on('click', 'zones-data', (e: any) => {
-    zoneSelected.value = e.features[0].properties.id_zone;
+    zoneSelected.value = e.features[0].properties.idZone;
     updateContourFilter();
     const description = utils.generatePopupHtml(e.features[0].properties);
 
@@ -196,32 +197,10 @@ const typeEauTags: Ref<any[]> = ref([{
   value: 'SOU'
 }]);
 const selectedTypeEau: Ref<string> = ref('AEP');
-const legends = [
-  {
-    text: 'Pas de restrictions',
-    class: 'situation-level-bg-0'
-  },
-  {
-    text: 'Vigilance',
-    class: 'situation-level-bg-1'
-  },
-  {
-    text: 'Alerte',
-    class: 'situation-level-bg-2'
-  },
-  {
-    text: 'Alerte renforcée',
-    class: 'situation-level-bg-3'
-  },
-  {
-    text: 'Crise',
-    class: 'situation-level-bg-4'
-  }
-];
 const adressStore = useAddressStore();
-const {isParticulier} = adressStore;
 const {profile} = storeToRefs(adressStore);
 const router = useRouter();
+const expandedId = ref<string>();
 
 const flyToLocation = (bounds: any) => {
   map.value?.fitBounds(bounds);
@@ -238,6 +217,13 @@ const updateContourFilter = () => {
 const closeModal = () => {
   modalOpened.value = false;
 };
+
+const classObject = (rank: number | undefined): any => {
+  const bgClass = `situation-level-bg-${rank}`;
+  const cssClass: any = {}
+  cssClass[bgClass] = true;
+  return cssClass;
+};
 </script>
 
 <template>
@@ -252,20 +238,6 @@ const closeModal = () => {
                          class="fr-mb-1w"
                          @update:modelValue="selectedTypeEau = $event; updateLayerFilter();"
         />
-        <div class="map-legende">
-          <div class="fr-grid-row">
-            <template v-for="(legend, index) in legends">
-              <MixinsTmpTooltip :id="'tooltip-' + index"
-                                :onHover="true"
-                                :content="legend.text">
-                <div :aria-describedby="'tooltip-' + index"
-                     class="map-legende-carre"
-                     :class="legend.class">
-                </div>
-              </MixinsTmpTooltip>
-            </template>
-          </div>
-        </div>
       </div>
       <div class="map-pre-actions-card fr-p-1w fr-m-1w">
         <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
@@ -277,9 +249,30 @@ const closeModal = () => {
                  tag-name="button"/>
       </div>
     </div>
-    <div style="height: 75vh">
-      <div class="map-wrap">
-        <div class="map" ref="mapContainer"></div>
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-12 fr-col-lg-9" style="position:relative; height: 75vh">
+        <div class="map-wrap">
+          <div class="map" ref="mapContainer"></div>
+        </div>
+      </div>     
+      <div class="map-legend fr-col-12 fr-col-lg-3">
+        <h3>Niveau de restriction affiché sur la carte</h3>
+        <DsfrAccordionsGroup>
+          <li v-for="legend in niveauxGravite">
+            <DsfrAccordion
+              :expanded-id="expandedId"
+              @expand="expandedId = $event">
+              <template v-slot:title>
+                <DsfrBadge small
+                           class="fr-mr-1w"
+                           :class="legend.class"
+                           type=""
+                           :label="legend.text"/>
+              </template>
+              {{ legend.description }}
+            </DsfrAccordion>
+          </li>
+        </DsfrAccordionsGroup>
       </div>
     </div>
   </div>
@@ -303,10 +296,10 @@ const closeModal = () => {
 <style lang="scss">
 .map-wrap {
   position: absolute;
-  width: calc(100vw);
-  max-width: calc(100% - 2px);
+  width: calc(100vw + 32px);
+  max-width: calc(100% + 32px);
   height: calc(75vh + 3px);
-  left: 1px;
+  left: -32px;
 
   .map {
     width: 100%;
@@ -325,21 +318,6 @@ const closeModal = () => {
     font-size: 14px;
     border-radius: 4px;
     opacity: 0.9;
-  }
-
-  .map-legende {
-    &-carre {
-      height: 20px;
-      width: 40px;
-    }
-
-    .situation-level-bg-1 {
-      background-color: #FFEDA0;
-    }
-
-    .situation-level-bg-0 {
-      background-color: #F8F4F0;
-    }
   }
 
   .fr-tag {
@@ -388,6 +366,12 @@ h6 {
     .fr-tag {
       display: initial;
     }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .map-legend {
+    margin-top: 2rem;
   }
 }
 </style>

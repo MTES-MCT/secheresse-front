@@ -53,7 +53,7 @@ if (address) {
 </script>
 
 <template>
-  <div class="presentation fr-grid-row fr-grid-row--center fr-mb-8w">
+  <div class="presentation fr-container fr-grid-row fr-grid-row--center fr-mb-8w">
     <div class="section-title presentation-title">
       <img src="/logo_chaque_geste_compte.svg"
            style="max-width: 100%"

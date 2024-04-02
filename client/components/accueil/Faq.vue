@@ -11,7 +11,7 @@ const onAccordionClick = (index: string) => {
 </script>
 
 <template>
-  <div class="faq fr-mt-8w">
+  <div class="faq fr-container fr-mt-4w">
     <div class="section-title fr-mb-8w">
       <h2>Les questions fréquemment posées</h2>
     </div>

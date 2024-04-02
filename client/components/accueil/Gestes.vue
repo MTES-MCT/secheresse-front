@@ -20,11 +20,11 @@ const selectedTagIndex: Ref<number> = ref(0);
 </script>
 
 <template>
-  <div class="gestes fr-grid-row fr-grid-row--center fr-pt-8w fr-pb-8w">
+  <div class="gestes fr-container fr-grid-row fr-grid-row--center fr-py-4w">
     <div class="section-title">
       <h2>Nous consommons 148 litres d’eau potable par jour et par personne !</h2>
     </div>
-    <div class="fr-grid-row fr-grid-row--center fr-grid-row--middle">
+    <div class="fr-col-12 fr-grid-row fr-grid-row--center fr-grid-row--middle">
       <div class="fr-col-12 fr-col-md-6">
         <DsfrPicture src="/repartition_consommation.svg"
                      size="small"

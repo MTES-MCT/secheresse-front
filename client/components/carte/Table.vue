@@ -7,23 +7,28 @@ const headers = ['N° Département', 'Département', 'Niveau alerte'];
 const rows = [];
 const dataResume = [
   {
-    niveauGravite: 'Pas de restrictions',
+    label: 'Pas de restrictions',
+    niveauGravite: 'pas_de_restrictions',
     number: 0,
   },
   {
-    niveauGravite: 'Vigilance',
+    label: 'Vigilance',
+    niveauGravite: 'vigilance',
     number: 0,
   },
   {
-    niveauGravite: 'Alerte',
+    label: 'Alerte',
+    niveauGravite: 'alerte',
     number: 0,
   },
   {
-    niveauGravite: 'Alerte renforcée',
+    label: 'Alerte renforcée',
+    niveauGravite: 'alerte_renforcee',
     number: 0,
   },
   {
-    niveauGravite: 'Crise',
+    label: 'Crise',
+    niveauGravite: 'crise',
     number: 0,
   }
 ];
@@ -33,8 +38,8 @@ const componentKey = ref(0);
 
 const {data, error} = await api.getDepartmentsData();
 data.value?.forEach((d: any) => {
-  rows.push([d.code, d.nom, d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions']);
-  const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions'));
+  const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'pas_de_restrictions'));
+  rows.push([d.code, d.nom, dr ? dr.label : 'Pas de restrictions']);
   if (dr) dr.number++;
 });
 rowsFiltered.value = [...rows];
@@ -65,7 +70,7 @@ function filterDepartments() {
           <DsfrBadge small
                      no-icon
                      :class="classObject(utils.getRestrictionRank(resume.niveauGravite))"
-                     :label="resume.niveauGravite"/>
+                     :label="resume.label"/>
         </div>
         <div class="departement-card__number fr-mt-1w">
           {{ resume.number }} départements

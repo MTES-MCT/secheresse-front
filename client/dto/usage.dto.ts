@@ -1,9 +1,6 @@
 export interface Usage {
   thematique: string;
-  usage: string;
-  niveauRestriction: string;
-  details: string;
-  heureDebut: string;
-  heureFin: string;
+  nom: string;
+  description: string;
   erreur: string;
 }

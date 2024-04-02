@@ -69,14 +69,6 @@ const index = {
     });
   },
 
-  searchDepartementConfig(codeDepartement: string): Promise<any> {
-    const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/departements/${codeDepartement}`, {
-      method: 'GET',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
-    });
-  },
-
   subscribeMail(form: any): Promise<any> {
     for (const key in form) {
       if (!form[key]) {
