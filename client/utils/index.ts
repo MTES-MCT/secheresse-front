@@ -97,6 +97,7 @@ const index = {
   async searchZones(address: Address | null,
                     geo: Geo | null,
                     profile: string,
+                    typeEau: string | null,
                     router: any,
                     modalTitle?: Ref<string>,
                     modalText?: Ref<string>,
@@ -145,6 +146,7 @@ const index = {
     setZones(data?.value ? data.value : []);
     let query: any = {};
     query.profil = profile;
+    query.typeEau = typeEau;
     query.adresse = address ? address?.properties.label : `${geo?.nom}, ${geo?.codeDepartement}`;
     router.push({ path: '/situation', query });
   },

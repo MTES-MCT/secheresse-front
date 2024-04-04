@@ -5,6 +5,7 @@ module.exports = {
     /-(leave|enter|appear)(|-(to|from|active))$/,
     /^situation-level-/,
     /^fr-p/,
+    /^fr-m/,
     /^fr-col/,
     /^fr-btn/,
     /^maplibregl/,

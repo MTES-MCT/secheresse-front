@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import * as maplibregl from 'maplibre-gl';
-import { Ref } from "vue";
-import { PMTiles, Protocol } from "pmtiles";
-import { useAddressStore } from "../../store/address";
-import { storeToRefs } from "pinia";
-import api from "../../api";
+import { Ref } from 'vue';
+import { PMTiles, Protocol } from 'pmtiles';
+import { useAddressStore } from '../../store/address';
+import { storeToRefs } from 'pinia';
+import api from '../../api';
 import niveauxGravite from '../../dto/niveauGravite';
 
 const modalOpened: Ref<boolean> = ref(false);
@@ -36,7 +36,7 @@ onMounted(() => {
   map.value = new maplibregl.Map({
     container: mapContainer.value,
     style: `https://etalab-tiles.fr/styles/osm-bright/style.json`,
-    bounds: initialState
+    bounds: initialState,
   });
 
 
@@ -47,10 +47,10 @@ onMounted(() => {
   map.value?.addControl(
     new maplibregl.GeolocateControl({
       positionOptions: {
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
       },
-      trackUserLocation: true
-    }), 'bottom-right'
+      trackUserLocation: true,
+    }), 'bottom-right',
   );
 
   // Add fullscreen control to the map.
@@ -68,19 +68,19 @@ onMounted(() => {
     map.value?.addSource('zones', {
       type: 'vector',
       url:
-        `pmtiles://${PMTILES_URL}`
+        `pmtiles://${PMTILES_URL}`,
     });
     map.value?.addSource('cadastre', {
       type: 'vector',
       url:
-        `https://etalab-tiles.fr/data/decoupage-administratif.json`
+        `https://etalab-tiles.fr/data/decoupage-administratif.json`,
     });
     map.value?.addLayer({
       id: 'zones-data',
       type: 'fill',
       source: 'zones',
       'source-layer': 'zones_arretes_en_vigueur',
-      filter: ['==', 'type_zone', selectedTypeEau.value],
+      filter: ['==', 'type', selectedTypeEau.value],
       paint: {
         'fill-color': [
           'match',
@@ -93,12 +93,12 @@ onMounted(() => {
           '#FC4E2A',
           'crise',
           '#B10026',
-          '#e8edff'
+          '#e8edff',
         ],
         'fill-opacity': {
-          stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]]
-        }
-      }
+          stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
+        },
+      },
     }, firstSymbolId);
     map.value?.addLayer({
       id: 'departements-data',
@@ -107,34 +107,34 @@ onMounted(() => {
       'source-layer': 'departements',
       layout: {
         'line-join': 'round',
-        'line-cap': 'round'
+        'line-cap': 'round',
       },
       paint: {
         'line-color': '#888888',
-        'line-width': 1
-      }
+        'line-width': 1,
+      },
     }, firstSymbolId);
     map.value?.addLayer({
       id: 'zones-contour',
       type: 'line',
       source: 'zones',
       'source-layer': 'zones_arretes_en_vigueur',
-      filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'idZone', zoneSelected.value]],
+      filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]],
       paint: {
         'line-color': '#000091',
-        'line-width': 3
-      }
+        'line-width': 3,
+      },
     }, firstSymbolId);
   });
 
   // Create a popup, but don't add it to the map yet.
   const popup = new maplibregl.Popup({
     closeButton: true,
-    closeOnClick: false
+    closeOnClick: false,
   }).setMaxWidth('300px');
 
   map.value?.on('click', 'zones-data', (e: any) => {
-    zoneSelected.value = e.features[0].properties.idZone;
+    zoneSelected.value = e.features[0].properties.id;
     updateContourFilter();
     const description = utils.generatePopupHtml(e.features[0].properties);
 
@@ -148,7 +148,17 @@ onMounted(() => {
       if (!dataAddress.value?.features[0]) {
         dataGeo = (await api.searchGeoByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
       }
-      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null, dataGeo?.value ? dataGeo.value[0] : null, profile.value, router, modalTitle, modalText, modalIcon, modalActions, modalOpened, loadingZones);
+      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null, 
+        dataGeo?.value ? dataGeo.value[0] : null, 
+        profile.value, 
+        selectedTypeEau.value,
+        router, 
+        modalTitle,
+        modalText, 
+        modalIcon,
+        modalActions, 
+        modalOpened,
+        loadingZones);
     });
   });
 
@@ -168,37 +178,37 @@ onUnmounted(() => {
 
 const mapTags: Ref<any[]> = ref([{
   label: 'Métropole',
-  bounds: initialState
+  bounds: initialState,
 }, {
   label: 'La Réunion',
-  bounds: [[54.615784, -21.749296], [56.497192, -20.522216]]
+  bounds: [[54.615784, -21.749296], [56.497192, -20.522216]],
 }, {
   label: 'Guadeloupe',
-  bounds: [[-62.119446, 15.612456], [-60.762634, 16.617770]]
+  bounds: [[-62.119446, 15.612456], [-60.762634, 16.617770]],
 }, {
   label: 'Martinique',
-  bounds: [[-61.480865, 14.193832], [-60.570374, 14.964687]]
+  bounds: [[-61.480865, 14.193832], [-60.570374, 14.964687]],
 }, {
   label: 'Mayotte',
-  bounds: [[44.748688, -13.175771], [45.532837, -12.507643]]
+  bounds: [[44.748688, -13.175771], [45.532837, -12.507643]],
 }, {
   label: 'Guyane',
-  bounds: [[-55.261230, 1.790480], [-51.130371, 6.107784]]
+  bounds: [[-55.261230, 1.790480], [-51.130371, 6.107784]],
 }]);
 
 const typeEauTags: Ref<any[]> = ref([{
   label: 'Eau potable',
-  value: 'AEP'
+  value: 'AEP',
 }, {
   label: 'Eau superficielle',
-  value: 'SUP'
+  value: 'SUP',
 }, {
   label: 'Eau souterraine',
-  value: 'SOU'
+  value: 'SOU',
 }]);
 const selectedTypeEau: Ref<string> = ref('AEP');
 const adressStore = useAddressStore();
-const {profile} = storeToRefs(adressStore);
+const { profile } = storeToRefs(adressStore);
 const router = useRouter();
 const expandedId = ref<string>();
 
@@ -211,7 +221,7 @@ const updateLayerFilter = () => {
 };
 
 const updateContourFilter = () => {
-  map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'idZone', zoneSelected.value]]);
+  map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]]);
 };
 
 const closeModal = () => {
@@ -220,7 +230,7 @@ const closeModal = () => {
 
 const classObject = (rank: number | undefined): any => {
   const bgClass = `situation-level-bg-${rank}`;
-  const cssClass: any = {}
+  const cssClass: any = {};
   cssClass[bgClass] = true;
   return cssClass;
 };
@@ -246,7 +256,7 @@ const classObject = (rank: number | undefined): any => {
                  class="fr-m-1w"
                  small
                  @click="flyToLocation(tag.bounds)"
-                 tag-name="button"/>
+                 tag-name="button" />
       </div>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
@@ -254,7 +264,7 @@ const classObject = (rank: number | undefined): any => {
         <div class="map-wrap">
           <div class="map" ref="mapContainer"></div>
         </div>
-      </div>     
+      </div>
       <div class="map-legend fr-col-12 fr-col-lg-3">
         <h3>Niveau de restriction affiché sur la carte</h3>
         <DsfrAccordionsGroup>
@@ -267,7 +277,7 @@ const classObject = (rank: number | undefined): any => {
                            class="fr-mr-1w"
                            :class="legend.class"
                            type=""
-                           :label="legend.text"/>
+                           :label="legend.text" />
               </template>
               {{ legend.description }}
             </DsfrAccordion>
@@ -344,9 +354,16 @@ h6 {
       font-weight: bold;
     }
   }
+}
 
+.map-legend, .maplibregl-popup-content {
   .situation-level-bg-1 {
     background-color: #FFEDA0;
+    color: var(--grey-50-1000);
+  }
+
+  .situation-level-bg-0 {
+    background-color: #e8edff;
     color: var(--grey-50-1000);
   }
 }

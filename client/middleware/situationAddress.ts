@@ -5,7 +5,7 @@ import utils from "../utils";
 
 export default defineNuxtRouteMiddleware(async (to: any, from: any) => {
   const addressStore = useAddressStore();
-  const {address, geo, profile} = storeToRefs(addressStore);
+  const {address, geo, profile, typeEau} = storeToRefs(addressStore);
   if (address.value || geo.value) {
     return true;
   }
@@ -15,6 +15,7 @@ export default defineNuxtRouteMiddleware(async (to: any, from: any) => {
     return navigateTo({path: '/', query: to.query});
   }
   const profil = to.query.profil ? to.query.profil : profile.value;
+  const eau = to.query.typeEau ? to.query.typeEau : typeEau.value;
 
   // SEARCH ADDRESS
   const {data, error} = await api.searchAddresses(addressString);
@@ -22,7 +23,9 @@ export default defineNuxtRouteMiddleware(async (to: any, from: any) => {
   if (!firstAddress) {
     return navigateTo({path: '/', query: to.query});
   }
-  utils.searchZones(firstAddress, null, profil, useRouter());
+  addressStore.setProfile(profil);
+  addressStore.setTypeEau(eau);
+  await utils.searchZones(firstAddress, null, profil, eau, useRouter());
 
   if (!address.value && !geo.value) {
     return navigateTo({path: '/', query: to.query})

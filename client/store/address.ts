@@ -7,6 +7,7 @@ export const useAddressStore = defineStore('addressStore', () => {
   const address: Ref<Address | null> = ref(null);
   const geo: Ref<Geo | null> = ref(null);
   const profile: Ref<string> = ref('particulier');
+  const typeEau: Ref<string> = ref('AEP');
 
   function setAddress(value: Address): void {
     address.value = value
@@ -17,7 +18,11 @@ export const useAddressStore = defineStore('addressStore', () => {
   }
 
   function setProfile(value: string): void {
-    profile.value = value
+    profile.value = ['particulier', 'entreprise', 'exploitation', 'collectivite'].includes(value) ? value : profile.value;
+  }
+
+  function setTypeEau(value: string): void {
+    typeEau.value = ['SUP', 'SOU', 'AEP'].includes(value) ? value : typeEau.value;
   }
 
   function resetAddress(): void {
@@ -37,5 +42,5 @@ export const useAddressStore = defineStore('addressStore', () => {
     return profile.value ? profile.value === 'particulier' : false;
   }
 
-  return {setAddress, setGeo, setProfile, resetAddress, adressString, address, geo, profile, isParticulier}
+  return {setAddress, setGeo, setProfile, setTypeEau, resetAddress, adressString, address, geo, profile, typeEau, isParticulier}
 })

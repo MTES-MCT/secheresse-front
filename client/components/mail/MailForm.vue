@@ -1,18 +1,18 @@
 <script setup lang="ts">
 
-import { Address } from "~/client/dto/address.dto";
-import { Geo } from "~/client/dto/geo.dto";
-import { email, helpers, required, requiredIf, sameAs } from "@vuelidate/validators";
-import useVuelidate from "@vuelidate/core";
-import { useAddressStore } from "../../store/address";
-import { storeToRefs } from "pinia";
-import { Ref } from "vue/dist/vue";
+import { Address } from '~/client/dto/address.dto';
+import { Geo } from '~/client/dto/geo.dto';
+import { email, helpers, required, requiredIf, sameAs } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
+import { useAddressStore } from '../../store/address';
+import { storeToRefs } from 'pinia';
+import { Ref } from 'vue/dist/vue';
 
 const props = defineProps({
   subscribing: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const emit = defineEmits<{
@@ -21,8 +21,8 @@ const emit = defineEmits<{
 }>();
 
 const addressStore = useAddressStore();
-const {address, geo, profile}: Ref<string> = storeToRefs(addressStore);
-const {adressString} = addressStore;
+const { address, geo, profile }: Ref<string> = storeToRefs(addressStore);
+const { adressString } = addressStore;
 
 const formData = reactive({
   profil: ref(profile.value),
@@ -32,17 +32,21 @@ const formData = reactive({
   lat: null,
   commune: null,
   confirmSubscription: false,
-  typesZones: ['SUP', 'SOU'],
+  typesZones: ['AEP', 'SUP', 'SOU'],
 });
 const errorMessage = ref('');
 const typesZonesOptions = [
   {
-    label: 'Eau souterraine',
-    name: 'SOU',
+    label: 'L\'eau potable',
+    name: 'AEP',
   },
   {
-    label: 'Eau de surface',
+    label: 'L\'eau superficielle',
     name: 'SUP',
+  },
+  {
+    label: 'L\'eau souterraine',
+    name: 'SOU',
   },
 ];
 
@@ -51,30 +55,30 @@ const rules = computed(() => {
     email: {
       required: helpers.withMessage(`L'email est obligatoire.`, required),
       email: helpers.withMessage(`L'email n'est pas valide.`, email),
-      $autoDirty: true
+      $autoDirty: true,
     },
     profil: {
-      required: helpers.withMessage('Le profil est obligatoire.', required)
+      required: helpers.withMessage('Le profil est obligatoire.', required),
     },
     confirmSubscription: {
       checked: helpers.withMessage('Le consentement est obligatoire.', sameAs(true)),
-      $autoDirty: true
+      $autoDirty: true,
     },
     lon: {
-      requiredIf: requiredIf(!formData.commune)
+      requiredIf: requiredIf(!formData.commune),
     },
     lat: {
-      requiredIf: requiredIf(!formData.commune)
+      requiredIf: requiredIf(!formData.commune),
     },
     commune: {
-      requiredIf: requiredIf(!formData.lon && !formData.lat)
+      requiredIf: requiredIf(!formData.lon && !formData.lat),
     },
     idAdresse: {
-      requiredIf: requiredIf(!formData.commune)
+      requiredIf: requiredIf(!formData.commune),
     },
     typesZones: {
-      requiredIf: requiredIf(formData.profil !== 'particulier')
-    }
+      required: helpers.withMessage('Le type d\'eau est obligatoire.', required),
+    },
   };
 });
 
@@ -92,12 +96,12 @@ const setAddress = (address: Address | null, geo: Geo | null) => {
   formData.commune = null;
   formData.lon = address.geometry.coordinates[0];
   formData.lat = address.geometry.coordinates[1];
-}
+};
 
 const submitForm = async () => {
   await v$.value.$validate();
   if (!v$.value.$error && !props.subscribing) {
-    emit('subscribe', formData)
+    emit('subscribe', formData);
   }
 };
 
@@ -107,13 +111,13 @@ const showErrorMessage = () => {
   } else {
     errorMessage.value = '';
   }
-}
+};
 
 watch(v$, () => {
   if (!v$.value.$invalid) {
     errorMessage.value = '';
   }
-})
+});
 </script>
 
 <template>
@@ -123,22 +127,22 @@ watch(v$, () => {
                      class="fr-mb-2w"
                      @profileUpdate="formData.profil = $event;"
       />
-      <div class="fr-mt-2w" v-if="formData.profil !== 'particulier'">
-        <DsfrCheckboxSet legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
-                         v-model="formData.typesZones"
-                         :options="typesZonesOptions"/>
-      </div>
-      <MixinsSearch :profile="formData.profil"
-                    :query="adressString()"
-                    :address="address"
-                    :geo="geo"
-                    :light="true"
-                    :disabled="subscribing"
-                    :exactAddress="true"
-                    @search="setAddress($event.address, $event.geo)"
+
+      <DsfrCheckboxSet legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
+                       v-model="formData.typesZones"
+                       :options="typesZonesOptions" />
+
+      <MixinsSearchAddress :profile="formData.profil"
+                           :query="adressString()"
+                           :address="address"
+                           :geo="geo"
+                           :light="true"
+                           :disabled="subscribing"
+                           :exactAddress="true"
+                           @search="setAddress($event.address, $event.geo)"
       />
 
-      <div class="fr-mt-2w text-align-center">
+      <div class="fr-mt-2w">
         <DsfrInput placeholder="Ex: test@exemple.com"
                    label="Entrez votre email"
                    label-visible
@@ -171,7 +175,7 @@ watch(v$, () => {
                 :disabled="v$.$invalid || subscribing">
       <div class="fr-grid-row fr-grid-row--center">
         Valider
-        <Loader class="adresse-loader fr-ml-1w" :show="subscribing"/>
+        <Loader class="adresse-loader fr-ml-1w" :show="subscribing" />
       </div>
     </DsfrButton>
     <DsfrButton class="full-width fr-grid-row--center fr-mt-1w"

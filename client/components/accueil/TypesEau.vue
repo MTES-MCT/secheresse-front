@@ -19,9 +19,9 @@ const typesEau = [
 </script>
 
 <template>
-  <div class="types-eau fr-container fr-grid-row fr-grid-row--center fr-my-4w">
+  <div class="types-eau fr-container fr-grid-row fr-grid-row--center fr-py-4w">
     <div class="section-title">
-      <h2>Les restrictions sont appliquées en fonction de l’eau que vous consommez</h2>
+      <h2>Les restrictions peuvent varier en fonction de l’eau que vous consommez</h2>
     </div>
     <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <div v-for="typeEau of typesEau" class="fr-col-12 fr-col-md-4">

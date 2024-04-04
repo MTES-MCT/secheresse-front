@@ -14,7 +14,6 @@ const props = defineProps<{
 const adressStore = useAddressStore();
 const { isParticulier } = adressStore;
 const modalOpened: Ref<boolean> = ref(false);
-const restrictionRanks = [1, 2, 3, 4];
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
   return showRank ? utils.getSituationBadgeLabel(rank) : utils.getShortSituationLabel(rank);
@@ -71,7 +70,7 @@ const niveauGravite = computed(() => {
         {{ typeEauLabel }} n'est <span class="situation-level-c-0">pas concernée par des restrictions</span> à votre adresse.
       </h1>
     </div>
-    <div v-if="utils.showRestrictions(zone)" class="fr-col-12 situation-status-header__info-wrapper">
+    <div class="fr-col-12 situation-status-header__info-wrapper">
       {{ niveauGravite.description }}
     </div>
     <div v-if="!utils.showRestrictions(zone) && isParticulier()" class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper">
