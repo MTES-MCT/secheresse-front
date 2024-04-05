@@ -6,6 +6,7 @@ import { useAddressStore } from '../store/address';
 import { useZoneStore } from '../store/zone';
 import { FetchError } from 'ofetch';
 import { Geo } from '../dto/geo.dto';
+import niveauxGravite from '../dto/niveauGravite';
 
 const index = {
   debounce(fn: Function, delay: number) {
@@ -97,7 +98,7 @@ const index = {
   async searchZones(address: Address | null,
                     geo: Geo | null,
                     profile: string,
-                    typeEau: string | null,
+                    typeEau: string,
                     router: any,
                     modalTitle?: Ref<string>,
                     modalText?: Ref<string>,
@@ -143,6 +144,8 @@ const index = {
     }
 
     address ? setAddress(address) : setGeo(geo);
+    addressStore.setProfile(profile);
+    addressStore.setTypeEau(typeEau);
     setZones(data?.value ? data.value : []);
     let query: any = {};
     query.profil = profile;
@@ -204,10 +207,11 @@ const index = {
   },
 
   generatePopupHtml(pmtilesData: any) {
+    const niveauGravite = niveauxGravite.find(n => n.niveauGravite === pmtilesData.niveauGravite);
     let popupHtml = `
 <div class="map-popup-zone">${pmtilesData.nom}</div>
 <div class="fr-my-1w">
-<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${pmtilesData.niveauGravite}</p>
+<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${niveauGravite.text}</p>
 </div>
 <div>
 <button class="fr-btn btn-map-popup">

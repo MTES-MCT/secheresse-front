@@ -82,8 +82,8 @@ onMounted(() => {
               :quickLinks="quickLinks"
               :key="key"
               :show-beta="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
-              serviceTitle="Vigieau.gouv.fr"
-              serviceDescription="Phrase d'accroche">
+              :serviceTitle="runTimeConfig.domainName"
+              serviceDescription="S'informer sur les restrictions d'eau en période de sécheresse">
   </DsfrHeader>
   <div class="fr-mb-8w">
     <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">

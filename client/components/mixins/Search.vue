@@ -85,8 +85,6 @@ const searchZone = () => {
   if (!formData.address && !formData.geo) {
     return;
   }
-  addressStore.setProfile(formData.profil);
-  addressStore.setTypeEau(formData.typeEau);
   utils.searchZones(formData.address, formData.geo, formData.profil, formData.typeEau, router, modalTitle, modalText, modalIcon, modalActions, modalOpened, loading.value);
 }
 
@@ -143,5 +141,10 @@ const closeModal = (): void => {
   </DsfrModal>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
+.search {
+  .fr-select {
+    width: fit-content;
+  }
+}
 </style>

@@ -121,6 +121,7 @@ const title = computed<string>(() => {
             <div class="fr-mt-4w">
               <DsfrHighlight>
                 <b>Besoin de précision sur les restrictions ?</b><br />
+                <b>La zone d’alerte concernée par votre est adresse est {{ zone.nom }}</b><br />
                 Merci de consulter <a class="fr-link"
                                       :href="zone.arrete.cheminFichier"
                                       onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"

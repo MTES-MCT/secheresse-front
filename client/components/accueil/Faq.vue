@@ -3,7 +3,6 @@ import faq from '../../data/faq.json'
 import { Ref } from "vue";
 
 const expandedIndex: Ref<string | null> = ref(null);
-const domainName = useRuntimeConfig().public.domainName;
 const email = useRuntimeConfig().public.email;
 const onAccordionClick = (index: string) => {
   expandedIndex.value = index !== expandedIndex.value ? index : null;

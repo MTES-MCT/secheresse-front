@@ -23,8 +23,6 @@ export default defineNuxtRouteMiddleware(async (to: any, from: any) => {
   if (!firstAddress) {
     return navigateTo({path: '/', query: to.query});
   }
-  addressStore.setProfile(profil);
-  addressStore.setTypeEau(eau);
   await utils.searchZones(firstAddress, null, profil, eau, useRouter());
 
   if (!address.value && !geo.value) {
