@@ -9,7 +9,7 @@ import utils from '../../utils';
 const addressStore = useAddressStore();
 const zoneStore = useZoneStore();
 const { profile, typeEau } = storeToRefs(addressStore);
-const { zones }: Ref<Zone> = storeToRefs(zoneStore);
+const { zones } = storeToRefs(zoneStore);
 const { resetAddress, adressString } = addressStore;
 const { resetZones } = zoneStore;
 const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Votre situation' }]);
@@ -18,20 +18,53 @@ const addressToUse: Ref<any> = ref(adressString());
 
 const typesEauOptions = [
   {
-    text: 'Eau potable',
+    text: 'eau potable',
     value: 'AEP',
   },
   {
-    text: 'Eau superficielle',
+    text: 'eau superficielle',
     value: 'SUP',
   }, {
-    text: 'Eau souterraine',
+    text: 'eau souterraine',
     value: 'SOU',
   },
+];
+const profileOptions = [
+  {
+    value: 'particulier',
+    text: 'particulier'
+  },
+  {
+    value: 'entreprise',
+    text: 'professionnel'
+  },
+  {
+    value: 'collectivite',
+    text: 'collectivité'
+  },
+  {
+    value: 'exploitation',
+    text: 'exploitation agricole'
+  }
 ];
 
 const zoneTypeEau = computed(() => {
   return zones.value.find(z => z.type === typeEau.value);
+});
+
+const usagesByProfile = computed(() => {
+  return zoneTypeEau.value.usages.filter(u => {
+    switch (profile.value) {
+      case 'particulier':
+        return u.concerneParticulier;
+      case 'enteprise':
+        return u.concerneEntreprise;
+      case 'collectivite':
+        return u.concerneCollectivite;
+      case 'exploitation':
+        return u.concerneExploitation;
+    }
+  });
 });
 
 onBeforeUnmount(() => {
@@ -47,22 +80,37 @@ onBeforeUnmount(() => {
       <DsfrBreadcrumb class="fr-mb-0" :links='links' />
     </div>
     <div class="fr-col-12  fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mb-1w">
-      <h6 class="fr-mr-1w fr-mb-0">Vous pouvez choisir d’afficher les restrictions sur l’eau provenant</h6>
+      <h6 class="fr-mr-1w fr-mb-0">Vous pouvez choisir d’afficher les restrictions sur l’eau provenant de l'</h6>
       <DsfrSelect id="type_eau"
                   v-model="typeEau"
                   :options="typesEauOptions" />
+      <h6 class="fr-mx-1w fr-mb-0">en tant que</h6>
+      <DsfrSelect id="profile"
+                  v-model="profile"
+                  :options="profileOptions" />
     </div>
     <SituationHeader :address="addressToUse"
                      :typeEau="typeEau"
                      :zone="zoneTypeEau" />
     <SituationRestrictions v-if="utils.showRestrictions(zoneTypeEau)"
                            :profile="profile"
-                           :zone="zoneTypeEau" />
+                           :zone="zoneTypeEau"
+                           :usages="usagesByProfile" />
   </div>
 </template>
 
-<style scoped lang="scss">
-.section-title {
-  text-align: left;
+<style lang="scss">
+.situation-status {
+  .fr-select {
+    width: fit-content;
+
+    &-group {
+      margin-bottom: 0;
+    }
+  }
+
+  h6 {
+    font-size: 1rem;
+  }
 }
 </style>

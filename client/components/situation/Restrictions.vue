@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
-import { TagProps } from '@gouvminint/vue-dsfr/types/components/DsfrTag/DsfrTag.vue';
 import { Zone } from '../../dto/zone.dto';
 import { Usage } from '~/client/dto/usage.dto';
 
 const props = defineProps<{
+  usages: Usage[],
   zone: Zone,
   profile: string
 }>();
 
 const selectedTagIndex: Ref<number> = ref(0);
-// const expandedIndex: Ref<string | null> = ref(props.zones.length > 1 ? null : '0');
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   icone: 'eau-goutte-arrosoir-interdiction',
@@ -56,11 +55,11 @@ const thematiqueTags: Ref<TagProps[]> = ref([{
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
-  return thematiqueTags.value.filter(t => props.zone.usages.findIndex(u => u.thematique === t.label) >= 0);
+  return thematiqueTags.value.filter(t => props.usages.findIndex(u => u.thematique === t.label) >= 0);
 });
 
-const usagesFiltered = (zone: Zone): Usage[] => {
-  return props.zone.usages.filter(u => u.thematique === thematiqueTagsFiltered.value[selectedTagIndex.value].label);
+const usagesFiltered = (): Usage[] => {
+  return props.usages.filter(u => u.thematique === thematiqueTagsFiltered.value[selectedTagIndex.value].label);
 };
 
 const title = computed<string>(() => {
@@ -75,6 +74,10 @@ const title = computed<string>(() => {
     default:
       return `En tant que particulier, ai-je des restrictions pour ?`;
   }
+});
+
+watch(() => props.profile, () => {
+  selectedTagIndex.value = 0;
 });
 </script>
 
@@ -96,8 +99,8 @@ const title = computed<string>(() => {
             <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                             :selected="selectedTagIndex === index">
               <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
-                <template v-if="usagesFiltered(zone).length > 0">
-                  <div v-for="usage in usagesFiltered(zone)"
+                <template v-if="usagesFiltered().length > 0">
+                  <div v-for="usage in usagesFiltered()"
                        class="fr-col-12 fr-col-md-4">
                     <SituationRestrictionCard :usage="usage"
                                               :thematique="thematique"
@@ -116,6 +119,15 @@ const title = computed<string>(() => {
               </div>
             </DsfrTabContent>
           </DsfrTabs>
+          <div v-if="thematiqueTagsFiltered.length === 0" class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
+            <div class="fr-col-12 fr-col-md-4">
+              <div class="eau-card fr-p-2w">
+                <div class="eau-card__desc">
+                  Aucune restriction
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="fr-grid-row fr-grid-row--center">
             <b>Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€</b>
             <div class="fr-mt-4w">

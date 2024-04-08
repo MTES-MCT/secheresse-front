@@ -113,7 +113,7 @@ const index = {
 
     if (loadingRestrictions) loadingRestrictions.value = true;
 
-    const { data, error } = address ? await api.searchZonesByAdress(address, profile) : await api.searchZonesByGeo(geo, profile);
+    const { data, error } = address ? await api.searchZonesByAdress(address) : await api.searchZonesByGeo(geo);
 
     // STATS MATOMO
     try {
