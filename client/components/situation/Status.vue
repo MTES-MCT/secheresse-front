@@ -57,7 +57,7 @@ const usagesByProfile = computed(() => {
     switch (profile.value) {
       case 'particulier':
         return u.concerneParticulier;
-      case 'enteprise':
+      case 'entreprise':
         return u.concerneEntreprise;
       case 'collectivite':
         return u.concerneCollectivite;
