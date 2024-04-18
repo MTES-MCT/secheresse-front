@@ -18,14 +18,14 @@ const addressToUse: Ref<any> = ref(adressString());
 
 const typesEauOptions = [
   {
-    text: 'eau potable',
+    text: 'du robinet',
     value: 'AEP',
   },
   {
-    text: 'eau superficielle',
+    text: `d'un cours d'eau, d'une rivière`,
     value: 'SUP',
   }, {
-    text: 'eau souterraine',
+    text: 'des nappes (puit ou forage)',
     value: 'SOU',
   },
 ];
@@ -80,7 +80,7 @@ onBeforeUnmount(() => {
       <DsfrBreadcrumb class="fr-mb-0" :links='links' />
     </div>
     <div class="fr-col-12  fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mb-1w">
-      <h6 class="fr-mr-1w fr-mb-0">Vous pouvez choisir d’afficher les restrictions sur l’eau provenant de l'</h6>
+      <h6 class="fr-mr-1w fr-mb-0">Vous avez choisi d’afficher les restrictions sur l’eau provenant </h6>
       <DsfrSelect id="type_eau"
                   v-model="typeEau"
                   :options="typesEauOptions" />

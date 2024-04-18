@@ -3,7 +3,7 @@ import api from "../../api";
 import utils from "../../utils";
 import { Ref } from "vue";
 
-const headers = ['N° Département', 'Département', 'Niveau alerte'];
+const headers = ['N° Département', 'Département', 'Niveau de gravité'];
 const rows = [];
 const dataResume = [
   {
