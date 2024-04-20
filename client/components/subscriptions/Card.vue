@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Profile } from "../../dto/profile.enum";
-import { Subscription } from "../../dto/subscription.dto";
+import { Profile } from '../../dto/profile.enum';
+import { Subscription } from '../../dto/subscription.dto';
 
 const props = defineProps<{
   subscription: Subscription,
@@ -11,7 +11,8 @@ const emit = defineEmits<{
 }>();
 
 const profiles = Profile;
-const typesZones = {
+const typesEau = {
+  AEP: 'Eau potable',
   SOU: 'Eau souterraine',
   SUP: 'Eau de surface',
 };
@@ -24,19 +25,17 @@ const typesZones = {
         {{ subscription.libelleLocalisation }}
       </div>
       <div class="eau-card__desc">
-        <DsfrTag :label="profiles[subscription.profil]"/>
-        <template v-if="subscription.profil !== 'particulier'">
-          <DsfrTag v-for="typeZone in subscription.typesZones"
-                   class="fr-mx-1w fr-mb-1w"
-                   :aria-pressed="true"
-                   :label="typesZones[typeZone]"/>
-        </template>
+        <DsfrTag :label="profiles[subscription.profil]" />
+        <DsfrTag v-for="typeEau in subscription.typesEau"
+                 class="fr-mx-1w fr-mb-1w"
+                 :aria-pressed="true"
+                 :label="typesEau[typeEau]" />
       </div>
       <div>
         <DsfrButton class="fr-mt-2w"
                     :disabled="loading"
                     @click="emit('unsubscribe')"
-                    label="Me désabonner"/>
+                    label="Me désabonner" />
       </div>
     </div>
   </div>

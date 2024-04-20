@@ -1,6 +1,6 @@
 export interface Subscription {
-  _id: string,
+  id: string,
   profil: string,
   libelleLocalisation: string,
-  typesZones: string[]
+  typesEau: string[]
 }
