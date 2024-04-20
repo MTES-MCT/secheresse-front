@@ -32,10 +32,10 @@ const formData = reactive({
   lat: null,
   commune: null,
   confirmSubscription: false,
-  typesZones: ['AEP', 'SUP', 'SOU'],
+  typesEau: ['AEP', 'SUP', 'SOU'],
 });
 const errorMessage = ref('');
-const typesZonesOptions = [
+const typesEauOptions = [
   {
     label: 'L\'eau potable',
     name: 'AEP',
@@ -76,7 +76,7 @@ const rules = computed(() => {
     idAdresse: {
       requiredIf: requiredIf(!formData.commune),
     },
-    typesZones: {
+    typesEau: {
       required: helpers.withMessage('Le type d\'eau est obligatoire.', required),
     },
   };
@@ -129,8 +129,8 @@ watch(v$, () => {
       />
 
       <DsfrCheckboxSet legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
-                       v-model="formData.typesZones"
-                       :options="typesZonesOptions" />
+                       v-model="formData.typesEau"
+                       :options="typesEauOptions" />
 
       <MixinsSearchAddress :profile="formData.profil"
                            :query="adressString()"
