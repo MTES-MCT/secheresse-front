@@ -4,7 +4,7 @@ const niveauxGravite: any[] = [
     text: 'Pas de restrictions',
     niveauGravite: null,
     class: 'situation-level-bg-0',
-    description: 'Aucune restriction n\'est à appliquer.'
+    description: 'Le territoire n\'est pas concerné par des restrictions sécheresse.'
   },
   {
     text: 'Vigilance',

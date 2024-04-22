@@ -53,8 +53,7 @@ const selectedTabIndex: Ref<number> = ref(0);
   }
 
   &__panel {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0;
     z-index: 1;
     
     &:last-child {
