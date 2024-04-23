@@ -22,6 +22,8 @@ const map: Ref<any> = shallowRef(null);
 const isMapSupported: boolean = utils.isWebglSupported();
 const runtimeConfig = useRuntimeConfig();
 const zoneSelected = ref(0);
+const route = useRoute();
+const departementCode = route.query.depCode;
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
