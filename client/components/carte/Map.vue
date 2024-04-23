@@ -7,6 +7,10 @@ import { storeToRefs } from 'pinia';
 import api from '../../api';
 import niveauxGravite from '../../dto/niveauGravite';
 
+const props = defineProps<{
+  embedded: any
+}>();
+
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
@@ -260,8 +264,8 @@ const classObject = (rank: number | undefined): any => {
       </div>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-lg-9" style="position:relative; height: 75vh">
-        <div class="map-wrap">
+      <div class="fr-col-12 fr-col-lg-9" style="position:relative; height: 75vh" :style="embedded ? 'height: 90vh' : 'height: 75vh'">
+        <div class="map-wrap" :class="embedded ? 'map-wrap-embedded' : ''">
           <div class="map" ref="mapContainer"></div>
         </div>
       </div>
@@ -308,8 +312,12 @@ const classObject = (rank: number | undefined): any => {
   position: absolute;
   width: calc(100vw + 32px);
   max-width: calc(100% + 32px);
-  height: calc(75vh + 3px);
+  height: calc(75vh - 3rem);
   left: -32px;
+
+  &-embedded {
+    height: calc(90vh - 3rem);
+  }
 
   .map {
     width: 100%;
@@ -370,7 +378,11 @@ h6 {
 
 @media screen and (max-width: 767px) {
   .map-wrap {
-    height: 75vh
+    height: 75vh;
+
+    &-embedded {
+      height: calc(90vh);
+    }
   }
 
   .map-legende, .map-pre-actions, .map-post-actions {

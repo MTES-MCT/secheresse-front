@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { Ref } from "vue";
 
+const props = defineProps<{
+  embedded: any
+}>();
+
 const date = computed(() => {
   const today = new Date();
   const options = {year: 'numeric', month: 'long', day: 'numeric'};
@@ -14,9 +18,9 @@ const selectedTabIndex: Ref<number> = ref(0);
 </script>
 
 <template>
-  <div class="carte-wrapper fr-py-4w">
+  <div :class="embedded ? '' : 'carte-wrapper fr-py-4w'">
     <div class="fr-container">
-      <div class="section-title fr-mb-4w">
+      <div v-if="!embedded" class="section-title fr-mb-4w">
         <h2 class="fr-mb-0">Carte des restrictions</h2>
         <span>Arrêtés publiés avant le {{ date }}</span>
       </div>
@@ -27,7 +31,7 @@ const selectedTabIndex: Ref<number> = ref(0);
           panel-id="tab-content-0"
           tab-id="tab-0"
           :selected="selectedTabIndex === 0">
-          <CarteMap/>
+          <CarteMap :embedded="embedded"/>
         </DsfrTabContent>
         <DsfrTabContent
           panel-id="tab-content-1"
