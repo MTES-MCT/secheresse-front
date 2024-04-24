@@ -20,6 +20,9 @@
 <style scoped lang="scss">
 .presentation {
   background: var(--yellow-tournesol-975-75);
+  background-image: url( '/accueil_background.svg' );
+  background-size: cover;
+  background-position: bottom;
 }
 
 .search-card {
