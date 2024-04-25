@@ -92,10 +92,20 @@ onBeforeUnmount(() => {
     <SituationHeader :address="addressToUse"
                      :typeEau="typeEau"
                      :zone="zoneTypeEau" />
-    <SituationRestrictions v-if="utils.showRestrictions(zoneTypeEau)"
-                           :profile="profile"
-                           :zone="zoneTypeEau"
-                           :usages="usagesByProfile" />
+    <template v-if="utils.showRestrictions(zoneTypeEau)">
+      <SituationRestrictions :profile="profile"
+                             :zone="zoneTypeEau"
+                             :usages="usagesByProfile" />
+    </template>
+    <template v-else>
+      <div>
+        <DsfrHighlight class="fr-my-2w">
+          <b>Besoin de précision sur les restrictions ?</b>
+          <br/>
+          Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+        </DsfrHighlight>
+      </div>
+    </template>
   </div>
 </template>
 

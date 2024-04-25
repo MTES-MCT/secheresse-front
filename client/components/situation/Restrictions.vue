@@ -145,6 +145,8 @@ watch(() => props.profile, () => {
                                                                target="_blank"
                                                                rel="noopener">
                 l'arrêté cadre préfectoral</a>.
+                <br/><br/>
+                Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
               </DsfrHighlight>
             </div>
           </div>
