@@ -22,8 +22,7 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Acce
       <h1>Déclaration d’accessibilité</h1>
       <p>Établie le <span>10 mai 2023</span>.</p>
       <p>Le <span>Ministère de la Transition écologique et de la Cohésion des territoires</span> s’engage à rendre son
-        service accessible,
-        conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.</p>
+        service accessible, conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.</p>
       <p>Cette déclaration d’accessibilité s’applique à <strong>{{ appName }}</strong><span> (<span>{{ domainName
         }}</span>)</span>.</p>
       <h2>État de conformité</h2>
