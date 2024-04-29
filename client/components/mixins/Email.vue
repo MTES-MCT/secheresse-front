@@ -27,7 +27,6 @@ const subscribe = async (form: any) => {
 </script>
 
 <template>
-  <div class="follow-wrap fr-mt-4w">
     <div class="fr-follow">
       <div class="fr-container">
         <div class="fr-grid-row">
@@ -53,7 +52,6 @@ const subscribe = async (form: any) => {
           </div>
         </div>
       </div>
-    </div>
   </div>
   <DsfrModal :opened="modalOpened"
              title=" "
@@ -80,23 +78,7 @@ const subscribe = async (form: any) => {
 </template>
 
 <style scoped lang="scss">
-.follow-wrap {
-  width: 100%;
-  height: 570px;
-}
-
-.fr-follow {
-  position: absolute;
-  width: 100vw;
-  max-width: 100%;
-  left: 0;
-}
-
 @media screen and (max-width: 767px) {
-  .follow-wrap {
-    height: 754px;
-  }
-
   .fr-follow {
     text-align: center;
   }

@@ -3,7 +3,6 @@ import faq from '../../data/faq.json'
 import { Ref } from "vue";
 
 const expandedIndex: Ref<string | null> = ref(null);
-const domainName = useRuntimeConfig().public.domainName;
 const email = useRuntimeConfig().public.email;
 const onAccordionClick = (index: string) => {
   expandedIndex.value = index !== expandedIndex.value ? index : null;
@@ -11,7 +10,7 @@ const onAccordionClick = (index: string) => {
 </script>
 
 <template>
-  <div class="faq fr-mt-8w">
+  <div class="faq fr-container fr-mt-4w">
     <div class="section-title fr-mb-8w">
       <h2>Les questions fréquemment posées</h2>
     </div>

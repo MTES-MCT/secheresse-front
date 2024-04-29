@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { useScheme } from '@gouvminint/vue-dsfr'
-import { Profile } from "../dto/profile.enum";
-import { useAddressStore } from "../store/address";
-import { storeToRefs } from "pinia";
 
-const adressStore = useAddressStore();
-const {setProfile} = adressStore;
-const {profile} = storeToRefs(adressStore);
 const route = useRoute();
 
 const logoText: string[] = ['Gouvernement']
@@ -44,8 +38,6 @@ const ecosystemLinks: any[] = [
     "href": "https://data.gouv.fr"
   }
 ];
-const showNav = ref(true);
-const navItems = ref([]);
 const key = ref(0);
 
 const preferences = reactive({
@@ -54,40 +46,11 @@ const preferences = reactive({
 })
 const runTimeConfig = useRuntimeConfig().public;
 
-const generateNavItems = () => {
-  navItems.value = [];
-  for (let profile in Profile) {
-    navItems.value.push({
-      text: Profile[profile],
-      to: {path: '/', query: {profil: profile}},
-      class: {'router-link-active-overwrite': route.href === `/?profil=${profile}`}
-    })
-  }
-}
-
 onMounted(() => {
   const {theme, scheme, setScheme} = useScheme()
   // preferences.scheme = 'dark';
   preferences.scheme = 'light';
-
-  window.onscroll = function () {
-    isStickyHeader()
-  };
-  let nav = document.getElementsByTagName('nav')[0];
-  const sticky = nav.offsetTop;
-
-  const isStickyHeader = () => {
-    const header = document.getElementsByClassName('fr-nav__sticky')[0];
-    if(!header) {
-      return;
-    }
-    if (window.scrollY > sticky) {
-      header.classList.add('visible');
-    } else {
-      header.classList.remove('visible');
-    }
-  }
-
+  
   watchEffect(() => {
     preferences.theme = theme.value
   })
@@ -105,14 +68,7 @@ onMounted(() => {
         button: true,
         onclick: utils.openTally
       }] : [];
-      showNav.value = newPath === '/';
       key.value++;
-    }, {immediate: true}
-  );
-  watch(() => route.query.profil, profileQuery => {
-      generateNavItems();
-      key.value++;
-      setProfile(profileQuery && Object.keys(Profile).includes(profileQuery) ? profileQuery : profile.value);
     }, {immediate: true}
   );
 })
@@ -126,21 +82,17 @@ onMounted(() => {
               :quickLinks="quickLinks"
               :key="key"
               :show-beta="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
-              serviceTitle=" ">
-    <DsfrNavigation v-if="showNav"
-                    :nav-items="navItems"/>
+              :serviceTitle="runTimeConfig.domainName"
+              serviceDescription="S'informer sur les restrictions d'eau en période de sécheresse">
   </DsfrHeader>
-  <div v-if="showNav"
-       class="fr-header fr-nav__sticky">
-    <DsfrNavigation class="fr-container"
-                    :nav-items="navItems"/>
-  </div>
-  <div class="fr-container fr-mb-8w">
-<!--    <DsfrAlert description="Les données affichées sur Vigieau datent du 5 février 2024. Certaines informations peuvent ne pas être à jour."-->
-<!--               type="warning"-->
-<!--               class="fr-my-2w"-->
-<!--               :closeable="false"-->
-<!--    />-->
+  <div class="fr-mb-8w">
+    <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">
+      <DsfrAlert description="Plateforme de développement, les données sont fictives. Si vous souhaitez accéder à la plateforme de produciton, allez sur https://vigieau.gouv.fr"
+                 type="warning"
+                 class="fr-my-2w"
+                 :closeable="false"
+      />      
+    </div>
     <slot/>
   </div>
   <DsfrFooter :logo-text="logoText"
@@ -153,45 +105,4 @@ onMounted(() => {
 </template>
 
 <style lang="scss">
-.fr-nav {
-  .fr-nav__link[aria-current] {
-    color: inherit;
-
-    &:before {
-      display: none;
-    }
-  }
-
-  .fr-nav__link.router-link-active-overwrite {
-    color: var(--text-active-blue-france);
-
-    &:before {
-      display: initial;
-    }
-  }
-
-  &__sticky {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background-color: var(--grey-1000-50);
-    display: none;
-    
-    &.visible {
-      display: block;
-    }
-  }
-  
-  &__list {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 991px) {
-  .fr-nav__sticky {
-    display: none !important;
-  }
-}
 </style>

@@ -14,7 +14,7 @@ const closeModal = () => {
 }
 
 const signalRestriction = () => {
-  window._paq.push(['trackEvent', 'SIGNALEMENT RESTRICTION', props.departement, props.usage.usage, 1]);
+  window._paq.push(['trackEvent', 'SIGNALEMENT RESTRICTION', props.departement, props.usage.nom, 1]);
   modalOpened.value = false;
   modalSuccessOpened.value = true;
 }
@@ -27,14 +27,6 @@ const modalActions: Ref<any[]> = ref([{label: "Je ne comprends pas cette restric
   secondary: true
 }]);
 const modalActionsSuccess: Ref<any[]> = ref([{label: "Fermer", onClick: closeModal}]);
-
-const cardDesc = computed((): string => {
-  let cardDesc = '';
-  cardDesc += props.usage.details ? props.usage.details : '';
-  cardDesc += (props.usage.niveauRestriction === 'Interdiction sur plage horaire' && props.usage.heureDebut && props.usage.heureFin) ? `Interdit de ${props.usage.heureDebut} à ${props.usage.heureFin}` : '';
-  cardDesc += props.usage.erreur ? `Consulter l'arrêté` : '';
-  return cardDesc;
-})
 </script>
 
 <template>
@@ -43,7 +35,7 @@ const cardDesc = computed((): string => {
       <VIcon :name="thematique.icone" scale="5"/>
     </div>
     <div class="h6 eau-card__title fr-my-2w">
-      {{ usage.usage }}
+      {{ usage.nom }}
 
       <DsfrButton icon="ri-question-line"
                   label="Je ne comprends pas cette restriction"
@@ -54,7 +46,7 @@ const cardDesc = computed((): string => {
                   no-outline/>
     </div>
     <div class="eau-card__desc">
-      {{ cardDesc }}
+      {{ usage.description }}
     </div>
   </div>
   <DsfrModal :opened="modalOpened"
@@ -63,7 +55,7 @@ const cardDesc = computed((): string => {
              :actions="modalActions"
              @close="closeModal">
     <div>
-      Si la restriction "{{ usage.usage }}" est peu compréhensible, merci de nous le faire remonter.<br/>Nous la modifierons si nécessaire !
+      Si la restriction "{{ usage.nom }}" est peu compréhensible, merci de nous le faire remonter.<br/>Nous la modifierons si nécessaire !
     </div>
   </DsfrModal>
   <DsfrModal :opened="modalSuccessOpened"

@@ -1,47 +1,52 @@
 <script setup lang="ts">
-import api from "../../api";
-import utils from "../../utils";
-import { Ref } from "vue";
+import api from '../../api';
+import utils from '../../utils';
+import { Ref } from 'vue';
 
-const headers = ['N° Département', 'Département', 'Niveau alerte'];
+const headers = ['N° Département', 'Département', 'Niveau de gravité'];
 const rows = [];
 const dataResume = [
   {
-    niveauGravite: 'Pas de restrictions',
+    label: 'Pas de restrictions',
+    niveauGravite: 'pas_de_restrictions',
     number: 0,
   },
   {
-    niveauGravite: 'Vigilance',
+    label: 'Vigilance',
+    niveauGravite: 'vigilance',
     number: 0,
   },
   {
-    niveauGravite: 'Alerte',
+    label: 'Alerte',
+    niveauGravite: 'alerte',
     number: 0,
   },
   {
-    niveauGravite: 'Alerte renforcée',
+    label: 'Alerte renforcée',
+    niveauGravite: 'alerte_renforcee',
     number: 0,
   },
   {
-    niveauGravite: 'Crise',
+    label: 'Crise',
+    niveauGravite: 'crise',
     number: 0,
-  }
+  },
 ];
 const query: Ref<string> = ref('');
 const rowsFiltered: Ref<any[]> = ref([]);
 const componentKey = ref(0);
 
-const {data, error} = await api.getDepartmentsData();
+const { data, error } = await api.getDepartmentsData();
 data.value?.forEach((d: any) => {
-  rows.push([d.code, d.nom, d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions']);
-  const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'Pas de restrictions'));
+  const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'pas_de_restrictions'));
+  rows.push([d.code, d.nom, dr ? dr.label : 'Pas de restrictions']);
   if (dr) dr.number++;
 });
 rowsFiltered.value = [...rows];
 
 const classObject = (rank: number | undefined): any => {
   return [`situation-level-bg-${rank}`];
-}
+};
 
 function checkKeyboardNav($event) {
   if (['search', 'Enter'].includes($event.key)) {
@@ -58,39 +63,60 @@ function filterDepartments() {
 </script>
 
 <template>
-  <template v-if="rows?.length > 0">
-    <div class="fr-grid-row fr-grid-row--center fr-mt-2w departement-card-wrapper">
-      <div class="fr-col-lg fr-p-2w fr-m-1w departement-card" v-for="resume of dataResume">
-        <div>
-          <DsfrBadge small
-                     no-icon
-                     :class="classObject(utils.getRestrictionRank(resume.niveauGravite))"
-                     :label="resume.niveauGravite"/>
-        </div>
-        <div class="departement-card__number fr-mt-1w">
-          {{ resume.number }} départements
+  <div class="carte-table">
+    <template v-if="rows?.length > 0">
+      <div class="carte-table-header">
+        <h3 class="fr-mt-2w fr-mb-1w">Situation de la sécheresse en France (niveau de gravité maximum contasté par
+          département)</h3>
+        <div class="fr-grid-row fr-grid-row--center departement-card-wrapper fr-mb-2w">
+          <div class="fr-col-lg fr-p-2w fr-m-1w departement-card" v-for="resume of dataResume">
+            <div>
+              <DsfrBadge small
+                         no-icon
+                         :class="classObject(utils.getRestrictionRank(resume.niveauGravite))"
+                         :label="resume.label" />
+            </div>
+            <div class="departement-card__number fr-mt-1w">
+              {{ resume.number }} départements
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <DsfrSearchBar v-model="query"
-                   placeholder="Rechercher"
-                   large
-                   buttonText="Rechercher"
-                   ref="input"
-                   @search="checkKeyboardNav({key: 'search'})"/>
-    <DsfrTable title=""
-               :headers="headers"
-               :rows="rowsFiltered"
-               :pagination="true"
-               :key="componentKey"
-               class="fr-table--layout-fixed"/>    
-  </template>
-  <template v-else>
-    <p class="fr-mt-4w">Une erreur est survenue dans la récupération des données. Veuillez ré-essayer dans quelques instants.</p>
-  </template>
+      <div class="carte-table-body">
+        <h3 class="fr-pt-2w fr-mb-1w">Niveau de gravité maximal observé par département</h3>
+        <DsfrSearchBar v-model="query"
+                       placeholder="Rechercher"
+                       large
+                       buttonText="Rechercher"
+                       ref="input"
+                       @search="checkKeyboardNav({key: 'search'})" />
+        <DsfrTable title=""
+                   :headers="headers"
+                   :rows="rowsFiltered"
+                   :pagination="true"
+                   :key="componentKey"
+                   class="fr-table--layout-fixed" />
+      </div>
+    </template>
+    <template v-else>
+      <p class="fr-mt-4w">Une erreur est survenue dans la récupération des données. Veuillez ré-essayer dans quelques
+        instants.</p>
+    </template>
+  </div>
 </template>
 
 <style scoped lang="scss">
+.carte-table {
+  &-header, &-body {
+    padding: 0 2rem;
+  }
+
+  &-body {
+    background: var(--grey-1000-50);
+    padding-bottom: 1rem;
+  }
+}
+
 .departement-card {
   border-radius: 4px;
   background-color: var(--grey-1000-50);
@@ -104,5 +130,10 @@ function filterDepartments() {
   &-wrapper {
     margin: 0 -0.5rem;
   }
+}
+
+h3 {
+  font-size: 1.3rem;
+  line-height: 1.3rem;
 }
 </style>

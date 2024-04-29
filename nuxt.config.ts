@@ -75,6 +75,7 @@ export default defineNuxtConfig({
       domainProdNotActivated: process.env.DOMAIN_PROD_NOT_ACTIVATED,
       pmtilesUrl: process.env.PMTILES_URL,
       appName: appName,
+      appEnv: process.env.APP_ENV,
       email: 'contact.vigieau@beta.gouv.fr'
     }
   },

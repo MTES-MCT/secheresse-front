@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import utils from "../../utils";
-import { Zone } from "../../dto/zone.dto";
-import { Ref } from "vue";
-import { useAddressStore } from "../../store/address";
+import utils from '../../utils';
+import { Zone } from '../../dto/zone.dto';
+import { Ref } from 'vue';
+import { useAddressStore } from '../../store/address';
+import niveauxGravite from '../../dto/niveauGravite';
 
 const props = defineProps<{
+  typeEau: 'AEP' | 'SUP' | 'SOU',
   zone: Zone
   address: string
 }>();
 
 const adressStore = useAddressStore();
-const {isParticulier} = adressStore;
-const links: Ref<any[]> = ref([{to: '/', text: 'Accueil'}, {text: 'Votre situation'}]);
+const { isParticulier } = adressStore;
 const modalOpened: Ref<boolean> = ref(false);
-const restrictionRanks = [1, 2, 3, 4];
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
   return showRank ? utils.getSituationBadgeLabel(rank) : utils.getShortSituationLabel(rank);
@@ -23,98 +23,76 @@ const classObject = (rank: number | undefined): any => {
   const bgClass = `situation-level-bg-${rank}`;
   const colorClass = `situation-level-c-${rank}`;
   const cssClass: any = {
-    'situation-disabled': utils.getRestrictionRank(props.zone?.niveauAlerte) !== rank
-  }
+    'situation-disabled': utils.getRestrictionRank(props.zone?.niveauGravite) !== rank,
+  };
   cssClass[bgClass] = true;
-  cssClass[colorClass] = utils.getRestrictionRank(props.zone?.niveauAlerte) !== rank;
+  cssClass[colorClass] = utils.getRestrictionRank(props.zone?.niveauGravite) !== rank;
   return cssClass;
-}
+};
 
 const situationLabel = computed<string>(() => {
-  return utils.getShortSituationLabel(utils.getRestrictionRank(props.zone?.niveauAlerte))
+  return utils.getShortSituationLabel(utils.getRestrictionRank(props.zone?.niveauGravite));
+});
+
+const typeEauLabel = computed(() => {
+  switch (props.typeEau) {
+    case 'AEP':
+      return 'L\'eau potable';
+    case 'SUP':
+      return 'L\'eau prélevée dans les cours d\'eau';
+    case 'SOU':
+      return 'L\'eau prélevée dans les nappes';
+  }
+});
+const niveauGravite = computed(() => {
+  return niveauxGravite.find(n => n.niveauGravite === (props.zone ? props.zone?.niveauGravite : null));
 });
 </script>
 
 <template>
-  <div class="situation-status-header fr-grid-row fr-pb-4w"
-       :class="'situation-level-' + utils.getRestrictionRank(zone?.niveauAlerte)">
-    <div class="fr-col-12">
-      <DsfrBreadcrumb :links='links'/>
-    </div>
+  <div class="situation-status-header fr-container fr-grid-row fr-py-4w"
+       :class="'situation-level-' + utils.getRestrictionRank(zone?.niveauGravite)">
     <div class="fr-col-12 situation-status-header__info-wrapper"
-         :class="!zone?.idZone ? 'fr-col-md-8' : ''">
-      <div class="fr-grid-row fr-grid-row--middle fr-mb-2w"
-           v-if="zone?.idZone">
+         :class="!zone?.id ? 'fr-col-md-8' : ''">
+      <div class="fr-mb-2w fr-grid-row fr-grid-row--middle">
         <DsfrBadge small
-                   class="show-sm"
                    no-icon
-                   :class="classObject(utils.getRestrictionRank(zone?.niveauAlerte))"
-                   :label="badgeLabel(utils.getRestrictionRank(zone?.niveauAlerte))"/>
-        <DsfrBadge v-for="rank of restrictionRanks"
-                   small
-                   no-icon
-                   class="fr-ml-1w hide-sm"
-                   :class="classObject(rank)"
-                   :label="badgeLabel(rank)"/>
-        <DsfrButton icon="ri-information-fill"
-                    label="Information sur les niveaux d'alerte"
-                    icon-only
-                    tertiary
-                    size="small"
-                    @click="modalOpened = true"
-                    no-outline/>
-      </div>
-      <div class="fr-mb-2w">
-        <VIcon name="ri-map-pin-user-line"/>
+                   :class="classObject(utils.getRestrictionRank(zone?.niveauGravite))"
+                   :label="badgeLabel(utils.getRestrictionRank(zone?.niveauGravite))" />
+        <VIcon class="fr-mx-1w" name="ri-map-pin-user-line" />
         {{ address }}
       </div>
-      <h1 v-if="zone?.idZone" class="h2">Vous êtes sur une zone en <span
-        :class="'situation-level-c-' + utils.getRestrictionRank(zone?.niveauAlerte)">{{
+      <h1 v-if="zone?.id" class="h2">{{ typeEauLabel }} est en <span
+        :class="'situation-level-c-' + utils.getRestrictionRank(zone?.niveauGravite)">{{
           situationLabel
-        }}</span></h1>
+        }}</span> à votre adresse.</h1>
       <h1 class="h2" v-else>
-        Vous êtes sur une zone qui n'est <span class="situation-level-c-0">pas concernée par des restrictions</span>
+        {{ typeEauLabel }} n'est <span class="situation-level-c-0">pas concernée par des restrictions</span> à votre adresse.
       </h1>
     </div>
-    <div class="fr-col-12 situation-status-header__info-wrapper"
-         v-if="utils.showRestrictions(zone)">
-      <div>Le respect des restrictions <b>est obligatoire</b> sous peine de recevoir une <b>amende</b> de 1500€</div>
+    <div class="fr-col-12 situation-status-header__info-wrapper">
+      {{ niveauGravite.description }}
     </div>
-    <div class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper" v-else>
-      <div v-if="!zone?.idZone">
-        Aucune restriction n'est à appliquer à votre adresse.
-        <template v-if="isParticulier()">Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.</template>
-      </div>
-      <div v-else>
-        L’état de la ressource en eau appelle à la vigilance de chacun.
-        <template v-if="isParticulier()"> Nous vous conseillons de suivre les eco-gestes ci-dessous.</template>
-        <br/>
-        Chaque geste compte pour économiser l’eau.
-      </div>
+    <div v-if="!utils.showRestrictions(zone) && isParticulier()" class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper">
+      Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
     </div>
     <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
       <router-link to="/"
                    class="fr-btn fr-btn--secondary full-width fr-grid-row--center">
         Effectuer une nouvelle recherche
-        <VIcon class="fr-ml-1w" name="ri-search-line"/>
+        <VIcon class="fr-ml-1w" name="ri-search-line" />
       </router-link>
       <DsfrButton class="full-width fr-mt-1w fr-grid-row--center"
                   secondary
                   @click="utils.openTally">
         Donner mon avis
-        <VIcon class="fr-ml-1w" name="ri-survey-line"/>
+        <VIcon class="fr-ml-1w" name="ri-survey-line" />
       </DsfrButton>
     </div>
     <div class="fr-col-12 fr-mt-2w">
-      <MixinsShare :situationLabel="situationLabel" :address="address"/>
+      <MixinsShare :situationLabel="situationLabel" :address="address" />
     </div>
   </div>
-  <DsfrModal :opened="modalOpened"
-             title="Signification des niveaux d'alerte"
-             icon="ri-information-line"
-             @close="modalOpened = false">
-    <MixinsSignificationNiveauxAlerte/>
-  </DsfrModal>
 </template>
 
 <style lang="scss">
