@@ -98,12 +98,14 @@ onBeforeUnmount(() => {
                              :usages="usagesByProfile" />
     </template>
     <template v-else>
-      <div>
-        <DsfrHighlight class="fr-my-2w">
-          <b>Besoin de précision sur les restrictions ?</b>
-          <br/>
-          Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
-        </DsfrHighlight>
+      <div class="fr-col-12">
+        <div class="fr-grid-row fr-grid-row--center">
+          <DsfrHighlight class="fr-my-2w">
+            <b>Besoin de précision sur les restrictions ?</b>
+            <br/>
+            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+          </DsfrHighlight>
+        </div>
       </div>
     </template>
   </div>
