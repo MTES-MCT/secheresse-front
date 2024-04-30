@@ -26,6 +26,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  showGeoloc: {
+    type: Boolean,
+    default: false
+  },
   disabled: {
     type: Boolean,
     default: false
@@ -150,7 +154,7 @@ if (props.query && !props.address && !props.geo) {
       </div>
     </div>
   </div>
-  <div v-if="!light" class="btn-geoloc">
+  <div v-if="showGeoloc" class="btn-geoloc">
     <DsfrButton label="Géo-localisez moi"
                 icon="ri-map-pin-user-line"
                 class="fr-mt-1w"
@@ -173,7 +177,6 @@ if (props.query && !props.address && !props.geo) {
 
 <style scoped lang="scss">
 .fr-notice, .btn-geoloc {
-  margin: auto;
   width: fit-content;
 }
 
@@ -184,12 +187,6 @@ if (props.query && !props.address && !props.geo) {
     position: absolute;
     top: 8px;
     left: 0;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .search {
-    text-align: center;
   }
 }
 </style>

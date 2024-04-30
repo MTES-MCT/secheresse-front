@@ -113,6 +113,7 @@ const closeModal = (): void => {
       <MixinsSearchAddress @search="setAddress($event.address, $event.geo)"
                            :query="query"
                            :light="true"
+                           :showGeoloc="true"
                            :loading="loading" />
     </div>
     <div class="fr-col-12">
