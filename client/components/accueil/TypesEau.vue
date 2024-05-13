@@ -2,12 +2,12 @@
 const typesEau = [
   {
     title: 'Eau souterraine',
-    description: 'Ce sont toutes les eaux se trouvant sous la surface du sol : les nappes phréatiques, nappes profondes, etc. Vous utilisez cette eau, si vous disposez d’un puit ou d’un forage.',
+    description: 'Ce sont toutes les eaux se trouvant sous la surface du sol : les nappes phréatiques, nappes profondes, etc. Vous utilisez cette eau, si vous disposez d’un puits ou d’un forage.',
     img: '/type_eau_sou.svg',
   },
   {
     title: 'Eau superficielle',
-    description: ' Il s\'agit pour l\'essentiel des cours d\'eau, des lacs et des eaux de ruissellement. Vous êtes concerné si vous prélevez directement dans un cours d’eau.',
+    description: ' Il s\'agit pour l\'essentiel des cours d\'eau, des lacs et des eaux de ruissellement. Vous êtes concernés si vous prélevez directement dans un cours d’eau.',
     img: '/type_eau_sup.svg',
   },
   {

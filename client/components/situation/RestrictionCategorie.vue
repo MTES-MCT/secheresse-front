@@ -31,7 +31,7 @@ const accordionTitle = (zone: Zone): string => {
     case 'AEP':
       return `Si j’utilise de l’eau potable, du robinet.`
     case 'SOU':
-      return `Si j’utilise de l’eau de nappe souterraine provenant d’un puit, d’un forage, etc`
+      return `Si j’utilise de l’eau de nappe souterraine provenant d’un puits, d’un forage, etc`
     case 'SUP':
       return `Si j’utilise de l’eau superficielle provenant de cours d’eau, plan d’eau, etc`
   }

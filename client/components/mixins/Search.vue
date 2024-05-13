@@ -39,7 +39,7 @@ const typeEauOptions = [
     text: `D'un cours d'eau, d'une rivière`,
     value: 'SUP',
   }, {
-    text: `Des nappes (puit ou forage)`,
+    text: `Des nappes (puits ou forage)`,
     value: 'SOU',
   },
 ];
@@ -119,7 +119,7 @@ const closeModal = (): void => {
     <div class="fr-col-12">
       <DsfrInputGroup>
         <DsfrSelect
-          label="Choisissez le type d’eau d’eau que vous consommez"
+          label="Choisissez le type d’eau que vous consommez"
           :options="typeEauOptions"
           v-model="formData.typeEau"
         />
