@@ -25,7 +25,7 @@ const typesEauOptions = [
     text: `d'un cours d'eau, d'une rivière`,
     value: 'SUP',
   }, {
-    text: 'des nappes (puit ou forage)',
+    text: 'des nappes (puits ou forage)',
     value: 'SOU',
   },
 ];
