@@ -28,10 +28,6 @@
 .callout {
   border: 1px solid var(--yellow-tournesol-main-731);
   background-color: var(--yellow-tournesol-975-75);
-
-  h4 {
-    color: var(--yellow-moutarde-main-679);
-  }
 }
 
 @media screen and (max-width: 767px) {

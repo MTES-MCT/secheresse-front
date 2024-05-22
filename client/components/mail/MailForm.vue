@@ -7,6 +7,7 @@ import useVuelidate from '@vuelidate/core';
 import { useAddressStore } from '../../store/address';
 import { storeToRefs } from 'pinia';
 import { Ref } from 'vue/dist/vue';
+import utils from '../../utils';
 
 const props = defineProps({
   subscribing: {
@@ -55,17 +56,15 @@ const rules = computed(() => {
     email: {
       required: helpers.withMessage(`L'email est obligatoire.`, required),
       email: helpers.withMessage(`L'email n'est pas valide.`, email),
-      $autoDirty: true,
     },
     profil: {
       required: helpers.withMessage('Le profil est obligatoire.', required),
     },
     confirmSubscription: {
       checked: helpers.withMessage('Le consentement est obligatoire.', sameAs(true)),
-      $autoDirty: true,
     },
     lon: {
-      requiredIf: requiredIf(!formData.commune),
+      requiredIf: helpers.withMessage('L\'adresse est obligatoire.', requiredIf(!formData.communes)),
     },
     lat: {
       requiredIf: requiredIf(!formData.commune),
@@ -104,34 +103,25 @@ const submitForm = async () => {
     emit('subscribe', formData);
   }
 };
-
-const showErrorMessage = () => {
-  if (v$.value.$errors?.findIndex(e => e.$property === 'email' && e.$validator === 'email') >= 0) {
-    errorMessage.value = `L'email n'est pas valide.`;
-  } else {
-    errorMessage.value = '';
-  }
-};
-
-watch(v$, () => {
-  if (!v$.value.$invalid) {
-    errorMessage.value = '';
-  }
-});
 </script>
 
 <template>
   <form @submit.prevent="" class="mail-form">
-    <DsfrInputGroup :error-message="errorMessage" :valid-message="''">
+    <DsfrInputGroup :error-message="utils.showInputError(v$, 'profil')">
       <MixinsProfile :profile="formData.profil"
                      class="fr-mb-2w"
                      @profileUpdate="formData.profil = $event;"
       />
+    </DsfrInputGroup>
 
-      <DsfrCheckboxSet legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
-                       v-model="formData.typesEau"
-                       :options="typesEauOptions" />
+    <DsfrInputGroup :error-message="utils.showInputError(v$, 'typesEau')">
+      <DsfrCheckboxSet
+        legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
+        v-model="formData.typesEau"
+        :options="typesEauOptions" />
+    </DsfrInputGroup>
 
+    <DsfrInputGroup :error-message="utils.showInputError(v$, 'lon')">
       <MixinsSearchAddress :profile="formData.profil"
                            :query="adressString()"
                            :address="address"
@@ -141,8 +131,10 @@ watch(v$, () => {
                            :exactAddress="true"
                            @search="setAddress($event.address, $event.geo)"
       />
+    </DsfrInputGroup>
 
-      <div class="fr-mt-2w">
+    <div class="fr-mt-2w">
+      <DsfrInputGroup :error-message="utils.showInputError(v$, 'email')">
         <DsfrInput placeholder="Ex: test@exemple.com"
                    label="Entrez votre email"
                    label-visible
@@ -151,10 +143,11 @@ watch(v$, () => {
                    id="email"
                    name="email"
                    :disabled="subscribing"
-                   @blur="showErrorMessage()"
         />
-      </div>
+      </DsfrInputGroup>
+    </div>
 
+    <DsfrInputGroup :error-message="utils.showInputError(v$, 'confirmSubscription')">
       <DsfrCheckbox class="fr-mt-3w"
                     label="J'accepte de recevoir vos e-mails et confirme avoir pris connaissance de votre politique de confidentialité et mentions légales."
                     name="confirmSubscription"
@@ -166,13 +159,15 @@ watch(v$, () => {
     <p>Les
       <router-link to="/donnees-personnelles" target="_blank">données collectées</router-link>
       lors de votre inscription sont utilisées dans le cadre d’une mission de
-      service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de la Nature (DGALN).
-      Vous pouvez à tout moment vous opposer à ces traitements en vous désinscrivant en cliquant sur le lien présent dans nos emails.
+      service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de
+      la Nature (DGALN).
+      Vous pouvez à tout moment vous opposer à ces traitements en vous désinscrivant en cliquant sur le lien présent
+      dans nos emails.
     </p>
 
     <DsfrButton @click="submitForm()"
                 class="full-width fr-grid-row--center"
-                :disabled="v$.$invalid || subscribing">
+                :disabled="subscribing">
       <div class="fr-grid-row fr-grid-row--center">
         Valider
         <Loader class="adresse-loader fr-ml-1w" :show="subscribing" />

@@ -74,9 +74,11 @@ export default defineNuxtConfig({
       domainName: process.env.DOMAIN_NAME,
       domainProdNotActivated: process.env.DOMAIN_PROD_NOT_ACTIVATED,
       pmtilesUrl: process.env.PMTILES_URL,
+      s3vhost: process.env.S3_VHOST,
       appName: appName,
       appEnv: process.env.APP_ENV,
-      email: 'contact.vigieau@beta.gouv.fr'
+      email: 'contact.vigieau@beta.gouv.fr',
+      telephone: '01.40.81.35.14'
     }
   },
   vite: {
