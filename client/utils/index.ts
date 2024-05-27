@@ -206,19 +206,23 @@ const index = {
     });
   },
 
-  generatePopupHtml(pmtilesData: any) {
+  generatePopupHtml(pmtilesData: any, showRestrictionsBtn: boolean) {
     const niveauGravite = niveauxGravite.find(n => n.niveauGravite === pmtilesData.niveauGravite);
     let popupHtml = `
 <div class="map-popup-zone">${pmtilesData.nom}</div>
 <div class="fr-my-1w">
 <p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${niveauGravite.text}</p>
 </div>
+`;
+
+    if(showRestrictionsBtn) {
+      popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">
 Voir les restrictions
 </button>
-</div>
-`;
+</div>`;
+    }
     return popupHtml;
   },
 

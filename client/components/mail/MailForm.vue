@@ -133,26 +133,25 @@ const submitForm = async () => {
       />
     </DsfrInputGroup>
 
-    <div class="fr-mt-2w">
-      <DsfrInputGroup :error-message="utils.showInputError(v$, 'email')">
-        <DsfrInput placeholder="Ex: test@exemple.com"
-                   label="Entrez votre email"
-                   label-visible
-                   v-model="formData.email"
-                   type="text"
-                   id="email"
-                   name="email"
-                   :disabled="subscribing"
-        />
-      </DsfrInputGroup>
-    </div>
+    <DsfrInputGroup class="fr-mt-2w"
+                    :error-message="utils.showInputError(v$, 'email')">
+      <DsfrInput placeholder="Ex: test@exemple.com"
+                 label="Entrez votre email"
+                 label-visible
+                 v-model="formData.email"
+                 type="text"
+                 id="email"
+                 name="email"
+                 :disabled="subscribing"
+      />
+    </DsfrInputGroup>
 
-    <DsfrInputGroup :error-message="utils.showInputError(v$, 'confirmSubscription')">
-      <DsfrCheckbox class="fr-mt-3w"
-                    label="J'accepte de recevoir vos e-mails et confirme avoir pris connaissance de votre politique de confidentialité et mentions légales."
-                    name="confirmSubscription"
-                    :disabled="subscribing"
-                    v-model="formData.confirmSubscription"
+    <DsfrInputGroup class="fr-mt-3w" :error-message="utils.showInputError(v$, 'confirmSubscription')">
+      <DsfrCheckbox
+        label="J'accepte de recevoir vos e-mails et confirme avoir pris connaissance de votre politique de confidentialité et mentions légales."
+        name="confirmSubscription"
+        :disabled="subscribing"
+        v-model="formData.confirmSubscription"
       />
     </DsfrInputGroup>
 
