@@ -8,7 +8,8 @@ import api from '../../api';
 import niveauxGravite from '../../dto/niveauGravite';
 
 const props = defineProps<{
-  embedded: any
+  embedded: any,
+  date: string
 }>();
 
 const modalOpened: Ref<boolean> = ref(false);
@@ -24,15 +25,35 @@ const runtimeConfig = useRuntimeConfig();
 const zoneSelected = ref(0);
 const route = useRoute();
 const departementCode = route.query.depCode;
+const showRestrictionsBtn = ref(true);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
 let protocol = new Protocol();
-maplibregl.addProtocol('pmtiles', protocol.tile);
-const PMTILES_URL = runtimeConfig.public.pmtilesUrl;
+maplibregl.addProtocol('pmtiles', (request) => {
+  return new Promise((resolve, reject) => {
+    const callback = (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ data });
+      }
+    };
+    protocol.tile(request, callback);
+  });
+});
+const PMTILES_URL = `${runtimeConfig.public.s3vhost}pmtiles/zones_arretes_en_vigueur.pmtiles`;
+const PMTILES_URL_TRUNC = `${runtimeConfig.public.s3vhost}pmtiles/zones_arretes_en_vigueur`;
 const p = new PMTiles(PMTILES_URL);
 // this is so we share one instance across the JS code and the map renderer
 protocol.add(p);
+let firstSymbolId: any;
+
+// Create a popup, but don't add it to the map yet.
+const popup = new maplibregl.Popup({
+  closeButton: true,
+  closeOnClick: false,
+}).setMaxWidth('300px');
 
 onMounted(() => {
   if (!isMapSupported) {
@@ -64,89 +85,31 @@ onMounted(() => {
 
   map.value?.on('load', () => {
     const layers = map.value.getStyle().layers;
-    let firstSymbolId;
     for (let i = 0; i < layers.length; i++) {
       if (layers[i].type === 'symbol') {
         firstSymbolId = layers[i].id;
         break;
       }
     }
-    map.value?.addSource('zones', {
-      type: 'vector',
-      url:
-        `pmtiles://${PMTILES_URL}`,
-    });
     map.value?.addSource('cadastre', {
       type: 'vector',
       url:
         `https://etalab-tiles.fr/data/decoupage-administratif.json`,
     });
-    map.value?.addLayer({
-      id: 'zones-data',
-      type: 'fill',
-      source: 'zones',
-      'source-layer': 'zones_arretes_en_vigueur',
-      filter: ['==', 'type', selectedTypeEau.value],
-      paint: {
-        'fill-color': [
-          'match',
-          ['get', 'niveauGravite'],
-          'vigilance',
-          '#FFEDA0',
-          'alerte',
-          '#FEB24C',
-          'alerte_renforcee',
-          '#FC4E2A',
-          'crise',
-          '#B10026',
-          '#e8edff',
-        ],
-        'fill-opacity': {
-          stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
-        },
-      },
-    }, firstSymbolId);
-    map.value?.addLayer({
-      id: 'departements-data',
-      type: 'line',
-      source: 'cadastre',
-      'source-layer': 'departements',
-      layout: {
-        'line-join': 'round',
-        'line-cap': 'round',
-      },
-      paint: {
-        'line-color': '#888888',
-        'line-width': 1,
-      },
-    }, firstSymbolId);
-    map.value?.addLayer({
-      id: 'zones-contour',
-      type: 'line',
-      source: 'zones',
-      'source-layer': 'zones_arretes_en_vigueur',
-      filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]],
-      paint: {
-        'line-color': '#000091',
-        'line-width': 3,
-      },
-    }, firstSymbolId);
+    addSourceAndLayerZones(PMTILES_URL);
   });
-
-  // Create a popup, but don't add it to the map yet.
-  const popup = new maplibregl.Popup({
-    closeButton: true,
-    closeOnClick: false,
-  }).setMaxWidth('300px');
 
   map.value?.on('click', 'zones-data', (e: any) => {
     zoneSelected.value = e.features[0].properties.id;
     updateContourFilter();
-    const description = utils.generatePopupHtml(e.features[0].properties);
+    const description = utils.generatePopupHtml(e.features[0].properties, showRestrictionsBtn.value);
 
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
 
     const btn = document.getElementsByClassName('btn-map-popup')[0];
+    if(!btn) {
+      return;
+    }
     btn.addEventListener('click', async () => {
       let dataAddress;
       let dataGeo;
@@ -154,15 +117,15 @@ onMounted(() => {
       if (!dataAddress.value?.features[0]) {
         dataGeo = (await api.searchGeoByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
       }
-      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null, 
-        dataGeo?.value ? dataGeo.value[0] : null, 
-        profile.value, 
+      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null,
+        dataGeo?.value ? dataGeo.value[0] : null,
+        profile.value,
         selectedTypeEau.value,
-        router, 
+        router,
         modalTitle,
-        modalText, 
+        modalText,
         modalIcon,
-        modalActions, 
+        modalActions,
         modalOpened,
         loadingZones);
     });
@@ -205,6 +168,7 @@ const mapTags: Ref<any[]> = ref([{
 const typeEauTags: Ref<any[]> = ref([{
   label: 'Eau potable',
   value: 'AEP',
+  disabled: false,
 }, {
   label: 'Eau superficielle',
   value: 'SUP',
@@ -234,12 +198,117 @@ const closeModal = () => {
   modalOpened.value = false;
 };
 
-const classObject = (rank: number | undefined): any => {
-  const bgClass = `situation-level-bg-${rank}`;
-  const cssClass: any = {};
-  cssClass[bgClass] = true;
-  return cssClass;
+const addSourceAndLayerZones = (pmtilesUrl: string) => {
+  if (map.value?.getLayer('zones-data')) {
+    map.value?.removeLayer('zones-data');
+  }
+  if (map.value?.getLayer('departements-data')) {
+    map.value?.removeLayer('departements-data');
+  }
+  if (map.value?.getLayer('zones-contour')) {
+    map.value?.removeLayer('zones-contour');
+  }
+  if (map.value?.getSource('zones')) {
+    map.value?.removeSource('zones');
+  }
+
+  map.value?.addSource('zones', {
+    type: 'vector',
+    url:
+      `pmtiles://${pmtilesUrl}`,
+  });
+
+  map.value?.addLayer({
+    id: 'zones-data',
+    type: 'fill',
+    source: 'zones',
+    'source-layer': 'zones_arretes_en_vigueur',
+    filter: ['==', 'type', selectedTypeEau.value],
+    paint: {
+      'fill-color': [
+        'match',
+        ['get', 'niveauGravite'],
+        'vigilance',
+        '#FFEDA0',
+        'alerte',
+        '#FEB24C',
+        'alerte_renforcee',
+        '#FC4E2A',
+        'crise',
+        '#B10026',
+        '#e8edff',
+      ],
+      'fill-opacity': {
+        stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
+      },
+    },
+  }, firstSymbolId);
+
+  map.value?.addLayer({
+    id: 'departements-data',
+    type: 'line',
+    source: 'cadastre',
+    'source-layer': 'departements',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-color': '#888888',
+      'line-width': 1,
+    },
+  }, firstSymbolId);
+
+  map.value?.addLayer({
+    id: 'zones-contour',
+    type: 'line',
+    source: 'zones',
+    'source-layer': 'zones_arretes_en_vigueur',
+    filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]],
+    paint: {
+      'line-color': '#000091',
+      'line-width': 3,
+    },
+  }, firstSymbolId);
+
+  // If date < vigieau admin, on affiche pas eau potable.
 };
+
+const resetZoneSelected = () => {
+  zoneSelected.value = 0;
+  updateContourFilter();
+  popup.remove();
+};
+
+watch(() => selectedTypeEau.value, () => {
+  resetZoneSelected();
+});
+
+watch(() => props.date, () => {
+  const date = new Date(props.date);
+  if (!date && !map.value) {
+    return;
+  }
+  resetZoneSelected();
+  if (date < new Date('2024-04-30') && selectedTypeEau.value === 'AEP') {
+    selectedTypeEau.value = 'SUP';
+    typeEauTags.value[0].disabled = true;
+  } else {
+    typeEauTags.value[0].disabled = false;
+  }
+  const today = new Date();
+  if (date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()) {
+    addSourceAndLayerZones(PMTILES_URL);
+    showRestrictionsBtn.value = true;
+  } else {
+    const p = new PMTiles(`${PMTILES_URL_TRUNC}_${props.date}.pmtiles`);
+    protocol.add(p);
+    addSourceAndLayerZones(`${PMTILES_URL_TRUNC}_${props.date}.pmtiles`);
+    showRestrictionsBtn.value = false;
+  }
+});
 </script>
 
 <template>
@@ -266,7 +335,8 @@ const classObject = (rank: number | undefined): any => {
       </div>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-lg-9" style="position:relative; height: 75vh" :style="embedded ? 'height: 90vh' : 'height: 75vh'">
+      <div class="fr-col-12 fr-col-lg-9" style="position:relative; height: 75vh"
+           :style="embedded ? 'height: 90vh' : 'height: 75vh'">
         <div class="map-wrap" :class="embedded ? 'map-wrap-embedded' : ''">
           <div class="map" ref="mapContainer"></div>
         </div>
