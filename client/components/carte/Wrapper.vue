@@ -22,18 +22,23 @@ const currentDate = new Date();
 <template>
   <div :class="embedded ? '' : 'carte-wrapper fr-py-4w'">
     <div class="fr-container">
-      <div v-if="!embedded" class="section-title fr-mb-4w">
-        <h2 class="fr-mb-0">Carte et historique</h2>
-        <DsfrInput
-          id="dateCarte"
-          v-model="dateCarte"
-          label="Situation en date du"
-          label-visible
-          type="date"
-          name="dateCarte"
-          min="2012-01-01"
-          :max="currentDate.toISOString().split('T')[0]"
-        />
+      <div v-if="!embedded" class="fr-mb-4w">
+        <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row--middle header-wrapper">
+          <h2 class="fr-mb-0">Carte et historique</h2>
+          <div class="full-width fr-hidden-lg" />
+          <div>
+            <DsfrInput
+              id="dateCarte"
+              v-model="dateCarte"
+              label="Filtrer par date"
+              label-visible
+              type="date"
+              name="dateCarte"
+              min="2012-01-01"
+              :max="currentDate.toISOString().split('T')[0]"
+            />
+          </div>
+        </div>
       </div>
       <DsfrTabs :tab-titles="tabTitles"
                 :initial-selected-index="selectedTabIndex"
@@ -59,6 +64,10 @@ const currentDate = new Date();
 <style scoped lang="scss">
 .carte-wrapper {
   background: var(--yellow-tournesol-975-75);
+
+  .header-wrapper {
+    justify-content: space-between;
+  }
 }
 
 .fr-tabs {
@@ -74,6 +83,14 @@ const currentDate = new Date();
 
     &:last-child {
       background-color: var(--background-alt-grey);
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .carte-wrapper {
+    .header-wrapper {
+      justify-content: center;
     }
   }
 }

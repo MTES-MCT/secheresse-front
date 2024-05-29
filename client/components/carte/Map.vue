@@ -286,7 +286,7 @@ watch(() => selectedTypeEau.value, () => {
 
 watch(() => props.date, () => {
   const date = new Date(props.date);
-  if (!date && !map.value) {
+  if (!date || !map.value) {
     return;
   }
   resetZoneSelected();
