@@ -11,7 +11,8 @@ module.exports = {
     /^maplibregl/,
     /^fr-tooltip/,
     /^fr-placement/,
-    /^fr-alert/
+    /^fr-alert/,
+    /^text-align/
   ],
   output: [".output/public/_nuxt"]
 };

@@ -22,7 +22,7 @@ const currentDate = new Date();
 <template>
   <div :class="embedded ? '' : 'carte-wrapper fr-py-4w'">
     <div class="fr-container">
-      <div v-if="!embedded" class="fr-mb-4w">
+      <div class="fr-mb-4w">
         <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row--middle header-wrapper">
           <h2 class="fr-mb-0">Carte et historique</h2>
           <div class="full-width fr-hidden-lg" />
@@ -64,10 +64,10 @@ const currentDate = new Date();
 <style scoped lang="scss">
 .carte-wrapper {
   background: var(--yellow-tournesol-975-75);
+}
 
-  .header-wrapper {
-    justify-content: space-between;
-  }
+.header-wrapper {
+  justify-content: space-between;
 }
 
 .fr-tabs {
@@ -88,10 +88,8 @@ const currentDate = new Date();
 }
 
 @media screen and (max-width: 991px) {
-  .carte-wrapper {
-    .header-wrapper {
-      justify-content: center;
-    }
+  .header-wrapper {
+    justify-content: center;
   }
 }
 </style>
