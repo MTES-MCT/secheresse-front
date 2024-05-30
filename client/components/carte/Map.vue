@@ -390,7 +390,7 @@ watch(() => props.date, () => {
   left: -32px;
 
   &-embedded {
-    height: calc(90vh - 3rem);
+    height: calc(100vh - 120px);
   }
 
   .map {
@@ -455,7 +455,7 @@ h6 {
     height: 75vh;
 
     &-embedded {
-      height: calc(90vh);
+      height: calc(100vh - 160px);
     }
   }
 
