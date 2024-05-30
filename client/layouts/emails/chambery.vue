@@ -51,7 +51,7 @@ const runTimeConfig = useRuntimeConfig().public;
   </DsfrHeader>
   <div class="fr-mb-8w">
     <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">
-      <DsfrAlert description="Plateforme de développement, les données sont fictives. Si vous souhaitez accéder à la plateforme de produciton, allez sur https://vigieau.gouv.fr"
+      <DsfrAlert description="Plateforme de développement, les données sont fictives. Si vous souhaitez accéder à la plateforme de production, allez sur https://vigieau.gouv.fr"
                  type="warning"
                  class="fr-my-2w"
                  :closeable="false"
