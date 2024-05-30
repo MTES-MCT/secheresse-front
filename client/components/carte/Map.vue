@@ -107,7 +107,7 @@ onMounted(() => {
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
 
     const btn = document.getElementsByClassName('btn-map-popup')[0];
-    if(!btn) {
+    if (!btn) {
       return;
     }
     btn.addEventListener('click', async () => {
@@ -286,12 +286,14 @@ watch(() => selectedTypeEau.value, () => {
 
 watch(() => props.date, () => {
   const date = new Date(props.date);
-  if (!date && !map.value) {
+  if (!date || !map.value) {
     return;
   }
   resetZoneSelected();
-  if (date < new Date('2024-04-30') && selectedTypeEau.value === 'AEP') {
-    selectedTypeEau.value = 'SUP';
+  if (date < new Date('2024-04-28')) {
+    if (selectedTypeEau.value === 'AEP') {
+      selectedTypeEau.value = 'SUP';
+    }
     typeEauTags.value[0].disabled = true;
   } else {
     typeEauTags.value[0].disabled = false;
@@ -388,7 +390,7 @@ watch(() => props.date, () => {
   left: -32px;
 
   &-embedded {
-    height: calc(90vh - 3rem);
+    height: calc(100vh - 120px);
   }
 
   .map {
@@ -453,7 +455,7 @@ h6 {
     height: 75vh;
 
     &-embedded {
-      height: calc(90vh);
+      height: calc(100vh - 160px);
     }
   }
 

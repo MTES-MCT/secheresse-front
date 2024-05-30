@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useScheme } from '@gouvminint/vue-dsfr'
-
-const route = useRoute();
-
-const logoText: string[] = ['Gouvernement']
-const operatorImgSrc: string = '/logo_vigie_eau.svg'
-const operatorImgAlt: string = `Logo du produit ${useRuntimeConfig().public.appName}`
+const logoText = ['Ministère', 'de la transition', 'écologique', 'et de la cohésion', 'des territoires'];
+const operatorImgSrc: string = '/logo_grand_chambery.svg'
+const operatorImgAlt: string = `Logo grand chambéry`
 const operatorImgStyle: any = {
-  'max-width': '150px'
+  'max-width': '100px'
 };
 const a11yCompliance: string = 'Non conforme';
 let quickLinks: any[] = [];
@@ -39,39 +35,7 @@ const ecosystemLinks: any[] = [
   }
 ];
 const key = ref(0);
-
-const preferences = reactive({
-  theme: undefined,
-  scheme: undefined,
-})
 const runTimeConfig = useRuntimeConfig().public;
-
-onMounted(() => {
-  const {theme, scheme, setScheme} = useScheme()
-  // preferences.scheme = 'dark';
-  preferences.scheme = 'light';
-  
-  watchEffect(() => {
-    preferences.theme = theme.value
-  })
-
-  watchEffect(() => setScheme(preferences.scheme))
-
-  watch(() => route.path, newPath => {
-      quickLinks = newPath === '/situation' ? [{
-        label: 'Effectuer une nouvelle recherche',
-        icon: 'ri-search-line',
-        to: '/'
-      }, {
-        label: 'Donner mon avis',
-        icon: 'ri-survey-line',
-        button: true,
-        onclick: utils.openTally
-      }] : [];
-      key.value++;
-    }, {immediate: true}
-  );
-})
 </script>
 
 <template>
@@ -82,8 +46,8 @@ onMounted(() => {
               :quickLinks="quickLinks"
               :key="key"
               :show-beta="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
-              :serviceTitle="runTimeConfig.domainName"
-              serviceDescription="S'informer sur les restrictions d'eau en période de sécheresse">
+              :serviceTitle="''"
+              serviceDescription="''">
   </DsfrHeader>
   <div class="fr-mb-8w">
     <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">
@@ -91,7 +55,7 @@ onMounted(() => {
                  type="warning"
                  class="fr-my-2w"
                  :closeable="false"
-      />      
+      />
     </div>
     <slot/>
   </div>
