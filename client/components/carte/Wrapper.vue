@@ -5,11 +5,6 @@ const props = defineProps<{
   embedded: any
 }>();
 
-const date = computed(() => {
-  const today = new Date();
-  const options = {year: 'numeric', month: 'long', day: 'numeric'};
-  return today.toLocaleDateString('fr-FR', options);
-});
 const tabTitles = [
   { title: 'Carte' },
   { title: 'Données' },
@@ -22,28 +17,24 @@ const currentDate = new Date();
 <template>
   <div :class="embedded ? '' : 'carte-wrapper fr-py-4w'">
     <div class="fr-container">
-      <div v-if="!embedded" class="section-title fr-mb-4w">
-        <h2 class="fr-mb-0">Carte des restrictions</h2>
-        <span>Arrêtés publiés avant le {{ date }}</span>
+      <div class="fr-mb-4w">
+        <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row--middle header-wrapper">
+          <h2 class="fr-mb-0">Carte et historique</h2>
+          <div class="full-width fr-hidden-lg" />
+          <div>
+            <DsfrInput
+              id="dateCarte"
+              v-model="dateCarte"
+              label="Filtrer par date"
+              label-visible
+              type="date"
+              name="dateCarte"
+              min="2012-01-01"
+              :max="currentDate.toISOString().split('T')[0]"
+            />
+          </div>
+        </div>
       </div>
-<!--      <div class="fr-mb-4w">-->
-<!--        <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row&#45;&#45;middle header-wrapper">-->
-<!--          <h2 class="fr-mb-0">Carte et historique</h2>-->
-<!--          <div class="full-width fr-hidden-lg" />-->
-<!--          <div>-->
-<!--            <DsfrInput-->
-<!--              id="dateCarte"-->
-<!--              v-model="dateCarte"-->
-<!--              label="Filtrer par date"-->
-<!--              label-visible-->
-<!--              type="date"-->
-<!--              name="dateCarte"-->
-<!--              min="2012-01-01"-->
-<!--              :max="currentDate.toISOString().split('T')[0]"-->
-<!--            />-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
       <DsfrTabs :tab-titles="tabTitles"
                 :initial-selected-index="selectedTabIndex"
                 @select-tab="selectedTabIndex = $event">
