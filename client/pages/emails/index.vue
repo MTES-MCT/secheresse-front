@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'basic',
+  layout: 'emails-chambery',
 });
 
 const appName = useRuntimeConfig().public.appName;
@@ -11,7 +11,7 @@ useHead({
 
 <template>
   <div class="fr-container">
-    <h1 class="text-align-center">Merci</h1>
+    <h1 class="text-align-center fr-mt-4w">Merci !</h1>
     <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
       <div class="fr-col-3 text-align-right">
         <img src="/emails_popcorn.png"
@@ -26,3 +26,17 @@ useHead({
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nothing+You+Could+Do&display=swap');
+
+h1 {
+  font-family: "Nothing You Could Do", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-align-right {
+  text-align: right;
+}
+</style>
