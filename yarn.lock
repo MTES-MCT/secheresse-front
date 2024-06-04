@@ -539,7 +539,7 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.22.5.tgz#721fd042f3ce1896238cf1b341c77eb7dee7dbea"
   integrity sha512-DFZMC9LJUG9PLOclRC32G63UXwzqS2koQC8dkx+PLdmt1xSePYpbT/NbsrJy8Q/muXz7o/h/d4A7Fuyixm559Q==
 
-"@babel/parser@^7.22.15", "@babel/parser@^7.22.7", "@babel/parser@^7.23.5", "@babel/parser@^7.23.6", "@babel/parser@^7.23.9", "@babel/parser@^7.24.0", "@babel/parser@^7.24.4", "@babel/parser@^7.24.5":
+"@babel/parser@^7.22.15", "@babel/parser@^7.22.7", "@babel/parser@^7.23.5", "@babel/parser@^7.23.6", "@babel/parser@^7.23.9", "@babel/parser@^7.24.0", "@babel/parser@^7.24.5":
   version "7.24.5"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.24.5.tgz#4a4d5ab4315579e5398a82dcf636ca80c3392790"
   integrity sha512-EOv5IK8arwh3LI47dz1b0tKUb/1uhHAnHJOrjgtQMIpu1uXd9mlFrJg9IUgGUgZ41Ch0K8REPTYpO7B76b4vJg==
@@ -548,6 +548,11 @@
   version "7.22.16"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.22.16.tgz#180aead7f247305cce6551bea2720934e2fa2c95"
   integrity sha512-+gPfKv8UWeKKeJTUxe59+OobVcrYHETCsORl61EmSkmgymguYk/X5bp7GuUIXaFsc6y++v8ZxPsLSSuujqDphA==
+
+"@babel/parser@^7.24.4":
+  version "7.24.6"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.24.6.tgz#5e030f440c3c6c78d195528c3b688b101a365328"
+  integrity sha512-eNZXdfU35nJC2h24RznROuOpO94h6x8sg9ju0tT9biNtLZ2vuP8SduLqqV+/8+cebSLV9SJEAN5Z3zQbJG/M+Q==
 
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@^7.23.3":
   version "7.23.3"
@@ -1633,9 +1638,9 @@
   integrity sha512-S7idT4rCCw6M1pqxJS8y4nUSq/Rus+Kucoifmv0CrZD/eoBA34HWqWYzR9GIxvtAX/TQ1XC7Hz+54THtVzMeqQ==
 
 "@gouvminint/vue-dsfr@^5.0.0":
-  version "5.17.1"
-  resolved "https://registry.yarnpkg.com/@gouvminint/vue-dsfr/-/vue-dsfr-5.17.1.tgz#c0b26bc6cd40e7d80d3de1865e3d6e0f3a18dacc"
-  integrity sha512-jrO7mRAkYmp7h0Wu/cY0NUvukk/NhYUDMdx+1efYXYZo6QbE+LptEiXs8tTMO5Zw6ti5t3dBpPJhB4NYTayyZQ==
+  version "5.17.4"
+  resolved "https://registry.yarnpkg.com/@gouvminint/vue-dsfr/-/vue-dsfr-5.17.4.tgz#3d145cd1cf3efb1bac2a4f90fc69269af4dbdb26"
+  integrity sha512-guVhLTTdJXDRIL79ym2AjILmoX9EqF385cCtjyWYjq+6lr3kKwQGNGHjjVgxCAL0/dyPh2Pk7A0C9zQl10SDQw==
   dependencies:
     "@gouvfr/dsfr" "~1.11.2"
     focus-trap "^7.5.4"
@@ -3976,10 +3981,15 @@
     "@vue/compiler-dom" "3.4.27"
     "@vue/shared" "3.4.27"
 
-"@vue/devtools-api@^6.5.0", "@vue/devtools-api@^6.5.1":
+"@vue/devtools-api@^6.5.0":
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.1.tgz#7c14346383751d9f6ad4bea0963245b30220ef83"
   integrity sha512-LgPscpE3Vs0x96PzSSB4IGVSZXZBZHpfxs+ZA1d+VEPwHdOXowy/Y2CsvCAIFrf+ssVU1pD1jidj505EpUnfbA==
+
+"@vue/devtools-api@^6.5.1":
+  version "6.6.3"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.6.3.tgz#b23a588154cba8986bba82b6e1d0248bde3fd1a0"
+  integrity sha512-0MiMsFma/HqA6g3KLKn+AGpL1kgKhFWszC9U29NfpWK5LE7bjeXxySWJrOJ77hBz+TBrBQ7o4QJqbPbqbs8rJw==
 
 "@vue/devtools-applet@^7.1.3":
   version "7.2.1"
