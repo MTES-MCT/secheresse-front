@@ -109,6 +109,14 @@ const index = {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
+  },
+
+  signalRestriction(usageId: number): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/usage/feedback/${usageId}`, {
+      method: 'POST',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
   }
 }
 

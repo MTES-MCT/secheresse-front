@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Usage } from "../../dto/usage.dto";
 import { Ref } from "vue";
+import api from '../../api';
 
 const props = defineProps<{
   usage: Usage,
@@ -13,8 +14,8 @@ const closeModal = () => {
   modalSuccessOpened.value = false;
 }
 
-const signalRestriction = () => {
-  window._paq.push(['trackEvent', 'SIGNALEMENT RESTRICTION', props.departement, props.usage.nom, 1]);
+const signalRestriction = async () => {
+  const { data, error } = await api.signalRestriction(props.usage.id);
   modalOpened.value = false;
   modalSuccessOpened.value = true;
 }
