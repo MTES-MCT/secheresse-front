@@ -49,7 +49,7 @@ const currentDate = new Date();
           panel-id="tab-content-1"
           tab-id="tab-1"
           :selected="selectedTabIndex === 1">
-          <CarteTable />
+          <CarteTable :date="dateCarte"/>
         </DsfrTabContent>
       </DsfrTabs>
     </div>

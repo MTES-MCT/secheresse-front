@@ -3,8 +3,11 @@ import api from '../../api';
 import utils from '../../utils';
 import { Ref } from 'vue';
 
+const props = defineProps<{
+  date: string
+}>();
+
 const headers = ['N° Département', 'Département', 'Niveau de gravité'];
-const rows = [];
 const dataResume = [
   {
     label: 'Pas de restrictions',
@@ -33,16 +36,24 @@ const dataResume = [
   },
 ];
 const query: Ref<string> = ref('');
+const rows = ref([]);
 const rowsFiltered: Ref<any[]> = ref([]);
 const componentKey = ref(0);
+const loading = ref(false);
 
-const { data, error } = await api.getDepartmentsData();
-data.value?.forEach((d: any) => {
-  const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'pas_de_restrictions'));
-  rows.push([d.code, d.nom, dr ? dr.label : 'Pas de restrictions']);
-  if (dr) dr.number++;
-});
-rowsFiltered.value = [...rows];
+async function loadData() {
+  rows.value = [];
+  loading.value = true;
+  const { data, error } = await api.getDepartmentsData(props.date);
+  dataResume.map(r => r.number = 0);
+  data.value?.forEach((d: any) => {
+    const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'pas_de_restrictions'));
+    rows.value.push([d.code, d.nom, dr ? dr.label : 'Pas de restrictions']);
+    if (dr) dr.number++;
+  });
+  rowsFiltered.value = [...rows.value];
+  loading.value = false;
+}
 
 const classObject = (rank: number | undefined): any => {
   return [`situation-level-bg-${rank}`];
@@ -55,11 +66,19 @@ function checkKeyboardNav($event) {
 }
 
 function filterDepartments() {
-  rowsFiltered.value = rows.filter(r => {
+  rowsFiltered.value = rows.value.filter(r => {
     return r.findIndex(x => x.toLowerCase().includes(query.value.toLowerCase())) >= 0;
   });
   componentKey.value += 1;
 }
+
+watch(() => props.date, () => {
+  const date = new Date(props.date);
+  if (!date) {
+    return;
+  }
+  loadData();
+}, { immediate: true });
 </script>
 
 <template>
@@ -98,6 +117,11 @@ function filterDepartments() {
                    class="fr-table--layout-fixed" />
       </div>
     </template>
+    <template v-else-if="loading">
+      <div class="fr-grid-row fr-grid-row--center fr-my-2w">
+        <Loader :show="true" />
+      </div>
+    </template>
     <template v-else>
       <p class="fr-mt-4w">Une erreur est survenue dans la récupération des données. Veuillez ré-essayer dans quelques
         instants.</p>
@@ -114,6 +138,10 @@ function filterDepartments() {
   &-body {
     background: var(--grey-1000-50);
     padding-bottom: 1rem;
+  }
+
+  .loader {
+    text-align: center;
   }
 }
 
