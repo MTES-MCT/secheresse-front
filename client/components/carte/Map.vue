@@ -337,8 +337,8 @@ watch(() => props.date, () => {
       </div>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-lg-9" style="position:relative; height: 75vh"
-           :style="embedded ? 'height: 90vh' : 'height: 75vh'">
+      <div class="fr-col-12 fr-col-lg-9" style="position:relative;"
+           :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
         <div class="map-wrap" :class="embedded ? 'map-wrap-embedded' : ''">
           <div class="map" ref="mapContainer"></div>
         </div>
@@ -390,7 +390,7 @@ watch(() => props.date, () => {
   left: -32px;
 
   &-embedded {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 125px - 12px);
   }
 
   .map {
