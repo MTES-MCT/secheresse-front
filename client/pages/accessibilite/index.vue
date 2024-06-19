@@ -24,8 +24,15 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Acce
       <p>Établie le <span>22 mai 2024</span>.</p>
       <p>Le <span>Ministère de la Transition écologique et de la Cohésion des territoires</span> s’engage à rendre son
         service accessible, conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.</p>
-      <p>À cette fin, nous mettons en œuvre la stratégie et les actions suivantes&nbsp;: <a
-        href="https://beta.gouv.fr/accessibilite/schema-pluriannuel" target="_blank" rel="external">https://beta.gouv.fr/accessibilite/schema-pluriannuel</a>.
+      <p>À cette fin, nous mettons en œuvre la stratégie et les actions suivantes&nbsp;:
+        <ul>
+          <li>Schéma pluriannuel&nbsp;: <a href="https://beta.gouv.fr/accessibilite/schema-pluriannuel" target="_blank"
+                                      rel="external">https://beta.gouv.fr/accessibilite/schema-pluriannuel</a>.
+          </li>
+          <li>Plan d'action&nbsp;: <a href="https://beta.gouv.fr/accessibilite/schema-pluriannuel#plan-2024" target="_blank"
+                                      rel="external">https://beta.gouv.fr/accessibilite/schema-pluriannuel#plan-2024</a>.
+          </li>
+        </ul>
       </p>
       <p>Cette déclaration d’accessibilité s’applique à <strong>{{ appName }}</strong><span> (<span>{{ domainName
         }}</span>)</span>.</p>
