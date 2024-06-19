@@ -65,5 +65,8 @@
     "start-server-and-test": "^2.0.0",
     "typescript": "~5.2.2",
     "vite-plugin-istanbul": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
