@@ -1,4 +1,5 @@
 export interface Usage {
+  id: number;
   thematique: string;
   nom: string;
   description: string;

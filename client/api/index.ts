@@ -62,9 +62,9 @@ const index = {
     });
   },
 
-  getDepartmentsData(): Promise<any> {
+  getDepartmentsData(date: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/departements`, {
+    return useFetch(`/departements?date=${date}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
@@ -107,6 +107,14 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/statistics`, {
       method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  signalRestriction(usageId: number): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/usage/feedback/${usageId}`, {
+      method: 'POST',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   }
