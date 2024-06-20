@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.4",
-    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@fullhuman/postcss-purgecss": "^6.0.0",
     "@nuxt/types": "^2.16.0",
     "@nuxt/typescript-build": "^3.0.0",
     "@rushstack/eslint-patch": "^1.2.0",
