@@ -9,7 +9,8 @@ import niveauxGravite from '../../dto/niveauGravite';
 
 const props = defineProps<{
   embedded: any,
-  date: string
+  date: string,
+  loading: boolean,
 }>();
 
 const modalOpened: Ref<boolean> = ref(false);
@@ -26,6 +27,7 @@ const zoneSelected = ref(0);
 const route = useRoute();
 const departementCode = route.query.depCode;
 const showRestrictionsBtn = ref(true);
+const showError = ref(false);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -34,8 +36,10 @@ maplibregl.addProtocol('pmtiles', (request) => {
   return new Promise((resolve, reject) => {
     const callback = (err, data) => {
       if (err) {
+        showError.value = true;
         reject(err);
       } else {
+        showError.value = false;
         resolve({ data });
       }
     };
@@ -316,6 +320,13 @@ watch(() => props.date, () => {
 <template>
   <div v-if="isMapSupported">
     <div class="map-pre-actions">
+      <div v-if="showError"
+           class="map-pre-actions-card fr-p-1w fr-m-1w">
+        <DsfrAlert description="Une erreur est survenue lors du chargement de la carte"
+                   type="error"
+                   :closeable="false"
+        />
+      </div>
       <div class="map-pre-actions-card fr-p-1w fr-m-1w">
         <h6 class="fr-mb-1w fr-mr-2w">Situation par ressource :</h6>
         <DsfrRadioButton v-for="option of typeEauTags"
