@@ -49,9 +49,16 @@ const currentDate = new Date();
           panel-id="tab-content-1"
           tab-id="tab-1"
           :selected="selectedTabIndex === 1">
-          <CarteTable :date="dateCarte"/>
+          <CarteTable :date="dateCarte" />
         </DsfrTabContent>
       </DsfrTabs>
+      <DsfrHighlight class="fr-my-2w">
+        Besoin de précision sur les données ? Vous pouvez les retrouver sur <a
+        href="https://www.data.gouv.fr/fr/datasets/donnee-secheresse-vigieau/"
+        target="_blank"
+        rel="external"
+        class="fr-link">data.gouv</a>.
+      </DsfrHighlight>
     </div>
   </div>
 </template>
