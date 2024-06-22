@@ -17,8 +17,8 @@ useHead({
 <template>
   <div>
     <SituationStatus/>
-    <MixinsEmail />
     <AccueilGestes v-if="isParticulier()"/>
+    <MixinsEmail />
     <AccueilLiens/>
     <AccueilFaq/>
   </div>
