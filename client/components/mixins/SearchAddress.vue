@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import { Ref } from "vue";
-import utils from "../../utils";
-import api from "../../api";
-import { Address } from "../../dto/address.dto";
-import { Geo } from "~/client/dto/geo.dto";
+import { Ref } from 'vue';
+import utils from '../../utils';
+import api from '../../api';
+import { Address } from '../../dto/address.dto';
+import { Geo } from '~/client/dto/geo.dto';
 
 const props = defineProps({
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   query: {
     type: String,
-    default: ''
+    default: '',
   },
   address: {
     type: Object,
-    default: null
+    default: null,
   },
   geo: {
     type: Object,
-    default: null
+    default: null,
   },
   light: {
     type: Boolean,
-    default: false
+    default: false,
   },
   showGeoloc: {
     type: Boolean,
-    default: false
+    default: false,
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   exactAddress: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
 const emit = defineEmits<{
   search: [{
@@ -57,13 +57,13 @@ const loadAddresses: Ref<boolean> = ref(true);
 const loadingAdresses: Ref<boolean> = ref(false);
 const autoSelectAddress: Ref<boolean> = ref(false);
 const modalOpened: Ref<boolean> = ref(false);
-const modalActions: Ref<any[]> = ref([{label: "Recommencer", onClick: _closeModal}]);
+const modalActions: Ref<any[]> = ref([{ label: 'Recommencer', onClick: _closeModal }]);
 
 const selectAddress = (address: string | Address | null, geo = null) => {
   if (!address && !geo) {
     emit('search', {
       address: null,
-      geo: null
+      geo: null,
     });
     return;
   }
@@ -72,7 +72,7 @@ const selectAddress = (address: string | Address | null, geo = null) => {
     if (address === '') {
       emit('search', {
         address: null,
-        geo: null
+        geo: null,
       });
     }
     return;
@@ -86,13 +86,13 @@ const selectAddress = (address: string | Address | null, geo = null) => {
   addressQuery.value = address ? address.properties.label : geo.nom;
   emit('search', {
     address: address,
-    geo: geo
+    geo: geo,
   });
-}
+};
 
 const geoloc = () => {
   const successCallback = async (position) => {
-    const {data} = await api.searchGeoByLatlon(position.coords.longitude, position.coords.latitude);
+    const { data } = await api.searchGeoByLatlon(position.coords.longitude, position.coords.latitude);
     if (data.value && data.value[0]) {
       addressQuery.value = data.value[0].nom;
       selectAddress(null, data.value[0]);
@@ -103,7 +103,7 @@ const geoloc = () => {
   };
 
   navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
-}
+};
 
 if (props.address || props.geo) {
   if (!props.exactAddress || (props.address && props.address.properties.type === 'housenumber')) {
@@ -119,7 +119,7 @@ watch(addressQuery, utils.debounce(async () => {
     return;
   }
   loadingAdresses.value = true;
-  const {data: response, error} = await api.searchAddresses(addressQuery.value, props.exactAddress);
+  const { data: response, error } = await api.searchAddresses(addressQuery.value, props.exactAddress);
   loadingAdresses.value = false;
   addresses.value = response.value ? response.value.features : [];
   if (autoSelectAddress.value) {
@@ -136,50 +136,45 @@ if (props.query && !props.address && !props.geo) {
 </script>
 
 <template>
-  <div class="search fr-grid-row fr-grid-row--gutters" :class="{light: light}">
-    <div class="fr-col-12">
-      <div class="fr-mb-1w">Entrez votre adresse complète</div>
-      <div class="autocomplete-wrapper">
-        <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
-                         :model-value="addressQuery"
-                         :options="addresses"
-                         label="Champ de recherche d'adresse"
-                         display-key="properties.label"
-                         data-cy="AddressSearchInput"
-                         :light="light"
-                         :disabled="disabled"
-                         @update:modelValue="selectAddress($event)"
-                         @search="selectAddress($event)"/>
-        <Loader class="adresse-loader" :show="loadingAdresses || loading"/>
-      </div>
+  <div class="search" :class="{light: light}">
+    <div class="fr-mb-1w">Entrez votre adresse complète</div>
+    <div class="autocomplete-wrapper fr-grid-row fr-grid-row--middle">
+      <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
+                       :model-value="addressQuery"
+                       :options="addresses"
+                       label="Champ de recherche d'adresse"
+                       display-key="properties.label"
+                       data-cy="AddressSearchInput"
+                       :light="light"
+                       :disabled="disabled"
+                       @update:modelValue="selectAddress($event)"
+                       @search="selectAddress($event)" />
+      <Loader class="adresse-loader" :show="loadingAdresses || loading" />
+      <DsfrButton v-if="showGeoloc"
+                  class="fr-ml-1w"
+                  label="Géo-localisez moi"
+                  icon-only
+                  icon="ri-map-pin-user-line"
+                  @click="geoloc()"
+                  tertiary />
     </div>
-  </div>
-  <div v-if="showGeoloc" class="btn-geoloc">
-    <DsfrButton label="Géo-localisez moi"
-                icon="ri-map-pin-user-line"
-                class="fr-mt-1w"
-                @click="geoloc()"
-                tertiary/>
   </div>
   <DsfrNotice v-if="!light"
               title="Nous ne conservons pas vos données et votre adresse"
-              class="notice-light fr-mt-1w"/>
+              class="notice-light fr-mt-1w" />
   <DsfrModal :opened="modalOpened"
              title="Cela n'a pas fonctionné comme prévu !"
              icon="ri-arrow-right-line"
              :actions=modalActions
              @close="_closeModal">
     <div>
-      Nous sommes désolés, une erreur s’est glissée dans notre système et nous n’avons pas pu traiter correctement votre requête
+      Nous sommes désolés, une erreur s’est glissée dans notre système et nous n’avons pas pu traiter correctement votre
+      requête
     </div>
   </DsfrModal>
 </template>
 
 <style scoped lang="scss">
-.fr-notice, .btn-geoloc {
-  width: fit-content;
-}
-
 .autocomplete-wrapper {
   position: relative;
 
@@ -187,6 +182,10 @@ if (props.query && !props.address && !props.geo) {
     position: absolute;
     top: 8px;
     left: 0;
+  }
+
+  .search-autocomplete {
+    flex: 1;
   }
 }
 </style>
