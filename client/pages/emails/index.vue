@@ -21,7 +21,7 @@ useHead({
         />
       </div>
       <div class="fr-col-9">
-        Retrouvez notre prochain épisode le samedi 15 juin dans votre boite email !
+        Retrouvez nous tout l'été pour des conseils sur les économies d'eau !
       </div>
     </div>
   </div>
