@@ -8,7 +8,7 @@
         <h1>Suis-je concerné par les restrictions ?</h1>
       </div>
 
-      <div class="search-card fr-col-12 fr-col-lg-6 fr-p-md-6w fr-p-1w">
+      <div class="search-card fr-col-12 fr-col-lg-6 fr-p-md-3w fr-p-1w">
         <div class="search-card-wrapper">
           <MixinsSearch />
         </div>
