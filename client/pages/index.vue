@@ -19,8 +19,8 @@ const {isParticulier} = addressStore;
     <AccueilPresentation/>
     <AccueilTypesEau/>
     <CarteWrapper />
-    <AccueilGestes v-if="isParticulier()"/>
     <MixinsEmail/>
+    <AccueilGestes v-if="isParticulier()"/>
     <AccueilLiens/>
     <AccueilFaq/>
   </div>
