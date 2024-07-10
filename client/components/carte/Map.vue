@@ -66,7 +66,7 @@ onMounted(() => {
 
   map.value = new maplibregl.Map({
     container: mapContainer.value,
-    style: `https://etalab-tiles.fr/styles/osm-bright/style.json`,
+    style: `https://openmaptiles.data.gouv.fr/styles/osm-bright/style.json`,
     bounds: initialState,
   });
 
@@ -98,7 +98,7 @@ onMounted(() => {
     map.value?.addSource('cadastre', {
       type: 'vector',
       url:
-        `https://etalab-tiles.fr/data/decoupage-administratif.json`,
+        `https://openmaptiles.data.gouv.fr/data/decoupage-administratif.json`,
     });
     addSourceAndLayerZones(PMTILES_URL);
   });
