@@ -3,7 +3,7 @@ const logoText = ['Ministère', 'de la transition', 'écologique', 'et de la coh
 const operatorImgSrc: string = '/logo_smgc_veolia.png'
 const operatorImgAlt: string = `Logo SMGC et Veolia`
 const operatorImgStyle: any = {
-  'max-width': '400px'
+  'max-width': '300px'
 };
 const a11yCompliance: string = 'Non conforme';
 let quickLinks: any[] = [];
