@@ -53,11 +53,10 @@ const currentDate = new Date();
         </DsfrTabContent>
       </DsfrTabs>
       <DsfrHighlight class="fr-my-2w">
-        Besoin de précision sur les données ? Vous pouvez les retrouver sur <a
-        href="https://www.data.gouv.fr/fr/datasets/donnee-secheresse-vigieau/"
-        target="_blank"
-        rel="external"
-        class="fr-link">data.gouv</a>.
+        Besoin de précision sur les données ? Vous pouvez les retrouver sur
+        <NuxtLink to="/donnees" class="fr-link">
+          la page données
+        </NuxtLink>.
       </DsfrHighlight>
     </div>
   </div>

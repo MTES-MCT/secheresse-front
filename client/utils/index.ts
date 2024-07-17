@@ -79,6 +79,22 @@ const index = {
     return label;
   },
 
+  getTypeLabel(type: string | undefined): string {
+    let label = '';
+    switch (type) {
+      case 'SOU':
+        label += 'Eau superficielle';
+        break;
+      case 'SUP':
+        label += `Eau souterraine`;
+        break;
+      case 'AEP':
+        label += `Eau potable`;
+        break;
+    }
+    return label;
+  },
+
   getProvenanceLabel(restriction: Zone, light: boolean = false, inverse: boolean = false): string | undefined {
     const type = !inverse ? restriction.type : restriction.type === 'SUP' ? 'SOU' : 'SUP';
     switch (type) {

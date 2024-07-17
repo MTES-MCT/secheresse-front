@@ -11,6 +11,7 @@ const props = defineProps<{
   embedded: any,
   date: string,
   loading: boolean,
+  light: boolean,
 }>();
 
 const modalOpened: Ref<boolean> = ref(false);
@@ -348,13 +349,16 @@ watch(() => props.date, () => {
       </div>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12 fr-col-lg-9" style="position:relative;"
+      <div :class="light ? 'fr-col-12' : 'fr-col-12 fr-col-lg-9'" style="position:relative;"
            :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
-        <div class="map-wrap" :class="embedded ? 'map-wrap-embedded' : ''">
+        <div :class="{
+          'map-wrap__light': light,
+          'map-wrap-embedded': embedded
+        }" class="map-wrap">
           <div class="map" ref="mapContainer"></div>
         </div>
       </div>
-      <div class="map-legend fr-col-12 fr-col-lg-3">
+      <div v-if="!light" class="map-legend fr-col-12 fr-col-lg-3">
         <h3>Niveau de restriction affiché sur la carte</h3>
         <DsfrAccordionsGroup>
           <li v-for="legend in niveauxGravite">
@@ -373,6 +377,28 @@ watch(() => props.date, () => {
           </li>
         </DsfrAccordionsGroup>
       </div>
+    </div>
+    <div v-if="light" class="map-legend">
+      <DsfrBadge small
+                 no-icon
+                 class="situation-level-bg-0 fr-mr-1w"
+                 label="pas de restrictions" />
+      <DsfrBadge small
+                 no-icon
+                 class="situation-level-bg-1 fr-mr-1w"
+                 label="vigilance" />
+      <DsfrBadge small
+                 no-icon
+                 class="situation-level-bg-2 fr-mr-1w"
+                 label="alerte" />
+      <DsfrBadge small
+                 no-icon
+                 class="situation-level-bg-3 fr-mr-1w"
+                 label="alerte renforcée" />
+      <DsfrBadge small
+                 no-icon
+                 class="situation-level-bg-4"
+                 label="crise" />
     </div>
   </div>
   <template v-else>
@@ -402,6 +428,13 @@ watch(() => props.date, () => {
 
   &-embedded {
     height: calc(100vh - 125px - 12px);
+  }
+
+  &.map-wrap__light {
+    position: relative;
+    width: 100%;
+    height: calc(75vh - 2rem);
+    left: 0;
   }
 
   .map {

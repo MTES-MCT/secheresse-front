@@ -70,6 +70,14 @@ const index = {
     });
   },
 
+  getArretesRestrictions(date: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/arretes_restrictions?date=${date}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
   getUserSubscriptions(token: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/subscriptions`, {
