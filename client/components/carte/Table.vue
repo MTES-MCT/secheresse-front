@@ -4,7 +4,8 @@ import utils from '../../utils';
 import { Ref } from 'vue';
 
 const props = defineProps<{
-  date: string
+  date: string,
+  light: boolean,
 }>();
 
 const headers = ['N° Département', 'Département', 'Niveau de gravité'];
@@ -82,10 +83,10 @@ watch(() => props.date, () => {
 </script>
 
 <template>
-  <div class="carte-table">
+  <div class="carte-table" :class="light ? 'carte-table__light' : ''">
     <template v-if="rows?.length > 0">
       <div class="carte-table-header">
-        <h3 class="fr-mt-2w fr-mb-1w">Situation de la sécheresse en France (niveau de gravité maximum contasté par
+        <h3 class="fr-mt-2w fr-mb-1w fr-h4">Situation de la sécheresse en France (niveau de gravité maximum contasté par
           département)</h3>
         <div class="fr-grid-row fr-grid-row--center departement-card-wrapper fr-mb-2w">
           <div class="fr-col-lg fr-p-2w fr-m-1w departement-card" v-for="resume of dataResume">
@@ -102,14 +103,15 @@ watch(() => props.date, () => {
         </div>
       </div>
       <div class="carte-table-body">
-        <h3 class="fr-pt-2w fr-mb-1w">Niveau de gravité maximal observé par département</h3>
+        <h3 v-if="!light" class="fr-pt-2w fr-mb-1w">Niveau de gravité maximal observé par département</h3>
         <DsfrSearchBar v-model="query"
+                       v-if="!light"
                        placeholder="Rechercher"
                        large
                        buttonText="Rechercher"
                        ref="input"
                        @search="checkKeyboardNav({key: 'search'})" />
-        <DsfrTable title=""
+        <DsfrTable :title="light ? 'Niveau de gravité maximal observé par département' : ''"
                    :headers="headers"
                    :rows="rowsFiltered"
                    :pagination="true"
@@ -135,6 +137,14 @@ watch(() => props.date, () => {
     padding: 0 2rem;
   }
 
+  &.carte-table__light {
+    .carte-table {
+      &-header, &-body {
+        padding: 0rem;
+      }
+    }
+  }
+
   &-body {
     background: var(--grey-1000-50);
     padding-bottom: 1rem;
@@ -158,10 +168,5 @@ watch(() => props.date, () => {
   &-wrapper {
     margin: 0 -0.5rem;
   }
-}
-
-h3 {
-  font-size: 1.3rem;
-  line-height: 1.3rem;
 }
 </style>
