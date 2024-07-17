@@ -1,6 +1,16 @@
 <script setup lang="ts">
-const dateCarte = ref(new Date().toISOString().split('T')[0]);
+const emit = defineEmits<{
+  filterChange: any;
+}>();
+
+const date = ref(new Date().toISOString().split('T')[0]);
 const currentDate = new Date();
+
+watch(date, () => {
+  emit('filterChange', {
+    date,
+  });
+}, { immediate: true });
 </script>
 
 <template>
@@ -8,7 +18,7 @@ const currentDate = new Date();
     <div class="fr-col-4">
       <DsfrInput
         id="dateCarte"
-        v-model="dateCarte"
+        v-model="date"
         label="Filtrer par date"
         label-visible
         type="date"
@@ -20,7 +30,7 @@ const currentDate = new Date();
     <div class="fr-col-4">
       <DsfrInput
         id="dateCarte"
-        v-model="dateCarte"
+        v-model="date"
         label="Filtrer par date"
         label-visible
         type="date"
@@ -32,7 +42,7 @@ const currentDate = new Date();
     <div class="fr-col-4">
       <DsfrInput
         id="dateCarte"
-        v-model="dateCarte"
+        v-model="date"
         label="Filtrer par date"
         label-visible
         type="date"
