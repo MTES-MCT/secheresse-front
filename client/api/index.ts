@@ -70,6 +70,14 @@ const index = {
     });
   },
 
+  getDataArea(dateDebut: string, dateFin): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/area?dateDebut=${dateDebut}&dateFin=${dateFin}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
   getArretesRestrictions(date: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/arretes_restrictions?date=${date}`, {
