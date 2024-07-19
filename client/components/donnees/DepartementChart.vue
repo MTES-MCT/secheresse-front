@@ -20,7 +20,7 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 const loading = ref(false);
 const chartLineData = ref(null);
 const dataDepartement = ref(null);
-
+const computeDisabled = ref(true);
 
 const dateMin = ref('2013-01-01');
 const tmp = new Date();
@@ -153,14 +153,14 @@ const chartLineOptions: ChartOptions = {
       <DsfrSelect label="Territoire"
                   disabled
                   v-model="area"
-                  @update:modelValue="sortData()"
+                  @update:modelValue="computeDisabled = false"
                   :options="areaOptions" />
     </div>
     <div class="fr-col-3">
       <DsfrInput
         id="dateDebut"
         v-model="dateDebut"
-        @update:modelValue="loadData()"
+        @update:modelValue="computeDisabled = false"
         label="Date début"
         label-visible
         type="date"
@@ -173,7 +173,7 @@ const chartLineOptions: ChartOptions = {
       <DsfrInput
         id="dateFin"
         v-model="dateFin"
-        @update:modelValue="loadData()"
+        @update:modelValue="computeDisabled = false"
         label="Date fin"
         label-visible
         type="date"
@@ -181,6 +181,12 @@ const chartLineOptions: ChartOptions = {
         :min="dateDebut"
         :max="currentDate"
       />
+    </div>
+    <div class="fr-col-3">
+      <DsfrButton :disabled="computeDisabled"
+                  @click="loadData()">
+        Calculer
+      </DsfrButton>
     </div>
   </div>
   <Line v-if="!loading && chartLineData"
