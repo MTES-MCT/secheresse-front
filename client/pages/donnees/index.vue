@@ -42,5 +42,6 @@ const setFilterData = (data: any) => {
     </div>
 
     <DonneesAreaChart />
+    <DonneesDepartementChart />
   </div>
 </template>

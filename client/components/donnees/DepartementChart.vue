@@ -19,10 +19,10 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 
 const loading = ref(false);
 const chartLineData = ref(null);
-const dataArea = ref(null);
+const dataDepartement = ref(null);
 
 const dateMin = computed(() => {
-  const dates = dataArea.value ? dataArea.value?.map((d: any) => d.date).flat() : [new Date()];
+  const dates = dataDepartement.value ? dataDepartement.value?.map((d: any) => d.date).flat() : [new Date()];
   return new Date(Math.min(...dates?.map(date => new Date(date).getTime()))).toISOString().split('T')[0];
 });
 const tmp = new Date();
@@ -30,22 +30,7 @@ tmp.setFullYear(tmp.getFullYear() - 1);
 const dateDebut = ref(tmp.toISOString().split('T')[0]);
 const dateFin = ref(new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
-const typeEau = ref('AEP');
 const area = ref('all');
-
-const typesEauOptions = [
-  {
-    text: 'Eau potable',
-    value: 'AEP',
-  },
-  {
-    text: `Eau superficielle`,
-    value: 'ESO',
-  }, {
-    text: 'Eau souterraine',
-    value: 'ESU',
-  },
-];
 
 const areaOptions = [
   {
@@ -63,9 +48,9 @@ const areaOptions = [
 
 async function loadData() {
   loading.value = true;
-  const { data, error } = await api.getDataArea(dateDebut.value, dateFin.value);
+  const { data, error } = await api.getDataDepartement(dateDebut.value, dateFin.value);
   if (data.value) {
-    dataArea.value = data.value;
+    dataDepartement.value = data.value;
     sortData();
   }
   loading.value = false;
@@ -74,11 +59,11 @@ async function loadData() {
 function sortData() {
   loading.value = true;
   chartLineData.value = {
-    labels: dataArea.value.map((s: any) => s.date),
+    labels: dataDepartement.value.map((d: any) => d.date),
     datasets: [
       {
         label: 'Vigilance',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].vigilance)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'vigilance' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -87,7 +72,7 @@ function sortData() {
       },
       {
         label: 'Alerte',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].alerte)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -96,7 +81,7 @@ function sortData() {
       },
       {
         label: 'Alerte renforcée',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].alerte_renforcee)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte_renforcee' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -105,7 +90,7 @@ function sortData() {
       },
       {
         label: 'Crise',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].crise)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'crise' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -147,9 +132,6 @@ const chartLineOptions: ChartOptions = {
     },
     y: {
       stacked: true,
-      ticks: {
-        callback: (value: number) => `${value}%`,
-      },
     },
   },
   interaction: {
@@ -167,14 +149,8 @@ const chartLineOptions: ChartOptions = {
 </script>
 
 <template>
-  <h4>Evolution journalière du pourcentage de la surface concernée par des niveaux de gravité</h4>
+  <h4>Evolution journalière du nombre de départements soumis à restriction</h4>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-3">
-      <DsfrSelect label="Type d'eau"
-                  v-model="typeEau"
-                  @update:modelValue="sortData()"
-                  :options="typesEauOptions" />
-    </div>
     <div class="fr-col-3">
       <DsfrSelect label="Territoire"
                   disabled

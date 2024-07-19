@@ -70,9 +70,17 @@ const index = {
     });
   },
 
-  getDataArea(dateDebut: string, dateFin): Promise<any> {
+  getDataArea(dateDebut: string, dateFin: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/data/area?dateDebut=${dateDebut}&dateFin=${dateFin}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  getDataDepartement(dateDebut: string, dateFin: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/departement?dateDebut=${dateDebut}&dateFin=${dateFin}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
