@@ -23,10 +23,13 @@ const setFilterData = (data: any) => {
     <DsfrBreadcrumb :links='links' />
     <h1>Données sécheresse</h1>
     <DsfrHighlight class="fr-mb-2w">
-      Retrouvez les données brutes sur <a href="https://www.data.gouv.fr/fr/datasets/donnee-secheresse-vigieau/" target="_blank" rel="external" class="fr-link">data.gouv</a><br/>
+      Retrouvez les données brutes sur <a href="https://www.data.gouv.fr/fr/datasets/donnee-secheresse-vigieau/"
+                                          target="_blank" rel="external" class="fr-link">data.gouv</a><br />
       Si vous avez de besoins spécifiques, envoyer nous un email à contact.vigieau@beta.gouv.fr
     </DsfrHighlight>
-    <div>
+  </div>
+  <div class="background-blue fr-py-2w">
+    <div class="fr-container">
       <h2 class="fr-h4">Carte et historique des restrictions</h2>
       <DonneesFilter @filterChange="setFilterData($event)" />
       <template v-if="filterData">
@@ -40,8 +43,21 @@ const setFilterData = (data: any) => {
                     :date="filterData.date" />
       </template>
     </div>
+  </div>
 
+  <div class="fr-container fr-py-2w">
     <DonneesAreaChart />
-    <DonneesDepartementChart />
+  </div>
+
+  <div class="background-blue fr-py-2w">
+    <div class="fr-container">
+      <DonneesDepartementChart />
+    </div>
   </div>
 </template>
+
+<style lang="scss">
+.background-blue {
+  background-color: var(--blue-france-975-75);
+}
+</style>
