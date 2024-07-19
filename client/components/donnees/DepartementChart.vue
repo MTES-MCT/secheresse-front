@@ -189,10 +189,17 @@ const chartLineOptions: ChartOptions = {
       </DsfrButton>
     </div>
   </div>
-  <Line v-if="!loading && chartLineData"
-        :options="chartLineOptions"
-        :data="chartLineData"
-        :style="{'min-height': '400px'}" />
+  <template v-if="!loading">
+    <Line v-if="chartLineData"
+          :options="chartLineOptions"
+          :data="chartLineData"
+          :style="{'min-height': '400px'}" />
+  </template>
+  <template v-else>
+    <div class="fr-grid-row fr-grid-row--center fr-my-2w">
+      <Loader :show="true" />
+    </div>
+  </template>
 </template>
 
 <style lang="scss" scoped>
