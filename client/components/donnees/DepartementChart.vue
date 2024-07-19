@@ -142,6 +142,9 @@ const chartLineOptions: ChartOptions = {
         title: tooltipTitle,
       },
     },
+    legend: {
+      position: 'bottom',
+    },
   },
 };
 </script>

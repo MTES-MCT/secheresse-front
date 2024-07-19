@@ -38,10 +38,10 @@ const typesEauOptions = [
   },
   {
     text: `Eau superficielle`,
-    value: 'ESO',
+    value: 'ESU',
   }, {
     text: 'Eau souterraine',
-    value: 'ESU',
+    value: 'ESO',
   },
 ];
 
@@ -159,6 +159,9 @@ const chartLineOptions: ChartOptions = {
       callbacks: {
         title: tooltipTitle,
       },
+    },
+    legend: {
+      position: 'bottom',
     },
   },
 };
