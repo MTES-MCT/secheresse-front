@@ -194,3 +194,9 @@ const chartLineOptions: ChartOptions = {
         :data="chartLineData"
         :style="{'min-height': '400px'}" />
 </template>
+
+<style lang="scss" scoped>
+.fr-grid-row {
+  align-items: end;
+}
+</style>

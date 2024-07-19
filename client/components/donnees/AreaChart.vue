@@ -167,13 +167,13 @@ const chartLineOptions: ChartOptions = {
 <template>
   <h4>Evolution journalière du pourcentage de la surface concernée par des niveaux de gravité</h4>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-3">
+    <div class="fr-col-2">
       <DsfrSelect label="Type d'eau"
                   v-model="typeEau"
                   @update:modelValue="sortData()"
                   :options="typesEauOptions" />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-2">
       <DsfrSelect label="Territoire"
                   disabled
                   v-model="area"
@@ -206,7 +206,7 @@ const chartLineOptions: ChartOptions = {
         :max="currentDate"
       />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-2">
       <DsfrButton :disabled="computeDisabled"
                   @click="loadData()">
         Calculer
@@ -218,3 +218,9 @@ const chartLineOptions: ChartOptions = {
         :data="chartLineData"
         :style="{'min-height': '400px'}" />
 </template>
+
+<style lang="scss" scoped>
+.fr-grid-row {
+  align-items: end;
+}
+</style>
