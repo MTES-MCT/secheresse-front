@@ -21,10 +21,7 @@ const loading = ref(false);
 const chartLineData = ref(null);
 const dataArea = ref(null);
 
-const dateMin = computed(() => {
-  const dates = dataArea.value ? dataArea.value?.map((d: any) => d.date).flat() : [new Date()];
-  return new Date(Math.min(...dates?.map(date => new Date(date).getTime()))).toISOString().split('T')[0];
-});
+const dateMin = ref('2013-01-01');
 const tmp = new Date();
 tmp.setFullYear(tmp.getFullYear() - 1);
 const dateDebut = ref(tmp.toISOString().split('T')[0]);
