@@ -10,7 +10,7 @@ const addressStore = useAddressStore();
 const zoneStore = useZoneStore();
 const { profile, typeEau } = storeToRefs(addressStore);
 const { zones } = storeToRefs(zoneStore);
-const { resetAddress, adressString } = addressStore;
+const { resetAddress, adressString, getCodeDepartement } = addressStore;
 const { resetZones } = zoneStore;
 const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Votre situation' }]);
 
@@ -32,20 +32,20 @@ const typesEauOptions = [
 const profileOptions = [
   {
     value: 'particulier',
-    text: 'particulier'
+    text: 'particulier',
   },
   {
     value: 'entreprise',
-    text: 'professionnel'
+    text: 'professionnel',
   },
   {
     value: 'collectivite',
-    text: 'collectivité'
+    text: 'collectivité',
   },
   {
     value: 'exploitation',
-    text: 'exploitation agricole'
-  }
+    text: 'exploitation agricole',
+  },
 ];
 
 const zoneTypeEau = computed(() => {
@@ -65,6 +65,10 @@ const usagesByProfile = computed(() => {
         return u.concerneExploitation;
     }
   });
+});
+
+const showPacaMessage = computed(() => {
+  return profile.value !== 'particulier' && ['04', '05', '06', '13', '83', '84'].includes(getCodeDepartement());
 });
 
 onBeforeUnmount(() => {
@@ -89,9 +93,23 @@ onBeforeUnmount(() => {
                   v-model="profile"
                   :options="profileOptions" />
     </div>
+
+    <!-- TMP PACA -->
+    <template v-if="showPacaMessage">
+      <div class="fr-container">
+        <DsfrAlert
+          description="Les ressources stockées ne sont pas représentées sur Vigieau. Si vous consommez de l’eau issue des systèmes Serre-Ponçon, Sainte-Croix/Castillon ou Saint-Cassien veuillez vous rapprocher de votre fournisseur d’eau pour connaître les restrictions en vigueur."
+          type="warning"
+          class="fr-my-2w"
+          :closeable="false"
+        />
+      </div>
+    </template>
+
     <SituationHeader :address="addressToUse"
                      :typeEau="typeEau"
                      :zone="zoneTypeEau" />
+
     <template v-if="utils.showRestrictions(zoneTypeEau)">
       <SituationRestrictions :profile="profile"
                              :zone="zoneTypeEau"
@@ -102,7 +120,7 @@ onBeforeUnmount(() => {
         <div class="fr-grid-row fr-grid-row--center">
           <DsfrHighlight class="fr-my-2w">
             <b>Besoin de précision sur les restrictions ?</b>
-            <br/>
+            <br />
             Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
           </DsfrHighlight>
         </div>

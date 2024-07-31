@@ -38,9 +38,17 @@ export const useAddressStore = defineStore('addressStore', () => {
     }
   }
 
+  function getCodeDepartement(): string | undefined {
+    if (address.value) {
+      return address.value.properties.postcode.slice(0, 2);
+    } else if (geo.value) {
+      return geo.value.codeDepartement
+    }
+  }
+
   function isParticulier(): boolean {
     return profile.value ? profile.value === 'particulier' : false;
   }
 
-  return {setAddress, setGeo, setProfile, setTypeEau, resetAddress, adressString, address, geo, profile, typeEau, isParticulier}
+  return {setAddress, setGeo, setProfile, setTypeEau, resetAddress, adressString, address, geo, profile, typeEau, isParticulier, getCodeDepartement}
 })
