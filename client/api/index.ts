@@ -62,33 +62,41 @@ const index = {
     });
   },
 
-  getDepartmentsData(date: string): Promise<any> {
+  getRefData(): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/departements?date=${date}`, {
+    return useFetch(`/data`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   },
 
-  getDataArea(dateDebut: string, dateFin: string): Promise<any> {
+  getDepartmentsData(date: string, area?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/data/area?dateDebut=${dateDebut}&dateFin=${dateFin}`, {
+    return useFetch(`/departements?date=${date}&${area ? area : ''}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   },
 
-  getDataDepartement(dateDebut: string, dateFin: string): Promise<any> {
+  getDataArea(dateDebut: string, dateFin: string, area?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/data/departement?dateDebut=${dateDebut}&dateFin=${dateFin}`, {
+    return useFetch(`/data/area?dateDebut=${dateDebut}&dateFin=${dateFin}&${area ? area : ''}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });
   },
 
-  getArretesRestrictions(date: string): Promise<any> {
+  getDataDepartement(dateDebut: string, dateFin: string, area?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/arretes_restrictions?date=${date}`, {
+    return useFetch(`/data/departement?dateDebut=${dateDebut}&dateFin=${dateFin}&${area ? area : ''}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl
+    });
+  },
+
+  getArretesRestrictions(date: string, area?: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/arretes_restrictions?date=${date}&${area ? area : ''}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl
     });

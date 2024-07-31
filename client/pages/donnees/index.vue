@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
+import api from '../../api';
+import { useRefDataStore } from '../../store/refData';
 
 definePageMeta({
   layout: 'basic',
@@ -11,10 +13,19 @@ useHead({
 });
 
 const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Données' }]);
+const refDataStore = useRefDataStore();
 const filterData: any = ref(null);
 
+// LOAD REF DATA
+const { data, error } = await api.getRefData();
+if (data.value) {
+  refDataStore.setBassinsVersants(data.value.bassinsVersants);
+  refDataStore.setRegions(data.value.regions);
+  refDataStore.setDepartements(data.value.departements);
+}
+
 const setFilterData = (data: any) => {
-  filterData.value = data;
+  filterData.value = JSON.parse(JSON.stringify(data));
 };
 </script>
 
@@ -38,9 +49,11 @@ const setFilterData = (data: any) => {
                     :light="true"
                     :date="filterData.date" />
         </div>
-        <DonneesArretesRestrictionsTable :date="filterData.date" />
+        <DonneesArretesRestrictionsTable :date="filterData.date"
+                                         :area="filterData.area" />
         <CarteTable :light="true"
-                    :date="filterData.date" />
+                    :date="filterData.date"
+                    :area="filterData.area" />
       </template>
     </div>
   </div>

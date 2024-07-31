@@ -13,10 +13,15 @@ import {
   Tooltip,
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
+import { useRefDataStore } from '../../store/refData';
+import { BassinVersant } from '../../dto/bassinVersant.dto';
+import { Region } from '../..//dto/region.dto';
+import { Departement } from '../..//dto/departement.dto';
 
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement, Colors, Filler);
 
+const refDataStore = useRefDataStore();
 const loading = ref(false);
 const chartLineData = ref(null);
 const dataArea = ref(null);
@@ -29,7 +34,7 @@ const dateDebut = ref(tmp.toISOString().split('T')[0]);
 const dateFin = ref(new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
 const typeEau = ref('AEP');
-const area = ref('all');
+const area = ref('');
 
 const typesEauOptions = [
   {
@@ -45,23 +50,11 @@ const typesEauOptions = [
   },
 ];
 
-const areaOptions = [
-  {
-    text: 'France entière',
-    value: 'all',
-  },
-  {
-    text: `Métropole`,
-    value: 'metropole',
-  }, {
-    text: 'DROM',
-    value: 'drom',
-  },
-];
+const areaOptions = ref([]);
 
 async function loadData() {
   loading.value = true;
-  const { data, error } = await api.getDataArea(dateDebut.value, dateFin.value);
+  const { data, error } = await api.getDataArea(dateDebut.value, dateFin.value, area.value);
   if (data.value) {
     dataArea.value = data.value;
     sortData();
@@ -165,6 +158,45 @@ const chartLineOptions: ChartOptions = {
     },
   },
 };
+
+watch(() => refDataStore.departements, () => {
+  areaOptions.value = [{
+    text: 'France entière',
+    value: '',
+  }];
+  areaOptions.value.push({
+    text: 'Bassins Versants',
+    disabled: true,
+  });
+  refDataStore.bassinsVersants.forEach((b: BassinVersant) => {
+    areaOptions.value.push({
+      text: b.nom,
+      value: `bassinVersant=${b.id}`,
+    });
+  });
+  areaOptions.value.push({
+    text: 'Régions',
+    disabled: true,
+  });
+  refDataStore.regions.forEach((r: Region) => {
+    areaOptions.value.push({
+      text: r.nom,
+      value: `region=${r.id}`,
+    });
+  });
+  areaOptions.value.push({
+    text: 'Départements',
+    disabled: true,
+  });
+  refDataStore.departements.forEach((d: Departement) => {
+    areaOptions.value.push({
+      text: d.nom,
+      value: `departement=${d.id}`,
+    });
+  });
+}, {
+  immediate: true,
+})
 </script>
 
 <template>
@@ -178,7 +210,6 @@ const chartLineOptions: ChartOptions = {
     </div>
     <div class="fr-col-2">
       <DsfrSelect label="Territoire"
-                  disabled
                   v-model="area"
                   @update:modelValue="computeDisabled = false"
                   :options="areaOptions" />

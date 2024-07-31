@@ -5,6 +5,7 @@ import { Ref } from 'vue';
 
 const props = defineProps<{
   date: string,
+  area: string,
   light: boolean,
 }>();
 
@@ -45,7 +46,7 @@ const loading = ref(false);
 async function loadData() {
   rows.value = [];
   loading.value = true;
-  const { data, error } = await api.getDepartmentsData(props.date);
+  const { data, error } = await api.getDepartmentsData(props.date, props.area);
   dataResume.map(r => r.number = 0);
   data.value?.forEach((d: any) => {
     const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'pas_de_restrictions'));
@@ -73,13 +74,13 @@ function filterDepartments() {
   componentKey.value += 1;
 }
 
-watch(() => props.date, () => {
+watch(() => props, () => {
   const date = new Date(props.date);
   if (!date) {
     return;
   }
   loadData();
-}, { immediate: true });
+}, { immediate: true, deep: true });
 </script>
 
 <template>
