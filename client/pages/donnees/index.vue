@@ -36,7 +36,7 @@ const setFilterData = (data: any) => {
     <DsfrHighlight class="fr-mb-2w">
       Retrouvez les données brutes sur <a href="https://www.data.gouv.fr/fr/datasets/donnee-secheresse-vigieau/"
                                           target="_blank" rel="external" class="fr-link">data.gouv</a><br />
-      Si vous avez de besoins spécifiques, envoyer nous un email à contact.vigieau@beta.gouv.fr
+      Si vous avez des besoins spécifiques, envoyez nous un email à contact.vigieau@beta.gouv.fr
     </DsfrHighlight>
   </div>
   <div class="background-blue fr-py-2w">
