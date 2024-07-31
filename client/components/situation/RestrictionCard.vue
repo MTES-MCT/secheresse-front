@@ -1,39 +1,43 @@
 <script setup lang="ts">
-import { Usage } from "../../dto/usage.dto";
-import { Ref } from "vue";
+import { Usage } from '../../dto/usage.dto';
+import { Ref } from 'vue';
 import api from '../../api';
 
 const props = defineProps<{
   usage: Usage,
   departement: string,
   thematique: any
-}>()
+}>();
+
+const feedbackComment = ref(null);
 
 const closeModal = () => {
   modalOpened.value = false;
   modalSuccessOpened.value = false;
-}
+  feedbackComment.value = null;
+};
 
 const signalRestriction = async () => {
-  const { data, error } = await api.signalRestriction(props.usage.id);
+  const { data, error } = await api.signalRestriction(props.usage.id, feedbackComment.value);
   modalOpened.value = false;
   modalSuccessOpened.value = true;
-}
+  feedbackComment.value = null;
+};
 
 const modalOpened: Ref<boolean> = ref(false);
 const modalSuccessOpened: Ref<boolean> = ref(false);
-const modalActions: Ref<any[]> = ref([{label: "Je ne comprends pas cette restriction", onClick: signalRestriction}, {
-  label: "Annuler",
+const modalActions: Ref<any[]> = ref([{ label: 'Je ne comprends pas cette restriction', onClick: signalRestriction }, {
+  label: 'Annuler',
   onClick: closeModal,
-  secondary: true
+  secondary: true,
 }]);
-const modalActionsSuccess: Ref<any[]> = ref([{label: "Fermer", onClick: closeModal}]);
+const modalActionsSuccess: Ref<any[]> = ref([{ label: 'Fermer', onClick: closeModal }]);
 </script>
 
 <template>
   <div class="eau-card fr-p-2w">
     <div class="eau-card__header">
-      <VIcon :name="thematique.icone" scale="5"/>
+      <VIcon :name="thematique.icone" scale="5" />
     </div>
     <div class="h6 eau-card__title fr-my-2w">
       {{ usage.nom }}
@@ -44,7 +48,7 @@ const modalActionsSuccess: Ref<any[]> = ref([{label: "Fermer", onClick: closeMod
                   tertiary
                   size="small"
                   @click="modalOpened = true"
-                  no-outline/>
+                  no-outline />
     </div>
     <div class="eau-card__desc">
       {{ usage.description }}
@@ -55,9 +59,25 @@ const modalActionsSuccess: Ref<any[]> = ref([{label: "Fermer", onClick: closeMod
              icon="ri-question-line"
              :actions="modalActions"
              @close="closeModal">
-    <div>
-      Si la restriction "{{ usage.nom }}" est peu compréhensible, merci de nous le faire remonter.<br/>Nous la modifierons si nécessaire !
+    <div class="fr-mb-2w">
+      Si la restriction "{{ usage.nom }}" est peu compréhensible, merci de nous le faire remonter.<br />Nous la
+      modifierons si nécessaire !
     </div>
+    <DsfrInputGroup>
+      <DsfrInput
+        v-model="feedbackComment"
+        :is-textarea="true"
+        label="Commentaire (facultatif)"
+        label-visible
+        type="text"
+        rows="4"
+        :required="false"
+        maxlength="255"
+      />
+      <span class="fr-input-group__sub-hint">
+          {{ feedbackComment ? feedbackComment.length : 0 }}/255
+        </span>
+    </DsfrInputGroup>
   </DsfrModal>
   <DsfrModal :opened="modalSuccessOpened"
              title=" "
