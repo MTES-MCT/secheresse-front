@@ -12,7 +12,7 @@ useHead({
   title: `Données - ${useRuntimeConfig().public.appName}`,
 });
 
-const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Données' }]);
+const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Données sécheresse' }]);
 const refDataStore = useRefDataStore();
 const filterData: any = ref(null);
 
@@ -41,13 +41,14 @@ const setFilterData = (data: any) => {
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
-      <h2 class="fr-h4">Carte et historique des restrictions</h2>
       <DonneesFilter @filterChange="setFilterData($event)" />
+      <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions</h2>
       <template v-if="filterData">
         <div style="position: relative;">
           <CarteMap :embedded="false"
                     :light="true"
-                    :date="filterData.date" />
+                    :date="filterData.date"
+                    :area="filterData.area" />
         </div>
         <DonneesArretesRestrictionsTable :date="filterData.date"
                                          :area="filterData.area" />

@@ -6,10 +6,12 @@ import { useAddressStore } from '../../store/address';
 import { storeToRefs } from 'pinia';
 import api from '../../api';
 import niveauxGravite from '../../dto/niveauGravite';
+import { useRefDataStore } from '../../store/refData';
 
 const props = defineProps<{
   embedded: any,
   date: string,
+  area: string,
   loading: boolean,
   light: boolean,
 }>();
@@ -29,6 +31,7 @@ const route = useRoute();
 const departementCode = route.query.depCode;
 const showRestrictionsBtn = ref(true);
 const showError = ref(false);
+const refDataStore = useRefDataStore();
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -314,6 +317,30 @@ watch(() => props.date, () => {
     protocol.add(p);
     addSourceAndLayerZones(`${PMTILES_URL_TRUNC}_${props.date}.pmtiles`);
     showRestrictionsBtn.value = false;
+  }
+});
+
+watch(() => props.area, () => {
+  let deps = [];
+  let territoire = null;
+  let idTerritoire = null;
+  let centreTerritoire = null;
+  if (props.area) {
+    territoire = props.area.split('=')[0];
+    idTerritoire = props.area.split('=')[1];
+  }
+  if (territoire === 'bassinVersant' && idTerritoire) {
+    console.log(refDataStore.bassinVersant);
+  } else if (territoire === 'region' && idTerritoire) {
+    console.log(refDataStore.region);
+  } else if (territoire === 'departement' && idTerritoire) {
+    console.log(refDataStore.departements);
+    // depsId = refDataStore.departements.filter((d: any) => d.id === +idTerritoire);
+  }
+  if (centreTerritoire) {
+    const llb = new maplibregl.LngLatBounds();
+    llb.extend(centreTerritoire);
+    map.value?.fitBounds(llb);
   }
 });
 </script>
