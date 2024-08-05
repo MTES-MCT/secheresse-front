@@ -3,7 +3,8 @@ import api from '../../api';
 import utils from '../../utils';
 
 const props = defineProps<{
-  date: string
+  date: string,
+  area: string,
 }>();
 
 const headers = ['Numéro', 'Département', 'Niveau de gravité maximum', 'Ressources concernées',
@@ -15,7 +16,7 @@ const componentKey = ref(0);
 async function loadData() {
   rows.value = [];
   loading.value = true;
-  const { data, error } = await api.getArretesRestrictions(props.date);
+  const { data, error } = await api.getArretesRestrictions(props.date, props.area);
   data.value?.forEach((d: any) => {
     rows.value.push([d.numero, d.departement?.nom, utils.getShortSituationLabel(utils.getRestrictionRank(d.niveauGraviteMax)),
       d.types.map(t => utils.getTypeLabel(t)).join(', '), d.dateDebut, d.dateFin ? d.dateFin : '', d.fichier ? {
@@ -29,13 +30,13 @@ async function loadData() {
   loading.value = false;
 }
 
-watch(() => props.date, () => {
+watch(() => props, () => {
   const date = new Date(props.date);
   if (!date) {
     return;
   }
   loadData();
-}, { immediate: true });
+}, { immediate: true, deep: true });
 </script>
 
 <template>

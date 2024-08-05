@@ -53,7 +53,6 @@ function selectOption(option) {
 const displayAtTheTop = ref(false)
 
 const looseFocus = () => {
-  console.log('LOOSE FOCUS');
   setTimeout(() => {
     hasFocus.value = false
   }, 100)

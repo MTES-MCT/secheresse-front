@@ -1,5 +1,5 @@
-import { Address } from "../dto/address.dto";
-import { Geo } from "../dto/geo.dto";
+import { Address } from '../dto/address.dto';
+import { Geo } from '../dto/geo.dto';
 
 const _adresseOptions: string = '&limit=10';
 
@@ -9,7 +9,7 @@ const index = {
     return useFetch(`/search/?q=${addressQuery}${_adresseOptions}${exactAddress ? '&type=housenumber' : ''}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiAdresseUrl,
-      parseResponse: _formatAddresses
+      parseResponse: _formatAddresses,
     });
   },
 
@@ -17,7 +17,7 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/reverse?lon=${lon}&lat=${lat}`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiAdresseUrl
+      baseURL: runtimeConfig.public.apiAdresseUrl,
     });
   },
 
@@ -25,7 +25,7 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/communes?lon=${lon}&lat=${lat}`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiGeoUrl
+      baseURL: runtimeConfig.public.apiGeoUrl,
     });
   },
 
@@ -33,10 +33,10 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     let options = ['municipality'].includes(address.properties.type) ?
       `/zones?commune=${address.properties.citycode}` :
-      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}&commune=${address.properties.citycode}`
+      `/zones?lon=${address.geometry.coordinates[0]}&lat=${address.geometry.coordinates[1]}&commune=${address.properties.citycode}`;
     return useFetch(options, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
     });
   },
 
@@ -44,7 +44,7 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/zones?commune=${geo.code}`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
     });
   },
 
@@ -58,23 +58,47 @@ const index = {
     return useFetch(`/subscriptions`, {
       method: 'POST',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
-      body: form
+      body: form,
     });
   },
 
-  getDepartmentsData(date: string): Promise<any> {
+  getRefData(): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/departements?date=${date}`, {
+    return useFetch(`/data`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
     });
   },
 
-  getArretesRestrictions(date: string): Promise<any> {
+  getDepartmentsData(date: string, area?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/arretes_restrictions?date=${date}`, {
+    return useFetch(`/departements?date=${date}&${area ? area : ''}`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
+
+  getDataArea(dateDebut: string, dateFin: string, area?: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/area?dateDebut=${dateDebut}&dateFin=${dateFin}&${area ? area : ''}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
+
+  getDataDepartement(dateDebut: string, dateFin: string, area?: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/departement?dateDebut=${dateDebut}&dateFin=${dateFin}&${area ? area : ''}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
+
+  getArretesRestrictions(date: string, area?: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/arretes_restrictions?date=${date}&${area ? area : ''}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
     });
   },
 
@@ -84,7 +108,7 @@ const index = {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
   },
@@ -95,7 +119,7 @@ const index = {
       method: 'DELETE',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
   },
@@ -106,7 +130,7 @@ const index = {
       method: 'DELETE',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
   },
@@ -115,18 +139,21 @@ const index = {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/statistics`, {
       method: 'GET',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
     });
   },
 
-  signalRestriction(usageId: number): Promise<any> {
+  signalRestriction(usageId: number, feedbackComment: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/usage/feedback/${usageId}`, {
       method: 'POST',
-      baseURL: runtimeConfig.public.apiSecheresseUrl
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+      body: {
+        feedback: feedbackComment,
+      },
     });
-  }
-}
+  },
+};
 
 const _formatAddresses = (response: string): Address[] => {
   const addresses = JSON.parse(response);
@@ -137,6 +164,6 @@ const _formatAddresses = (response: string): Address[] => {
     return a;
   });
   return addresses;
-}
+};
 
 export default index;
