@@ -16,9 +16,11 @@ const area = ref('');
 const areaOptions = ref([]);
 
 const loadData = (() => {
+  const areaText = areaOptions.value.find(a => a.value === area.value)?.text
   emit('filterChange', {
     date: date.value,
     area: area.value,
+    areaText: areaText,
   });
 });
 

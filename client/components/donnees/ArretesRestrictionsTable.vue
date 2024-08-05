@@ -5,6 +5,7 @@ import utils from '../../utils';
 const props = defineProps<{
   date: string,
   area: string,
+  filterText: string,
 }>();
 
 const headers = ['Numéro', 'Département', 'Niveau de gravité maximum', 'Ressources concernées',
@@ -30,6 +31,10 @@ async function loadData() {
   loading.value = false;
 }
 
+const tableTitle = computed(() => {
+  return `Arrêtés de restrictions ${props.filterText ? '(' + props.filterText + ')' : ''}`;
+});
+
 watch(() => props, () => {
   const date = new Date(props.date);
   if (!date) {
@@ -42,7 +47,7 @@ watch(() => props, () => {
 <template>
   <div>
     <template v-if="!loading">
-      <DsfrTable title="Arrêtés de restrictions"
+      <DsfrTable :title="tableTitle"
                  :headers="headers"
                  :rows="rows"
                  :pagination="true"
