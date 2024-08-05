@@ -15,6 +15,7 @@ useHead({
 const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Données sécheresse' }]);
 const refDataStore = useRefDataStore();
 const filterData: any = ref(null);
+const filterText: any = ref(null);
 
 // LOAD REF DATA
 const { data, error } = await api.getRefData();
@@ -26,6 +27,11 @@ if (data.value) {
 
 const setFilterData = (data: any) => {
   filterData.value = JSON.parse(JSON.stringify(data));
+  if(filterData.value.date && filterData.value.areaText) {
+    filterText.value = `${filterData.value.areaText} au ${new Date(filterData.value.date).toLocaleDateString()}`;
+  } else {
+    filterText.value = null;
+  }
 };
 </script>
 
@@ -42,7 +48,7 @@ const setFilterData = (data: any) => {
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
       <DonneesFilter @filterChange="setFilterData($event)" />
-      <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions</h2>
+      <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions <span v-if="filterText">({{ filterText}})</span></h2>
       <template v-if="filterData">
         <div style="position: relative;">
           <CarteMap :embedded="false"
@@ -51,10 +57,12 @@ const setFilterData = (data: any) => {
                     :area="filterData.area" />
         </div>
         <DonneesArretesRestrictionsTable :date="filterData.date"
-                                         :area="filterData.area" />
+                                         :area="filterData.area"
+                                         :filterText="filterText"/>
         <CarteTable :light="true"
                     :date="filterData.date"
-                    :area="filterData.area" />
+                    :area="filterData.area"
+                    :filterText="filterText" />
       </template>
     </div>
   </div>

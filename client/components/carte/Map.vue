@@ -324,23 +324,28 @@ watch(() => props.area, () => {
   let deps = [];
   let territoire = null;
   let idTerritoire = null;
-  let centreTerritoire = null;
   if (props.area) {
     territoire = props.area.split('=')[0];
     idTerritoire = props.area.split('=')[1];
   }
   if (territoire === 'bassinVersant' && idTerritoire) {
-    console.log(refDataStore.bassinVersant);
+    const bassinVersantDeps = refDataStore.bassinsVersants.find((r: any) => r.id === +idTerritoire)?.departements;
+    deps = refDataStore.departements.filter((d: any) => bassinVersantDeps.some(bvd => bvd.id === d.id));
   } else if (territoire === 'region' && idTerritoire) {
-    console.log(refDataStore.region);
+    const regionDeps = refDataStore.regions.find((r: any) => r.id === +idTerritoire)?.departements;
+    deps = refDataStore.departements.filter((d: any) => regionDeps.some(rd => rd.id === d.id));
   } else if (territoire === 'departement' && idTerritoire) {
-    console.log(refDataStore.departements);
-    // depsId = refDataStore.departements.filter((d: any) => d.id === +idTerritoire);
+    deps = refDataStore.departements.filter((d: any) => d.id === +idTerritoire);
   }
-  if (centreTerritoire) {
+  if (deps && deps.length > 0) {
     const llb = new maplibregl.LngLatBounds();
-    llb.extend(centreTerritoire);
-    map.value?.fitBounds(llb);
+    deps.forEach((d: any) => {
+      llb.extend([d.bounds.minLat, d.bounds.minLong]);
+      llb.extend([d.bounds.maxLat, d.bounds.maxLong]);
+    });
+    map.value?.fitBounds(llb, {
+      padding: 30,
+    });
   }
 });
 </script>

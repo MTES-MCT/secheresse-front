@@ -7,6 +7,7 @@ const props = defineProps<{
   date: string,
   area: string,
   light: boolean,
+  filterText: string,
 }>();
 
 const headers = ['N° Département', 'Département', 'Niveau de gravité'];
@@ -74,6 +75,13 @@ function filterDepartments() {
   componentKey.value += 1;
 }
 
+const tableTitle = computed(() => {
+  if (props.light) {
+    return '';
+  }
+  return `Niveau de gravité maximal observé par département ${props.filterText ? '(' + props.filterText + ')' : ''}`
+});
+
 watch(() => props, () => {
   const date = new Date(props.date);
   if (!date) {
@@ -112,7 +120,7 @@ watch(() => props, () => {
                        buttonText="Rechercher"
                        ref="input"
                        @search="checkKeyboardNav({key: 'search'})" />
-        <DsfrTable :title="light ? 'Niveau de gravité maximal observé par département' : ''"
+        <DsfrTable :title="tableTitle"
                    :headers="headers"
                    :rows="rowsFiltered"
                    :pagination="true"

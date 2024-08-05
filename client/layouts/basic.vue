@@ -59,6 +59,9 @@ onMounted(() => {
 
   watch(() => route.path, newPath => {
       quickLinks = newPath === '/situation' ? [{
+        label: 'Données sécheresse',
+        to: '/donnees',
+      }, {
         label: 'Effectuer une nouvelle recherche',
         icon: 'ri-search-line',
         to: '/',
@@ -67,7 +70,10 @@ onMounted(() => {
         icon: 'ri-survey-line',
         button: true,
         onclick: utils.openTally,
-      }] : [];
+      }] : [{
+        label: 'Données sécheresse',
+        to: '/donnees',
+      }];
       key.value++;
     }, { immediate: true },
   );
