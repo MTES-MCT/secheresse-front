@@ -82,6 +82,11 @@ const tableTitle = computed(() => {
   return `Niveau de gravité maximal observé par département ${props.filterText ? '(' + props.filterText + ')' : ''}`
 });
 
+const pageTitle = computed(() => {
+  return `Situation de la sécheresse en France (niveau de gravité maximum contasté par
+          département) - ${props.filterText ? props.filterText : ''}`
+});
+
 watch(() => props, () => {
   const date = new Date(props.date);
   if (!date) {
@@ -95,8 +100,7 @@ watch(() => props, () => {
   <div class="carte-table" :class="light ? 'carte-table__light' : ''">
     <template v-if="rows?.length > 0">
       <div class="carte-table-header">
-        <h3 class="fr-mt-2w fr-mb-1w fr-h4">Situation de la sécheresse en France (niveau de gravité maximum contasté par
-          département)</h3>
+        <h3 class="fr-mt-2w fr-mb-1w fr-h4">{{ pageTitle }}</h3>
         <div class="fr-grid-row fr-grid-row--center departement-card-wrapper fr-mb-2w">
           <div class="fr-col-lg fr-p-2w fr-m-1w departement-card" v-for="resume of dataResume">
             <div>
