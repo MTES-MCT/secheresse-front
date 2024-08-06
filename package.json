@@ -61,7 +61,7 @@
     "nuxt-simple-sitemap": "^4.1.0",
     "nyc": "^17.0.0",
     "sass": "^1.62.1",
-    "sass-loader": "^14.0.0",
+    "sass-loader": "^16.0.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "~5.4.0",
     "vite-plugin-istanbul": "^6.0.2"
