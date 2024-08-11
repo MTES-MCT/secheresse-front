@@ -159,6 +159,16 @@ const chartLineOptions: ChartOptions = {
   },
 };
 
+async function downloadGraph() {
+  const el = document.getElementById('area-chart-line') as HTMLCanvasElement;
+  const content = el.toDataURL('image/png');
+
+  const a = document.createElement('a');
+  a.href = content.replace('image/png', 'image/octet-stream');
+  a.download = `graphique_surface.png`;
+  a.click();
+}
+
 watch(() => refDataStore.departements, () => {
   areaOptions.value = [{
     text: 'France entière',
@@ -249,9 +259,16 @@ watch(() => refDataStore.departements, () => {
   </div>
   <template v-if="!loading">
     <Line v-if="chartLineData"
+          id="area-chart-line"
           :options="chartLineOptions"
           :data="chartLineData"
           :style="{'min-height': '400px'}" />
+
+    <div class="text-align-right fr-mt-1w">
+      <DsfrButton @click="downloadGraph()">
+        Télécharger le graphique en .png
+      </DsfrButton>
+    </div>
   </template>
   <template v-else>
     <div class="fr-grid-row fr-grid-row--center fr-my-2w">

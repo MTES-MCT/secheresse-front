@@ -72,6 +72,7 @@ onMounted(() => {
     container: mapContainer.value,
     style: `https://openmaptiles.data.gouv.fr/styles/osm-bright/style.json`,
     bounds: initialState,
+    preserveDrawingBuffer: true,
   });
 
 
@@ -288,6 +289,15 @@ const resetZoneSelected = () => {
   popup.remove();
 };
 
+async function downloadMap() {
+  const content = map.value?.getCanvas().toDataURL('image/png');
+
+  const a = document.createElement('a');
+  a.href = content.replace('image/png', 'image/octet-stream');
+  a.download = `carte_${props.date}.png`;
+  a.click();
+}
+
 watch(() => selectedTypeEau.value, () => {
   resetZoneSelected();
 });
@@ -431,6 +441,12 @@ watch(() => props.area, () => {
                  no-icon
                  class="situation-level-bg-4"
                  label="crise" />
+    </div>
+
+    <div class="text-align-right">
+      <DsfrButton @click="downloadMap()">
+        Télécharger la carte en .png
+      </DsfrButton>
     </div>
   </div>
   <template v-else>

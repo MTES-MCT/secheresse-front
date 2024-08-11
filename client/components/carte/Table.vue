@@ -2,6 +2,7 @@
 import api from '../../api';
 import utils from '../../utils';
 import { Ref } from 'vue';
+import { json2csv } from 'json-2-csv';
 
 const props = defineProps<{
   date: string,
@@ -43,12 +44,14 @@ const rows = ref([]);
 const rowsFiltered: Ref<any[]> = ref([]);
 const componentKey = ref(0);
 const loading = ref(false);
+const departementsData = ref([]);
 
 async function loadData() {
   rows.value = [];
   loading.value = true;
   const { data, error } = await api.getDepartmentsData(props.date, props.area);
   dataResume.map(r => r.number = 0);
+  departementsData.value = data.value;
   data.value?.forEach((d: any) => {
     const dr = dataResume.find(r => r.niveauGravite === (d.niveauGraviteMax ? d.niveauGraviteMax : 'pas_de_restrictions'));
     rows.value.push([d.code, d.nom, dr ? dr.label : 'Pas de restrictions']);
@@ -75,16 +78,40 @@ function filterDepartments() {
   componentKey.value += 1;
 }
 
+async function downloadCsv() {
+  const formatDepartements = departementsData.value
+    .map((departement: any) => {
+      return {
+        code: departement.code,
+        nom: departement.nom,
+        region: departement.region,
+        niveau_gravite_max: departement.niveauGraviteMax,
+      };
+    });
+  const csv = await json2csv(formatDepartements, {
+    expandArrayObjects: true,
+  });
+
+  // Create a CSV file and allow the user to download it
+  let blob = new Blob([csv], { type: 'text/csv' });
+  let url = window.URL.createObjectURL(blob);
+  let a = document.createElement('a');
+  a.href = url;
+  a.download = `situation_departement_${props.date}.csv`;
+  document.body.appendChild(a);
+  a.click();
+}
+
 const tableTitle = computed(() => {
   if (props.light) {
     return '';
   }
-  return `Niveau de gravité maximal observé par département ${props.filterText ? '(' + props.filterText + ')' : ''}`
+  return `Niveau de gravité maximal observé par département ${props.filterText ? '(' + props.filterText + ')' : ''}`;
 });
 
 const pageTitle = computed(() => {
   return `Situation de la sécheresse en France (niveau de gravité maximum contasté par
-          département) - ${props.filterText ? props.filterText : ''}`
+          département) - ${props.filterText ? props.filterText : ''}`;
 });
 
 watch(() => props, () => {
@@ -130,6 +157,12 @@ watch(() => props, () => {
                    :pagination="true"
                    :key="componentKey"
                    class="fr-table--layout-fixed" />
+      </div>
+
+      <div class="text-align-right fr-mt-1w">
+        <DsfrButton @click="downloadCsv()">
+          Télécharger les données (CSV)
+        </DsfrButton>
       </div>
     </template>
     <template v-else-if="loading">
