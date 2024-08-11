@@ -8124,9 +8124,9 @@ map-stream@~0.1.0:
   integrity sha512-CkYQrPYZfWnu/DAmVCpTSX/xHpKZ80eKh2lAkyA6AJTef6bW+6JpbQZN5rofum7da+SyN1bi5ctTm+lTfcCW3g==
 
 maplibre-gl@^4.3.2:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/maplibre-gl/-/maplibre-gl-4.5.1.tgz#fecc2f4f7e49ae04c25089cd1a5e054361c888bb"
-  integrity sha512-pKFDK8ZU2atwZWC8gdPVhN7Bf5HIPgtA+IG/iQ7J6WgmqSwCSmylc5q3stahWqXfx9PYUwVNJITrp1Hw96SUiA==
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/maplibre-gl/-/maplibre-gl-4.5.2.tgz#b16fa36186830e216129f805a5b2f3d9d7649f0c"
+  integrity sha512-vlWL9EY2bSGg5FAt0mKPfYqlfX15uLW5D3kKv4Xjn54nIVn01MKdfUJMAVIr+8fXVqfSX6c095Iy5XnV+T76kQ==
   dependencies:
     "@mapbox/geojson-rewind" "^0.5.2"
     "@mapbox/jsonlint-lines-primitives" "^2.0.2"
