@@ -159,6 +159,12 @@ const chartLineOptions: ChartOptions = {
   },
 };
 
+const showWarningAep = computed(() => {
+  const releaseDate = new Date('2024-04-28');
+  const dd = new Date(dateDebut.value);
+  return typeEau.value === 'AEP' && dd.getTime() < releaseDate.getTime();
+});
+
 async function downloadGraph() {
   const el = document.getElementById('area-chart-line') as HTMLCanvasElement;
   const content = el.toDataURL('image/png');
@@ -256,6 +262,14 @@ watch(() => refDataStore.departements, () => {
         Calculer
       </DsfrButton>
     </div>
+  </div>
+  <div v-if="showWarningAep">
+    <DsfrAlert
+      description="Nous ne somme pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions ESO/ESU."
+      type="warning"
+      class="fr-my-2w"
+      :closeable="false"
+    />
   </div>
   <template v-if="!loading">
     <Line v-if="chartLineData"
