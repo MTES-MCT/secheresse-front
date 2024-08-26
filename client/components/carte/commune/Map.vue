@@ -1,61 +1,39 @@
 <script setup lang="ts">
 import * as maplibregl from 'maplibre-gl';
 import { Ref } from 'vue';
-import { PMTiles, Protocol } from 'pmtiles';
-import { useAddressStore } from '../../store/address';
-import { storeToRefs } from 'pinia';
-import api from '../../api';
-import niveauxGravite from '../../dto/niveauGravite';
-import { useRefDataStore } from '../../store/refData';
+import api from '../../../api';
+import moment from 'moment';
+import { useRefDataStore } from '../../../store/refData';
 
 const props = defineProps<{
   embedded: any,
-  date: string,
+  dateBegin: string,
+  dateEnd: string,
   area: string,
   loading: boolean,
-  light: boolean,
 }>();
 
+const refDataStore = useRefDataStore();
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
 const modalIcon: Ref<string> = ref('');
 const modalActions: Ref<any[]> = ref([]);
-const loadingZones: Ref<boolean> = ref(false);
+const computingCommunes: Ref<boolean> = ref(false);
 const mapContainer = shallowRef(null);
 const map: Ref<any> = shallowRef(null);
 const isMapSupported: boolean = utils.isWebglSupported();
-const runtimeConfig = useRuntimeConfig();
-const zoneSelected = ref(0);
-const route = useRoute();
-const departementCode = route.query.depCode;
-const showRestrictionsBtn = ref(true);
 const showError = ref(false);
-const refDataStore = useRefDataStore();
+const communeSelected = ref(0);
+const communeData = ref(null);
+const communeDataComputed = ref(null);
+const minPonderation = ref(0);
+const maxPonderation = ref(1000);
+const router = useRouter();
 const depsSelected = ref([]);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
-let protocol = new Protocol();
-maplibregl.addProtocol('pmtiles', (request) => {
-  return new Promise((resolve, reject) => {
-    const callback = (err, data) => {
-      if (err) {
-        showError.value = true;
-        reject(err);
-      } else {
-        showError.value = false;
-        resolve({ data });
-      }
-    };
-    protocol.tile(request, callback);
-  });
-});
-const PMTILES_URL = `${runtimeConfig.public.s3vhost}pmtiles/zones_arretes_en_vigueur.pmtiles`;
-const PMTILES_URL_TRUNC = `${runtimeConfig.public.s3vhost}pmtiles/zones_arretes_en_vigueur`;
-const p = new PMTiles(PMTILES_URL);
-// this is so we share one instance across the JS code and the map renderer
-protocol.add(p);
 let firstSymbolId: any;
 
 // Create a popup, but don't add it to the map yet.
@@ -63,6 +41,9 @@ const popup = new maplibregl.Popup({
   closeButton: true,
   closeOnClick: false,
 }).setMaxWidth('300px');
+
+// Load data
+communeData.value = (await api.getDataDuree()).data.value;
 
 onMounted(() => {
   if (!isMapSupported) {
@@ -106,14 +87,20 @@ onMounted(() => {
       url:
         `https://openmaptiles.data.gouv.fr/data/decoupage-administratif.json`,
     });
-    addSourceAndLayerZones(PMTILES_URL);
+    addSourceAndLayerZones();
+    if (communeDataComputed.value) {
+      showCommunesPonderation();
+    }
   });
 
-  map.value?.on('click', 'zones-data', (e: any) => {
-    zoneSelected.value = e.features[0].properties.id;
+  map.value?.on('click', 'communes-data', (e: any) => {
+    const feature = e.features.filter((f: any) => !f.properties.plm)[0];
+    communeSelected.value = feature ? feature.properties.code : 0;
     updateContourFilter();
-    const description = utils.generatePopupHtml(e.features[0].properties, showRestrictionsBtn.value);
-
+    if (!feature) {
+      return;
+    }
+    const description = utils.generatePopupCommuneHtml(feature.properties);
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
 
     const btn = document.getElementsByClassName('btn-map-popup')[0];
@@ -121,23 +108,8 @@ onMounted(() => {
       return;
     }
     btn.addEventListener('click', async () => {
-      let dataAddress;
-      let dataGeo;
-      dataAddress = (await api.searchAddressByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
-      if (!dataAddress.value?.features[0]) {
-        dataGeo = (await api.searchGeoByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
-      }
-      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null,
-        dataGeo?.value ? dataGeo.value[0] : null,
-        profile.value,
-        selectedTypeEau.value,
-        router,
-        modalTitle,
-        modalText,
-        modalIcon,
-        modalActions,
-        modalOpened,
-        loadingZones);
+      console.log(feature.properties.code);
+      router.push('/donnees');
     });
   });
 
@@ -174,89 +146,27 @@ const mapTags: Ref<any[]> = ref([{
   label: 'Guyane',
   bounds: [[-55.261230, 1.790480], [-51.130371, 6.107784]],
 }]);
-
-const typeEauTags: Ref<any[]> = ref([{
-  label: 'Eau potable',
-  value: 'AEP',
-  disabled: false,
-}, {
-  label: 'Eau superficielle',
-  value: 'SUP',
-}, {
-  label: 'Eau souterraine',
-  value: 'SOU',
-}]);
-const selectedTypeEau: Ref<string> = ref('AEP');
-const adressStore = useAddressStore();
-const { profile } = storeToRefs(adressStore);
-const router = useRouter();
 const expandedId = ref<string>();
 
 const flyToLocation = (bounds: any) => {
   map.value?.fitBounds(bounds);
 };
 
-const updateLayerFilter = () => {
-  map.value?.setFilter('zones-data', ['==', 'type', selectedTypeEau.value]);
-};
-
 const updateContourFilter = () => {
-  map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]]);
+  map.value?.setFilter('communes-contour', ['all', ['==', 'code', communeSelected.value]]);
 };
 
 const updateDepartementsContourFilter = () => {
-  map.value?.setFilter('departements-contour', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]);
+  map.value?.setFilter('departements-contour', ['in', 'code', ...depsSelected.value]);
 };
 
-const closeModal = () => {
-  modalOpened.value = false;
-};
-
-const addSourceAndLayerZones = (pmtilesUrl: string) => {
-  if (map.value?.getLayer('zones-data')) {
-    map.value?.removeLayer('zones-data');
-  }
+const addSourceAndLayerZones = () => {
   if (map.value?.getLayer('departements-data')) {
     map.value?.removeLayer('departements-data');
   }
   if (map.value?.getLayer('zones-contour')) {
     map.value?.removeLayer('zones-contour');
   }
-  if (map.value?.getSource('zones')) {
-    map.value?.removeSource('zones');
-  }
-
-  map.value?.addSource('zones', {
-    type: 'vector',
-    url:
-      `pmtiles://${pmtilesUrl}`,
-  });
-
-  map.value?.addLayer({
-    id: 'zones-data',
-    type: 'fill',
-    source: 'zones',
-    'source-layer': 'zones_arretes_en_vigueur',
-    filter: ['==', 'type', selectedTypeEau.value],
-    paint: {
-      'fill-color': [
-        'match',
-        ['get', 'niveauGravite'],
-        'vigilance',
-        '#FFEDA0',
-        'alerte',
-        '#FEB24C',
-        'alerte_renforcee',
-        '#FC4E2A',
-        'crise',
-        '#B10026',
-        '#e8edff',
-      ],
-      'fill-opacity': {
-        stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
-      },
-    },
-  }, firstSymbolId);
 
   map.value?.addLayer({
     id: 'departements-data',
@@ -278,7 +188,7 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
     type: 'line',
     source: 'decoupage-administratif',
     'source-layer': 'departements',
-    filter: ['all', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]],
+    filter: ['all', ['in', 'code', ...depsSelected.value]],
     paint: {
       'line-color': '#000091',
       'line-width': 2,
@@ -286,24 +196,16 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
   }, firstSymbolId);
 
   map.value?.addLayer({
-    id: 'zones-contour',
+    id: 'communes-contour',
     type: 'line',
-    source: 'zones',
-    'source-layer': 'zones_arretes_en_vigueur',
-    filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]],
+    source: 'decoupage-administratif',
+    'source-layer': 'communes',
+    filter: ['all', ['==', 'code', communeSelected.value]],
     paint: {
       'line-color': '#000091',
       'line-width': 3,
     },
   }, firstSymbolId);
-
-  // If date < vigieau admin, on affiche pas eau potable.
-};
-
-const resetZoneSelected = () => {
-  zoneSelected.value = 0;
-  updateContourFilter();
-  popup.remove();
 };
 
 async function downloadMap() {
@@ -311,43 +213,75 @@ async function downloadMap() {
 
   const a = document.createElement('a');
   a.href = content.replace('image/png', 'image/octet-stream');
-  a.download = `carte_${props.date}.png`;
+  a.download = `carte_evolution_${props.dateBegin}-${props.dateEnd}.png`;
   a.click();
 }
 
-watch(() => selectedTypeEau.value, () => {
-  resetZoneSelected();
-});
+const resetCommuneSelected = () => {
+  communeSelected.value = 0;
+  updateContourFilter();
+  popup.remove();
+};
 
-watch(() => props.date, () => {
-  const date = new Date(props.date);
-  if (!date || !map.value) {
+function computeData() {
+  const dateBegin = props.dateBegin ? moment(props.dateBegin, 'YYYY-MM') : null;
+  const dateEnd = props.dateEnd ? moment(props.dateEnd, 'YYYY-MM') : null;
+  if (!dateBegin || !dateEnd || !communeData.value) {
     return;
   }
-  resetZoneSelected();
-  if (date < new Date('2024-04-28')) {
-    if (selectedTypeEau.value === 'AEP') {
-      selectedTypeEau.value = 'SUP';
-    }
-    typeEauTags.value[0].disabled = true;
-  } else {
-    typeEauTags.value[0].disabled = false;
+  resetCommuneSelected();
+  computeArea();
+  computingCommunes.value = true;
+  communeDataComputed.value = [];
+  const communesFiltered = depsSelected.value && depsSelected.value.length > 0 ? communeData.value.filter((commune: any) => {
+    return depsSelected.value.includes(commune.code.slice(0, 2));
+  }) : communeData.value;
+  for (const commune of communesFiltered) {
+    communeDataComputed.value.push({
+      code: commune.code,
+      // FILTRER PAR DATE
+      ponderation: commune.restrictions
+        .filter((r: any) => {
+          return moment(r.date, 'YYYY-MM').isSameOrAfter(dateBegin) && moment(r.date, 'YYYY-MM').isSameOrBefore(dateEnd);
+        })
+        .reduce((acc: any, value: any) => acc + value.p ? value.p : 0, 0),
+    });
   }
-  const today = new Date();
-  if (date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate()) {
-    addSourceAndLayerZones(PMTILES_URL);
-    showRestrictionsBtn.value = true;
-  } else {
-    const p = new PMTiles(`${PMTILES_URL_TRUNC}_${props.date}.pmtiles`);
-    protocol.add(p);
-    addSourceAndLayerZones(`${PMTILES_URL_TRUNC}_${props.date}.pmtiles`);
-    showRestrictionsBtn.value = false;
-  }
-});
+  console.log(communeDataComputed.value);
+  computingCommunes.value = false;
+  showCommunesPonderation();
+}
 
-watch(() => props.area, () => {
+function showCommunesPonderation() {
+  console.log('SHOW COMMUNES PONDERATION');
+  if (map.value?.getLayer('communes-data')) {
+    map.value?.removeLayer('communes-data');
+  }
+
+  const matchCommuneExpression = ['match', ['get', 'code']];
+  for (const commune of communeDataComputed.value) {
+    const color = ((maxPonderation.value - commune.ponderation) / (maxPonderation.value - minPonderation.value)) * 230;
+    matchCommuneExpression.push(commune.code, `rgb(${color}, ${color}, 255)`);
+  }
+  matchCommuneExpression.push('rgba(0, 0, 0, 0)');
+
+  map.value?.addLayer({
+    id: 'communes-data',
+    type: 'fill',
+    source: 'decoupage-administratif',
+    'source-layer': 'communes',
+    layout: {},
+    paint: {
+      'fill-outline-color': '#888888',
+      'fill-color': matchCommuneExpression,
+      'fill-opacity': {
+        stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
+      },
+    },
+  }, firstSymbolId);
+}
+
+function computeArea() {
   let deps = [];
   let territoire = null;
   let idTerritoire = null;
@@ -374,9 +308,13 @@ watch(() => props.area, () => {
       padding: 30,
     });
   }
-  depsSelected.value = deps;
+  depsSelected.value = deps.map((d: any) => d.code);
   updateDepartementsContourFilter();
-});
+}
+
+watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
+  computeData();
+}, { immediate: true });
 </script>
 
 <template>
@@ -390,16 +328,6 @@ watch(() => props.area, () => {
         />
       </div>
       <div class="map-pre-actions-card fr-p-1w fr-m-1w">
-        <h6 class="fr-mb-1w fr-mr-2w">Situation par ressource :</h6>
-        <DsfrRadioButton v-for="option of typeEauTags"
-                         :modelValue="selectedTypeEau"
-                         v-bind="option"
-                         :small="true"
-                         class="fr-mb-1w"
-                         @update:modelValue="selectedTypeEau = $event; updateLayerFilter();"
-        />
-      </div>
-      <div class="map-pre-actions-card fr-p-1w fr-m-1w">
         <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
         <DsfrTag v-for="tag in mapTags"
                  :label="tag.label"
@@ -410,36 +338,16 @@ watch(() => props.area, () => {
       </div>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div :class="light ? 'fr-col-12' : 'fr-col-12 fr-col-lg-9'" style="position:relative;"
+      <div class="fr-col-12" style="position:relative;"
            :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
         <div :class="{
-          'map-wrap__light': light,
           'map-wrap-embedded': embedded
         }" class="map-wrap">
           <div class="map" ref="mapContainer"></div>
         </div>
       </div>
-      <div v-if="!light" class="map-legend fr-col-12 fr-col-lg-3">
-        <h3>Niveau de restriction affiché sur la carte</h3>
-        <DsfrAccordionsGroup>
-          <li v-for="legend in niveauxGravite">
-            <DsfrAccordion
-              :expanded-id="expandedId"
-              @expand="expandedId = $event">
-              <template v-slot:title>
-                <DsfrBadge small
-                           class="fr-mr-1w"
-                           :class="legend.class"
-                           type=""
-                           :label="legend.text" />
-              </template>
-              {{ legend.description }}
-            </DsfrAccordion>
-          </li>
-        </DsfrAccordionsGroup>
-      </div>
     </div>
-    <div v-if="light" class="map-legend">
+    <div class="map-legend">
       <DsfrBadge small
                  no-icon
                  class="situation-level-bg-0 fr-mr-1w"
@@ -476,32 +384,29 @@ watch(() => props.area, () => {
     />
   </template>
 
-  <DsfrModal :opened="modalOpened"
-             :title="modalTitle"
-             :icon="modalIcon"
-             :actions=modalActions
-             @close="closeModal">
-    <div v-html="modalText"></div>
-  </DsfrModal>
+  <!--  <DsfrModal :opened="modalOpened"-->
+  <!--             :title="modalTitle"-->
+  <!--             :icon="modalIcon"-->
+  <!--             :actions=modalActions-->
+  <!--             @close="closeModal">-->
+  <!--    <div v-html="modalText"></div>-->
+  <!--  </DsfrModal>-->
 </template>
 
 <style lang="scss">
 .map-wrap {
-  position: absolute;
-  width: calc(100vw + 32px);
+  position: relative;
+  width: 100%;
+  height: calc(75vh - 2rem);
+  left: 0;
   max-width: calc(100% + 32px);
-  height: calc(75vh - 3rem);
-  left: -32px;
 
   &-embedded {
+    position: absolute;
+    width: calc(100vw + 32px);
+    max-width: calc(100% + 32px);
+    left: -32px;
     height: calc(100vh - 125px - 12px);
-  }
-
-  &.map-wrap__light {
-    position: relative;
-    width: 100%;
-    height: calc(75vh - 2rem);
-    left: 0;
   }
 
   .map {

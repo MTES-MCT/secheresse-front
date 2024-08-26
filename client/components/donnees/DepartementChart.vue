@@ -44,6 +44,7 @@ async function loadData() {
     dataDepartement.value = data.value;
     sortData();
   }
+  computeDisabled.value = true;
   loading.value = false;
 }
 
@@ -192,7 +193,6 @@ watch(() => refDataStore.departements, () => {
 </script>
 
 <template>
-  <h4>Evolution journalière du nombre de départements soumis à restriction</h4>
   <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-3">
       <DsfrSelect label="Territoire"

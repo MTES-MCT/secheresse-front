@@ -48,7 +48,7 @@ const index = {
   },
 
   getSituationBadgeLabel(situationRank: number | undefined): string {
-    console.log('SITUATION RANK', situationRank)
+    console.log('SITUATION RANK', situationRank);
     if (!situationRank) {
       return 'Pas de restrictions';
     }
@@ -231,7 +231,7 @@ const index = {
 </div>
 `;
 
-    if(showRestrictionsBtn) {
+    if (showRestrictionsBtn) {
       popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">
@@ -240,6 +240,16 @@ Voir les restrictions
 </div>`;
     }
     return popupHtml;
+  },
+
+  generatePopupCommuneHtml(pmtilesData: any) {
+    return `
+<div class="map-popup-zone">${pmtilesData.nom}</div>
+<div>
+<button class="fr-btn btn-map-popup">
+Voir l'historique
+</button>
+</div>`;
   },
 
   isWebglSupported() {
