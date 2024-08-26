@@ -59,6 +59,7 @@ async function loadData() {
     dataArea.value = data.value;
     sortData();
   }
+  computeDisabled.value = true;
   loading.value = false;
 }
 
@@ -216,7 +217,6 @@ watch(() => refDataStore.departements, () => {
 </script>
 
 <template>
-  <h4>Evolution journalière du pourcentage de la surface concernée par des niveaux de gravité</h4>
   <div class="fr-grid-row fr-grid-row--gutters">
     <div class="fr-col-2">
       <DsfrSelect label="Type d'eau"
@@ -265,7 +265,7 @@ watch(() => refDataStore.departements, () => {
   </div>
   <div v-if="showWarningAep">
     <DsfrAlert
-      description="Nous ne somme pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions ESO/ESU."
+      description="Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions ESO/ESU."
       type="warning"
       class="fr-my-2w"
       :closeable="false"

@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import { BassinVersant } from '../../dto/bassinVersant.dto';
-import { Region } from '../../dto/region.dto';
-import { Departement } from '../../dto/departement.dto';
-import { useRefDataStore } from '../../store/refData';
+import { BassinVersant } from '../../../dto/bassinVersant.dto';
+import { Region } from '../../../dto/region.dto';
+import { Departement } from '../../../dto/departement.dto';
+import { useRefDataStore } from '../../../store/refData';
+import moment from 'moment';
 
 const emit = defineEmits<{
   filterChange: any;
 }>();
 
 const refDataStore = useRefDataStore();
-const date = ref(new Date().toISOString().split('T')[0]);
-const currentDate = new Date();
+const dateMin = ref('2013-01');
+const currentDate = moment();
+const dateDebut = ref();
+const dateFin = ref();
 const area = ref('');
-const computeDisabled = ref(true);
+const computeDisabled = ref(false);
 
 const areaOptions = ref([]);
 
 const loadData = (() => {
   const areaText = areaOptions.value.find(a => a.value === area.value)?.text
   emit('filterChange', {
-    date: date.value,
+    dateDebut: dateDebut.value,
+    dateFin: dateFin.value,
     area: area.value,
     areaText: areaText,
   });
   computeDisabled.value = true;
-});
-
-onMounted(() => {
-  loadData();
 });
 
 watch(() => refDataStore.departements, () => {
@@ -72,23 +72,36 @@ watch(() => refDataStore.departements, () => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-4">
+    <div class="fr-col-3">
       <DsfrSelect label="Territoire"
                   v-model="area"
-                  @update:modelValue="computeDisabled = false"
+                  @update:modelValue="computeDisabled = !(dateDebut && dateFin)"
                   :options="areaOptions" />
     </div>
-    <div class="fr-col-4">
+    <div class="fr-col-3">
       <DsfrInput
-        id="dateCarte"
-        v-model="date"
-        @update:modelValue="computeDisabled = false"
-        label="Filtrer par date"
+        id="dateDebut"
+        v-model="dateDebut"
+        @update:modelValue="computeDisabled = !(dateDebut && dateFin)"
+        label="Date début"
         label-visible
-        type="date"
+        type="month"
+        name="dateDebutCarte"
+        :min="dateMin"
+        :max="dateFin ? dateFin : currentDate.format('YYYY-MM')"
+      />
+    </div>
+    <div class="fr-col-3">
+      <DsfrInput
+        id="dateFin"
+        v-model="dateFin"
+        @update:modelValue="computeDisabled = !(dateDebut && dateFin)"
+        label="Date fin"
+        label-visible
+        type="month"
         name="dateCarte"
-        min="2012-01-01"
-        :max="currentDate.toISOString().split('T')[0]"
+        :min="dateDebut"
+        :max="currentDate.format('YYYY-MM')"
       />
     </div>
     <div class="fr-col-3">

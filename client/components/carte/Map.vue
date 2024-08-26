@@ -32,6 +32,7 @@ const departementCode = route.query.depCode;
 const showRestrictionsBtn = ref(true);
 const showError = ref(false);
 const refDataStore = useRefDataStore();
+const depsSelected = ref([]);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -100,7 +101,7 @@ onMounted(() => {
         break;
       }
     }
-    map.value?.addSource('cadastre', {
+    map.value?.addSource('decoupage-administratif', {
       type: 'vector',
       url:
         `https://openmaptiles.data.gouv.fr/data/decoupage-administratif.json`,
@@ -203,6 +204,10 @@ const updateContourFilter = () => {
   map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]]);
 };
 
+const updateDepartementsContourFilter = () => {
+  map.value?.setFilter('departements-contour', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]);
+};
+
 const closeModal = () => {
   modalOpened.value = false;
 };
@@ -256,7 +261,7 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
   map.value?.addLayer({
     id: 'departements-data',
     type: 'line',
-    source: 'cadastre',
+    source: 'decoupage-administratif',
     'source-layer': 'departements',
     layout: {
       'line-join': 'round',
@@ -265,6 +270,18 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
     paint: {
       'line-color': '#888888',
       'line-width': 1,
+    },
+  }, firstSymbolId);
+
+  map.value?.addLayer({
+    id: 'departements-contour',
+    type: 'line',
+    source: 'decoupage-administratif',
+    'source-layer': 'departements',
+    filter: ['all', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]],
+    paint: {
+      'line-color': '#000091',
+      'line-width': 2,
     },
   }, firstSymbolId);
 
@@ -357,6 +374,8 @@ watch(() => props.area, () => {
       padding: 30,
     });
   }
+  depsSelected.value = deps;
+  updateDepartementsContourFilter();
 });
 </script>
 

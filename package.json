@@ -24,6 +24,7 @@
     "json-2-csv": "^5.5.5",
     "luxon": "^3.4.3",
     "maplibre-gl": "^4.5.2",
+    "moment": "^2.30.1",
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.2.1",
     "pmtiles": "^3.0.6",
