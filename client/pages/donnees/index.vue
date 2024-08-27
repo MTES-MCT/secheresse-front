@@ -9,7 +9,7 @@ useHead({
   title: `Données - ${useRuntimeConfig().public.appName}`,
 });
 
-const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Données sécheresse' }]);
+const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données sécheresse' }]);
 </script>
 
 <template>

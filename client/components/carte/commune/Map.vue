@@ -102,8 +102,7 @@ onMounted(() => {
       return;
     }
     btn.addEventListener('click', async () => {
-      console.log(feature.properties.code);
-      router.push('/donnees');
+      router.push(`/donnees/commune/${feature.properties.code}`);
     });
   });
 

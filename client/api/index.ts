@@ -102,6 +102,14 @@ const index = {
     });
   },
 
+  getDataCommune(codeInsee: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/commune/${codeInsee}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
+
   getArretesRestrictions(date: string, area?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/arretes_restrictions?date=${date}&${area ? area : ''}`, {
