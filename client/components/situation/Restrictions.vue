@@ -12,46 +12,46 @@ const props = defineProps<{
 const selectedTagIndex: Ref<number> = ref(0);
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
-  icone: 'eau-goutte-arrosoir-interdiction',
+  icon: 'eau-goutte-arrosoir-interdiction',
 }, {
   label: 'Remplir ou vidanger',
-  icone: 'eau-goutte-piscine-interdiction',
+  icon: 'eau-goutte-piscine-interdiction',
 }, {
   label: 'Nettoyer',
-  icone: 'eau-goutte-nettoyage-interdiction',
+  icon: 'eau-goutte-nettoyage-interdiction',
 }, {
   label: 'Alimenter des fontaines et autres usages de loisirs',
-  icone: 'eau-goutte-fontaine-interdiction',
+  icon: 'eau-goutte-fontaine-interdiction',
 }, {
   label: 'Irriguer',
-  icone: 'eau-goutte-remplissage-interdiction',
+  icon: 'eau-goutte-remplissage-interdiction',
 }, {
   label: 'Travaux et activités en cours d\'eau',
-  icone: 'eau-goutte-travaux-interdiction',
+  icon: 'eau-goutte-travaux-interdiction',
 }, {
   label: 'Abreuver',
-  icone: 'eau-goutte-abreuvement-interdiction',
+  icon: 'eau-goutte-abreuvement-interdiction',
 }, {
   label: 'Prélever',
-  icone: 'eau-goutte-canaux-interdiction',
+  icon: 'eau-goutte-canaux-interdiction',
 }, {
   label: 'ICPE',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Activités économiques',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Ouvrages hydrauliques',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Sécurité incendie',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Rejeter',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Installations de production d\'électricité',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
@@ -91,6 +91,7 @@ watch(() => props.profile, () => {
                  class="fr-m-1w no-checkmark tag-lg"
                  :aria-pressed="selectedTagIndex === index"
                  @click="selectedTagIndex = index"
+                 :icon="thematique.icon"
                  tag-name="button" />
       </div>
       <div class="restriction full-width">
@@ -98,7 +99,10 @@ watch(() => props.profile, () => {
           <DsfrTabs class="tabs-light">
             <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                             :selected="selectedTagIndex === index">
-              <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
+              <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-pb-2w">
+                <div class="fr-col-12 text-align-center">
+                  <b>Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€</b>
+                </div>
                 <template v-if="usagesFiltered().length > 0">
                   <div v-for="usage in usagesFiltered()"
                        class="fr-col-12 fr-col-md-4">
@@ -129,9 +133,8 @@ watch(() => props.profile, () => {
             </div>
           </div>
           <div class="fr-grid-row fr-grid-row--center">
-            <b>Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€</b>
-            <div class="fr-mt-4w">
-              <DsfrHighlight>
+            <div class="fr-my-2w">
+              <DsfrCallout>
                 <b>Besoin de précision sur les restrictions ?</b><br />
                 <b>La zone d’alerte concernée par votre est adresse est {{ zone.nom }}</b><br />
                 Merci de consulter <a class="fr-link"
@@ -147,7 +150,7 @@ watch(() => props.profile, () => {
                 l'arrêté cadre préfectoral</a>.
                 <br/><br/>
                 Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
-              </DsfrHighlight>
+              </DsfrCallout>
             </div>
           </div>
         </div>
@@ -159,10 +162,6 @@ watch(() => props.profile, () => {
 <style lang="scss">
 .fr-tabs {
   width: 100%;
-}
-
-.restriction {
-  background: var(--background-alt-blue-france);
 }
 
 .fr-highlight {

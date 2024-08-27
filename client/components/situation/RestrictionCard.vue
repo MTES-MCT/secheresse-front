@@ -36,10 +36,7 @@ const modalActionsSuccess: Ref<any[]> = ref([{ label: 'Fermer', onClick: closeMo
 
 <template>
   <div class="eau-card fr-p-2w">
-    <div class="eau-card__header">
-      <VIcon :name="thematique.icone" scale="5" />
-    </div>
-    <div class="h6 eau-card__title fr-my-2w">
+    <div class="h6 eau-card__title fr-mb-1w">
       {{ usage.nom }}
 
       <DsfrButton icon="ri-question-line"
