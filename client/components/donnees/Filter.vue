@@ -103,5 +103,11 @@ watch(() => refDataStore.departements, () => {
 <style lang="scss" scoped>
 .fr-grid-row {
   align-items: end;
+
+  :deep(.fr-select) {
+    option:disabled {
+      font-weight: bold;
+    }
+  }
 }
 </style>

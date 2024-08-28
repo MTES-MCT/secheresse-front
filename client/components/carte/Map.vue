@@ -280,7 +280,7 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
     'source-layer': 'departements',
     filter: ['all', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]],
     paint: {
-      'line-color': '#000091',
+      'line-color': '#000',
       'line-width': 2,
     },
   }, firstSymbolId);
@@ -307,11 +307,15 @@ const resetZoneSelected = () => {
 };
 
 async function downloadMap() {
+  const dpi = 300;
+  Object.defineProperty(window, 'devicePixelRatio', {
+    get: function() {return dpi / 96}
+  });
   const content = map.value?.getCanvas().toDataURL('image/png');
 
   const a = document.createElement('a');
   a.href = content.replace('image/png', 'image/octet-stream');
-  a.download = `carte_${props.date}.png`;
+  a.download = `carte_${props.date}_${selectedTypeEau.value}.png`;
   a.click();
 }
 

@@ -22,6 +22,7 @@ const showError = ref(false);
 const communeSelected = ref(0);
 const communeData = ref(null);
 const communeDataComputed = ref(null);
+const departementDataComputed = ref(null);
 const maxPonderation = ref(0);
 const router = useRouter();
 const depsSelected = ref([]);
@@ -161,7 +162,7 @@ const addSourceAndLayerZones = () => {
   }
 
   map.value?.addLayer({
-    id: 'departements-data',
+    id: 'all-departements-data',
     type: 'line',
     source: 'decoupage-administratif',
     'source-layer': 'departements',
@@ -182,7 +183,7 @@ const addSourceAndLayerZones = () => {
     'source-layer': 'departements',
     filter: ['all', ['in', 'code', ...depsSelected.value]],
     paint: {
-      'line-color': '#000091',
+      'line-color': '#000',
       'line-width': 2,
     },
   }, firstSymbolId);
@@ -201,6 +202,10 @@ const addSourceAndLayerZones = () => {
 };
 
 async function downloadMap() {
+  const dpi = 300;
+  Object.defineProperty(window, 'devicePixelRatio', {
+    get: function() {return dpi / 96}
+  });
   const content = map.value?.getCanvas().toDataURL('image/png');
 
   const a = document.createElement('a');
@@ -239,23 +244,48 @@ function computeData() {
   computeMinMaxPonderation(dateBegin, dateEnd);
   computingCommunes.value = true;
   communeDataComputed.value = [];
+  departementDataComputed.value = [];
   const communesFiltered = depsSelected.value && depsSelected.value.length > 0 ? communeData.value.filter((commune: any) => {
-    return depsSelected.value.includes(commune.code.slice(0, 2));
+    return depsSelected.value.includes(getDepartementCode(commune.code));
   }) : communeData.value;
   for (const commune of communesFiltered) {
+    const ponderation = commune.restrictions
+      .filter((r: any) => {
+        return moment(r.d, 'YYYY-MM').isSameOrAfter(dateBegin) && moment(r.d, 'YYYY-MM').isSameOrBefore(dateEnd);
+      })
+      .reduce((acc: any, value: any) => acc + (value.p ? value.p : 0), 0);
     communeDataComputed.value.push({
       code: commune.code,
       // FILTRER PAR DATE
-      ponderation: commune.restrictions
-        .filter((r: any) => {
-          return moment(r.d, 'YYYY-MM').isSameOrAfter(dateBegin) && moment(r.d, 'YYYY-MM').isSameOrBefore(dateEnd);
-        })
-        .reduce((acc: any, value: any) => acc + (value.p ? value.p : 0), 0),
+      ponderation: ponderation,
     });
+    const depCode = getDepartementCode(commune.code);
+    const index = departementDataComputed.value.findIndex(d => d.code === depCode);
+    if(index < 0) {
+      departementDataComputed.value.push({
+        code: depCode,
+        ponderations: [ponderation]
+      })
+    } else {
+      departementDataComputed.value[index].ponderations.push(ponderation);
+    }
+  }
+  for (const departement of departementDataComputed.value) {
+    departement.ponderation = Math.round(departement.ponderations.reduce((acc: any, value: any) => acc + value, 0) / departement.ponderations.length);
+    delete departement.ponderations;
   }
   console.log(communeDataComputed.value);
+  console.log(departementDataComputed.value);
   computingCommunes.value = false;
   showCommunesPonderation();
+}
+
+function getDepartementCode(codeInsee: string) {
+  let toReturn = codeInsee.slice(0, 2);
+  if (toReturn === '97' || toReturn === '98') {
+    toReturn = codeInsee.slice(0, 3);
+  }
+  return toReturn;
 }
 
 function showCommunesPonderation() {
@@ -263,26 +293,13 @@ function showCommunesPonderation() {
   if (map.value?.getLayer('communes-data')) {
     map.value?.removeLayer('communes-data');
   }
+  if (map.value?.getLayer('departements-data')) {
+    map.value?.removeLayer('departements-data');
+  }
 
   const matchCommuneExpression = ['match', ['get', 'code']];
   for (const commune of communeDataComputed.value) {
-    const communePonderation = commune.ponderation > maxPonderation.value ? maxPonderation.value : commune.ponderation;
-    if (communePonderation <= 0) {
-      matchCommuneExpression.push(commune.code, `rgba(0, 0, 0, 0)`);
-      continue;
-    }
-    const percentage = communePonderation / maxPonderation.value;
-
-    // Les valeurs RVB pour les deux couleurs
-    const startColor = { r: 255, g: 237, b: 160 }; // Jaune vigilance
-    const endColor = { r: 177, g: 0, b: 38 }; // Rouge crise
-
-    // Calculer la couleur en fonction du pourcentage
-    const r = Math.round(startColor.r + (endColor.r - startColor.r) * (percentage));
-    const g = Math.round(startColor.g + (endColor.g - startColor.g) * (percentage));
-    const b = Math.round(startColor.b + (endColor.b - startColor.b) * (percentage));
-
-    matchCommuneExpression.push(commune.code, `rgb(${r}, ${g}, ${b})`);
+    computeColorExpression(commune.code, commune.ponderation, matchCommuneExpression);
   }
   matchCommuneExpression.push('rgba(0, 0, 0, 0)');
 
@@ -300,6 +317,47 @@ function showCommunesPonderation() {
       },
     },
   }, firstSymbolId);
+
+  const matchDepartementExpression = ['match', ['get', 'code']];
+  for (const departement of departementDataComputed.value) {
+    computeColorExpression(departement.code, departement.ponderation, matchDepartementExpression);
+  }
+  matchDepartementExpression.push('rgba(0, 0, 0, 0)');
+
+  map.value?.addLayer({
+    id: 'departements-data',
+    type: 'fill',
+    source: 'decoupage-administratif',
+    'source-layer': 'departements',
+    layout: {},
+    maxzoom: 8,
+    paint: {
+      'fill-color': matchDepartementExpression,
+      'fill-opacity': {
+        stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
+      },
+    },
+  }, firstSymbolId);
+}
+
+function computeColorExpression(code, ponderation, expression) {
+  const p = ponderation > maxPonderation.value ? maxPonderation.value : ponderation;
+  if (p <= 0) {
+    expression.push(code, `rgba(0, 0, 0, 0)`);
+    return;
+  }
+  const percentage = p / maxPonderation.value;
+
+  // Les valeurs RVB pour les deux couleurs
+  const startColor = { r: 255, g: 237, b: 160 }; // Jaune vigilance
+  const endColor = { r: 177, g: 0, b: 38 }; // Rouge crise
+
+  // Calculer la couleur en fonction du pourcentage
+  const r = Math.round(startColor.r + (endColor.r - startColor.r) * (percentage));
+  const g = Math.round(startColor.g + (endColor.g - startColor.g) * (percentage));
+  const b = Math.round(startColor.b + (endColor.b - startColor.b) * (percentage));
+
+  expression.push(code, `rgb(${r}, ${g}, ${b})`);
 }
 
 function computeArea() {

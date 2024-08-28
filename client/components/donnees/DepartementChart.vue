@@ -148,7 +148,8 @@ async function downloadGraph() {
 
   const a = document.createElement('a');
   a.href = content.replace('image/png', 'image/octet-stream');
-  a.download = `graphique_departements.png`;
+  const territoire = areaOptions.value.find((a: any) => a.value === area.value);
+  a.download = `graphique_departements_${territoire.text}_${dateDebut.value}_${dateFin.value}.png`;
   a.click();
 }
 
