@@ -3,7 +3,6 @@ import { useAddressStore } from '../../store/address';
 import { storeToRefs } from 'pinia';
 import { Ref } from 'vue';
 import { useZoneStore } from '../../store/zone';
-import { Zone } from '../../dto/zone.dto';
 import utils from '../../utils';
 
 const addressStore = useAddressStore();
