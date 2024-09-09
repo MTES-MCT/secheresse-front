@@ -212,7 +212,7 @@ const index = {
   },
 
   openTally() {
-    window.Tally.openPopup('w54YQZ', {
+    window.Tally.openPopup('w881YY', {
       width: 376,
       autoClose: 2000,
       emoji: {
