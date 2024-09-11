@@ -11,7 +11,6 @@ const tabTitles = [
 ];
 const selectedTabIndex: Ref<number> = ref(0);
 const dateCarte = ref(new Date().toISOString().split('T')[0]);
-const currentDate = new Date();
 </script>
 
 <template>
@@ -20,19 +19,6 @@ const currentDate = new Date();
       <div class="fr-mb-4w">
         <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row--middle header-wrapper">
           <h2 class="fr-mb-0">Carte et historique</h2>
-          <div class="full-width fr-hidden-lg" />
-          <div>
-            <DsfrInput
-              id="dateCarte"
-              v-model="dateCarte"
-              label="Filtrer par date"
-              label-visible
-              type="date"
-              name="dateCarte"
-              min="2012-01-01"
-              :max="currentDate.toISOString().split('T')[0]"
-            />
-          </div>
         </div>
       </div>
       <DsfrTabs :tab-titles="tabTitles"
@@ -52,12 +38,6 @@ const currentDate = new Date();
           <CarteTable :date="dateCarte" />
         </DsfrTabContent>
       </DsfrTabs>
-      <DsfrHighlight class="fr-my-2w">
-        Besoin de précision sur les données ? Vous pouvez les retrouver sur
-        <NuxtLink to="/donnees" class="fr-link">
-          la page données
-        </NuxtLink>.
-      </DsfrHighlight>
     </div>
   </div>
 </template>
