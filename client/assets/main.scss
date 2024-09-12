@@ -113,6 +113,27 @@ body {
   }
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid var(--grey-50-1000);
+  }
+
+  &:not(:empty)::before {
+    margin-right: 4em;
+  }
+
+  &:not(:empty)::after {
+    margin-left: 4em;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .show-sm {
     display: none;

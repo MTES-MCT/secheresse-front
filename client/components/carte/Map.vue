@@ -76,7 +76,6 @@ onMounted(() => {
     preserveDrawingBuffer: true,
   });
 
-
   // Add zoom and rotation controls to the map.
   map.value?.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 

@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 import { Ref } from 'vue';
 import { useZoneStore } from '../../store/zone';
 import utils from '../../utils';
+import { z } from '~/.output/public/_nuxt/C8jzZc1K';
 
 const addressStore = useAddressStore();
 const zoneStore = useZoneStore();
@@ -114,7 +115,7 @@ onBeforeUnmount(() => {
                              :zone="zoneTypeEau"
                              :usages="usagesByProfile" />
     </template>
-    <template v-else>
+    <template v-else-if="!zoneTypeEau || !zoneTypeEau.arreteMunicipalCheminFichier">
       <div class="fr-col-12">
         <div class="fr-grid-row fr-grid-row--center">
           <DsfrHighlight class="fr-my-2w">

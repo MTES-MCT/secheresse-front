@@ -18,7 +18,6 @@ const props = defineProps({
 
 const emit = defineEmits<{
   subscribe: any;
-  close: any
 }>();
 
 const addressStore = useAddressStore();
@@ -97,6 +96,13 @@ const setAddress = (address: Address | null, geo: Geo | null) => {
   formData.lat = address.geometry.coordinates[1];
 };
 
+const selectPointOnMap = (event: any) => {
+  formData.idAdresse = null;
+  formData.commune = event.commune;
+  formData.lon = event.lng;
+  formData.lat = event.lat;
+};
+
 const submitForm = async () => {
   await v$.value.$validate();
   if (!v$.value.$error && !props.subscribing) {
@@ -133,6 +139,11 @@ const submitForm = async () => {
       />
     </DsfrInputGroup>
 
+    <div class="divider">ou</div>
+
+    <span>Sélectionnez un point sur la carte</span>
+    <MixinsMapPoint class="fr-mb-2w" @selectPoint="selectPointOnMap($event)" />
+
     <DsfrInputGroup class="fr-mt-2w"
                     :error-message="utils.showInputError(v$, 'email')">
       <DsfrInput placeholder="Ex: test@exemple.com"
@@ -164,19 +175,12 @@ const submitForm = async () => {
       dans nos emails.
     </p>
 
-    <DsfrButton @click="submitForm()"
-                class="full-width fr-grid-row--center"
-                :disabled="subscribing">
-      <div class="fr-grid-row fr-grid-row--center">
+    <div class="text-align-right">
+      <DsfrButton @click="submitForm()"
+                  :disabled="subscribing">
         Valider
         <Loader class="adresse-loader fr-ml-1w" :show="subscribing" />
-      </div>
-    </DsfrButton>
-    <DsfrButton class="full-width fr-grid-row--center fr-mt-1w"
-                secondary
-                :disabled="subscribing"
-                @click="emit('close')">
-      Annuler
-    </DsfrButton>
+      </DsfrButton>
+    </div>
   </form>
 </template>

@@ -25,7 +25,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
       <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-3">
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
           <DsfrCard
             img-src="/donnee_carte_historique.png"
             link="/donnees/carte-historique"
@@ -34,7 +34,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           >
           </DsfrCard>
         </div>
-        <div class="fr-col-3">
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
           <DsfrCard
             img-src="/donnee_graphe_surface.png"
             link="/donnees/surface"
@@ -43,7 +43,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           >
           </DsfrCard>
         </div>
-        <div class="fr-col-3">
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
           <DsfrCard
             img-src="/donnee_graphe_departement.png"
             link="/donnees/departement"
@@ -52,7 +52,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           >
           </DsfrCard>
         </div>
-        <div class="fr-col-3">
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
           <DsfrCard
             img-src="/donnee_carte_commune.png"
             link="/donnees/carte-commune"
