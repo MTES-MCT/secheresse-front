@@ -221,13 +221,11 @@ function resetCommuneSelected() {
 }
 
 function computeMinMaxPonderation(dateBegin: Moment, dateEnd: Moment) {
-  // On change les critères de ponderation Min / Max suivant la plage de date
   // Pondération de crise : 4 points par jour
-  // On considère que la pondération MAX sur les mois de Juin à Septembre est de 1 jour sur 2 en crise (4x15 = 60 points par mois)
-  // Pour les autres mois 15 points par mois (vigilance non stop)
+  // On considère que la pondération MAX est de 1 jour sur 2 en crise (4x15 = 60 points par mois)
   let p = 0;
   for (let m = moment(dateBegin); m.diff(dateEnd, 'days') <= 0; m.add(1, 'month')) {
-    p += (m.month() >= 5 && m.month() <= 8) ? 60 : 15;
+    p += 60;
   }
   maxPonderation.value = p;
   console.log('MAX PONDERATION', maxPonderation.value);

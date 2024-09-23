@@ -27,7 +27,7 @@ const typesEau = [
       <div v-for="typeEau of typesEau" class="fr-col-12 fr-col-md-4">
         <DsfrCard 
           :img-src="typeEau.img"
-          alt-img="Image d'illustration"
+          alt-img=""
           :title="typeEau.title"
           :description="typeEau.description"
         />

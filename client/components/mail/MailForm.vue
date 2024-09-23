@@ -116,6 +116,8 @@ const submitForm = async () => {
     <DsfrInputGroup :error-message="utils.showInputError(v$, 'profil')">
       <MixinsProfile :profile="formData.profil"
                      class="fr-mb-2w"
+                     :required="true"
+                     :aria-invalid="v$.profil.$errors.length > 0"
                      @profileUpdate="formData.profil = $event;"
       />
     </DsfrInputGroup>
@@ -124,6 +126,8 @@ const submitForm = async () => {
       <DsfrCheckboxSet
         legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
         v-model="formData.typesEau"
+        required
+        :aria-invalid="v$.typesEau.$errors.length > 0"
         :options="typesEauOptions" />
     </DsfrInputGroup>
 
@@ -135,6 +139,7 @@ const submitForm = async () => {
                            :light="true"
                            :disabled="subscribing"
                            :exactAddress="true"
+                           :aria-invalid="v$.lon.$errors.length > 0"
                            @search="setAddress($event.address, $event.geo)"
       />
     </DsfrInputGroup>
@@ -153,6 +158,9 @@ const submitForm = async () => {
                  type="text"
                  id="email"
                  name="email"
+                 autocomplete="email"
+                 required
+                 :aria-invalid="v$.email.$errors.length > 0"
                  :disabled="subscribing"
       />
     </DsfrInputGroup>
@@ -162,12 +170,14 @@ const submitForm = async () => {
         label="J'accepte de recevoir vos e-mails et confirme avoir pris connaissance de votre politique de confidentialité et mentions légales."
         name="confirmSubscription"
         :disabled="subscribing"
+        required
+        :aria-invalid="v$.confirmSubscription.$errors.length > 0"
         v-model="formData.confirmSubscription"
       />
     </DsfrInputGroup>
 
     <p>Les
-      <router-link to="/donnees-personnelles" target="_blank">données collectées</router-link>
+      <router-link to="/donnees-personnelles" target="_blank" title="Données collectées - nouvelle fenêtre">données collectées</router-link>
       lors de votre inscription sont utilisées dans le cadre d’une mission de
       service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de
       la Nature (DGALN).

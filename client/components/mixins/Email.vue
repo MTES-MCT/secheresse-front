@@ -20,7 +20,7 @@
                 <img src="/newsletter_img.png"
                      style="max-width: 100%;"
                      width="260" height="500"
-                     title="Image d'illustration newsletter email"
+                     alt="Newsletter email"
                 />
               </div>
             </div>

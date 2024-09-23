@@ -28,18 +28,17 @@ const selectedTagIndex: Ref<number> = ref(0);
       <div class="fr-col-12 fr-col-md-6">
         <DsfrPicture src="/repartition_consommation.svg"
                      size="small"
-                     alt="Répartition de la consommation d'eau potable des français selon les usages. 39% - Se laver, 20% - Aller au WC, 12% - Laver son linge, 10% - Faire la vaisselle, 6% - Cuisiner, 6% - Laver sa voiture ou arroser son jardin, 1% - Boire, 6% - Divers"
-                     title="Répartition de la consommation d'eau potable des français selon les usages"
-                     legend="Source : Ademe"
+                     alt="Répartition de la consommation d'eau potable des français selon les usages. 39% - Se laver, 20% - Aller au WC, 12% - Laver son linge, 10% - Faire la vaisselle, 6% - Cuisiner, 6% - Laver sa voiture ou arroser son jardin, 1% - Boire, 6% - Divers. Source : Ademe"
+                     legend="Source&nbsp;: Ademe"
         />
       </div>
       <div class="fr-col-12 fr-col-md-6">
         <GestesCallout class="fr-p-4w"/>
       </div>
     </div>
-    <div class="section-title fr-mb-4w">
+    <div class="section-title">
       <h2 class="fr-mt-4w">Comment réduire votre consommation d'eau ?</h2>
-      <span>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les ressources en eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</span>
+      <p>En plus des restrictions, l’adoption des éco-gestes est un bon moyen de préserver les ressources en eau et d’éviter que la situation s’aggrave. Voici quelques exemples d’habitudes à prendre pour limiter sa consommation d’eau à l’échelle individuelle.</p>
     </div>
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--center">

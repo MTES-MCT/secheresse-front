@@ -10,6 +10,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  required: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -36,15 +40,16 @@ selectProfile(props.profile ? props.profile : selectedTagType.value);
 </script>
 
 <template>
-  <div class="text-align-center full-width"
-       data-cy="ProfileSelection">
-    <div>Agissez-vous en tant que ?</div>
-    <DsfrTag v-for="tag in profileTags"
-             :label="tag.label"
-             class="fr-m-1w tag-lg"
-             :aria-pressed="selectedTagType === tag.type"
-             :disabled="disabled"
-             @click="selectProfile(tag.type)"
-             tag-name="button"/>
+  <div data-cy="ProfileSelection">
+    <fieldset :required="required">
+      <legend>Agissez-vous en tant que ? <span v-if="required" class="required">&nbsp;*</span></legend>
+      <DsfrTag v-for="tag in profileTags"
+               :label="tag.label"
+               class="fr-m-1w tag-lg"
+               :aria-pressed="selectedTagType === tag.type"
+               :disabled="disabled"
+               @click="selectProfile(tag.type)"
+               tag-name="button"/>
+    </fieldset>
   </div>
 </template>

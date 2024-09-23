@@ -106,11 +106,13 @@ const closeModal = (): void => {
           label="Choisissez votre profil de consommateur d’eau"
           :options="profileOptions"
           v-model="formData.profil"
+          required
         />
       </DsfrInputGroup>
     </div>
     <div class="fr-col-12">
       <MixinsSearchAddress @search="setAddress($event.address, $event.geo)"
+                           :required="true"
                            :query="query"
                            :light="true"
                            :showGeoloc="true"
@@ -122,6 +124,7 @@ const closeModal = (): void => {
           label="Choisissez le type d’eau que vous consommez"
           :options="typeEauOptions"
           v-model="formData.typeEau"
+          required
         />
       </DsfrInputGroup>
     </div>

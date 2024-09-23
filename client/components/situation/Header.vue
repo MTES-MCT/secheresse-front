@@ -78,19 +78,6 @@ const niveauGravite = computed(() => {
          class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper">
       Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
     </div>
-    <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
-      <router-link to="/"
-                   class="fr-btn fr-btn--secondary full-width fr-grid-row--center">
-        Effectuer une nouvelle recherche
-        <VIcon class="fr-ml-1w" name="ri-search-line" />
-      </router-link>
-      <DsfrButton class="full-width fr-mt-1w fr-grid-row--center"
-                  secondary
-                  @click="utils.openTally">
-        Donner mon avis
-        <VIcon class="fr-ml-1w" name="ri-survey-line" />
-      </DsfrButton>
-    </div>
     <div v-if="zone?.arreteMunicipalCheminFichier" class="fr-col-12 fr-mt-2w">
       <DsfrAlert
         title="Un arrêté municipal a été publié par votre collectivité"
@@ -102,9 +89,6 @@ const niveauGravite = computed(() => {
                                                                                   rel="external">
         Consultez l'arrêté municipal</a>
       </DsfrAlert>
-    </div>
-    <div class="fr-col-12 fr-mt-2w">
-      <MixinsShare :situationLabel="situationLabel" :address="address" />
     </div>
   </div>
 </template>

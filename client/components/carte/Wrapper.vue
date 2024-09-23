@@ -17,9 +17,8 @@ const dateCarte = ref(new Date().toISOString().split('T')[0]);
   <div :class="embedded ? '' : 'carte-wrapper fr-py-4w'">
     <div class="fr-container">
       <div class="fr-mb-4w">
-        <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row--middle header-wrapper">
-          <h2 class="fr-mb-0">Carte et historique</h2>
-        </div>
+        <h2 class="fr-mb-0">Carte des restrictions</h2>
+        <p>Arrêtés publiés avant le {{ dateCarte }}</p>
       </div>
       <DsfrTabs :tab-titles="tabTitles"
                 :initial-selected-index="selectedTabIndex"
@@ -47,10 +46,6 @@ const dateCarte = ref(new Date().toISOString().split('T')[0]);
   background: var(--yellow-tournesol-975-75);
 }
 
-.header-wrapper {
-  justify-content: space-between;
-}
-
 .fr-tabs {
   box-shadow: none;
 
@@ -65,12 +60,6 @@ const dateCarte = ref(new Date().toISOString().split('T')[0]);
     &:last-child {
       background-color: var(--background-alt-grey);
     }
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .header-wrapper {
-    justify-content: center;
   }
 }
 </style>

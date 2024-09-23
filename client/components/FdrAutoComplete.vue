@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, Ref, ref, watch } from 'vue';
 
-const container = ref(undefined)
-const optionsList = ref(undefined)
-const optionSelected = ref(undefined)
+const container = ref(undefined);
+const optionsList = ref(undefined);
+const optionSelected = ref(undefined);
+const inputSearchBar: Ref<any> = ref(null);
 
 const props = defineProps({
   modelValue: {
     type: String,
     default: '',
+  },
+  required: {
+    type: Boolean,
+    default: false,
   },
   options: {
     type: Array,
@@ -26,101 +31,110 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  ariaLabelList: {
+    type: String,
+    default: '',
+  },
   light: {
     type: Boolean,
-    default: false
+    default: false,
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:modelValue', 'search'])
+const emit = defineEmits(['update:modelValue', 'search']);
 
-const hasFocus = ref(true)
-const displayOptions = computed(() => !!props.options.length)
+const hasFocus = ref(true);
+const displayOptions = computed(() => !!props.options.length);
 
 function convertRemToPixels(rem) {
-  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
 function selectOption(option) {
   optionSelected.value = option;
-  emit('update:modelValue', option)
+  emit('update:modelValue', option);
+  if (inputSearchBar.value && inputSearchBar.value.$el.children[1]) {
+    nextTick(() => {
+      inputSearchBar.value.$el.children[1].focus();
+    });
+  }
 }
 
-const displayAtTheTop = ref(false)
+const displayAtTheTop = ref(false);
 
 const looseFocus = () => {
   setTimeout(() => {
-    hasFocus.value = false
-  }, 100)
-}
+    hasFocus.value = false;
+  }, 100);
+};
 
 watch(displayOptions, () => {
   if (displayOptions.value) {
-    const posContainerY = container.value.offsetTop
-    const containerHeight = container.value.offsetHeight
-    const screenHeight = document.body.scrollHeight
-    const optionsHeight = convertRemToPixels(17)
-    const isTooLow = (optionsHeight + posContainerY + containerHeight) > screenHeight
+    const posContainerY = container.value.offsetTop;
+    const containerHeight = container.value.offsetHeight;
+    const screenHeight = document.body.scrollHeight;
+    const optionsHeight = convertRemToPixels(17);
+    const isTooLow = (optionsHeight + posContainerY + containerHeight) > screenHeight;
 
-    displayAtTheTop.value = isTooLow
+    displayAtTheTop.value = isTooLow;
   }
-})
+});
 
-const activeOption = ref(-1)
+const activeOption = ref(-1);
 
-const isVisible = function (ele, container) {
-  const {bottom, height, top} = ele.getBoundingClientRect()
-  const containerRect = container.getBoundingClientRect()
+const isVisible = function(ele, container) {
+  const { bottom, height, top } = ele.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
 
   return top <= containerRect.top
     ? containerRect.top - top <= height
-    : bottom - containerRect.bottom <= height
-}
+    : bottom - containerRect.bottom <= height;
+};
 
 function checkIfActiveOptionIsVisible() {
-  const activeLi = optionsList.value.querySelectorAll('li')[activeOption.value]
-  const isLiVisible = isVisible(activeLi, optionsList.value)
+  const activeLi = optionsList.value.querySelectorAll('li')[activeOption.value];
+  const isLiVisible = isVisible(activeLi, optionsList.value);
 
   if (!isLiVisible) {
     // Scroll to activeLi
-    activeLi.scrollIntoView({behavior: 'smooth'})
+    activeLi.scrollIntoView({ behavior: 'smooth' });
   }
 }
 
 function moveToPreviousOption() {
-  const isFirst = activeOption.value <= 0
-  activeOption.value = isFirst ? props.options.length - 1 : activeOption.value - 1
-  nextTick().then(checkIfActiveOptionIsVisible)
+  const isFirst = activeOption.value <= 0;
+  activeOption.value = isFirst ? props.options.length - 1 : activeOption.value - 1;
+  nextTick().then(checkIfActiveOptionIsVisible);
 }
 
 function moveToNextOption() {
-  const isLast = activeOption.value >= (props.options.length - 1)
-  activeOption.value = isLast ? 0 : activeOption.value + 1
-  nextTick().then(checkIfActiveOptionIsVisible)
+  const isLast = activeOption.value >= (props.options.length - 1);
+  activeOption.value = isLast ? 0 : activeOption.value + 1;
+  nextTick().then(checkIfActiveOptionIsVisible);
 }
 
 function checkKeyboardNav($event) {
   if (['ArrowUp', 'ArrowDown', 'Enter'].includes($event.key)) {
-    $event.preventDefault()
+    $event.preventDefault();
   }
   if ($event.key === 'Enter') {
-    selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0])
-    hasFocus.value = false
+    selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0]);
+    hasFocus.value = false;
   } else if ($event.key === 'ArrowUp') {
-    moveToPreviousOption()
+    moveToPreviousOption();
   } else if ($event.key === 'ArrowDown') {
-    moveToNextOption()
+    moveToNextOption();
   } else if ($event.key === 'search') {
     if (!!props.options.length) {
-      selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0])
+      selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0]);
     } else if (optionSelected.value) {
-      emit('update:modelValue', optionSelected.value)
+      emit('update:modelValue', optionSelected.value);
     }
-    hasFocus.value = false
+    hasFocus.value = false;
   }
 }
 
@@ -145,25 +159,38 @@ function displayOption(option) {
                    :placeholder="placeholder"
                    :label="label"
                    v-bind="$attrs"
-                   :required="true"
+                   :required="required"
                    :large="!light"
                    :disabled="disabled"
                    buttonText="Rechercher"
                    @update:model-value="$emit('update:modelValue', $event)"
-                   ref="input"
+                   ref="inputSearchBar"
                    @focus="hasFocus = true"
                    @blur="looseFocus()"
                    @keydown="checkKeyboardNav($event)"
-                   @search="checkKeyboardNav({key: 'search'})"/>
+                   @search="checkKeyboardNav({key: 'search'})" />
+    <div v-if="displayOptions"
+         class="sr-only"
+         aria-live="polite"
+         aria-atomic="true">
+      <p>{{ options.length }} options disponibles</p>
+    </div>
     <ul v-show="displayOptions"
+        role="listbox"
+        :aria-label="ariaLabelList"
         ref="optionsList"
+        tabindex="1"
         class="list-none absolute m-0 right-0 z-1 left-0 bg-white box-shadow max-h-17 scroll pointer"
         :class="{'at-the-top': displayAtTheTop,}">
       <li v-for="(option, i) of options"
           :key="option"
+          role="option"
+          tabindex="0"
+          :aria-selected="optionSelected === option"
           class="list-item fr-p-1w fr-pl-2w"
           :class="{ 'active-option': activeOption === i }"
-          @click.stop="selectOption(option)">
+          @click.stop="selectOption(option)"
+          @keyup.enter="selectOption(option)">
         {{ displayOption(option) }}
       </li>
     </ul>
