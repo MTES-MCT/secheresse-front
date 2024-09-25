@@ -89,7 +89,8 @@ onMounted(() => {
   });
 
   map.value?.on('click', 'communes-data', (e: any) => {
-    const feature = e.features.filter((f: any) => !f.properties.plm)[0];
+    const feature = e.features.some((f: any) => f.properties.plm) ?
+      e.features.filter((f: any) => f.properties.plm)[0] : e.features[0];
     communeSelected.value = feature ? feature.properties.code : 0;
     updateContourFilter();
     if (!feature) {
@@ -338,7 +339,7 @@ function showCommunesPonderation() {
   }, firstSymbolId);
 }
 
-function computeColorExpression(code, ponderation, expression) {
+function computeColorExpression(code: string, ponderation: number, expression: any) {
   const p = ponderation > maxPonderation.value ? maxPonderation.value : ponderation;
   if (p <= 0) {
     expression.push(code, `rgba(0, 0, 0, 0)`);

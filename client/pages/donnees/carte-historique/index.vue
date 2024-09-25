@@ -34,15 +34,15 @@ const setFilterData = (data: any) => {
   <div class="fr-container">
     <DsfrBreadcrumb :links='links' />
     <h1>Carte et historique des restrictions</h1>
-    <DsfrAlert class="fr-mb-2w" type="info">
-      Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux superficielles et souterraines.
-    </DsfrAlert>
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
       <DonneesFilter @filterChange="setFilterData($event)" />
       <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions <span v-if="filterText">({{ filterText }})</span>
       </h2>
+      <DsfrAlert class="fr-mb-2w" type="info">
+        Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux superficielles et souterraines.
+      </DsfrAlert>
       <template v-if="filterData">
         <div style="position: relative;">
           <CarteMap :embedded="false"
