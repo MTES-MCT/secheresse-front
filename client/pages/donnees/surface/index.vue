@@ -22,9 +22,6 @@ await refDataStore.loadRefData();
   <div class="fr-container">
     <DsfrBreadcrumb :links='links' />
     <h1>Évolution journalière du pourcentage de la surface concernée par des niveaux de gravité</h1>
-    <DsfrAlert type="info" class="fr-mb-2w">
-      Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux superficielles et souterraines.
-    </DsfrAlert>
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">

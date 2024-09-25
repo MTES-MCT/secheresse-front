@@ -258,6 +258,11 @@ watch(() => refDataStore.departements, () => {
       </DsfrButton>
     </div>
   </div>
+  <div class="fr-col-12">
+    <DsfrAlert type="info" class="fr-my-2w">
+      Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux superficielles et souterraines.
+    </DsfrAlert>
+  </div>
   <template v-if="!loading">
     <Line v-if="chartLineData"
           id="area-chart-line"

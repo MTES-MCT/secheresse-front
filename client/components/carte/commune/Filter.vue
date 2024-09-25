@@ -14,13 +14,23 @@ const dateMin = ref('2013-01');
 const currentDate = moment();
 const dateDebut = ref();
 const dateFin = ref();
-const area = ref('');
-const computeDisabled = ref(false);
+const area = ref(null);
+const computeDisabled = ref(true);
+const modalOpened = ref(false);
 
 const areaOptions = ref([]);
 
+const askLoadData = (() => {
+  const areaText = areaOptions.value.find((a: any) => a.value === area.value)?.text;
+  if (areaText === 'France entière') {
+    modalOpened.value = true;
+    return;
+  }
+  loadData();
+});
+
 const loadData = (() => {
-  const areaText = areaOptions.value.find(a => a.value === area.value)?.text
+  const areaText = areaOptions.value.find((a: any) => a.value === area.value)?.text;
   emit('filterChange', {
     dateDebut: dateDebut.value,
     dateFin: dateFin.value,
@@ -28,6 +38,7 @@ const loadData = (() => {
     areaText: areaText,
   });
   computeDisabled.value = true;
+  modalOpened.value = false;
 });
 
 watch(() => refDataStore.departements, () => {
@@ -75,14 +86,14 @@ watch(() => refDataStore.departements, () => {
     <div class="fr-col-3">
       <DsfrSelect label="Territoire"
                   v-model="area"
-                  @update:modelValue="computeDisabled = !(dateDebut && dateFin)"
+                  @update:modelValue="computeDisabled = !(area !== null && dateDebut && dateFin)"
                   :options="areaOptions" />
     </div>
     <div class="fr-col-3">
       <DsfrInput
         id="dateDebut"
         v-model="dateDebut"
-        @update:modelValue="computeDisabled = !(dateDebut && dateFin)"
+        @update:modelValue="computeDisabled = !(area !== null && dateDebut && dateFin)"
         label="Date début"
         label-visible
         type="month"
@@ -95,7 +106,7 @@ watch(() => refDataStore.departements, () => {
       <DsfrInput
         id="dateFin"
         v-model="dateFin"
-        @update:modelValue="computeDisabled = !(dateDebut && dateFin)"
+        @update:modelValue="computeDisabled = !(area !== null && dateDebut && dateFin)"
         label="Date fin"
         label-visible
         type="month"
@@ -106,11 +117,19 @@ watch(() => refDataStore.departements, () => {
     </div>
     <div class="fr-col-3">
       <DsfrButton :disabled="computeDisabled"
-                  @click="loadData()">
+                  @click="askLoadData()">
         Calculer
       </DsfrButton>
     </div>
   </div>
+
+  <MixinsConfirmationModal
+    :opened="modalOpened"
+    title="Vous demandez le calcul de données sur la France entière"
+    description="La carte peut prendre du temps à se charger, veuillez patienter pendant que votre navigateur effectue les calculs nécessaires."
+    @close="modalOpened = false"
+    @confirm="loadData()"
+  />
 </template>
 
 <style lang="scss" scoped>

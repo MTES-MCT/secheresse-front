@@ -83,10 +83,10 @@ const niveauGravite = computed(() => {
         title="Un arrêté municipal a été publié par votre collectivité"
         type="info"
         :closeable="false">
-        Des restrictions peuvent avoir été renforcée via cet arrêté municipal. <a class="fr-link"
-                                                                                  :href="zone.arreteMunicipalCheminFichier"
-                                                                                  target="_blank"
-                                                                                  rel="external">
+        Certaines restrictions peuvent avoir été renforcées. <a class="fr-link"
+                                                                :href="zone.arreteMunicipalCheminFichier"
+                                                                target="_blank"
+                                                                rel="external">
         Consultez l'arrêté municipal</a>
       </DsfrAlert>
     </div>

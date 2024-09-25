@@ -103,15 +103,12 @@ async function downloadCsv() {
 }
 
 const tableTitle = computed(() => {
-  if (props.light) {
-    return '';
-  }
   return `Niveau de gravité maximal observé par département ${props.filterText ? '(' + props.filterText + ')' : ''}`;
 });
 
 const pageTitle = computed(() => {
   return `Situation de la sécheresse en France (niveau de gravité maximum contasté par
-          département) - ${props.filterText ? props.filterText : ''}`;
+          département) ${props.filterText ? ' - ' + props.filterText : ''}`;
 });
 
 watch(() => props, () => {
@@ -143,7 +140,9 @@ watch(() => props, () => {
         </div>
       </div>
       <div class="carte-table-body">
-        <h3 v-if="!light" class="fr-pt-2w fr-mb-1w">Niveau de gravité maximal observé par département</h3>
+        <h3 v-if="!light" class="fr-pt-2w fr-mb-1w">
+          {{ tableTitle }}
+        </h3>
         <DsfrSearchBar v-model="query"
                        v-if="!light"
                        placeholder="Rechercher"
@@ -156,7 +155,7 @@ watch(() => props, () => {
                    :rows="rowsFiltered"
                    :pagination="true"
                    :key="componentKey"
-                   class="fr-table--layout-fixed" />
+                   class="fr-table--layout-fixed fr-table--no-title" />
       </div>
 
       <div class="text-align-right fr-mt-1w">

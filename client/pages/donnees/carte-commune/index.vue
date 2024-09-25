@@ -34,15 +34,15 @@ const setFilterData = (data: any) => {
   <div class="fr-container">
     <DsfrBreadcrumb :links='links' />
     <h1>Évolution de la situation de la sécheresse par commune</h1>
-    <DsfrAlert class="fr-mb-2w" type="warning">
-      La carte nationale peux prendre du temps à se charger.
-      Si vous souhaitez ne visualiser qu'une partie du territoire n'hésitez pas à restreindre l'affichage via le filtre territoire.<br/>
-      Si vous chargez des données supérieures à la taille d'un département, n'hésitez pas à zoomer pour avoir les informations à la maille de la commune.
-    </DsfrAlert>
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
       <CarteCommuneFilter @filterChange="setFilterData($event)" />
+      <DsfrAlert class="fr-my-2w" type="warning">
+        La carte nationale peut prendre du temps à se charger.
+        Si vous souhaitez ne visualiser qu'une partie du territoire, il est recommandé de restreindre l'affichage via le filtre territoire ou en zoomant sur la carte.<br/>
+        Si vous chargez des données supérieures à la taille d'un département, n'hésitez pas à zoomer pour avoir les informations à la maille de la commune.
+      </DsfrAlert>
       <div style="position: relative;">
         <CarteCommuneMap :embedded="false"
                          :light="true"

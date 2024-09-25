@@ -229,7 +229,6 @@ function computeMinMaxPonderation(dateBegin: Moment, dateEnd: Moment) {
     p += 60;
   }
   maxPonderation.value = p;
-  console.log('MAX PONDERATION', maxPonderation.value);
 }
 
 function computeData() {
@@ -341,10 +340,6 @@ function showCommunesPonderation() {
 
 function computeColorExpression(code: string, ponderation: number, expression: any) {
   const p = ponderation > maxPonderation.value ? maxPonderation.value : ponderation;
-  if (p <= 0) {
-    expression.push(code, `rgba(0, 0, 0, 0)`);
-    return;
-  }
   const percentage = p / maxPonderation.value;
 
   // Les valeurs RVB pour les deux couleurs

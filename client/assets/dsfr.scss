@@ -82,6 +82,15 @@
   }
 }
 
+// TABLE
+.fr-table {
+  &--no-title {
+    caption {
+      display: none;
+    }
+  }
+}
+
 button.fr-tag[aria-pressed=true]:not(:disabled) {
   &.no-checkmark {
     background-image: none;
