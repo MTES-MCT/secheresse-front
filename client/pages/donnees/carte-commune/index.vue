@@ -18,6 +18,7 @@ const refDataStore = useRefDataStore();
 await refDataStore.loadRefData();
 const filterData: any = ref(null);
 const filterText: any = ref(null);
+const loading = ref(false);
 
 const setFilterData = (data: any) => {
   filterData.value = JSON.parse(JSON.stringify(data));
@@ -37,7 +38,8 @@ const setFilterData = (data: any) => {
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
-      <CarteCommuneFilter @filterChange="setFilterData($event)" />
+      <CarteCommuneFilter :loading="loading"
+                          @filterChange="setFilterData($event)" />
       <DsfrAlert class="fr-my-2w" type="warning">
         La carte nationale peut prendre du temps à se charger.
         Si vous souhaitez ne visualiser qu'une partie du territoire, il est recommandé de restreindre l'affichage via le filtre territoire ou en zoomant sur la carte.<br/>
@@ -48,7 +50,9 @@ const setFilterData = (data: any) => {
                          :light="true"
                          :dateBegin="filterData?.dateDebut"
                          :dateEnd="filterData?.dateFin"
-                         :area="filterData?.area"/>
+                         :area="filterData?.area"
+                         @beginLoading="loading = true"
+                         @endLoading="loading = false"/>
       </div>
     </div>
   </div>

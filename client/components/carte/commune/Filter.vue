@@ -5,6 +5,10 @@ import { Departement } from '../../../dto/departement.dto';
 import { useRefDataStore } from '../../../store/refData';
 import moment from 'moment';
 
+const props = defineProps<{
+  loading: boolean,
+}>();
+
 const emit = defineEmits<{
   filterChange: any;
 }>();
@@ -17,6 +21,7 @@ const dateFin = ref();
 const area = ref(null);
 const computeDisabled = ref(true);
 const modalOpened = ref(false);
+const modalDescription = ref(`Nous vous informons que le lancement d'un calcul sur l'ensemble de la France peut prendre 1 à 2 minutes. Si vous êtes intéressé par une zone spécifique, nous vous recommandons de la sélectionner à l'aide du filtre "territoire".`);
 
 const areaOptions = ref([]);
 
@@ -116,9 +121,12 @@ watch(() => refDataStore.departements, () => {
       />
     </div>
     <div class="fr-col-3">
-      <DsfrButton :disabled="computeDisabled"
+      <DsfrButton :disabled="loading || computeDisabled"
                   @click="askLoadData()">
-        Calculer
+        <div class="fr-grid-row fr-grid-row--middle" >
+          Calculer
+          <Loader class="fr-ml-1w" :show="loading" />
+        </div>
       </DsfrButton>
     </div>
   </div>
@@ -126,7 +134,7 @@ watch(() => refDataStore.departements, () => {
   <MixinsConfirmationModal
     :opened="modalOpened"
     title="Vous demandez le calcul de données sur la France entière"
-    description="La carte peut prendre du temps à se charger, veuillez patienter pendant que votre navigateur effectue les calculs nécessaires."
+    :description="modalDescription"
     @close="modalOpened = false"
     @confirm="loadData()"
   />

@@ -4,6 +4,8 @@ import { Ref } from 'vue';
 import api from '../../../api';
 import moment, { Moment } from 'moment';
 import { useRefDataStore } from '../../../store/refData';
+import CommuneWorker from '@/assets/workers/communeMap?worker';
+
 
 const props = defineProps<{
   embedded: any,
@@ -11,6 +13,11 @@ const props = defineProps<{
   dateEnd: string,
   area: string,
   loading: boolean,
+}>();
+
+const emit = defineEmits<{
+  beginLoading: any;
+  endLoading: any;
 }>();
 
 const refDataStore = useRefDataStore();
@@ -205,7 +212,9 @@ const addSourceAndLayerZones = () => {
 async function downloadMap() {
   const dpi = 300;
   Object.defineProperty(window, 'devicePixelRatio', {
-    get: function() {return dpi / 96}
+    get: function() {
+      return dpi / 96;
+    },
   });
   const content = map.value?.getCanvas().toDataURL('image/png');
 
@@ -231,51 +240,49 @@ function computeMinMaxPonderation(dateBegin: Moment, dateEnd: Moment) {
   maxPonderation.value = p;
 }
 
-function computeData() {
+async function computeData() {
   const dateBegin = props.dateBegin ? moment(props.dateBegin, 'YYYY-MM') : null;
   const dateEnd = props.dateEnd ? moment(props.dateEnd, 'YYYY-MM') : null;
   if (!dateBegin || !dateEnd || !communeData.value) {
     return;
   }
+  emit('beginLoading');
+
   resetCommuneSelected();
   computeArea();
   computeMinMaxPonderation(dateBegin, dateEnd);
+
   computingCommunes.value = true;
   communeDataComputed.value = [];
   departementDataComputed.value = [];
-  const communesFiltered = depsSelected.value && depsSelected.value.length > 0 ? communeData.value.filter((commune: any) => {
-    return depsSelected.value.includes(getDepartementCode(commune.code));
-  }) : communeData.value;
-  for (const commune of communesFiltered) {
-    const ponderation = commune.restrictions
-      .filter((r: any) => {
-        return moment(r.d, 'YYYY-MM').isSameOrAfter(dateBegin) && moment(r.d, 'YYYY-MM').isSameOrBefore(dateEnd);
-      })
-      .reduce((acc: any, value: any) => acc + (value.p ? value.p : 0), 0);
-    communeDataComputed.value.push({
-      code: commune.code,
-      // FILTRER PAR DATE
-      ponderation: ponderation,
-    });
-    const depCode = getDepartementCode(commune.code);
-    const index = departementDataComputed.value.findIndex(d => d.code === depCode);
-    if(index < 0) {
-      departementDataComputed.value.push({
-        code: depCode,
-        ponderations: [ponderation]
-      })
-    } else {
-      departementDataComputed.value[index].ponderations.push(ponderation);
-    }
-  }
-  for (const departement of departementDataComputed.value) {
-    departement.ponderation = Math.round(departement.ponderations.reduce((acc: any, value: any) => acc + value, 0) / departement.ponderations.length);
-    delete departement.ponderations;
-  }
-  console.log(communeDataComputed.value);
-  console.log(departementDataComputed.value);
-  computingCommunes.value = false;
-  showCommunesPonderation();
+
+  const communeDataBis = toRaw(communeData.value);
+  const worker = new CommuneWorker();
+
+  // Envoyer les données au Worker
+  worker.postMessage({
+      communesData: communeDataBis,
+      depsSelected: depsSelected.value.map((d: any) => {
+        return d;
+      }),
+      dateBegin: dateBegin.format('YYYY-MM-DD'),
+      dateEnd: dateEnd.format('YYYY-MM-DD'),
+    },
+  );
+
+  // Écouter les messages du Worker (résultats)
+  worker.onmessage = (e) => {
+    const { communeDataReturned, departementData } = e.data;
+    communeDataComputed.value = JSON.parse(JSON.stringify(communeDataReturned));
+    departementDataComputed.value = JSON.parse(JSON.stringify(departementData));
+
+    computingCommunes.value = false;
+    showCommunesPonderation();
+
+    // Arrêter le Worker pour libérer la mémoire
+    worker.terminate();
+    emit('endLoading');
+  };
 }
 
 function getDepartementCode(codeInsee: string) {
@@ -287,7 +294,6 @@ function getDepartementCode(codeInsee: string) {
 }
 
 function showCommunesPonderation() {
-  console.log('SHOW COMMUNES PONDERATION');
   if (map.value?.getLayer('communes-data')) {
     map.value?.removeLayer('communes-data');
   }
@@ -311,7 +317,7 @@ function showCommunesPonderation() {
       'fill-outline-color': '#888888',
       'fill-color': matchCommuneExpression,
       'fill-opacity': {
-        stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
+        stops: [[5, 1], [6, 0.9]],
       },
     },
   }, firstSymbolId);
@@ -332,7 +338,7 @@ function showCommunesPonderation() {
     paint: {
       'fill-color': matchDepartementExpression,
       'fill-opacity': {
-        stops: [[5, 1], [6, 0.8], [7, 0.7], [8, 0.6], [9, 0.5], [10, 0.4], [11, 0.3]],
+        stops: [[5, 1], [6, 0.9]],
       },
     },
   }, firstSymbolId);
@@ -343,8 +349,8 @@ function computeColorExpression(code: string, ponderation: number, expression: a
   const percentage = p / maxPonderation.value;
 
   // Les valeurs RVB pour les deux couleurs
-  const startColor = { r: 255, g: 237, b: 160 }; // Jaune vigilance
-  const endColor = { r: 177, g: 0, b: 38 }; // Rouge crise
+  const startColor = { r: 227, g: 227, b: 253 }; // Jaune vigilance
+  const endColor = { r: 49, g: 49, b: 120 }; // Rouge crise
 
   // Calculer la couleur en fonction du pourcentage
   const r = Math.round(startColor.r + (endColor.r - startColor.r) * (percentage));
@@ -517,7 +523,7 @@ h6 {
     min-width: 200px;
     width: 100%;
     max-width: 100px;
-    background: linear-gradient(0.25turn, rgb(255, 237, 160), rgb(177, 0, 38));
+    background: linear-gradient(0.25turn, rgb(227, 227, 253), rgb(49, 49, 120));
   }
 
   &-text {
