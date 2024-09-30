@@ -160,6 +160,8 @@ const chartLineOptions: ChartOptions = {
       },
     },
     y: {
+      beginAtZero: true,
+      min: 0,
       ticks: {
         callback: (value: number) => labelFunction(value),
       },

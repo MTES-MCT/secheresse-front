@@ -242,9 +242,32 @@ Voir les restrictions
     return popupHtml;
   },
 
-  generatePopupCommuneHtml(pmtilesData: any) {
+  generatePopupCommuneHtml(communeName: any) {
     return `
-<div class="map-popup-zone">${pmtilesData.nom}</div>
+<div class="map-popup-zone">${communeName}</div>
+<div class="lds-ring">
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+<div>
+<button class="fr-btn btn-map-popup">
+Voir l'historique
+</button>
+</div>`;
+  },
+
+  generateFullPopupCommuneHtml(communeName: any, data: any) {
+    return `
+<div class="map-popup-zone">${communeName}</div>
+<ul class="text-align-left">
+  <li>Jours sans restrictions&nbsp: ${data.noDays} (${Math.round(data.noDays / data.nbDays * 100)}%)</li>
+  <li>Jours en vigilance&nbsp: ${data.vigilanceDays} (${Math.round(data.vigilanceDays / data.nbDays * 100)}%)</li>
+  <li>Jours en alerte&nbsp: ${data.alerteDays} (${Math.round(data.alerteDays / data.nbDays * 100)}%)</li>
+  <li>Jours en alerte renforcée&nbsp: ${data.alerteRenforceeDays} (${Math.round(data.alerteRenforceeDays / data.nbDays * 100)}%)</li>
+  <li>Jours en crise&nbsp: ${data.criseDays} (${Math.round(data.criseDays / data.nbDays * 100)}%)</li>
+</ul>
 <div>
 <button class="fr-btn btn-map-popup">
 Voir l'historique

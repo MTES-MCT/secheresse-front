@@ -124,6 +124,9 @@ const chartLineOptions: ChartOptions = {
     },
     y: {
       stacked: true,
+      beginAtZero: true,
+      min: 0,
+      suggestedMax: 5,
     },
   },
   interaction: {

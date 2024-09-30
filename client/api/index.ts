@@ -102,9 +102,9 @@ const index = {
     });
   },
 
-  getDataCommune(codeInsee: string): Promise<any> {
+  getDataCommune(codeInsee: string, dateDebut?: string, dateFin?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
-    return useFetch(`/data/commune/${codeInsee}`, {
+    return useFetch(`/data/commune/${codeInsee}?${dateDebut ? 'dateDebut=' + dateDebut : ''}&${dateFin ? 'dateFin=' + dateFin : ''}`, {
       method: 'GET',
       baseURL: runtimeConfig.public.apiSecheresseUrl,
     });

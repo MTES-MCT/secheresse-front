@@ -27,12 +27,14 @@ const map: Ref<any> = shallowRef(null);
 const isMapSupported: boolean = utils.isWebglSupported();
 const showError = ref(false);
 const communeSelected = ref(0);
+const communeNameSelected: Ref<null | string> = ref(null);
 const communeData = ref(null);
 const communeDataComputed = ref(null);
 const departementDataComputed = ref(null);
 const maxPonderation = ref(0);
 const router = useRouter();
 const depsSelected = ref([]);
+const expanded = ref(false);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -42,10 +44,17 @@ let firstSymbolId: any;
 const popup = new maplibregl.Popup({
   closeButton: true,
   closeOnClick: false,
-}).setMaxWidth('300px');
+}).setMaxWidth('350px');
+popup.on('open', () => {
+  setTimeout(() => {
+    loadPopupData();
+  }, 100);
+});
 
+onMounted(async () => {
 // Load data
-communeData.value = (await api.getDataDuree()).data.value;
+  communeData.value = (await api.getDataDuree()).data.value;
+});
 
 onMounted(() => {
   if (!isMapSupported) {
@@ -95,24 +104,19 @@ onMounted(() => {
     }
   });
 
-  map.value?.on('click', 'communes-data', (e: any) => {
+  map.value?.on('click', 'communes-data', async (e: any) => {
     const feature = e.features.some((f: any) => f.properties.plm) ?
       e.features.filter((f: any) => f.properties.plm)[0] : e.features[0];
     communeSelected.value = feature ? feature.properties.code : 0;
+    communeNameSelected.value = feature ? feature.properties.nom : null;
     updateContourFilter();
     if (!feature) {
       return;
     }
-    const description = utils.generatePopupCommuneHtml(feature.properties);
+    const description = utils.generatePopupCommuneHtml(communeNameSelected.value);
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
 
-    const btn = document.getElementsByClassName('btn-map-popup')[0];
-    if (!btn) {
-      return;
-    }
-    btn.addEventListener('click', async () => {
-      router.push(`/donnees/commune/${feature.properties.code}`);
-    });
+    linkPopupBtn();
   });
 
   map.value?.on('mouseenter', 'zones-data', () => {
@@ -208,6 +212,54 @@ const addSourceAndLayerZones = () => {
     },
   }, firstSymbolId);
 };
+
+const loadPopupData = async () => {
+  const { data, error } = await api.getDataCommune(communeSelected.value, props.dateBegin, props.dateEnd);
+  if (data.value) {
+    const dateBegin = props.dateBegin ? moment(props.dateBegin, 'YYYY-MM').startOf('month') : null;
+    const dateEnd = props.dateEnd ? moment(props.dateEnd, 'YYYY-MM').endOf('month') : null;
+    const niveauGravitePriority = {
+      null: 0,
+      'vigilance': 1,
+      'alerte': 2,
+      'alerte_renforcee': 3,
+      'crise': 4,
+    };
+    const restrictions = data.value.restrictions.map((r: any) => {
+      r.niveauGravite = Math.max(niveauGravitePriority[r.AEP], niveauGravitePriority[r.SUP], niveauGravitePriority[r.SOU]);
+      return r;
+    });
+    const noDays = restrictions.filter((r: any) => {
+      return r.niveauGravite === 0;
+    }).length;
+    const vigilanceDays = restrictions.filter((r: any) => {
+      return r.niveauGravite === 1;
+    }).length;
+    const alerteDays = restrictions.filter((r: any) => {
+      return r.niveauGravite === 2;
+    }).length;
+    const alerteRenforceeDays = restrictions.filter((r: any) => {
+      return r.niveauGravite === 3;
+    }).length;
+    const criseDays = restrictions.filter((r: any) => {
+      return r.niveauGravite === 4;
+    }).length;
+    const nbDays = dateEnd ? dateEnd.diff(dateBegin, 'days') : 1;
+    const description = utils.generateFullPopupCommuneHtml(communeNameSelected.value, {noDays, vigilanceDays, alerteDays, alerteRenforceeDays, criseDays, nbDays});
+    popup.setHTML(description);
+    linkPopupBtn();
+  }
+};
+
+const linkPopupBtn = () => {
+  const btn = document.getElementsByClassName('btn-map-popup')[0];
+  if (!btn) {
+    return;
+  }
+  btn.addEventListener('click', async () => {
+    router.push(`/donnees/commune/${communeSelected.value}`);
+  });
+}
 
 async function downloadMap() {
   const dpi = 300;
@@ -346,6 +398,10 @@ function showCommunesPonderation() {
 
 function computeColorExpression(code: string, ponderation: number, expression: any) {
   const p = ponderation > maxPonderation.value ? maxPonderation.value : ponderation;
+  if (p <= 0) {
+    expression.push(code, `rgba(0, 0, 0, 0)`);
+    return;
+  }
   const percentage = p / maxPonderation.value;
 
   // Les valeurs RVB pour les deux couleurs
@@ -437,6 +493,45 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
       <DsfrButton @click="downloadMap()">
         Télécharger la carte en .png
       </DsfrButton>
+    </div>
+
+    <div class="full-width fr-my-2w">
+      <DsfrAccordion title="Méthodologie de calcul de la carte"
+                     :expanded-id="expanded"
+                     titleTag="h4"
+                     @expand="expanded = !expanded"
+                     :id="true">
+        <div>
+          Les couleurs de la carte traduisent un "score de restrictions appliquées aux usages de l'eau". Ce score est
+          calculé pour chaque commune en combinant deux facteurs : la durée et l'intensité des restrictions.<br /><br />
+          L'intensité des restrictions est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
+          <ul>
+            <li>Pas de restrictions&nbsp;: 0</li>
+            <li>Vigilance&nbsp;: 0,5</li>
+            <li>Alerte&nbsp;: 2</li>
+            <li>Alerte renforcée&nbsp;: 3</li>
+            <li>Crise&nbsp;: 4</li>
+          </ul>
+
+          La durée correspond au nombre de jours pendant lesquels ces restrictions sont en place. Pour chaque commune,
+          le score est obtenu en multipliant la pondération par le nombre de jours pour chaque niveau de restriction,
+          puis en additionnant ces valeurs. Ce score cumulatif est ensuite comparé à un score maximal théorique,
+          représentant le niveau "crise" sur toute la période, pour le normaliser sur une échelle de 0 à 100
+          %.<br /><br />
+          Les résultats sont ensuite visualisés à l'aide d'un code couleur, selon l'échelle suivante :
+          <ul>
+            <li>0 % : zones non concernées par la sécheresse sur la période</li>
+            <li> 60-100 % : zones très fortement concernées par la sécheresse sur la période. La pondération est limitée
+              à 60
+              points par mois, soit 15 jours de crise, pour éviter des valeurs trop élevées dans les cas extrêmes.
+            </li>
+          </ul>
+
+          Plus le score est élevé, plus la couleur est foncée, indiquant une gravité et/ou une durée importante des
+          restrictions dans la commune. Une même couleur peut ainsi correspondre à des situations très variées. Pour
+          mieux comprendre la situation d'une commune, nous vous invitons à consulter son historique.
+        </div>
+      </DsfrAccordion>
     </div>
   </div>
   <template v-else>

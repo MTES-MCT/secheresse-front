@@ -15,7 +15,7 @@ const props = defineProps<{
   </Transition>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .lds-ring {
   display: inline-block;
   position: relative;
