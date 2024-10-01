@@ -11,6 +11,7 @@ const props = defineProps<{
 
 const headers = ['Date', 'Vigilance', 'Alerte', 'Alerte renforcée', 'Crise'];
 const rows = ref([]);
+const componentKey = ref(0);
 
 async function downloadCsv() {
   const formatData = props.dataDepartement
@@ -47,6 +48,7 @@ watch(() => [props.dataDepartement], () => {
       s.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'crise' ? 1 : 0), 0),
     ];
   });
+  componentKey.value ++;
 }, { immediate: true });
 </script>
 
@@ -54,6 +56,7 @@ watch(() => [props.dataDepartement], () => {
   <DsfrTable :headers="headers"
              :rows="rows"
              :pagination="true"
+             :key="componentKey"
              class="fr-table--layout-fixed fr-table--no-title" />
 
   <div class="text-align-right fr-mt-1w">

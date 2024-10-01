@@ -12,6 +12,7 @@ const props = defineProps<{
 
 const headers = ['Date', 'Eau potable', 'Eau superficielle', 'Eau souterraine'];
 const rows = ref([]);
+const componentKey = ref(0);
 
 async function downloadCsv() {
   const formatData = props.dataCommune
@@ -46,6 +47,7 @@ watch(() => [props.dataCommune], () => {
       s.SOU ? RestrictionNiveauGraviteFr[s.SOU] : 'Pas de restrictions',
     ];
   });
+  componentKey.value ++;
 }, { immediate: true });
 </script>
 
@@ -53,6 +55,7 @@ watch(() => [props.dataCommune], () => {
   <DsfrTable :headers="headers"
              :rows="rows"
              :pagination="true"
+             :key="componentKey"
              class="fr-table--layout-fixed fr-table--no-title" />
 
   <div class="text-align-right fr-mt-1w">

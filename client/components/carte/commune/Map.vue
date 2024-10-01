@@ -355,14 +355,6 @@ async function computeData() {
   };
 }
 
-function getDepartementCode(codeInsee: string) {
-  let toReturn = codeInsee.slice(0, 2);
-  if (toReturn === '97' || toReturn === '98') {
-    toReturn = codeInsee.slice(0, 3);
-  }
-  return toReturn;
-}
-
 function showCommunesPonderation() {
   if (map.value?.getLayer('communes-data')) {
     map.value?.removeLayer('communes-data');
@@ -518,69 +510,79 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
       </div>
     </div>
 
-    <div data-html2canvas-ignore="true" class="full-width fr-my-2w">
-      <DsfrAccordion title="Méthodologie de calcul de la carte"
-                     :expanded-id="expanded"
-                     titleTag="h4"
-                     @expand="expanded = !expanded"
-                     :id="true">
-        <div>
-          Les couleurs de la carte traduisent un "score de restrictions appliquées aux usages de l'eau". Ce score est
-          calculé pour chaque commune en combinant deux facteurs : la durée et l'intensité des
-          restrictions.<br /><br />
-          L'intensité des restrictions est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
-          <ul>
-            <li>Pas de restrictions&nbsp;: 0</li>
-            <li>Vigilance&nbsp;: 0,5</li>
-            <li>Alerte&nbsp;: 2</li>
-            <li>Alerte renforcée&nbsp;: 3</li>
-            <li>Crise&nbsp;: 4</li>
-          </ul>
+    <div data-html2canvas-ignore="true">
+      <div class="full-width fr-my-2w">
+        <DsfrAccordion title="Méthodologie de calcul de la carte"
+                       :expanded-id="expanded"
+                       titleTag="h4"
+                       @expand="expanded = !expanded"
+                       :id="true">
+          <div>
+            Les couleurs de la carte traduisent un "score de restrictions appliquées aux usages de l'eau". Ce score est
+            calculé pour chaque commune en combinant deux facteurs : la durée et l'intensité des
+            restrictions.<br /><br />
+            L'intensité des restrictions est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
+            <ul>
+              <li>Pas de restrictions&nbsp;: 0</li>
+              <li>Vigilance&nbsp;: 0,5</li>
+              <li>Alerte&nbsp;: 2</li>
+              <li>Alerte renforcée&nbsp;: 3</li>
+              <li>Crise&nbsp;: 4</li>
+            </ul>
 
-          La durée correspond au nombre de jours pendant lesquels ces restrictions sont en place. Pour chaque commune,
-          le score est obtenu en multipliant la pondération par le nombre de jours concerné par chaque niveau de
-          restriction, puis en additionnant ces valeurs. Ce score cumulatif est ensuite comparé à un score maximal
-          théorique (limité à 60 points par mois, soit 15 jours de crise) pour le normaliser sur une échelle de 0 à 100
-          %. Le score est limité pour éviter des valeurs trop élevées dans les cas extrêmes.<br /><br />
+            La durée correspond au nombre de jours pendant lesquels ces restrictions sont en place. Pour chaque commune,
+            le score est obtenu en multipliant la pondération par le nombre de jours concerné par chaque niveau de
+            restriction, puis en additionnant ces valeurs. Ce score cumulatif est ensuite comparé à un score maximal
+            théorique (limité à 60 points par mois, soit 15 jours de crise) pour le normaliser sur une échelle de 0 à
+            100
+            %. Le score est limité pour éviter des valeurs trop élevées dans les cas extrêmes.<br /><br />
 
-          Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur est
-          foncée, indiquant une gravité et/ou une durée importante des restrictions dans la commune. L'échelle utilisée
-          est la suivante&nbsp;:
+            Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur
+            est
+            foncée, indiquant une gravité et/ou une durée importante des restrictions dans la commune. L'échelle
+            utilisée
+            est la suivante&nbsp;:
 
-          <ul>
-            <li>
-              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[0].color}"></div>
-              0%&nbsp;: zones non concernées par la sécheresse sur la période (le fond de carte est affiché sans
-              couleur)
-            </li>
-            <li>
-              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[1].color}"></div>
-              entre 0% et 24%&nbsp;: zones faiblement concernées par la sécheresse (ex : toute la période en
-              vigilance)
-            </li>
-            <li>
-              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[2].color}"></div>
-              entre 25% et 49%&nbsp;: zones moyennement concernées (ex : la moitié de la période en alerte)
-            </li>
-            <li>
-              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[3].color}"></div>
-              entre 50% et 74%&nbsp;: zones fortement concernées (ex: la moitié de la période en alerte renforcée)
-            </li>
-            <li>
-              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[4].color}"></div>
-              entre 75% et 99%&nbsp;: zones très fortement concernées (ex: jusqu'à la moitié de la période en crise)
-            </li>
-            <li>
-              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[5].color}"></div>
-              100%&nbsp;: situations extrêmes (ex : plus de la moitié de la période en crise)
-            </li>
-          </ul>
+            <ul>
+              <li>
+                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[0].color}"></div>
+                0%&nbsp;: zones non concernées par la sécheresse sur la période (le fond de carte est affiché sans
+                couleur)
+              </li>
+              <li>
+                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[1].color}"></div>
+                entre 0% et 24%&nbsp;: zones faiblement concernées par la sécheresse (ex : toute la période en
+                vigilance)
+              </li>
+              <li>
+                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[2].color}"></div>
+                entre 25% et 49%&nbsp;: zones moyennement concernées (ex : la moitié de la période en alerte)
+              </li>
+              <li>
+                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[3].color}"></div>
+                entre 50% et 74%&nbsp;: zones fortement concernées (ex: la moitié de la période en alerte renforcée)
+              </li>
+              <li>
+                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[4].color}"></div>
+                entre 75% et 99%&nbsp;: zones très fortement concernées (ex: jusqu'à la moitié de la période en crise)
+              </li>
+              <li>
+                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[5].color}"></div>
+                100%&nbsp;: situations extrêmes (ex : plus de la moitié de la période en crise)
+              </li>
+            </ul>
 
-          Plus le score est élevé, plus la couleur est foncée, indiquant une gravité et/ou une durée importante des
-          restrictions dans la commune. Une même couleur peut ainsi correspondre à des situations très variées. Pour
-          mieux comprendre la situation d'une commune, nous vous invitons à consulter son historique.
-        </div>
-      </DsfrAccordion>
+            Plus le score est élevé, plus la couleur est foncée, indiquant une gravité et/ou une durée importante des
+            restrictions dans la commune. Une même couleur peut ainsi correspondre à des situations très variées. Pour
+            mieux comprendre la situation d'une commune, nous vous invitons à consulter son historique.
+          </div>
+        </DsfrAccordion>
+      </div>
+
+      <CarteCommuneTable :dataCommune="communeDataComputed"
+                         :maxPonderation="maxPonderation"
+                         :dateDebut="dateBegin"
+                         :dateFin="dateEnd"/>
     </div>
   </div>
   <template v-else>
@@ -590,14 +592,6 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                :closeable="false"
     />
   </template>
-
-  <!--  <DsfrModal :opened="modalOpened"-->
-  <!--             :title="modalTitle"-->
-  <!--             :icon="modalIcon"-->
-  <!--             :actions=modalActions-->
-  <!--             @close="closeModal">-->
-  <!--    <div v-html="modalText"></div>-->
-  <!--  </DsfrModal>-->
 </template>
 
 <style lang="scss">

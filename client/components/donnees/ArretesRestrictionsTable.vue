@@ -31,6 +31,7 @@ async function loadData() {
         target: '_blank',
       } : '']);
   });
+  componentKey.value ++;
   loading.value = false;
 }
 

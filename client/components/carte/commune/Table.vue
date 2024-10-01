@@ -3,26 +3,24 @@ import moment from 'moment';
 import { json2csv } from 'json-2-csv';
 
 const props = defineProps<{
-  dataArea: any,
-  typeEau: any,
+  dataCommune: any,
+  maxPonderation: number,
   territoire: string,
   dateDebut: string,
   dateFin: string,
 }>();
 
-const headers = ['Date', 'Vigilance', 'Alerte', 'Alerte renforcée', 'Crise'];
+const headers = ['Commune', 'Pourcentage', 'Pondération'];
 const rows = ref([]);
 const componentKey = ref(0);
 
 async function downloadCsv() {
-  const formatData = props.dataArea
-    .map((stat: any) => {
+  const formatData = rows.value
+    .map((r: any) => {
       return {
-        date: stat.date,
-        vigilance: stat[props.typeEau].vigilance,
-        alerte: stat[props.typeEau].alerte,
-        alerte_renforcee: stat[props.typeEau].alerte_renforcee,
-        crise: stat[props.typeEau].crise,
+        commune: r[0],
+        pourcentage: r[1].replace('%', ''),
+        ponderation: r[2],
       };
     });
   const csv = await json2csv(formatData, {
@@ -35,21 +33,22 @@ async function downloadCsv() {
 
   let a = document.createElement('a');
   a.href = url;
-  a.download = `tableau_surface_${props.territoire}_${props.dateDebut}_${props.dateFin}_${props.typeEau}.csv`;
+  a.download = `tableau_ponderation_commune_${props.dateDebut}_${props.dateFin}.csv`;
   a.click();
 }
 
-watch(() => [props.typeEau, props.dataArea], () => {
-  rows.value = props.dataArea.map(s => {
+watch(() => [props.dataCommune], () => {
+  if (!props.dataCommune || !props.maxPonderation) {
+    return;
+  }
+  rows.value = props.dataCommune.map(c => {
     return [
-      moment(s.date).format('DD/MM/YYYY'),
-      s[props.typeEau].vigilance + '%',
-      s[props.typeEau].alerte + '%',
-      s[props.typeEau].alerte_renforcee + '%',
-      s[props.typeEau].crise + '%',
+      c.code,
+      Math.min(c.ponderation / props.maxPonderation * 100, 100).toFixed(2) + '%',
+      c.ponderation,
     ];
   });
-  componentKey.value ++;
+  componentKey.value++;
 }, { immediate: true });
 </script>
 
