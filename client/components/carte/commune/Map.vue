@@ -12,7 +12,6 @@ const props = defineProps<{
   dateBegin: string,
   dateEnd: string,
   area: string,
-  loading: boolean,
 }>();
 
 const emit = defineEmits<{
@@ -35,6 +34,7 @@ const maxPonderation = ref(0);
 const router = useRouter();
 const depsSelected = ref([]);
 const expanded = ref(false);
+const loading = ref(false);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -52,8 +52,10 @@ popup.on('open', () => {
 });
 
 onMounted(async () => {
-// Load data
+  loading.value = true;
+  // Load data
   communeData.value = (await api.getDataDuree()).data.value;
+  loading.value = false;
 });
 
 onMounted(() => {
@@ -245,7 +247,14 @@ const loadPopupData = async () => {
       return r.niveauGravite === 4;
     }).length;
     const nbDays = dateEnd ? dateEnd.diff(dateBegin, 'days') : 1;
-    const description = utils.generateFullPopupCommuneHtml(communeNameSelected.value, {noDays, vigilanceDays, alerteDays, alerteRenforceeDays, criseDays, nbDays});
+    const description = utils.generateFullPopupCommuneHtml(communeNameSelected.value, {
+      noDays,
+      vigilanceDays,
+      alerteDays,
+      alerteRenforceeDays,
+      criseDays,
+      nbDays,
+    });
     popup.setHTML(description);
     linkPopupBtn();
   }
@@ -257,9 +266,12 @@ const linkPopupBtn = () => {
     return;
   }
   btn.addEventListener('click', async () => {
-    router.push(`/donnees/commune/${communeSelected.value}`);
+    let query: any = {};
+    query.dateDebut = moment(props.dateBegin, 'YYYY-MM').startOf('month').format('YYYY-MM-DD');
+    query.dateFin = moment(props.dateEnd, 'YYYY-MM').endOf('month').format('YYYY-MM-DD');
+    router.push({ path: `/donnees/commune/${communeSelected.value}`, query });
   });
-}
+};
 
 async function downloadMap() {
   const dpi = 300;
@@ -454,45 +466,51 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
 
 <template>
   <div v-if="isMapSupported">
-    <div class="map-pre-actions">
-      <div v-if="showError"
-           class="map-pre-actions-card fr-p-1w fr-m-1w">
-        <DsfrAlert description="Une erreur est survenue lors du chargement de la carte"
-                   type="error"
-                   :closeable="false"
-        />
-      </div>
-      <div class="map-pre-actions-card fr-p-1w fr-m-1w">
-        <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
-        <DsfrTag v-for="tag in mapTags"
-                 :label="tag.label"
-                 class="fr-m-1w"
-                 small
-                 @click="flyToLocation(tag.bounds)"
-                 tag-name="button" />
-      </div>
+    <div v-if=loading
+         class="fr-grid-row fr-grid-row--center fr-my-2w">
+      <Loader :show="true" />
     </div>
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-12" style="position:relative;"
-           :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
-        <div :class="{
-          'map-wrap-embedded': embedded
-        }" class="map-wrap">
-          <div class="map" ref="mapContainer"></div>
+    <div v-show=!loading>
+      <div class="map-pre-actions">
+        <div v-if="showError"
+             class="map-pre-actions-card fr-p-1w fr-m-1w">
+          <DsfrAlert description="Une erreur est survenue lors du chargement de la carte"
+                     type="error"
+                     :closeable="false"
+          />
+        </div>
+        <div class="map-pre-actions-card fr-p-1w fr-m-1w">
+          <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
+          <DsfrTag v-for="tag in mapTags"
+                   :label="tag.label"
+                   class="fr-m-1w"
+                   small
+                   @click="flyToLocation(tag.bounds)"
+                   tag-name="button" />
         </div>
       </div>
-    </div>
-    <div class="map-legend">
-      <div class="map-legende-carre"></div>
-      <div class="map-legende-text">
-        <span> </span>
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12" style="position:relative;"
+             :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
+          <div :class="{
+          'map-wrap-embedded': embedded
+        }" class="map-wrap">
+            <div class="map" ref="mapContainer"></div>
+          </div>
+        </div>
       </div>
-    </div>
+      <div class="map-legend">
+        <div class="map-legende-carre"></div>
+        <div class="map-legende-text">
+          <span> </span>
+        </div>
+      </div>
 
-    <div class="text-align-right">
-      <DsfrButton @click="downloadMap()">
-        Télécharger la carte en .png
-      </DsfrButton>
+      <div class="text-align-right">
+        <DsfrButton @click="downloadMap()">
+          Télécharger la carte en .png
+        </DsfrButton>
+      </div>
     </div>
 
     <div class="full-width fr-my-2w">
@@ -503,7 +521,8 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                      :id="true">
         <div>
           Les couleurs de la carte traduisent un "score de restrictions appliquées aux usages de l'eau". Ce score est
-          calculé pour chaque commune en combinant deux facteurs : la durée et l'intensité des restrictions.<br /><br />
+          calculé pour chaque commune en combinant deux facteurs : la durée et l'intensité des
+          restrictions.<br /><br />
           L'intensité des restrictions est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
           <ul>
             <li>Pas de restrictions&nbsp;: 0</li>
@@ -521,7 +540,8 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
           Les résultats sont ensuite visualisés à l'aide d'un code couleur, selon l'échelle suivante :
           <ul>
             <li>0 % : zones non concernées par la sécheresse sur la période</li>
-            <li> 60-100 % : zones très fortement concernées par la sécheresse sur la période. La pondération est limitée
+            <li> 60-100 % : zones très fortement concernées par la sécheresse sur la période. La pondération est
+              limitée
               à 60
               points par mois, soit 15 jours de crise, pour éviter des valeurs trop élevées dans les cas extrêmes.
             </li>

@@ -30,6 +30,7 @@ const emit = defineEmits<{
 const communeStats = ref(null);
 const showError = ref(false);
 const router = useRouter();
+const route = useRoute();
 const errorButtons = [
   {
     label: 'Page d\'accueil',
@@ -42,11 +43,12 @@ const computeDisabled = ref(true);
 const dateMin = ref('2013-01-01');
 const tmp = new Date();
 tmp.setFullYear(tmp.getFullYear() - 1);
-const dateDebut = ref(dateMin.value);
-const dateFin = ref(new Date().toISOString().split('T')[0]);
+const dateDebut = ref(route.query.dateDebut ? route.query.dateDebut : dateMin.value);
+const dateFin = ref(route.query.dateFin ? route.query.dateFin : new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
 const chartLineData = ref(null);
 const typeEau = ref('SUP');
+const loading = ref(true);
 
 const typesEauOptions = [
   {
@@ -62,14 +64,17 @@ const typesEauOptions = [
   },
 ];
 
-const { data, error } = await api.getDataCommune(props.codeInsee);
-if (data.value) {
-  communeStats.value = data.value;
-  emit('commune', communeStats.value.commune);
-  sortData();
-} else if (error.value) {
-  showError.value = true;
-}
+onMounted(async () => {
+  const { data, error } = await api.getDataCommune(props.codeInsee);
+  if (data.value) {
+    communeStats.value = data.value;
+    emit('commune', communeStats.value.commune);
+    sortData();
+  } else if (error.value) {
+    showError.value = true;
+  }
+  loading.value = false;
+});
 
 function sortData() {
   const restrictions = communeStats.value.restrictions.filter((r: any) => {
@@ -96,8 +101,7 @@ function sortData() {
           }
         }),
         backgroundColor: (context: any) => colorFunction(context.raw),
-        segment: {
-        },
+        segment: {},
       },
     ],
   };
@@ -196,67 +200,74 @@ async function downloadGraph() {
 </script>
 
 <template>
-  <template v-if="!showError && communeStats">
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-3">
-        <DsfrSelect label="Type d'eau"
-                    v-model="typeEau"
-                    @update:modelValue="computeDisabled = false"
-                    :options="typesEauOptions" />
+  <template v-if="!loading">
+    <template v-if="!showError && communeStats">
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-3">
+          <DsfrSelect label="Type d'eau"
+                      v-model="typeEau"
+                      @update:modelValue="computeDisabled = false"
+                      :options="typesEauOptions" />
+        </div>
+        <div class="fr-col-3">
+          <DsfrInput
+            id="dateDebut"
+            v-model="dateDebut"
+            @update:modelValue="computeDisabled = false"
+            label="Date début"
+            label-visible
+            type="date"
+            name="dateCarte"
+            :min="dateMin"
+            :max="dateFin"
+          />
+        </div>
+        <div class="fr-col-3">
+          <DsfrInput
+            id="dateFin"
+            v-model="dateFin"
+            @update:modelValue="computeDisabled = false"
+            label="Date fin"
+            label-visible
+            type="date"
+            name="dateCarte"
+            :min="dateDebut"
+            :max="currentDate"
+          />
+        </div>
+        <div class="fr-col-3">
+          <DsfrButton :disabled="computeDisabled"
+                      @click="sortData()">
+            Calculer
+          </DsfrButton>
+        </div>
       </div>
-      <div class="fr-col-3">
-        <DsfrInput
-          id="dateDebut"
-          v-model="dateDebut"
-          @update:modelValue="computeDisabled = false"
-          label="Date début"
-          label-visible
-          type="date"
-          name="dateCarte"
-          :min="dateMin"
-          :max="dateFin"
-        />
-      </div>
-      <div class="fr-col-3">
-        <DsfrInput
-          id="dateFin"
-          v-model="dateFin"
-          @update:modelValue="computeDisabled = false"
-          label="Date fin"
-          label-visible
-          type="date"
-          name="dateCarte"
-          :min="dateDebut"
-          :max="currentDate"
-        />
-      </div>
-      <div class="fr-col-3">
-        <DsfrButton :disabled="computeDisabled"
-                    @click="sortData()">
-          Calculer
+      <Bar v-if="chartLineData"
+           id="area-chart-line"
+           :options="chartLineOptions"
+           :data="chartLineData"
+           :style="{'min-height': '400px'}" />
+
+      <div class="text-align-right fr-mt-1w">
+        <DsfrButton @click="downloadGraph()">
+          Télécharger le graphique en .png
         </DsfrButton>
       </div>
-    </div>
-    <Bar v-if="chartLineData"
-         id="area-chart-line"
-         :options="chartLineOptions"
-         :data="chartLineData"
-         :style="{'min-height': '400px'}" />
-
-    <div class="text-align-right fr-mt-1w">
-      <DsfrButton @click="downloadGraph()">
-        Télécharger le graphique en .png
-      </DsfrButton>
-    </div>
+    </template>
+    <template v-else>
+      <DsfrErrorPage class="fr-mt-8w"
+                     title="Oups, une erreur est survenue"
+                     subtitle="Il semblerait qu'il y ai un problème avec le code INSEE de votre commune."
+                     description=""
+                     help=""
+                     :buttons="errorButtons"
+      />
+    </template>
   </template>
   <template v-else>
-    <DsfrErrorPage class="fr-mt-8w"
-                   title="Oups, une erreur est survenue"
-                   subtitle="Il semblerait qu'il y ai un problème avec le code INSEE de votre commune."
-                   description=""
-                   help=""
-                   :buttons="errorButtons"
-    />
+    <div class="fr-grid-row fr-grid-row--center fr-my-2w">
+      <Loader :show="true" />
+    </div>
   </template>
 </template>
 

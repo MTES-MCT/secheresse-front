@@ -16,8 +16,8 @@ const emit = defineEmits<{
 const refDataStore = useRefDataStore();
 const dateMin = ref('2013-01');
 const currentDate = moment();
-const dateDebut = ref();
-const dateFin = ref();
+const dateDebut = ref(moment(currentDate).subtract(1, 'year').format('YYYY-MM'));
+const dateFin = ref(currentDate.format('YYYY-MM'));
 const area = ref(null);
 const computeDisabled = ref(true);
 const modalOpened = ref(false);
@@ -92,7 +92,8 @@ watch(() => refDataStore.departements, () => {
       <DsfrSelect label="Territoire"
                   v-model="area"
                   @update:modelValue="computeDisabled = !(area !== null && dateDebut && dateFin)"
-                  :options="areaOptions" />
+                  :options="areaOptions"
+                  required />
     </div>
     <div class="fr-col-3">
       <DsfrInput
@@ -105,6 +106,7 @@ watch(() => refDataStore.departements, () => {
         name="dateDebutCarte"
         :min="dateMin"
         :max="dateFin ? dateFin : currentDate.format('YYYY-MM')"
+        required
       />
     </div>
     <div class="fr-col-3">
@@ -118,6 +120,7 @@ watch(() => refDataStore.departements, () => {
         name="dateCarte"
         :min="dateDebut"
         :max="currentDate.format('YYYY-MM')"
+        required
       />
     </div>
     <div class="fr-col-3">
