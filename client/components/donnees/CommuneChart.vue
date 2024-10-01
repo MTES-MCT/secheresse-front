@@ -6,8 +6,6 @@ import {
   Chart as ChartJS, ChartOptions, Colors, Filler,
   Legend,
   LinearScale,
-  LineController,
-  LineElement,
   PointElement,
   TimeScale,
   Title,
@@ -48,7 +46,8 @@ const dateFin = ref(route.query.dateFin ? route.query.dateFin : new Date().toISO
 const currentDate = ref(new Date().toISOString().split('T')[0]);
 const chartLineData = ref(null);
 const typeEau = ref('SUP');
-const loading = ref(true);
+const loading = ref(false);
+const restrictionsFiltered = ref([]);
 
 const typesEauOptions = [
   {
@@ -65,6 +64,7 @@ const typesEauOptions = [
 ];
 
 onMounted(async () => {
+  loading.value = true;
   const { data, error } = await api.getDataCommune(props.codeInsee);
   if (data.value) {
     communeStats.value = data.value;
@@ -77,45 +77,33 @@ onMounted(async () => {
 });
 
 function sortData() {
-  const restrictions = communeStats.value.restrictions.filter((r: any) => {
+  restrictionsFiltered.value = communeStats.value.restrictions.filter((r: any) => {
     return moment(r.date, 'YYYY-MM-DD').isSameOrAfter(moment(dateDebut.value, 'YYYY-MM-DD')) &&
       moment(r.date, 'YYYY-MM-DD').isSameOrBefore(moment(dateFin.value, 'YYYY-MM-DD'));
   });
   chartLineData.value = {
-    labels: restrictions.map((r: any) => r.date),
+    labels: restrictionsFiltered.value.map((r: any) => r.date),
     datasets: [
       {
         label: `${communeStats.value?.commune.nom}`,
-        data: restrictions.map((r: any) => {
-          switch (r[typeEau.value]) {
-            case 'vigilance':
-              return 1;
-            case 'alerte':
-              return 2;
-            case 'alerte_renforcee':
-              return 3;
-            case 'crise':
-              return 4;
-            default:
-              return 0;
-          }
-        }),
-        backgroundColor: (context: any) => colorFunction(context.raw),
+        data: restrictionsFiltered.value.map((r: any) => 1),
+        backgroundColor: (context: any) => colorFunction(context),
         segment: {},
       },
     ],
   };
 }
 
-function colorFunction(yval: any) {
-  switch (yval) {
-    case 4:
+function colorFunction(context: any) {
+  const restriction = restrictionsFiltered.value[context.index];
+  switch (restriction[typeEau.value]) {
+    case 'crise':
       return '#B10026';
-    case 3:
+    case 'alerte_renforcee':
       return '#FC4E2A';
-    case 2:
+    case 'alerte':
       return '#FEB24C';
-    case 1:
+    case 'vigilance':
       return '#FFEDA0';
     default:
       return '#9db5ff';
@@ -123,51 +111,50 @@ function colorFunction(yval: any) {
 }
 
 function labelFunction(value: any) {
-  switch (value) {
-    case 4:
+  const restriction = restrictionsFiltered.value[value.dataIndex];
+  switch (restriction[typeEau.value]) {
+    case 'crise':
       return 'Crise';
-    case 3:
+    case 'alerte_renforcee':
       return 'Alerte renforcée';
-    case 2:
+    case 'alerte':
       return 'Alerte';
-    case 1:
+    case 'vigilance':
       return 'Vigilance';
-    case 0:
+    default:
       return 'Pas de restrictions';
   }
 }
 
 const tooltipTitle = (tooltipItems: any[]): string => {
-  const date = new Date(tooltipItems[0].parsed.x);
-  const year: string | number = date.getFullYear();
-  let month: string | number = date.getMonth() + 1;
-  let dt: string | number = date.getDate();
-
-  if (dt < 10) {
-    dt = '0' + dt;
-  }
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  return `${dt}/${month}/${year}`;
+  return moment(tooltipItems[0].parsed.x).format('DD/MM/YYYY');
 };
 
 const chartLineOptions: ChartOptions = {
   responsive: true,
-  maintainAspectRatio: true,
+  maintainAspectRatio: false,
+  barPercentage: 1,
+  categoryPercentage: 1,
   scales: {
     x: {
       type: 'time',
       time: {
         unit: 'week',
       },
+      grid: {
+        display: false,
+        borderColor: 'rgba(0, 0, 0, 0)',
+      },
     },
     y: {
       beginAtZero: true,
       min: 0,
       ticks: {
-        callback: (value: number) => labelFunction(value),
+        display: false,
+      },
+      grid: {
+        display: false,
+        borderColor: 'rgba(0, 0, 0, 0)',
       },
     },
   },
@@ -179,7 +166,7 @@ const chartLineOptions: ChartOptions = {
     tooltip: {
       callbacks: {
         title: tooltipTitle,
-        label: (value) => labelFunction(value.raw),
+        label: (value) => labelFunction(value),
       },
     },
     legend: {
@@ -202,7 +189,7 @@ async function downloadGraph() {
 <template>
   <template v-if="!loading">
     <template v-if="!showError && communeStats">
-      <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
         <div class="fr-col-lg-3 fr-col-12">
           <DsfrSelect label="Type d'eau"
                       v-model="typeEau"
@@ -242,10 +229,12 @@ async function downloadGraph() {
           </DsfrButton>
         </div>
       </div>
-      <Bar v-if="chartLineData"
-           id="area-chart-line"
-           :options="chartLineOptions"
-           :data="chartLineData" />
+      <div class="chart-container">
+        <Bar v-if="chartLineData"
+             id="area-chart-line"
+             :options="chartLineOptions"
+             :data="chartLineData" />
+      </div>
 
       <div class="text-align-right fr-mt-1w">
         <DsfrButton @click="downloadGraph()">
@@ -271,6 +260,10 @@ async function downloadGraph() {
 </template>
 
 <style lang="scss" scoped>
+.chart-container {
+  max-height: 400px;
+}
+
 .fr-grid-row {
   align-items: end;
 }
