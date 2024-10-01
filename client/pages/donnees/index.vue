@@ -57,7 +57,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
             img-src="/donnee_carte_commune.png"
             link="/donnees/carte-commune"
             alt-img="Image d'illustration de la carte"
-            title="Évolution de la situation de la sécheresse par commune"
+            title="Intensité des sécheresses passées"
           >
           </DsfrCard>
         </div>
