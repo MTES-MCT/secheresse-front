@@ -88,14 +88,14 @@ watch(() => refDataStore.departements, () => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-12">
       <DsfrSelect label="Territoire"
                   v-model="area"
                   @update:modelValue="computeDisabled = !(area !== null && dateDebut && dateFin)"
                   :options="areaOptions"
                   required />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-6">
       <DsfrInput
         id="dateDebut"
         v-model="dateDebut"
@@ -109,7 +109,7 @@ watch(() => refDataStore.departements, () => {
         required
       />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-6">
       <DsfrInput
         id="dateFin"
         v-model="dateFin"
@@ -123,7 +123,7 @@ watch(() => refDataStore.departements, () => {
         required
       />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-6">
       <DsfrButton :disabled="loading || computeDisabled"
                   @click="askLoadData()">
         <div class="fr-grid-row fr-grid-row--middle" >

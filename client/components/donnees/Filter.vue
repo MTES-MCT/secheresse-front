@@ -72,13 +72,13 @@ watch(() => refDataStore.departements, () => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-4">
+    <div class="fr-col-lg-4 fr-col-6">
       <DsfrSelect label="Territoire"
                   v-model="area"
                   @update:modelValue="computeDisabled = false"
                   :options="areaOptions" />
     </div>
-    <div class="fr-col-4">
+    <div class="fr-col-lg-4 fr-col-6">
       <DsfrInput
         id="dateCarte"
         v-model="date"
@@ -91,7 +91,7 @@ watch(() => refDataStore.departements, () => {
         :max="currentDate.toISOString().split('T')[0]"
       />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-6">
       <DsfrButton :disabled="computeDisabled"
                   @click="loadData()">
         Calculer

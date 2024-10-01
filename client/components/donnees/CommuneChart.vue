@@ -203,13 +203,13 @@ async function downloadGraph() {
   <template v-if="!loading">
     <template v-if="!showError && communeStats">
       <div class="fr-grid-row fr-grid-row--gutters">
-        <div class="fr-col-3">
+        <div class="fr-col-lg-3 fr-col-12">
           <DsfrSelect label="Type d'eau"
                       v-model="typeEau"
                       @update:modelValue="computeDisabled = false"
                       :options="typesEauOptions" />
         </div>
-        <div class="fr-col-3">
+        <div class="fr-col-lg-3 fr-col-6">
           <DsfrInput
             id="dateDebut"
             v-model="dateDebut"
@@ -222,7 +222,7 @@ async function downloadGraph() {
             :max="dateFin"
           />
         </div>
-        <div class="fr-col-3">
+        <div class="fr-col-lg-3 fr-col-6">
           <DsfrInput
             id="dateFin"
             v-model="dateFin"
@@ -235,7 +235,7 @@ async function downloadGraph() {
             :max="currentDate"
           />
         </div>
-        <div class="fr-col-3">
+        <div class="fr-col-lg-3 fr-col-6">
           <DsfrButton :disabled="computeDisabled"
                       @click="sortData()">
             Calculer
@@ -245,8 +245,7 @@ async function downloadGraph() {
       <Bar v-if="chartLineData"
            id="area-chart-line"
            :options="chartLineOptions"
-           :data="chartLineData"
-           :style="{'min-height': '400px'}" />
+           :data="chartLineData" />
 
       <div class="text-align-right fr-mt-1w">
         <DsfrButton @click="downloadGraph()">

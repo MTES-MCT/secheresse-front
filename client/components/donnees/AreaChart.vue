@@ -216,19 +216,19 @@ watch(() => refDataStore.departements, () => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-2">
+    <div class="fr-col-lg-2 fr-col-6">
       <DsfrSelect label="Type d'eau"
                   v-model="typeEau"
                   @update:modelValue="sortData()"
                   :options="typesEauOptions" />
     </div>
-    <div class="fr-col-2">
+    <div class="fr-col-lg-2 fr-col-6">
       <DsfrSelect label="Territoire"
                   v-model="area"
                   @update:modelValue="computeDisabled = false"
                   :options="areaOptions" />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-6">
       <DsfrInput
         id="dateDebut"
         v-model="dateDebut"
@@ -241,7 +241,7 @@ watch(() => refDataStore.departements, () => {
         :max="dateFin"
       />
     </div>
-    <div class="fr-col-3">
+    <div class="fr-col-lg-3 fr-col-6">
       <DsfrInput
         id="dateFin"
         v-model="dateFin"
@@ -254,7 +254,7 @@ watch(() => refDataStore.departements, () => {
         :max="currentDate"
       />
     </div>
-    <div class="fr-col-2">
+    <div class="fr-col-lg-2 fr-col-6">
       <DsfrButton :disabled="computeDisabled"
                   @click="loadData()">
         Calculer
@@ -270,8 +270,7 @@ watch(() => refDataStore.departements, () => {
     <Line v-if="chartLineData"
           id="area-chart-line"
           :options="chartLineOptions"
-          :data="chartLineData"
-          :style="{'min-height': '400px'}" />
+          :data="chartLineData" />
 
     <div class="text-align-right fr-mt-1w">
       <DsfrButton @click="downloadGraph()">
