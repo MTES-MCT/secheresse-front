@@ -64,7 +64,7 @@ function colorFunction(context: any) {
     case 1:
       return '#FFEDA0';
     default:
-      return '#9db5ff';
+      return '#e8edff';
   }
 }
 

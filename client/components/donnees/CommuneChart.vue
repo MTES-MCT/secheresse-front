@@ -135,6 +135,28 @@ async function downloadGraph() {
                                   :restrictions="restrictionsFiltered"
                                   :communeNom="communeStats.commune.nom" />
         </div>
+        <div class="fr-grid-row">
+          <DsfrBadge small
+                     no-icon
+                     class="situation-level-bg-0 fr-mr-1w fr-mt-1w"
+                     label="pas de restrictions" />
+          <DsfrBadge small
+                     no-icon
+                     class="situation-level-bg-1 fr-mr-1w fr-mt-1w"
+                     label="vigilance" />
+          <DsfrBadge small
+                     no-icon
+                     class="situation-level-bg-2 fr-mr-1w fr-mt-1w"
+                     label="alerte" />
+          <DsfrBadge small
+                     no-icon
+                     class="situation-level-bg-3 fr-mr-1w fr-mt-1w"
+                     label="alerte renforcée" />
+          <DsfrBadge small
+                     no-icon
+                     class="situation-level-bg-4 fr-mt-1w"
+                     label="crise" />
+        </div>
       </div>
 
       <div class="text-align-right fr-mt-1w">
@@ -173,5 +195,14 @@ async function downloadGraph() {
 
 .fr-grid-row {
   align-items: end;
+}
+
+.situation-level-bg-0 {
+  color: var(--grey-0-1000);
+}
+
+.situation-level-bg-1 {
+  background-color: #FFEDA0;
+  color: var(--grey-0-1000);
 }
 </style>
