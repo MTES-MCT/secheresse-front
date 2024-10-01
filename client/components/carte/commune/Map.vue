@@ -6,7 +6,6 @@ import moment, { Moment } from 'moment';
 import { useRefDataStore } from '../../../store/refData';
 import CommuneWorker from '@/assets/workers/communeMap?worker';
 
-
 const props = defineProps<{
   embedded: any,
   dateBegin: string,
@@ -17,6 +16,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   beginLoading: any;
   endLoading: any;
+  downloadMap: any;
 }>();
 
 const refDataStore = useRefDataStore();
@@ -155,6 +155,27 @@ const mapTags: Ref<any[]> = ref([{
   bounds: [[-55.261230, 1.790480], [-51.130371, 6.107784]],
 }]);
 
+const legende = [
+  {
+    color: `rgba(0, 0, 0, 0)`,
+  },
+  {
+    color: `rgb(227, 227, 253)`,
+  },
+  {
+    color: `rgb(168, 168, 209)`,
+  },
+  {
+    color: `rgb(110, 110, 165)`,
+  },
+  {
+    color: `rgb(49, 49, 120)`,
+  },
+  {
+    color: `rgb(0, 0, 0)`,
+  },
+];
+
 const flyToLocation = (bounds: any) => {
   map.value?.fitBounds(bounds);
 };
@@ -274,18 +295,7 @@ const linkPopupBtn = () => {
 };
 
 async function downloadMap() {
-  const dpi = 300;
-  Object.defineProperty(window, 'devicePixelRatio', {
-    get: function() {
-      return dpi / 96;
-    },
-  });
-  const content = map.value?.getCanvas().toDataURL('image/png');
-
-  const a = document.createElement('a');
-  a.href = content.replace('image/png', 'image/octet-stream');
-  a.download = `carte_evolution_${props.dateBegin}-${props.dateEnd}.png`;
-  a.click();
+  emit('downloadMap');
 }
 
 function resetCommuneSelected() {
@@ -296,12 +306,8 @@ function resetCommuneSelected() {
 
 function computeMinMaxPonderation(dateBegin: Moment, dateEnd: Moment) {
   // Pondération de crise : 4 points par jour
-  // On considère que la pondération MAX est de 1 jour sur 2 en crise (4x15 = 60 points par mois)
-  let p = 0;
-  for (let m = moment(dateBegin); m.diff(dateEnd, 'days') <= 0; m.add(1, 'month')) {
-    p += 60;
-  }
-  maxPonderation.value = p;
+  // On considère que la pondération MAX est de 1 jour sur 2 en crise (2 points par jour)
+  maxPonderation.value = dateEnd.diff(dateBegin, 'days') * 2;
 }
 
 async function computeData() {
@@ -410,22 +416,20 @@ function showCommunesPonderation() {
 
 function computeColorExpression(code: string, ponderation: number, expression: any) {
   const p = ponderation > maxPonderation.value ? maxPonderation.value : ponderation;
-  if (p <= 0) {
-    expression.push(code, `rgba(0, 0, 0, 0)`);
-    return;
+  const percentage = p / maxPonderation.value * 100;
+  if (percentage <= 0) {
+    expression.push(code, legende[0].color);
+  } else if (percentage < 25) {
+    expression.push(code, legende[1].color);
+  } else if (percentage < 50) {
+    expression.push(code, legende[2].color);
+  } else if (percentage < 75) {
+    expression.push(code, legende[3].color);
+  } else if (percentage < 100) {
+    expression.push(code, legende[4].color);
+  } else {
+    expression.push(code, legende[5].color);
   }
-  const percentage = p / maxPonderation.value;
-
-  // Les valeurs RVB pour les deux couleurs
-  const startColor = { r: 227, g: 227, b: 253 }; // Jaune vigilance
-  const endColor = { r: 49, g: 49, b: 120 }; // Rouge crise
-
-  // Calculer la couleur en fonction du pourcentage
-  const r = Math.round(startColor.r + (endColor.r - startColor.r) * (percentage));
-  const g = Math.round(startColor.g + (endColor.g - startColor.g) * (percentage));
-  const b = Math.round(startColor.b + (endColor.b - startColor.b) * (percentage));
-
-  expression.push(code, `rgb(${r}, ${g}, ${b})`);
 }
 
 function computeArea() {
@@ -499,21 +503,22 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
           </div>
         </div>
       </div>
-      <div class="map-legend">
-        <div class="map-legende-carre"></div>
-        <div class="map-legende-text">
-          <span> </span>
-        </div>
+      <div class="map-legend fr-grid-row fr-grid-row--middle">
+        <div>Zones non concernées par la sécheresse</div>
+        <div v-for="legend of legende"
+             :style="{'background-color': legend.color}"
+             class="map-legend-carre fr-mx-1w"></div>
+        <div>Situations extrèmes</div>
       </div>
 
-      <div class="text-align-right">
+      <div data-html2canvas-ignore="true" class="text-align-right">
         <DsfrButton @click="downloadMap()">
           Télécharger la carte en .png
         </DsfrButton>
       </div>
     </div>
 
-    <div class="full-width fr-my-2w">
+    <div data-html2canvas-ignore="true" class="full-width fr-my-2w">
       <DsfrAccordion title="Méthodologie de calcul de la carte"
                      :expanded-id="expanded"
                      titleTag="h4"
@@ -533,17 +538,41 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
           </ul>
 
           La durée correspond au nombre de jours pendant lesquels ces restrictions sont en place. Pour chaque commune,
-          le score est obtenu en multipliant la pondération par le nombre de jours pour chaque niveau de restriction,
-          puis en additionnant ces valeurs. Ce score cumulatif est ensuite comparé à un score maximal théorique,
-          représentant le niveau "crise" sur toute la période, pour le normaliser sur une échelle de 0 à 100
-          %.<br /><br />
-          Les résultats sont ensuite visualisés à l'aide d'un code couleur, selon l'échelle suivante :
+          le score est obtenu en multipliant la pondération par le nombre de jours concerné par chaque niveau de
+          restriction, puis en additionnant ces valeurs. Ce score cumulatif est ensuite comparé à un score maximal
+          théorique (limité à 60 points par mois, soit 15 jours de crise) pour le normaliser sur une échelle de 0 à 100
+          %. Le score est limité pour éviter des valeurs trop élevées dans les cas extrêmes.<br /><br />
+
+          Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur est
+          foncée, indiquant une gravité et/ou une durée importante des restrictions dans la commune. L'échelle utilisée
+          est la suivante&nbsp;:
+
           <ul>
-            <li>0 % : zones non concernées par la sécheresse sur la période</li>
-            <li> 60-100 % : zones très fortement concernées par la sécheresse sur la période. La pondération est
-              limitée
-              à 60
-              points par mois, soit 15 jours de crise, pour éviter des valeurs trop élevées dans les cas extrêmes.
+            <li>
+              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[0].color}"></div>
+              0%&nbsp;: zones non concernées par la sécheresse sur la période (le fond de carte est affiché sans
+              couleur)
+            </li>
+            <li>
+              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[1].color}"></div>
+              entre 0% et 24%&nbsp;: zones faiblement concernées par la sécheresse (ex : toute la période en
+              vigilance)
+            </li>
+            <li>
+              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[2].color}"></div>
+              entre 25% et 49%&nbsp;: zones moyennement concernées (ex : la moitié de la période en alerte)
+            </li>
+            <li>
+              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[3].color}"></div>
+              entre 50% et 74%&nbsp;: zones fortement concernées (ex: la moitié de la période en alerte renforcée)
+            </li>
+            <li>
+              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[4].color}"></div>
+              entre 75% et 99%&nbsp;: zones très fortement concernées (ex: jusqu'à la moitié de la période en crise)
+            </li>
+            <li>
+              <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[5].color}"></div>
+              100%&nbsp;: situations extrêmes (ex : plus de la moitié de la période en crise)
             </li>
           </ul>
 
@@ -632,24 +661,15 @@ h6 {
   }
 }
 
-.map-legende {
+.map-legend {
+  font-weight: bold;
+
   &-carre {
     height: 20px;
-    min-width: 200px;
-    width: 100%;
-    max-width: 100px;
-    background: linear-gradient(0.25turn, rgb(227, 227, 253), rgb(49, 49, 120));
-  }
-
-  &-text {
-    text-align: justify;
-    height: 21px;
-    overflow: hidden;
-
-    span {
-      width: 100%;
-      display: inline-block;
-    }
+    width: 40px;
+    border: 1px solid var(--grey-425-625);;
+    border-radius: .25rem;
+    display: inline-block;
   }
 }
 
@@ -662,7 +682,7 @@ h6 {
     }
   }
 
-  .map-legende, .map-pre-actions, .map-post-actions {
+  .map-pre-actions, .map-post-actions {
     position: relative;
     top: 0;
     left: 0;

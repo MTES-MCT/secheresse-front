@@ -17,7 +17,7 @@ import { useRefDataStore } from '../../store/refData';
 import { BassinVersant } from '../../dto/bassinVersant.dto';
 import { Region } from '../..//dto/region.dto';
 import { Departement } from '../..//dto/departement.dto';
-
+import html2canvas from 'html2canvas';
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement, Colors, Filler);
 
@@ -35,6 +35,8 @@ const dateFin = ref(new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
 const typeEau = ref('AEP');
 const area = ref('');
+const territoire = ref();
+const screenshotZone = ref();
 
 const typesEauOptions = [
   {
@@ -57,6 +59,7 @@ async function loadData() {
   const { data, error } = await api.getDataArea(dateDebut.value, dateFin.value, area.value);
   if (data.value) {
     dataArea.value = data.value;
+    territoire.value = areaOptions.value.find((a: any) => a.value === area.value);
     sortData();
   }
   computeDisabled.value = true;
@@ -164,14 +167,14 @@ const chartLineOptions: ChartOptions = {
 };
 
 async function downloadGraph() {
-  const el = document.getElementById('area-chart-line') as HTMLCanvasElement;
-  const content = el.toDataURL('image/png');
+  html2canvas(screenshotZone.value, { scale: 2 }).then((canvas) => {
+    const content = canvas.toDataURL('image/png');
 
-  const a = document.createElement('a');
-  a.href = content.replace('image/png', 'image/octet-stream');
-  const territoire = areaOptions.value.find((a: any) => a.value === area.value);
-  a.download = `graphique_surface_${territoire.text}_${dateDebut.value}_${dateFin.value}_${typeEau.value}.png`;
-  a.click();
+    const a = document.createElement('a');
+    a.href = content.replace('image/png', 'image/octet-stream');
+    a.download = `graphique_surface_${territoire.value.text}_${dateDebut.value}_${dateFin.value}_${typeEau.value}.png`;
+    a.click();
+  });
 }
 
 watch(() => refDataStore.departements, () => {
@@ -211,74 +214,86 @@ watch(() => refDataStore.departements, () => {
   });
 }, {
   immediate: true,
-})
+});
 </script>
 
 <template>
-  <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-lg-2 fr-col-6">
-      <DsfrSelect label="Type d'eau"
-                  v-model="typeEau"
-                  @update:modelValue="sortData()"
-                  :options="typesEauOptions" />
+  <div ref="screenshotZone">
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-lg-2 fr-col-6">
+        <DsfrSelect label="Type d'eau"
+                    v-model="typeEau"
+                    @update:modelValue="sortData()"
+                    :options="typesEauOptions" />
+      </div>
+      <div class="fr-col-lg-2 fr-col-6">
+        <DsfrSelect label="Territoire"
+                    v-model="area"
+                    @update:modelValue="computeDisabled = false"
+                    :options="areaOptions" />
+      </div>
+      <div class="fr-col-lg-3 fr-col-6">
+        <DsfrInput
+          id="dateDebut"
+          v-model="dateDebut"
+          @update:modelValue="computeDisabled = false"
+          label="Date début"
+          label-visible
+          type="date"
+          name="dateCarte"
+          :min="dateMin"
+          :max="dateFin"
+        />
+      </div>
+      <div class="fr-col-lg-3 fr-col-6">
+        <DsfrInput
+          id="dateFin"
+          v-model="dateFin"
+          @update:modelValue="computeDisabled = false"
+          label="Date fin"
+          label-visible
+          type="date"
+          name="dateCarte"
+          :min="dateDebut"
+          :max="currentDate"
+        />
+      </div>
+      <div class="fr-col-lg-2 fr-col-6">
+        <DsfrButton :disabled="computeDisabled"
+                    @click="loadData()">
+          Calculer
+        </DsfrButton>
+      </div>
     </div>
-    <div class="fr-col-lg-2 fr-col-6">
-      <DsfrSelect label="Territoire"
-                  v-model="area"
-                  @update:modelValue="computeDisabled = false"
-                  :options="areaOptions" />
+    <div class="fr-col-12">
+      <DsfrAlert type="info" class="fr-my-2w">
+        Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour
+        connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux
+        superficielles et souterraines.
+      </DsfrAlert>
     </div>
-    <div class="fr-col-lg-3 fr-col-6">
-      <DsfrInput
-        id="dateDebut"
-        v-model="dateDebut"
-        @update:modelValue="computeDisabled = false"
-        label="Date début"
-        label-visible
-        type="date"
-        name="dateCarte"
-        :min="dateMin"
-        :max="dateFin"
-      />
-    </div>
-    <div class="fr-col-lg-3 fr-col-6">
-      <DsfrInput
-        id="dateFin"
-        v-model="dateFin"
-        @update:modelValue="computeDisabled = false"
-        label="Date fin"
-        label-visible
-        type="date"
-        name="dateCarte"
-        :min="dateDebut"
-        :max="currentDate"
-      />
-    </div>
-    <div class="fr-col-lg-2 fr-col-6">
-      <DsfrButton :disabled="computeDisabled"
-                  @click="loadData()">
-        Calculer
-      </DsfrButton>
-    </div>
-  </div>
-  <div class="fr-col-12">
-    <DsfrAlert type="info" class="fr-my-2w">
-      Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux superficielles et souterraines.
-    </DsfrAlert>
+    <template v-if="!loading">
+      <Line v-if="chartLineData"
+            id="area-chart-line"
+            :options="chartLineOptions"
+            :data="chartLineData" />
+    </template>
   </div>
   <template v-if="!loading">
-    <Line v-if="chartLineData"
-          id="area-chart-line"
-          :options="chartLineOptions"
-          :data="chartLineData" />
-
     <div class="text-align-right fr-mt-1w">
       <DsfrButton @click="downloadGraph()">
         Télécharger le graphique en .png
       </DsfrButton>
     </div>
+
+    <DonneesAreaTable class="fr-mt-4w"
+                      :dataArea="dataArea"
+                      :typeEau="typeEau"
+                      :territoire="territoire?.text"
+                      :dateDebut="dateDebut"
+                      :dateFin="dateFin" />
   </template>
-  <template v-else>
+  <template v-if="loading">
     <div class="fr-grid-row fr-grid-row--center fr-my-2w">
       <Loader :show="true" />
     </div>

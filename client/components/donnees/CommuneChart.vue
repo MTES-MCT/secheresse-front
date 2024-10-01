@@ -1,21 +1,7 @@
 <script setup lang="ts">
 import api from '../../api';
-import {
-  ArcElement, BarElement,
-  CategoryScale,
-  Chart as ChartJS, ChartOptions, Colors, Filler,
-  Legend,
-  LinearScale,
-  PointElement,
-  TimeScale,
-  Title,
-  Tooltip,
-} from 'chart.js';
-import 'chartjs-adapter-luxon';
-import { Bar } from 'vue-chartjs';
 import moment from 'moment';
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, TimeScale, ArcElement, Colors, Filler);
+import html2canvas from 'html2canvas';
 
 const props = defineProps<{
   codeInsee: string,
@@ -44,10 +30,9 @@ tmp.setFullYear(tmp.getFullYear() - 1);
 const dateDebut = ref(route.query.dateDebut ? route.query.dateDebut : dateMin.value);
 const dateFin = ref(route.query.dateFin ? route.query.dateFin : new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
-const chartLineData = ref(null);
-const typeEau = ref('SUP');
 const loading = ref(false);
 const restrictionsFiltered = ref([]);
+const screenshotZone = ref();
 
 const typesEauOptions = [
   {
@@ -81,159 +66,75 @@ function sortData() {
     return moment(r.date, 'YYYY-MM-DD').isSameOrAfter(moment(dateDebut.value, 'YYYY-MM-DD')) &&
       moment(r.date, 'YYYY-MM-DD').isSameOrBefore(moment(dateFin.value, 'YYYY-MM-DD'));
   });
-  chartLineData.value = {
-    labels: restrictionsFiltered.value.map((r: any) => r.date),
-    datasets: [
-      {
-        label: `${communeStats.value?.commune.nom}`,
-        data: restrictionsFiltered.value.map((r: any) => 1),
-        backgroundColor: (context: any) => colorFunction(context),
-        segment: {},
-      },
-    ],
-  };
 }
-
-function colorFunction(context: any) {
-  const restriction = restrictionsFiltered.value[context.index];
-  switch (restriction[typeEau.value]) {
-    case 'crise':
-      return '#B10026';
-    case 'alerte_renforcee':
-      return '#FC4E2A';
-    case 'alerte':
-      return '#FEB24C';
-    case 'vigilance':
-      return '#FFEDA0';
-    default:
-      return '#9db5ff';
-  }
-}
-
-function labelFunction(value: any) {
-  const restriction = restrictionsFiltered.value[value.dataIndex];
-  switch (restriction[typeEau.value]) {
-    case 'crise':
-      return 'Crise';
-    case 'alerte_renforcee':
-      return 'Alerte renforcée';
-    case 'alerte':
-      return 'Alerte';
-    case 'vigilance':
-      return 'Vigilance';
-    default:
-      return 'Pas de restrictions';
-  }
-}
-
-const tooltipTitle = (tooltipItems: any[]): string => {
-  return moment(tooltipItems[0].parsed.x).format('DD/MM/YYYY');
-};
-
-const chartLineOptions: ChartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  barPercentage: 1,
-  categoryPercentage: 1,
-  scales: {
-    x: {
-      type: 'time',
-      time: {
-        unit: 'week',
-      },
-      grid: {
-        display: false,
-        borderColor: 'rgba(0, 0, 0, 0)',
-      },
-    },
-    y: {
-      beginAtZero: true,
-      min: 0,
-      ticks: {
-        display: false,
-      },
-      grid: {
-        display: false,
-        borderColor: 'rgba(0, 0, 0, 0)',
-      },
-    },
-  },
-  interaction: {
-    intersect: false,
-    mode: 'index',
-  },
-  plugins: {
-    tooltip: {
-      callbacks: {
-        title: tooltipTitle,
-        label: (value) => labelFunction(value),
-      },
-    },
-    legend: {
-      display: false,
-    },
-  },
-};
 
 async function downloadGraph() {
-  const el = document.getElementById('area-chart-line') as HTMLCanvasElement;
-  const content = el.toDataURL('image/png');
+  html2canvas(screenshotZone.value, { scale: 2 }).then((canvas) => {
+    const content = canvas.toDataURL('image/png');
 
-  const a = document.createElement('a');
-  a.href = content.replace('image/png', 'image/octet-stream');
-  a.download = `commune_${props.codeInsee}.png`;
-  a.click();
+    const a = document.createElement('a');
+    a.href = content.replace('image/png', 'image/octet-stream');
+    a.download = `commune_${props.codeInsee}_${dateDebut.value}_${dateFin.value}.png`;
+    a.click();
+  });
 }
 </script>
 
 <template>
   <template v-if="!loading">
     <template v-if="!showError && communeStats">
-      <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
-        <div class="fr-col-lg-3 fr-col-12">
-          <DsfrSelect label="Type d'eau"
-                      v-model="typeEau"
-                      @update:modelValue="computeDisabled = false"
-                      :options="typesEauOptions" />
+      <div ref="screenshotZone">
+        <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
+          <div class="fr-col-lg-3 fr-col-6">
+            <DsfrInput
+              id="dateDebut"
+              v-model="dateDebut"
+              @update:modelValue="computeDisabled = false"
+              label="Date début"
+              label-visible
+              type="date"
+              name="dateCarte"
+              :min="dateMin"
+              :max="dateFin"
+            />
+          </div>
+          <div class="fr-col-lg-3 fr-col-6">
+            <DsfrInput
+              id="dateFin"
+              v-model="dateFin"
+              @update:modelValue="computeDisabled = false"
+              label="Date fin"
+              label-visible
+              type="date"
+              name="dateCarte"
+              :min="dateDebut"
+              :max="currentDate"
+            />
+          </div>
+          <div class="fr-col-lg-3 fr-col-6">
+            <DsfrButton :disabled="computeDisabled"
+                        @click="sortData()">
+              Calculer
+            </DsfrButton>
+          </div>
+          <div class="fr-col-12">
+            <DsfrAlert type="info" class="fr-my-2w">
+              Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024.
+              Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions
+              des
+              eaux superficielles et souterraines.
+            </DsfrAlert>
+          </div>
         </div>
-        <div class="fr-col-lg-3 fr-col-6">
-          <DsfrInput
-            id="dateDebut"
-            v-model="dateDebut"
-            @update:modelValue="computeDisabled = false"
-            label="Date début"
-            label-visible
-            type="date"
-            name="dateCarte"
-            :min="dateMin"
-            :max="dateFin"
-          />
+        <h6 class="fr-mb-1w">Tout type d'eau</h6>
+        <DonneesCommuneBarChart :restrictions="restrictionsFiltered"
+                                :communeNom="communeStats.commune.nom" />
+        <div v-for="typeEau of typesEauOptions">
+          <h6 class="fr-mb-1w">{{ typeEau.text }}</h6>
+          <DonneesCommuneBarChart :typeEau="typeEau.value"
+                                  :restrictions="restrictionsFiltered"
+                                  :communeNom="communeStats.commune.nom" />
         </div>
-        <div class="fr-col-lg-3 fr-col-6">
-          <DsfrInput
-            id="dateFin"
-            v-model="dateFin"
-            @update:modelValue="computeDisabled = false"
-            label="Date fin"
-            label-visible
-            type="date"
-            name="dateCarte"
-            :min="dateDebut"
-            :max="currentDate"
-          />
-        </div>
-        <div class="fr-col-lg-3 fr-col-6">
-          <DsfrButton :disabled="computeDisabled"
-                      @click="sortData()">
-            Calculer
-          </DsfrButton>
-        </div>
-      </div>
-      <div class="chart-container">
-        <Bar v-if="chartLineData"
-             id="area-chart-line"
-             :options="chartLineOptions"
-             :data="chartLineData" />
       </div>
 
       <div class="text-align-right fr-mt-1w">
@@ -241,6 +142,12 @@ async function downloadGraph() {
           Télécharger le graphique en .png
         </DsfrButton>
       </div>
+
+      <DonneesCommuneTable class="fr-mt-4w"
+                           :dataCommune="restrictionsFiltered"
+                           :communeNom="communeStats.commune.nom"
+                           :dateDebut="dateDebut"
+                           :dateFin="dateFin" />
     </template>
     <template v-else>
       <DsfrErrorPage class="fr-mt-8w"

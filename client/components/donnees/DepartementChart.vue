@@ -17,6 +17,7 @@ import { BassinVersant } from '../../dto/bassinVersant.dto';
 import { Region } from '../../dto/region.dto';
 import { Departement } from '../../dto/departement.dto';
 import { useRefDataStore } from '../../store/refData';
+import html2canvas from 'html2canvas';
 
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement, Colors, Filler);
@@ -34,6 +35,8 @@ const dateDebut = ref(tmp.toISOString().split('T')[0]);
 const dateFin = ref(new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
 const area = ref('');
+const territoire = ref();
+const screenshotZone = ref();
 
 const areaOptions = ref([]);
 
@@ -42,6 +45,7 @@ async function loadData() {
   const { data, error } = await api.getDataDepartement(dateDebut.value, dateFin.value, area.value);
   if (data.value) {
     dataDepartement.value = data.value;
+    territoire.value = areaOptions.value.find((a: any) => a.value === area.value);
     sortData();
   }
   computeDisabled.value = true;
@@ -146,14 +150,15 @@ const chartLineOptions: ChartOptions = {
 };
 
 async function downloadGraph() {
-  const el = document.getElementById('departement-chart-line') as HTMLCanvasElement;
-  const content = el.toDataURL('image/png');
+  html2canvas(screenshotZone.value, { scale: 2 }).then((canvas) => {
+    const content = canvas.toDataURL('image/png');
 
-  const a = document.createElement('a');
-  a.href = content.replace('image/png', 'image/octet-stream');
-  const territoire = areaOptions.value.find((a: any) => a.value === area.value);
-  a.download = `graphique_departements_${territoire.text}_${dateDebut.value}_${dateFin.value}.png`;
-  a.click();
+    const a = document.createElement('a');
+    a.href = content.replace('image/png', 'image/octet-stream');
+    a.download = `graphique_departements_${territoire.value.text}_${dateDebut.value}_${dateFin.value}.png`;
+    a.click();
+
+  });
 }
 
 watch(() => refDataStore.departements, () => {
@@ -193,61 +198,70 @@ watch(() => refDataStore.departements, () => {
   });
 }, {
   immediate: true,
-})
+});
 </script>
 
 <template>
-  <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-lg-3 fr-col-12">
-      <DsfrSelect label="Territoire"
-                  v-model="area"
-                  @update:modelValue="computeDisabled = false"
-                  :options="areaOptions" />
+  <div ref="screenshotZone">
+    <div class="fr-grid-row fr-grid-row--gutters">
+      <div class="fr-col-lg-3 fr-col-12">
+        <DsfrSelect label="Territoire"
+                    v-model="area"
+                    @update:modelValue="computeDisabled = false"
+                    :options="areaOptions" />
+      </div>
+      <div class="fr-col-lg-3 fr-col-6">
+        <DsfrInput
+          id="dateDebut"
+          v-model="dateDebut"
+          @update:modelValue="computeDisabled = false"
+          label="Date début"
+          label-visible
+          type="date"
+          name="dateCarte"
+          :min="dateMin"
+          :max="dateFin"
+        />
+      </div>
+      <div class="fr-col-lg-3 fr-col-6">
+        <DsfrInput
+          id="dateFin"
+          v-model="dateFin"
+          @update:modelValue="computeDisabled = false"
+          label="Date fin"
+          label-visible
+          type="date"
+          name="dateCarte"
+          :min="dateDebut"
+          :max="currentDate"
+        />
+      </div>
+      <div class="fr-col-lg-3 fr-col-6">
+        <DsfrButton :disabled="computeDisabled"
+                    @click="loadData()">
+          Calculer
+        </DsfrButton>
+      </div>
     </div>
-    <div class="fr-col-lg-3 fr-col-6">
-      <DsfrInput
-        id="dateDebut"
-        v-model="dateDebut"
-        @update:modelValue="computeDisabled = false"
-        label="Date début"
-        label-visible
-        type="date"
-        name="dateCarte"
-        :min="dateMin"
-        :max="dateFin"
-      />
-    </div>
-    <div class="fr-col-lg-3 fr-col-6">
-      <DsfrInput
-        id="dateFin"
-        v-model="dateFin"
-        @update:modelValue="computeDisabled = false"
-        label="Date fin"
-        label-visible
-        type="date"
-        name="dateCarte"
-        :min="dateDebut"
-        :max="currentDate"
-      />
-    </div>
-    <div class="fr-col-lg-3 fr-col-6">
-      <DsfrButton :disabled="computeDisabled"
-                  @click="loadData()">
-        Calculer
-      </DsfrButton>
-    </div>
+    <template v-if="!loading">
+      <Line v-if="chartLineData"
+            id="departement-chart-line"
+            :options="chartLineOptions"
+            :data="chartLineData" />
+    </template>
   </div>
   <template v-if="!loading">
-    <Line v-if="chartLineData"
-          id="departement-chart-line"
-          :options="chartLineOptions"
-          :data="chartLineData" />
-
     <div class="text-align-right fr-mt-1w">
       <DsfrButton @click="downloadGraph()">
         Télécharger le graphique en .png
       </DsfrButton>
     </div>
+
+    <DonneesDepartementTable class="fr-mt-4w"
+                             :dataDepartement="dataDepartement"
+                             :territoire="territoire?.text"
+                             :dateDebut="dateDebut"
+                             :dateFin="dateFin" />
   </template>
   <template v-else>
     <div class="fr-grid-row fr-grid-row--center fr-my-2w">

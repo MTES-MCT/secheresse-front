@@ -16,6 +16,10 @@ const props = defineProps<{
   light: boolean,
 }>();
 
+const emit = defineEmits<{
+  downloadMap: any;
+}>();
+
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
@@ -306,16 +310,7 @@ const resetZoneSelected = () => {
 };
 
 async function downloadMap() {
-  const dpi = 300;
-  Object.defineProperty(window, 'devicePixelRatio', {
-    get: function() {return dpi / 96}
-  });
-  const content = map.value?.getCanvas().toDataURL('image/png');
-
-  const a = document.createElement('a');
-  a.href = content.replace('image/png', 'image/octet-stream');
-  a.download = `carte_${props.date}_${selectedTypeEau.value}.png`;
-  a.click();
+  emit('downloadMap');
 }
 
 watch(() => selectedTypeEau.value, () => {
@@ -465,7 +460,7 @@ watch(() => props.area, () => {
                  label="crise" />
     </div>
 
-    <div class="text-align-right">
+    <div data-html2canvas-ignore="true" class="text-align-right">
       <DsfrButton @click="downloadMap()">
         Télécharger la carte en .png
       </DsfrButton>

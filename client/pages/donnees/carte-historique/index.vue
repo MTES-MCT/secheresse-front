@@ -2,6 +2,7 @@
 import { Ref } from 'vue';
 import api from '../../../api';
 import { useRefDataStore } from '../../../store/refData';
+import html2canvas from 'html2canvas';
 
 definePageMeta({
   layout: 'basic',
@@ -19,6 +20,7 @@ const refDataStore = useRefDataStore();
 await refDataStore.loadRefData();
 const filterData: any = ref(null);
 const filterText: any = ref(null);
+const screenshotZone = ref();
 
 const setFilterData = (data: any) => {
   filterData.value = JSON.parse(JSON.stringify(data));
@@ -27,6 +29,21 @@ const setFilterData = (data: any) => {
   } else {
     filterText.value = null;
   }
+};
+
+const downloadMap = () => {
+  html2canvas(screenshotZone.value, {
+    scale: 2, useCORS: true, ignoreElements: (element) => {
+      return element.classList.contains('maplibregl-control-container');
+    },
+  }).then((canvas) => {
+    const content = canvas.toDataURL('image/png');
+
+    const a = document.createElement('a');
+    a.href = content.replace('image/png', 'image/octet-stream');
+    a.download = `carte_historique_${filterData.value?.date}.png`;
+    a.click();
+  });
 };
 </script>
 
@@ -37,19 +54,27 @@ const setFilterData = (data: any) => {
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
-      <DonneesFilter @filterChange="setFilterData($event)" />
-      <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions <span v-if="filterText">({{ filterText }})</span>
-      </h2>
-      <DsfrAlert class="fr-mb-2w" type="info">
-        Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux superficielles et souterraines.
-      </DsfrAlert>
+      <div ref="screenshotZone">
+        <DonneesFilter @filterChange="setFilterData($event)" />
+        <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions <span v-if="filterText">({{ filterText
+          }})</span>
+        </h2>
+        <DsfrAlert class="fr-mb-2w" type="info">
+          Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024.
+          Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des
+          eaux superficielles et souterraines.
+        </DsfrAlert>
+        <template v-if="filterData">
+          <div style="position: relative;">
+            <CarteMap :embedded="false"
+                      :light="true"
+                      :date="filterData.date"
+                      :area="filterData.area"
+                      @downloadMap="downloadMap()" />
+          </div>
+        </template>
+      </div>
       <template v-if="filterData">
-        <div style="position: relative;">
-          <CarteMap :embedded="false"
-                    :light="true"
-                    :date="filterData.date"
-                    :area="filterData.area" />
-        </div>
         <DonneesArretesRestrictionsTable :date="filterData.date"
                                          :area="filterData.area"
                                          :filterText="filterText" />
