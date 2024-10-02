@@ -5,7 +5,7 @@ const route = useRoute();
 
 const logoText: string[] = ['Gouvernement'];
 const operatorImgSrc: string = '/logo_vigie_eau.svg';
-const operatorImgAlt: string = `Logo du produit ${useRuntimeConfig().public.appName}`;
+const operatorImgAlt: string = `${useRuntimeConfig().public.appName}`;
 const operatorImgStyle: any = {
   'max-width': '150px',
 };
@@ -86,28 +86,32 @@ onMounted(() => {
               :operatorImgAlt="operatorImgAlt"
               :operatorImgStyle="operatorImgStyle"
               :quickLinks="quickLinks"
+              menuModalLabel="Menu"
               :key="key"
               :show-beta="runTimeConfig.domainName !== 'vigieau.gouv.fr' || runTimeConfig.domainProdNotActivated === 'true'"
               :serviceTitle="runTimeConfig.domainName"
               serviceDescription="S'informer sur les restrictions d'eau en période de sécheresse">
   </DsfrHeader>
-  <div class="fr-mb-8w">
-    <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">
-      <DsfrAlert
-        description="Plateforme de développement, les données sont fictives. Si vous souhaitez accéder à la plateforme de production, allez sur https://vigieau.gouv.fr"
-        type="warning"
-        class="fr-my-2w"
-        :closeable="false"
-      />
+  <main role="main">
+    <div class="fr-mb-8w">
+      <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">
+        <DsfrAlert
+          description="Plateforme de développement, les données sont fictives. Si vous souhaitez accéder à la plateforme de production, allez sur https://vigieau.gouv.fr"
+          type="warning"
+          class="fr-my-2w"
+          :closeable="false"
+        />
+      </div>
+      <slot />
     </div>
-    <slot />
-  </div>
+  </main>
   <DsfrFooter :logo-text="logoText"
               :mandatoryLinks="mandatoryLinks"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
               :operatorImgStyle="operatorImgStyle"
-              :ecosystemLinks="ecosystemLinks">
+              :ecosystemLinks="ecosystemLinks"
+              homeTitle="Accueil VigiEau">
   </DsfrFooter>
 </template>
 

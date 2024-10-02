@@ -3,7 +3,6 @@ import { useAddressStore } from '../../store/address';
 import { storeToRefs } from 'pinia';
 import { Ref } from 'vue';
 import { useZoneStore } from '../../store/zone';
-import { Zone } from '../../dto/zone.dto';
 import utils from '../../utils';
 
 const addressStore = useAddressStore();
@@ -27,24 +26,6 @@ const typesEauOptions = [
   }, {
     text: 'des nappes (puits ou forage)',
     value: 'SOU',
-  },
-];
-const profileOptions = [
-  {
-    value: 'particulier',
-    text: 'particulier',
-  },
-  {
-    value: 'entreprise',
-    text: 'professionnel',
-  },
-  {
-    value: 'collectivite',
-    text: 'collectivité',
-  },
-  {
-    value: 'exploitation',
-    text: 'exploitation agricole',
   },
 ];
 
@@ -71,6 +52,10 @@ const showPacaMessage = computed(() => {
   return profile.value !== 'particulier' && ['04', '05', '06', '13', '83', '84'].includes(getCodeDepartement());
 });
 
+const situationLabel = computed<string>(() => {
+  return utils.getShortSituationLabel(utils.getRestrictionRank(zoneTypeEau.value?.niveauGravite));
+});
+
 onBeforeUnmount(() => {
   resetAddress();
   resetZones();
@@ -83,16 +68,15 @@ onBeforeUnmount(() => {
     <div class="fr-col-12 fr-container">
       <DsfrBreadcrumb class="fr-mb-0" :links='links' />
     </div>
-    <div class="fr-col-12  fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mb-1w">
-      <h6 class="fr-mr-1w fr-mb-0">Vous avez choisi d’afficher les restrictions sur l’eau provenant </h6>
+    <fieldset class="fr-col-12  fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mb-1w">
+      <legend>
+        <p class="fr-mr-1w fr-mb-0">Les restrictions concernent l'eau</p>
+      </legend>
       <DsfrSelect id="type_eau"
+                  titile="Choisissez le type d’eau que vous consommez"
                   v-model="typeEau"
                   :options="typesEauOptions" />
-      <h6 class="fr-mx-1w fr-mb-0">en tant que</h6>
-      <DsfrSelect id="profile"
-                  v-model="profile"
-                  :options="profileOptions" />
-    </div>
+    </fieldset>
 
     <!-- TMP PACA -->
     <template v-if="showPacaMessage">
@@ -115,7 +99,7 @@ onBeforeUnmount(() => {
                              :zone="zoneTypeEau"
                              :usages="usagesByProfile" />
     </template>
-    <template v-else>
+    <template v-else-if="!zoneTypeEau || !zoneTypeEau.arreteMunicipalCheminFichier">
       <div class="fr-col-12">
         <div class="fr-grid-row fr-grid-row--center">
           <DsfrHighlight class="fr-my-2w">
@@ -126,6 +110,9 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </template>
+    <div class="fr-container fr-grid-row fr-grid-row--center fr-mt-2w">
+      <MixinsShare :situationLabel="situationLabel" :address="addressToUse" />
+    </div>
   </div>
 </template>
 
@@ -137,10 +124,6 @@ onBeforeUnmount(() => {
     &-group {
       margin-bottom: 0;
     }
-  }
-
-  h6 {
-    font-size: 1rem;
   }
 }
 </style>

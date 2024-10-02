@@ -4,14 +4,18 @@ import liens from '../../data/liens.json'
 
 <template>
   <div class="liens  fr-container fr-py-4w">
-    <div class="section-title fr-mb-4w">
+    <div class="section-title">
       <h2>Les liens utiles</h2>
-      <span>Toutes les ressources officielles sur la gestion de l'eau :</span>
+      <p>Toutes les ressources officielles sur la gestion de l'eau&nbsp;:</p>
     </div>
     <div>
       <ul>
         <li v-for="lien in liens.data">
-          <a :href="lien.link" target="_blank" rel="external" class="fr-link">
+          <a :href="lien.link"
+             target="_blank"
+             rel="external"
+             class="fr-link"
+             :title="lien.title + ' - nouvelle fenêtre'">
             {{ lien.title }}
           </a>
         </li>

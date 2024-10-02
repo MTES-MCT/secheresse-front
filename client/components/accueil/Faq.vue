@@ -18,24 +18,25 @@ const onAccordionClick = (index: string) => {
       <DsfrAccordionsGroup>
         <template v-for="(category, x) in faq.categories">
           <h3 class="fr-mt-4w h6">{{ category.name }}</h3>
-          <li v-for="(item, y) in category.data">
+          <template v-for="(item, y) in category.data">
             <DsfrAccordion :title="item.question"
                            :expanded-id="expandedIndex"
+                           titleTag="h4"
                            @expand="onAccordionClick(x.toString() + y.toString())"
                            :id="x.toString() + y.toString()">
               <div v-html="item.response"></div>
             </DsfrAccordion>
-          </li>
+          </template>
         </template>
       </DsfrAccordionsGroup>
-      <div class="fr-mt-2w">
+      <p class="fr-mt-2w">
         Vous souhaitez-nous poser une question qui n’apparaît pas ici ?
         <a class="fr-link"
            :title="`Contactez-nous sur ${email}`"
            :href="`mailto:${email}`">
           Contactez nous sur {{ email }}
         </a>
-      </div>
+      </p>
     </div>
   </div>
 </template>

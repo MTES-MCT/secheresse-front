@@ -11,29 +11,14 @@ const tabTitles = [
 ];
 const selectedTabIndex: Ref<number> = ref(0);
 const dateCarte = ref(new Date().toISOString().split('T')[0]);
-const currentDate = new Date();
 </script>
 
 <template>
   <div :class="embedded ? '' : 'carte-wrapper fr-py-4w'">
     <div class="fr-container">
       <div class="fr-mb-4w">
-        <div class="fr-col-12 fr-col-lg-9 fr-grid-row fr-grid-row--middle header-wrapper">
-          <h2 class="fr-mb-0">Carte et historique</h2>
-          <div class="full-width fr-hidden-lg" />
-          <div>
-            <DsfrInput
-              id="dateCarte"
-              v-model="dateCarte"
-              label="Filtrer par date"
-              label-visible
-              type="date"
-              name="dateCarte"
-              min="2012-01-01"
-              :max="currentDate.toISOString().split('T')[0]"
-            />
-          </div>
-        </div>
+        <h2 class="fr-mb-0">Carte des restrictions</h2>
+        <p>Arrêtés publiés avant le {{ dateCarte }}</p>
       </div>
       <DsfrTabs :tab-titles="tabTitles"
                 :initial-selected-index="selectedTabIndex"
@@ -52,12 +37,6 @@ const currentDate = new Date();
           <CarteTable :date="dateCarte" />
         </DsfrTabContent>
       </DsfrTabs>
-      <DsfrHighlight class="fr-my-2w">
-        Besoin de précision sur les données ? Vous pouvez les retrouver sur
-        <NuxtLink to="/donnees" class="fr-link">
-          la page données
-        </NuxtLink>.
-      </DsfrHighlight>
     </div>
   </div>
 </template>
@@ -65,10 +44,6 @@ const currentDate = new Date();
 <style scoped lang="scss">
 .carte-wrapper {
   background: var(--yellow-tournesol-975-75);
-}
-
-.header-wrapper {
-  justify-content: space-between;
 }
 
 .fr-tabs {
@@ -85,12 +60,6 @@ const currentDate = new Date();
     &:last-child {
       background-color: var(--background-alt-grey);
     }
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .header-wrapper {
-    justify-content: center;
   }
 }
 </style>

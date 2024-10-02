@@ -2,6 +2,7 @@
 import { Ref } from 'vue';
 import { Zone } from '../../dto/zone.dto';
 import { Usage } from '~/client/dto/usage.dto';
+import faq from '~/client/data/faq.json';
 
 const props = defineProps<{
   usages: Usage[],
@@ -12,46 +13,46 @@ const props = defineProps<{
 const selectedTagIndex: Ref<number> = ref(0);
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
-  icone: 'eau-goutte-arrosoir-interdiction',
+  icon: 'eau-goutte-arrosoir-interdiction',
 }, {
   label: 'Remplir ou vidanger',
-  icone: 'eau-goutte-piscine-interdiction',
+  icon: 'eau-goutte-piscine-interdiction',
 }, {
   label: 'Nettoyer',
-  icone: 'eau-goutte-nettoyage-interdiction',
+  icon: 'eau-goutte-nettoyage-interdiction',
 }, {
   label: 'Alimenter des fontaines et autres usages de loisirs',
-  icone: 'eau-goutte-fontaine-interdiction',
+  icon: 'eau-goutte-fontaine-interdiction',
 }, {
   label: 'Irriguer',
-  icone: 'eau-goutte-remplissage-interdiction',
+  icon: 'eau-goutte-remplissage-interdiction',
 }, {
   label: 'Travaux et activités en cours d\'eau',
-  icone: 'eau-goutte-travaux-interdiction',
+  icon: 'eau-goutte-travaux-interdiction',
 }, {
   label: 'Abreuver',
-  icone: 'eau-goutte-abreuvement-interdiction',
+  icon: 'eau-goutte-abreuvement-interdiction',
 }, {
   label: 'Prélever',
-  icone: 'eau-goutte-canaux-interdiction',
+  icon: 'eau-goutte-canaux-interdiction',
 }, {
   label: 'ICPE',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Activités économiques',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Ouvrages hydrauliques',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Sécurité incendie',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Rejeter',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }, {
   label: 'Installations de production d\'électricité',
-  icone: 'eau-goutte-robinet-interdiction',
+  icon: 'eau-goutte-robinet-interdiction',
 }]);
 
 const thematiqueTagsFiltered = computed<TagProps[]>(() => {
@@ -62,19 +63,17 @@ const usagesFiltered = (): Usage[] => {
   return props.usages.filter(u => u.thematique === thematiqueTagsFiltered.value[selectedTagIndex.value].label);
 };
 
-const title = computed<string>(() => {
-  switch (props.profile) {
-    case 'exploitation':
-      return `En tant qu'agriculteur, ai-je des restrictions pour ?`;
-    case 'collectivite':
-      return `En tant que collectivité, ai-je des restrictions pour ?`;
-    case 'entreprise':
-      return `En tant qu'entreprise, ai-je des restrictions pour ?`;
-    case 'particulier':
-    default:
-      return `En tant que particulier, ai-je des restrictions pour ?`;
+const usagesFilteredAccordion = (): Usage[] => {
+  if (!expandedIndex.value) {
+    return [];
   }
-});
+  return props.usages.filter(u => u.thematique === thematiqueTagsFiltered.value[Number(expandedIndex.value)].label);
+};
+
+const expandedIndex: Ref<string | null> = ref(null);
+const onAccordionClick = (index: string) => {
+  expandedIndex.value = index !== expandedIndex.value ? index : null;
+};
 
 watch(() => props.profile, () => {
   selectedTagIndex.value = 0;
@@ -82,44 +81,27 @@ watch(() => props.profile, () => {
 </script>
 
 <template>
-  <div class="fr-grid-row fr-grid-row--center fr-pt-8w">
-    <h2 class="fr-container text-align-center">{{ title }}</h2>
-    <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
-      <div class="fr-container text-align-center fr-mb-2w">
-        <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
-                 :label="thematique.label"
-                 class="fr-m-1w no-checkmark tag-lg"
-                 :aria-pressed="selectedTagIndex === index"
-                 @click="selectedTagIndex = index"
-                 tag-name="button" />
-      </div>
-      <div class="restriction full-width">
-        <div class="fr-container">
-          <DsfrTabs class="tabs-light">
-            <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
-                            :selected="selectedTagIndex === index">
-              <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
-                <template v-if="usagesFiltered().length > 0">
-                  <div v-for="usage in usagesFiltered()"
-                       class="fr-col-12 fr-col-md-4">
-                    <SituationRestrictionCard :usage="usage"
-                                              :thematique="thematique"
-                                              :departement="zone.departement" />
-                  </div>
-                </template>
-                <template v-else>
-                  <div class="fr-col-12 fr-col-md-4">
-                    <div class="eau-card fr-p-2w">
-                      <div class="eau-card__desc">
-                        Aucune restriction
-                      </div>
-                    </div>
-                  </div>
-                </template>
-              </div>
-            </DsfrTabContent>
-          </DsfrTabs>
-          <div v-if="thematiqueTagsFiltered.length === 0" class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
+  <div class="fr-container fr-grid-row fr-grid-row--center fr-pt-4w">
+    <h2 class="text-align-center">Détails des restrictions</h2>
+    <div v-if="thematiqueTagsFiltered.length > 0" class="fr-col-12 text-align-center fr-mb-2w">
+      Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€
+    </div>
+    <DsfrAccordionsGroup class="full-width show-sm">
+      <template v-for="(thematique, index) in thematiqueTagsFiltered">
+        <DsfrAccordion :title="thematique.label"
+                       :expanded-id="expandedIndex"
+                       titleTag="h4"
+                       @expand="onAccordionClick(index.toString())"
+                       :id="index.toString()">
+          <template v-if="usagesFilteredAccordion().length > 0">
+            <div v-for="usage in usagesFilteredAccordion()"
+                 class="fr-col-12 fr-col-md-4">
+              <SituationRestrictionCard :usage="usage"
+                                        :thematique="thematique"
+                                        :departement="zone.departement" />
+            </div>
+          </template>
+          <template v-else>
             <div class="fr-col-12 fr-col-md-4">
               <div class="eau-card fr-p-2w">
                 <div class="eau-card__desc">
@@ -127,30 +109,77 @@ watch(() => props.profile, () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div class="fr-grid-row fr-grid-row--center">
-            <b>Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€</b>
-            <div class="fr-mt-4w">
-              <DsfrHighlight>
-                <b>Besoin de précision sur les restrictions ?</b><br />
-                <b>La zone d’alerte concernée par votre est adresse est {{ zone.nom }}</b><br />
-                Merci de consulter <a class="fr-link"
-                                      :href="zone.arrete.cheminFichier"
-                                      onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
-                                      target="_blank"
-                                      rel="noopener">
-                l'arrêté de restriction</a> et de consulter <a class="fr-link"
-                                                               :href="zone.arrete.cheminFichierArreteCadre"
-                                                               onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
-                                                               target="_blank"
-                                                               rel="noopener">
-                l'arrêté cadre préfectoral</a>.
-                <br/><br/>
-                Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
-              </DsfrHighlight>
+          </template>
+        </DsfrAccordion>
+      </template>
+    </DsfrAccordionsGroup>
+    <div class="hide-sm fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
+      <div class="text-align-center fr-mb-2w">
+        <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
+                 :label="thematique.label"
+                 class="fr-m-1w no-checkmark tag-lg"
+                 :aria-pressed="selectedTagIndex === index"
+                 @click="selectedTagIndex = index"
+                 :icon="thematique.icon"
+                 tag-name="button" />
+      </div>
+      <div class="restriction full-width">
+        <DsfrTabs class="tabs-light">
+          <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
+                          :selected="selectedTagIndex === index">
+            <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-pb-2w">
+              <template v-if="usagesFiltered().length > 0">
+                <div v-for="usage in usagesFiltered()"
+                     class="fr-col-12 fr-col-md-4">
+                  <SituationRestrictionCard :usage="usage"
+                                            :thematique="thematique"
+                                            :departement="zone.departement" />
+                </div>
+              </template>
+              <template v-else>
+                <div class="fr-col-12 fr-col-md-4">
+                  <div class="eau-card fr-p-2w">
+                    <div class="eau-card__desc">
+                      Aucune restriction
+                    </div>
+                  </div>
+                </div>
+              </template>
             </div>
+          </DsfrTabContent>
+        </DsfrTabs>
+      </div>
+    </div>
+
+    <div v-if="thematiqueTagsFiltered.length === 0"
+         class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-p-2w">
+      <div class="fr-col-12 fr-col-md-4">
+        <div class="eau-card fr-p-2w">
+          <div class="eau-card__desc">
+            Aucune restriction
           </div>
         </div>
+      </div>
+    </div>
+    <div class="fr-grid-row fr-grid-row--center">
+      <div class="fr-my-2w">
+        <DsfrCallout>
+          <b>Besoin de précision sur les restrictions ?</b><br />
+          <b>La zone d’alerte concernée par votre est adresse est {{ zone.nom }}</b><br />
+          Merci de consulter <a class="fr-link"
+                                :href="zone.arrete.cheminFichier"
+                                onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
+                                target="_blank"
+                                rel="noopener">
+          l'arrêté de restriction</a> et de consulter <a class="fr-link"
+                                                         :href="zone.arrete.cheminFichierArreteCadre"
+                                                         onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                                         target="_blank"
+                                                         rel="noopener">
+          l'arrêté cadre préfectoral</a>.
+          <br /><br />
+          Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+        </DsfrCallout>
       </div>
     </div>
   </div>
@@ -159,10 +188,6 @@ watch(() => props.profile, () => {
 <style lang="scss">
 .fr-tabs {
   width: 100%;
-}
-
-.restriction {
-  background: var(--background-alt-blue-france);
 }
 
 .fr-highlight {

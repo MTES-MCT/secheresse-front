@@ -12,16 +12,18 @@ const refDataStore = useRefDataStore();
 const date = ref(new Date().toISOString().split('T')[0]);
 const currentDate = new Date();
 const area = ref('');
+const computeDisabled = ref(true);
 
 const areaOptions = ref([]);
 
 const loadData = (() => {
-  const areaText = areaOptions.value.find(a => a.value === area.value)?.text
+  const areaText = areaOptions.value.find(a => a.value === area.value)?.text;
   emit('filterChange', {
     date: date.value,
     area: area.value,
     areaText: areaText,
   });
+  computeDisabled.value = true;
 });
 
 onMounted(() => {
@@ -70,25 +72,30 @@ watch(() => refDataStore.departements, () => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-4">
+    <div class="fr-col-lg-4 fr-col-6">
       <DsfrSelect label="Territoire"
                   v-model="area"
-                  :options="areaOptions" />
+                  @update:modelValue="computeDisabled = false"
+                  :options="areaOptions"
+                  required />
     </div>
-    <div class="fr-col-4">
+    <div class="fr-col-lg-4 fr-col-6">
       <DsfrInput
         id="dateCarte"
         v-model="date"
+        @update:modelValue="computeDisabled = false"
         label="Filtrer par date"
         label-visible
         type="date"
         name="dateCarte"
         min="2012-01-01"
         :max="currentDate.toISOString().split('T')[0]"
+        required
       />
     </div>
-    <div class="fr-col-3">
-      <DsfrButton @click="loadData()">
+    <div data-html2canvas-ignore="true" class="fr-col-lg-3 fr-col-6">
+      <DsfrButton :disabled="computeDisabled"
+                  @click="loadData()">
         Calculer
       </DsfrButton>
     </div>
@@ -98,5 +105,11 @@ watch(() => refDataStore.departements, () => {
 <style lang="scss" scoped>
 .fr-grid-row {
   align-items: end;
+
+  :deep(.fr-select) {
+    option:disabled {
+      font-weight: bold;
+    }
+  }
 }
 </style>

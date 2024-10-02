@@ -94,6 +94,22 @@ const index = {
     });
   },
 
+  getDataDuree(): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/duree`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
+
+  getDataCommune(codeInsee: string, dateDebut?: string, dateFin?: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`/data/commune/${codeInsee}?${dateDebut ? 'dateDebut=' + dateDebut : ''}&${dateFin ? 'dateFin=' + dateFin : ''}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
+
   getArretesRestrictions(date: string, area?: string): Promise<any> {
     const runtimeConfig = useRuntimeConfig();
     return useFetch(`/arretes_restrictions?date=${date}&${area ? area : ''}`, {

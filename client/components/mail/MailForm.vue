@@ -18,7 +18,6 @@ const props = defineProps({
 
 const emit = defineEmits<{
   subscribe: any;
-  close: any
 }>();
 
 const addressStore = useAddressStore();
@@ -97,6 +96,13 @@ const setAddress = (address: Address | null, geo: Geo | null) => {
   formData.lat = address.geometry.coordinates[1];
 };
 
+const selectPointOnMap = (event: any) => {
+  formData.idAdresse = null;
+  formData.commune = event.commune;
+  formData.lon = event.lng;
+  formData.lat = event.lat;
+};
+
 const submitForm = async () => {
   await v$.value.$validate();
   if (!v$.value.$error && !props.subscribing) {
@@ -110,6 +116,8 @@ const submitForm = async () => {
     <DsfrInputGroup :error-message="utils.showInputError(v$, 'profil')">
       <MixinsProfile :profile="formData.profil"
                      class="fr-mb-2w"
+                     :required="true"
+                     :aria-invalid="v$.profil.$errors.length > 0"
                      @profileUpdate="formData.profil = $event;"
       />
     </DsfrInputGroup>
@@ -118,6 +126,8 @@ const submitForm = async () => {
       <DsfrCheckboxSet
         legend="Je souhaite être informé par mail des changements de restrictions me concernant et portant sur :"
         v-model="formData.typesEau"
+        required
+        :aria-invalid="v$.typesEau.$errors.length > 0"
         :options="typesEauOptions" />
     </DsfrInputGroup>
 
@@ -129,9 +139,15 @@ const submitForm = async () => {
                            :light="true"
                            :disabled="subscribing"
                            :exactAddress="true"
+                           :aria-invalid="v$.lon.$errors.length > 0"
                            @search="setAddress($event.address, $event.geo)"
       />
     </DsfrInputGroup>
+
+    <div class="divider">ou</div>
+
+    <span>Sélectionnez un point sur la carte</span>
+    <MixinsMapPoint class="fr-mb-2w" @selectPoint="selectPointOnMap($event)" />
 
     <DsfrInputGroup class="fr-mt-2w"
                     :error-message="utils.showInputError(v$, 'email')">
@@ -142,6 +158,9 @@ const submitForm = async () => {
                  type="text"
                  id="email"
                  name="email"
+                 autocomplete="email"
+                 required
+                 :aria-invalid="v$.email.$errors.length > 0"
                  :disabled="subscribing"
       />
     </DsfrInputGroup>
@@ -151,12 +170,14 @@ const submitForm = async () => {
         label="J'accepte de recevoir vos e-mails et confirme avoir pris connaissance de votre politique de confidentialité et mentions légales."
         name="confirmSubscription"
         :disabled="subscribing"
+        required
+        :aria-invalid="v$.confirmSubscription.$errors.length > 0"
         v-model="formData.confirmSubscription"
       />
     </DsfrInputGroup>
 
     <p>Les
-      <router-link to="/donnees-personnelles" target="_blank">données collectées</router-link>
+      <router-link to="/donnees-personnelles" target="_blank" title="Données collectées - nouvelle fenêtre">données collectées</router-link>
       lors de votre inscription sont utilisées dans le cadre d’une mission de
       service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de
       la Nature (DGALN).
@@ -164,19 +185,12 @@ const submitForm = async () => {
       dans nos emails.
     </p>
 
-    <DsfrButton @click="submitForm()"
-                class="full-width fr-grid-row--center"
-                :disabled="subscribing">
-      <div class="fr-grid-row fr-grid-row--center">
+    <div class="text-align-right">
+      <DsfrButton @click="submitForm()"
+                  :disabled="subscribing">
         Valider
         <Loader class="adresse-loader fr-ml-1w" :show="subscribing" />
-      </div>
-    </DsfrButton>
-    <DsfrButton class="full-width fr-grid-row--center fr-mt-1w"
-                secondary
-                :disabled="subscribing"
-                @click="emit('close')">
-      Annuler
-    </DsfrButton>
+      </DsfrButton>
+    </div>
   </form>
 </template>

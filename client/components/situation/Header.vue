@@ -45,7 +45,7 @@ const typeEauLabel = computed(() => {
   }
 });
 const niveauGravite = computed(() => {
-  return niveauxGravite.find(n => n.niveauGravite === (props.zone ? props.zone?.niveauGravite : null));
+  return niveauxGravite.find(n => n.niveauGravite === (props.zone?.niveauGravite ? props.zone.niveauGravite : null));
 });
 </script>
 
@@ -67,30 +67,28 @@ const niveauGravite = computed(() => {
           situationLabel
         }}</span> à votre adresse.</h1>
       <h1 class="h2" v-else>
-        {{ typeEauLabel }} n'est <span class="situation-level-c-0">pas concernée par des restrictions</span> à votre adresse.
+        {{ typeEauLabel }} n'est <span class="situation-level-c-0">pas concernée par des restrictions</span> à votre
+        adresse.
       </h1>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper">
       {{ niveauGravite.description }}
     </div>
-    <div v-if="!utils.showRestrictions(zone) && isParticulier()" class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper">
+    <div v-if="!utils.showRestrictions(zone) && isParticulier()"
+         class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper">
       Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
     </div>
-    <div class="fr-col-12 show-sm text-align-center fr-mt-2w">
-      <router-link to="/"
-                   class="fr-btn fr-btn--secondary full-width fr-grid-row--center">
-        Effectuer une nouvelle recherche
-        <VIcon class="fr-ml-1w" name="ri-search-line" />
-      </router-link>
-      <DsfrButton class="full-width fr-mt-1w fr-grid-row--center"
-                  secondary
-                  @click="utils.openTally">
-        Donner mon avis
-        <VIcon class="fr-ml-1w" name="ri-survey-line" />
-      </DsfrButton>
-    </div>
-    <div class="fr-col-12 fr-mt-2w">
-      <MixinsShare :situationLabel="situationLabel" :address="address" />
+    <div v-if="zone?.arreteMunicipalCheminFichier" class="fr-col-12 fr-mt-2w">
+      <DsfrAlert
+        title="Un arrêté municipal a été publié par votre collectivité"
+        type="info"
+        :closeable="false">
+        Certaines restrictions peuvent avoir été renforcées. <a class="fr-link"
+                                                                :href="zone.arreteMunicipalCheminFichier"
+                                                                target="_blank"
+                                                                rel="external">
+        Consultez l'arrêté municipal</a>
+      </DsfrAlert>
     </div>
   </div>
 </template>

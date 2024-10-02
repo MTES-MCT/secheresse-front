@@ -9,6 +9,7 @@ export interface Zone {
   departement: string;
   niveauGravite: string;
   arrete: Arrete;
+  arreteMunicipalCheminFichier: string;
   usages: Usage[];
   usagesHash: string;
 }

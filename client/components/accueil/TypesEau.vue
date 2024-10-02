@@ -25,9 +25,10 @@ const typesEau = [
     </div>
     <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <div v-for="typeEau of typesEau" class="fr-col-12 fr-col-md-4">
-        <DsfrCard 
+        <DsfrCard
+          class="type-eau-card"
           :img-src="typeEau.img"
-          alt-img="Image d'illustration"
+          alt-img=""
           :title="typeEau.title"
           :description="typeEau.description"
         />
@@ -37,15 +38,13 @@ const typesEau = [
 </template>
 
 <style lang="scss">
-.fr-card {
-  &__img {
-    img {
-      margin-top: 1rem;
-      max-height: 100%;
-      width: auto;
-      margin-left: auto;
-      margin-right: auto;
-    }
+.type-eau-card {
+  img {
+    margin-top: 1rem;
+    max-height: 100%;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 </style>

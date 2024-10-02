@@ -16,6 +16,10 @@ const props = defineProps<{
   light: boolean,
 }>();
 
+const emit = defineEmits<{
+  downloadMap: any;
+}>();
+
 const modalOpened: Ref<boolean> = ref(false);
 const modalTitle: Ref<string> = ref('');
 const modalText: Ref<string> = ref('');
@@ -32,6 +36,7 @@ const departementCode = route.query.depCode;
 const showRestrictionsBtn = ref(true);
 const showError = ref(false);
 const refDataStore = useRefDataStore();
+const depsSelected = ref([]);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -72,8 +77,8 @@ onMounted(() => {
     container: mapContainer.value,
     style: `https://openmaptiles.data.gouv.fr/styles/osm-bright/style.json`,
     bounds: initialState,
+    preserveDrawingBuffer: true,
   });
-
 
   // Add zoom and rotation controls to the map.
   map.value?.addControl(new maplibregl.NavigationControl(), 'bottom-right');
@@ -99,7 +104,7 @@ onMounted(() => {
         break;
       }
     }
-    map.value?.addSource('cadastre', {
+    map.value?.addSource('decoupage-administratif', {
       type: 'vector',
       url:
         `https://openmaptiles.data.gouv.fr/data/decoupage-administratif.json`,
@@ -202,6 +207,10 @@ const updateContourFilter = () => {
   map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]]);
 };
 
+const updateDepartementsContourFilter = () => {
+  map.value?.setFilter('departements-contour', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]);
+};
+
 const closeModal = () => {
   modalOpened.value = false;
 };
@@ -255,7 +264,7 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
   map.value?.addLayer({
     id: 'departements-data',
     type: 'line',
-    source: 'cadastre',
+    source: 'decoupage-administratif',
     'source-layer': 'departements',
     layout: {
       'line-join': 'round',
@@ -264,6 +273,18 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
     paint: {
       'line-color': '#888888',
       'line-width': 1,
+    },
+  }, firstSymbolId);
+
+  map.value?.addLayer({
+    id: 'departements-contour',
+    type: 'line',
+    source: 'decoupage-administratif',
+    'source-layer': 'departements',
+    filter: ['all', ['in', 'code', ...depsSelected.value.map((d: any) => d.code)]],
+    paint: {
+      'line-color': '#000',
+      'line-width': 2,
     },
   }, firstSymbolId);
 
@@ -287,6 +308,10 @@ const resetZoneSelected = () => {
   updateContourFilter();
   popup.remove();
 };
+
+async function downloadMap() {
+  emit('downloadMap', selectedTypeEau.value);
+}
 
 watch(() => selectedTypeEau.value, () => {
   resetZoneSelected();
@@ -347,12 +372,14 @@ watch(() => props.area, () => {
       padding: 30,
     });
   }
+  depsSelected.value = deps;
+  updateDepartementsContourFilter();
 });
 </script>
 
 <template>
   <div v-if="isMapSupported">
-    <div class="map-pre-actions">
+    <div class="map-pre-actions" data-html2canvas-ignore="true">
       <div v-if="showError"
            class="map-pre-actions-card fr-p-1w fr-m-1w">
         <DsfrAlert description="Une erreur est survenue lors du chargement de la carte"
@@ -410,7 +437,7 @@ watch(() => props.area, () => {
         </DsfrAccordionsGroup>
       </div>
     </div>
-    <div v-if="light" class="map-legend">
+    <div v-if="light" class="fr-grid-row map-legend">
       <DsfrBadge small
                  no-icon
                  class="situation-level-bg-0 fr-mr-1w"
@@ -431,6 +458,12 @@ watch(() => props.area, () => {
                  no-icon
                  class="situation-level-bg-4"
                  label="crise" />
+    </div>
+
+    <div data-html2canvas-ignore="true" class="text-align-right">
+      <DsfrButton @click="downloadMap()">
+        Télécharger la carte en .png
+      </DsfrButton>
     </div>
   </div>
   <template v-else>

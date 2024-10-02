@@ -1,38 +1,15 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
-import api from '../../api';
-import { useRefDataStore } from '../../store/refData';
 
 definePageMeta({
   layout: 'basic',
 });
 
-const appName = useRuntimeConfig().public.appName;
 useHead({
   title: `Données - ${useRuntimeConfig().public.appName}`,
 });
 
-const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Données sécheresse' }]);
-const refDataStore = useRefDataStore();
-const filterData: any = ref(null);
-const filterText: any = ref(null);
-
-// LOAD REF DATA
-const { data, error } = await api.getRefData();
-if (data.value) {
-  refDataStore.setBassinsVersants(data.value.bassinsVersants);
-  refDataStore.setRegions(data.value.regions);
-  refDataStore.setDepartements(data.value.departements);
-}
-
-const setFilterData = (data: any) => {
-  filterData.value = JSON.parse(JSON.stringify(data));
-  if(filterData.value.date && filterData.value.areaText) {
-    filterText.value = `${filterData.value.areaText} au ${new Date(filterData.value.date).toLocaleDateString()}`;
-  } else {
-    filterText.value = null;
-  }
-};
+const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données sécheresse' }]);
 </script>
 
 <template>
@@ -47,33 +24,44 @@ const setFilterData = (data: any) => {
   </div>
   <div class="background-blue fr-py-2w">
     <div class="fr-container">
-      <DonneesFilter @filterChange="setFilterData($event)" />
-      <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions <span v-if="filterText">({{ filterText}})</span></h2>
-      <template v-if="filterData">
-        <div style="position: relative;">
-          <CarteMap :embedded="false"
-                    :light="true"
-                    :date="filterData.date"
-                    :area="filterData.area" />
+      <div class="fr-grid-row fr-grid-row--gutters">
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
+          <DsfrCard
+            img-src="/donnee_carte_historique.png"
+            link="/donnees/carte-historique"
+            alt-img="Image d'illustration de la carte"
+            title="Carte et historique des restrictions"
+          >
+          </DsfrCard>
         </div>
-        <DonneesArretesRestrictionsTable :date="filterData.date"
-                                         :area="filterData.area"
-                                         :filterText="filterText"/>
-        <CarteTable :light="true"
-                    :date="filterData.date"
-                    :area="filterData.area"
-                    :filterText="filterText" />
-      </template>
-    </div>
-  </div>
-
-  <div class="fr-container fr-py-2w">
-    <DonneesAreaChart />
-  </div>
-
-  <div class="background-blue fr-py-2w">
-    <div class="fr-container">
-      <DonneesDepartementChart />
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
+          <DsfrCard
+            img-src="/donnee_graphe_surface.png"
+            link="/donnees/surface"
+            alt-img="Image d'illustration du graphique"
+            title="Évolution journalière du pourcentage de la surface concernée par des niveaux de gravité"
+          >
+          </DsfrCard>
+        </div>
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
+          <DsfrCard
+            img-src="/donnee_graphe_departement.png"
+            link="/donnees/departement"
+            alt-img="Image d'illustration du graphique"
+            title="Évolution journalière du nombre de départements soumis à restriction"
+          >
+          </DsfrCard>
+        </div>
+        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
+          <DsfrCard
+            img-src="/donnee_carte_commune.png"
+            link="/donnees/carte-commune"
+            alt-img="Image d'illustration de la carte"
+            title="Intensité des sécheresses passées"
+          >
+          </DsfrCard>
+        </div>
+      </div>
     </div>
   </div>
 </template>

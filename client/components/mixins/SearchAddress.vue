@@ -10,6 +10,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  required: {
+    type: Boolean,
+    default: false,
+  },
   query: {
     type: String,
     default: '',
@@ -137,16 +141,18 @@ if (props.query && !props.address && !props.geo) {
 
 <template>
   <div class="search" :class="{light: light}">
-    <div class="fr-mb-1w">Entrez votre adresse complète</div>
+    <div class="fr-mb-1w">Entrez votre adresse complète <span class="required">&nbsp;*</span></div>
     <div class="autocomplete-wrapper fr-grid-row fr-grid-row--middle">
       <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
                        :model-value="addressQuery"
                        :options="addresses"
-                       label="Champ de recherche d'adresse"
+                       label="Entrez votre adresse complète"
                        display-key="properties.label"
                        data-cy="AddressSearchInput"
                        :light="light"
                        :disabled="disabled"
+                       :required="required"
+                       ariaLabelList="Liste d'adresses"
                        @update:modelValue="selectAddress($event)"
                        @search="selectAddress($event)" />
       <Loader class="adresse-loader" :show="loadingAdresses || loading" />

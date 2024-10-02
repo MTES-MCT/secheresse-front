@@ -6,6 +6,7 @@ const appName = `VigiEau`;
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   ssr: false,
+
   app: {
     head: {
       title: appName,
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   css: [
     '@gouvfr/dsfr/dist/core/core.main.min.css',
     '@gouvfr/dsfr/dist/component/component.main.min.css',
@@ -51,21 +53,26 @@ export default defineNuxtConfig({
 
     'assets/main.scss'
   ],
+
   ignore: [
     '**/*.test.*',
     '**/*.spec.*',
     '**/*.cy.*',
   ],
+
   srcDir: 'client/',
+
   imports: {
     autoImport: true
   },
+
   modules: [
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
     'nuxt-simple-sitemap',
     'nuxt-simple-robots'
   ],
+
   runtimeConfig: {
     public: {
       apiAdresseUrl: process.env.API_ADRESSE_URL,
@@ -81,6 +88,7 @@ export default defineNuxtConfig({
       telephone: '01.40.81.35.14'
     }
   },
+
   vite: {
     build: {
       target: 'es2019'
@@ -94,6 +102,7 @@ export default defineNuxtConfig({
       }),
     ]
   },
+
   hooks: {
     'build:manifest': (manifest) => {
       // Suppression du prefetch pour les icônes
@@ -113,6 +122,7 @@ export default defineNuxtConfig({
       }
     }
   },
+
   //@ts-ignore
   pwa: {
     registerType: 'autoUpdate',
@@ -147,10 +157,14 @@ export default defineNuxtConfig({
       type: 'module',
     },
   },
+
   robots: {
     disallow: process.env.APP_ENV === 'prod' ? '' : '/'
   },
+
   site: {
     url: `https://${process.env.DOMAIN_NAME}`,
-  }
+  },
+
+  compatibilityDate: '2024-08-19'
 })
