@@ -39,6 +39,9 @@ async function downloadCsv() {
 }
 
 watch(() => [props.dataDepartement], () => {
+  if(!props.dataDepartement) {
+    return;
+  }
   rows.value = props.dataDepartement.map(s => {
     return [
       moment(s.date).format('DD/MM/YYYY'),

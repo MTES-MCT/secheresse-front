@@ -2,6 +2,9 @@
 import api from '../../api';
 import moment from 'moment';
 import html2canvas from 'html2canvas';
+import { helpers, required } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
+import utils from '../../utils';
 
 const props = defineProps<{
   codeInsee: string,
@@ -27,8 +30,6 @@ const computeDisabled = ref(true);
 const dateMin = ref('2013-01-01');
 const tmp = new Date();
 tmp.setFullYear(tmp.getFullYear() - 1);
-const dateDebut = ref(route.query.dateDebut ? route.query.dateDebut : dateMin.value);
-const dateFin = ref(route.query.dateFin ? route.query.dateFin : new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
 const loading = ref(false);
 const restrictionsFiltered = ref([]);
@@ -48,6 +49,59 @@ const typesEauOptions = [
   },
 ];
 
+const formData = reactive({
+  dateDebut: route.query.dateDebut ? moment(Math.max(moment(route.query.dateDebut), moment(dateMin.value))).format('YYYY-MM-DD') : dateMin.value,
+  dateFin: route.query.dateFin ? moment(Math.min(moment(route.query.dateFin), moment())).format('YYYY-MM-DD') : new Date().toISOString().split('T')[0],
+});
+const rules = computed(() => {
+  return {
+    dateDebut: {
+      required: helpers.withMessage('La date de début est obligatoire.', required),
+      minValue: helpers.withMessage('La date de début doit être supérieure à Janvier 2013.', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD') >= moment(dateMin.value, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      maxValue: helpers.withMessage('La date de début doit être inférieure à la date de fin.', (val: string) => {
+        if (formData.dateFin && val) {
+          return moment(val, 'YYYY-MM-DD') <= moment(formData.dateFin, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      isValid: helpers.withMessage('La date de début doit être sous la forme YYYY-MM-DD (ex : 2024-01-01).', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD', true).isValid();
+        }
+        return true;
+      }),
+    },
+    dateFin: {
+      required: helpers.withMessage('La date de fin est obligatoire.', required),
+      minValue: helpers.withMessage('La date de fin doit être supérieure à la date de début.', (val: string) => {
+        if (formData.dateDebut && val) {
+          return moment(val, 'YYYY-MM-DD') >= moment(formData.dateDebut, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      maxValue: helpers.withMessage('La date de fin doit être inférieure à la date du jour.', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD') <= moment();
+        }
+        return true;
+      }),
+      isValid: helpers.withMessage('La date de fin doit être sous la forme YYYY-MM-DD (ex : 2024-01-01).', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD', true).isValid();
+        }
+        return true;
+      }),
+    },
+  };
+});
+
+const v$ = useVuelidate(rules, formData);
+
 onMounted(async () => {
   loading.value = true;
   const { data, error } = await api.getDataCommune(props.codeInsee);
@@ -61,10 +115,14 @@ onMounted(async () => {
   loading.value = false;
 });
 
-function sortData() {
+async function sortData() {
+  await v$.value.$validate();
+  if (v$.value.$error) {
+    return;
+  }
   restrictionsFiltered.value = communeStats.value.restrictions.filter((r: any) => {
-    return moment(r.date, 'YYYY-MM-DD').isSameOrAfter(moment(dateDebut.value, 'YYYY-MM-DD')) &&
-      moment(r.date, 'YYYY-MM-DD').isSameOrBefore(moment(dateFin.value, 'YYYY-MM-DD'));
+    return moment(r.date, 'YYYY-MM-DD').isSameOrAfter(moment(formData.dateDebut, 'YYYY-MM-DD')) &&
+      moment(r.date, 'YYYY-MM-DD').isSameOrBefore(moment(formData.dateFin, 'YYYY-MM-DD'));
   });
 }
 
@@ -74,7 +132,7 @@ async function downloadGraph() {
 
     const a = document.createElement('a');
     a.href = content.replace('image/png', 'image/octet-stream');
-    a.download = `commune_${props.codeInsee}_${dateDebut.value}_${dateFin.value}.png`;
+    a.download = `commune_${props.codeInsee}_${formData.dateDebut}_${formData.dateFin}.png`;
     a.click();
   });
 }
@@ -86,39 +144,45 @@ async function downloadGraph() {
       <div ref="screenshotZone">
         <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
           <div class="fr-col-lg-3 fr-col-6">
-            <DsfrInput
-              id="dateDebut"
-              v-model="dateDebut"
-              @update:modelValue="computeDisabled = false"
-              label="Date début"
-              label-visible
-              type="date"
-              name="dateCarte"
-              :min="dateMin"
-              :max="dateFin"
-            />
+            <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateDebut')">
+              <DsfrInput
+                id="dateDebut"
+                v-model="formData.dateDebut"
+                @update:modelValue="computeDisabled = false"
+                label="Date début"
+                label-visible
+                type="date"
+                name="dateCarte"
+                :min="dateMin"
+                :max="formData.dateFin"
+                required
+              />
+            </DsfrInputGroup>
           </div>
           <div class="fr-col-lg-3 fr-col-6">
-            <DsfrInput
-              id="dateFin"
-              v-model="dateFin"
-              @update:modelValue="computeDisabled = false"
-              label="Date fin"
-              label-visible
-              type="date"
-              name="dateCarte"
-              :min="dateDebut"
-              :max="currentDate"
-            />
+            <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateFin')">
+              <DsfrInput
+                id="dateFin"
+                v-model="formData.dateFin"
+                @update:modelValue="computeDisabled = false"
+                label="Date fin"
+                label-visible
+                type="date"
+                name="dateCarte"
+                :min="formData.dateDebut"
+                :max="currentDate"
+                required
+              />
+            </DsfrInputGroup>
           </div>
-          <div class="fr-col-lg-3 fr-col-6">
+          <div data-html2canvas-ignore="true" class="fr-col-lg-3 fr-col-6">
             <DsfrButton :disabled="computeDisabled"
                         @click="sortData()">
               Calculer
             </DsfrButton>
           </div>
           <div class="fr-col-12">
-            <DsfrAlert type="info" class="fr-my-2w">
+            <DsfrAlert data-html2canvas-ignore="true" type="info" class="fr-my-2w">
               Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024.
               Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions
               des
@@ -168,8 +232,8 @@ async function downloadGraph() {
       <DonneesCommuneTable class="fr-mt-4w"
                            :dataCommune="restrictionsFiltered"
                            :communeNom="communeStats.commune.nom"
-                           :dateDebut="dateDebut"
-                           :dateFin="dateFin" />
+                           :dateDebut="formData.dateDebut"
+                           :dateFin="formData.dateFin" />
     </template>
     <template v-else>
       <DsfrErrorPage class="fr-mt-8w"

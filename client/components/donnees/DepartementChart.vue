@@ -18,6 +18,10 @@ import { Region } from '../../dto/region.dto';
 import { Departement } from '../../dto/departement.dto';
 import { useRefDataStore } from '../../store/refData';
 import html2canvas from 'html2canvas';
+import { helpers, required } from '@vuelidate/validators';
+import moment from 'moment';
+import useVuelidate from '@vuelidate/core';
+import utils from '../../utils';
 
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement, Colors, Filler);
@@ -31,21 +35,81 @@ const computeDisabled = ref(true);
 const dateMin = ref('2013-01-01');
 const tmp = new Date();
 tmp.setFullYear(tmp.getFullYear() - 1);
-const dateDebut = ref(tmp.toISOString().split('T')[0]);
-const dateFin = ref(new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
-const area = ref('');
 const territoire = ref();
 const screenshotZone = ref();
 
 const areaOptions = ref([]);
 
+const formData = reactive({
+  dateDebut: tmp.toISOString().split('T')[0],
+  dateFin: new Date().toISOString().split('T')[0],
+  area: '',
+});
+const rules = computed(() => {
+  return {
+    dateDebut: {
+      required: helpers.withMessage('La date de début est obligatoire.', required),
+      minValue: helpers.withMessage('La date de début doit être supérieure à Janvier 2013.', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD') >= moment(dateMin.value, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      maxValue: helpers.withMessage('La date de début doit être inférieure à la date de fin.', (val: string) => {
+        if (formData.dateFin && val) {
+          return moment(val, 'YYYY-MM-DD') <= moment(formData.dateFin, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      isValid: helpers.withMessage('La date de début doit être sous la forme YYYY-MM-DD (ex : 2024-01-01).', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD', true).isValid();
+        }
+        return true;
+      }),
+    },
+    dateFin: {
+      required: helpers.withMessage('La date de fin est obligatoire.', required),
+      minValue: helpers.withMessage('La date de fin doit être supérieure à la date de début.', (val: string) => {
+        if (formData.dateDebut && val) {
+          return moment(val, 'YYYY-MM-DD') >= moment(formData.dateDebut, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      maxValue: helpers.withMessage('La date de fin doit être inférieure à la date du jour.', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD') <= moment();
+        }
+        return true;
+      }),
+      isValid: helpers.withMessage('La date de fin doit être sous la forme YYYY-MM-DD (ex : 2024-01-01).', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD', true).isValid();
+        }
+        return true;
+      }),
+    },
+    area: {
+      required: helpers.withMessage('Le territoire est obligatoire.', (val: string) => {
+        return val !== null;
+      }),
+    },
+  };
+});
+
+const v$ = useVuelidate(rules, formData);
+
 async function loadData() {
+  await v$.value.$validate();
+  if (v$.value.$error) {
+    return;
+  }
   loading.value = true;
-  const { data, error } = await api.getDataDepartement(dateDebut.value, dateFin.value, area.value);
+  const { data, error } = await api.getDataDepartement(formData.dateDebut, formData.dateFin, formData.area);
   if (data.value) {
     dataDepartement.value = data.value;
-    territoire.value = areaOptions.value.find((a: any) => a.value === area.value);
+    territoire.value = areaOptions.value.find((a: any) => a.value === formData.area);
     sortData();
   }
   computeDisabled.value = true;
@@ -101,19 +165,7 @@ function sortData() {
 loadData();
 
 const tooltipTitle = (tooltipItems: any[]): string => {
-  const date = new Date(tooltipItems[0].parsed.x);
-  const year: string | number = date.getFullYear();
-  let month: string | number = date.getMonth() + 1;
-  let dt: string | number = date.getDate();
-
-  if (dt < 10) {
-    dt = '0' + dt;
-  }
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  return `${dt}/${month}/${year}`;
+  return moment(tooltipItems[0].parsed.x).format('DD/MM/YYYY');
 };
 
 const chartLineOptions: ChartOptions = {
@@ -155,7 +207,7 @@ async function downloadGraph() {
 
     const a = document.createElement('a');
     a.href = content.replace('image/png', 'image/octet-stream');
-    a.download = `graphique_departements_${territoire.value.text}_${dateDebut.value}_${dateFin.value}.png`;
+    a.download = `graphique_departements_${territoire.value.text}_${formData.dateDebut}_${formData.dateFin}.png`;
     a.click();
 
   });
@@ -205,38 +257,47 @@ watch(() => refDataStore.departements, () => {
   <div ref="screenshotZone">
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-lg-3 fr-col-12">
-        <DsfrSelect label="Territoire"
-                    v-model="area"
-                    @update:modelValue="computeDisabled = false"
-                    :options="areaOptions" />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'area')">
+          <DsfrSelect label="Territoire"
+                      v-model="formData.area"
+                      @update:modelValue="computeDisabled = false"
+                      :options="areaOptions"
+                      required />
+        </DsfrInputGroup>
       </div>
       <div class="fr-col-lg-3 fr-col-6">
-        <DsfrInput
-          id="dateDebut"
-          v-model="dateDebut"
-          @update:modelValue="computeDisabled = false"
-          label="Date début"
-          label-visible
-          type="date"
-          name="dateCarte"
-          :min="dateMin"
-          :max="dateFin"
-        />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateDebut')">
+          <DsfrInput
+            id="dateDebut"
+            v-model="formData.dateDebut"
+            @update:modelValue="computeDisabled = false"
+            label="Date début"
+            label-visible
+            type="date"
+            name="dateCarte"
+            :min="dateMin"
+            :max="formData.dateFin"
+            required
+          />
+        </DsfrInputGroup>
       </div>
       <div class="fr-col-lg-3 fr-col-6">
-        <DsfrInput
-          id="dateFin"
-          v-model="dateFin"
-          @update:modelValue="computeDisabled = false"
-          label="Date fin"
-          label-visible
-          type="date"
-          name="dateCarte"
-          :min="dateDebut"
-          :max="currentDate"
-        />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateFin')">
+          <DsfrInput
+            id="dateFin"
+            v-model="formData.dateFin"
+            @update:modelValue="computeDisabled = false"
+            label="Date fin"
+            label-visible
+            type="date"
+            name="dateCarte"
+            :min="formData.dateDebut"
+            :max="currentDate"
+            required
+          />
+        </DsfrInputGroup>
       </div>
-      <div class="fr-col-lg-3 fr-col-6">
+      <div data-html2canvas-ignore="true" class="fr-col-lg-3 fr-col-6">
         <DsfrButton :disabled="computeDisabled"
                     @click="loadData()">
           Calculer
@@ -273,5 +334,9 @@ watch(() => refDataStore.departements, () => {
 <style lang="scss" scoped>
 .fr-grid-row {
   align-items: end;
+
+  :deep(.fr-select-group) {
+    margin-bottom: 0;
+  }
 }
 </style>

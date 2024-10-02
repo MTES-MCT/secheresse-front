@@ -40,6 +40,9 @@ async function downloadCsv() {
 }
 
 watch(() => [props.typeEau, props.dataArea], () => {
+  if (!props.dataArea) {
+    return;
+  }
   rows.value = props.dataArea.map(s => {
     return [
       moment(s.date).format('DD/MM/YYYY'),
@@ -49,7 +52,7 @@ watch(() => [props.typeEau, props.dataArea], () => {
       s[props.typeEau].crise + '%',
     ];
   });
-  componentKey.value ++;
+  componentKey.value++;
 }, { immediate: true });
 </script>
 

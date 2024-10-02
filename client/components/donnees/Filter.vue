@@ -17,7 +17,7 @@ const computeDisabled = ref(true);
 const areaOptions = ref([]);
 
 const loadData = (() => {
-  const areaText = areaOptions.value.find(a => a.value === area.value)?.text
+  const areaText = areaOptions.value.find(a => a.value === area.value)?.text;
   emit('filterChange', {
     date: date.value,
     area: area.value,
@@ -76,7 +76,8 @@ watch(() => refDataStore.departements, () => {
       <DsfrSelect label="Territoire"
                   v-model="area"
                   @update:modelValue="computeDisabled = false"
-                  :options="areaOptions" />
+                  :options="areaOptions"
+                  required />
     </div>
     <div class="fr-col-lg-4 fr-col-6">
       <DsfrInput
@@ -89,9 +90,10 @@ watch(() => refDataStore.departements, () => {
         name="dateCarte"
         min="2012-01-01"
         :max="currentDate.toISOString().split('T')[0]"
+        required
       />
     </div>
-    <div class="fr-col-lg-3 fr-col-6">
+    <div data-html2canvas-ignore="true" class="fr-col-lg-3 fr-col-6">
       <DsfrButton :disabled="computeDisabled"
                   @click="loadData()">
         Calculer

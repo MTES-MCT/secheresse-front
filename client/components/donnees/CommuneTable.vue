@@ -39,6 +39,9 @@ async function downloadCsv() {
 }
 
 watch(() => [props.dataCommune], () => {
+  if(!props.dataCommune) {
+    return;
+  }
   rows.value = props.dataCommune.map(s => {
     return [
       moment(s.date).format('DD/MM/YYYY'),

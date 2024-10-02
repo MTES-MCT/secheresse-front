@@ -467,7 +467,7 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
       <Loader :show="true" />
     </div>
     <div v-show=!loading>
-      <div class="map-pre-actions">
+      <div data-html2canvas-ignore="true" class="map-pre-actions">
         <div v-if="showError"
              class="map-pre-actions-card fr-p-1w fr-m-1w">
           <DsfrAlert description="Une erreur est survenue lors du chargement de la carte"
@@ -519,8 +519,7 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                        :id="true">
           <div>
             Les couleurs de la carte traduisent un "score de restrictions appliquées aux usages de l'eau". Ce score est
-            calculé pour chaque commune en combinant deux facteurs : la durée et l'intensité des
-            restrictions.<br /><br />
+            calculé pour chaque commune en combinant deux facteurs : la durée et la gravité des restrictions.<br /><br />
             L'intensité des restrictions est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
             <ul>
               <li>Pas de restrictions&nbsp;: 0</li>
@@ -538,10 +537,8 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
             %. Le score est limité pour éviter des valeurs trop élevées dans les cas extrêmes.<br /><br />
 
             Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur
-            est
-            foncée, indiquant une gravité et/ou une durée importante des restrictions dans la commune. L'échelle
-            utilisée
-            est la suivante&nbsp;:
+            est foncée, indiquant une gravité et/ou une durée importante des restrictions dans la commune. L'échelle
+            utilisée est la suivante&nbsp;:
 
             <ul>
               <li>
@@ -582,7 +579,7 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
       <CarteCommuneTable :dataCommune="communeDataComputed"
                          :maxPonderation="maxPonderation"
                          :dateDebut="dateBegin"
-                         :dateFin="dateEnd"/>
+                         :dateFin="dateEnd" />
     </div>
   </div>
   <template v-else>

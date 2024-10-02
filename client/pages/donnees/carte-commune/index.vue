@@ -35,7 +35,7 @@ const downloadMap = () => {
 
     const a = document.createElement('a');
     a.href = content.replace('image/png', 'image/octet-stream');
-    a.download = `carte_evolution_${filterData.value?.dateDebut}-${filterData.value?.dateFin}.png`;
+    a.download = `carte_evolution_${filterData.value?.areaText}_${filterData.value?.dateDebut}-${filterData.value?.dateFin}.png`;
     a.click();
   });
 };
@@ -53,7 +53,7 @@ const downloadMap = () => {
       <div ref="screenshotZone">
         <CarteCommuneFilter :loading="loading"
                             @filterChange="setFilterData($event)" />
-        <DsfrAlert class="fr-my-2w" type="warning">
+        <DsfrAlert data-html2canvas-ignore="true" class="fr-my-2w" type="warning">
           La carte nationale peut prendre du temps à se charger.
           Si vous souhaitez ne visualiser qu'une partie du territoire, il est recommandé de restreindre l'affichage via
           le

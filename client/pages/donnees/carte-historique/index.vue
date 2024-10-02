@@ -31,7 +31,7 @@ const setFilterData = (data: any) => {
   }
 };
 
-const downloadMap = () => {
+const downloadMap = (typeEau) => {
   html2canvas(screenshotZone.value, {
     scale: 2, useCORS: true, ignoreElements: (element) => {
       return element.classList.contains('maplibregl-control-container');
@@ -41,7 +41,7 @@ const downloadMap = () => {
 
     const a = document.createElement('a');
     a.href = content.replace('image/png', 'image/octet-stream');
-    a.download = `carte_historique_${filterData.value?.date}.png`;
+    a.download = `carte_historique_${typeEau}_${filterData.value?.date}.png`;
     a.click();
   });
 };
@@ -59,7 +59,7 @@ const downloadMap = () => {
         <h2 class="fr-h4 fr-mt-2w">Carte et historique des restrictions <span v-if="filterText">({{ filterText
           }})</span>
         </h2>
-        <DsfrAlert class="fr-mb-2w" type="info">
+        <DsfrAlert data-html2canvas-ignore="true" class="fr-mb-2w" type="info">
           Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024.
           Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des
           eaux superficielles et souterraines.
@@ -70,7 +70,7 @@ const downloadMap = () => {
                       :light="true"
                       :date="filterData.date"
                       :area="filterData.area"
-                      @downloadMap="downloadMap()" />
+                      @downloadMap="downloadMap($event)" />
           </div>
         </template>
       </div>

@@ -24,6 +24,13 @@ const props = defineProps<{
 }>();
 
 const chartLineData = ref(null);
+const niveauGravitePriority = {
+  null: 0,
+  'vigilance': 1,
+  'alerte': 2,
+  'alerte_renforcee': 3,
+  'crise': 4,
+};
 
 function computeBarChart() {
   chartLineData.value = {
@@ -41,15 +48,11 @@ function computeBarChart() {
 
 function colorFunction(context: any) {
   const restriction = props.restrictions[context.index];
+  if (!restriction) {
+    return;
+  }
   let r = null;
-  const niveauGravitePriority = {
-    null: 0,
-    'vigilance': 1,
-    'alerte': 2,
-    'alerte_renforcee': 3,
-    'crise': 4,
-  };
-  if(!props.typeEau) {
+  if (!props.typeEau) {
     r = Math.max(niveauGravitePriority[restriction.AEP], niveauGravitePriority[restriction.SUP], niveauGravitePriority[restriction.SOU]);
   } else {
     r = niveauGravitePriority[restriction[props.typeEau]];
@@ -70,12 +73,21 @@ function colorFunction(context: any) {
 
 function labelFunction(value: any) {
   const restriction = props.restrictions[value.dataIndex];
-  switch (restriction[props.typeEau]) {
-    case 'crise':
-    case 'alerte_renforcee':
-    case 'alerte':
-    case 'vigilance':
-      return RestrictionNiveauGraviteFr[restriction[props.typeEau]];
+  let r = null;
+  if (!props.typeEau) {
+    r = Math.max(niveauGravitePriority[restriction.AEP], niveauGravitePriority[restriction.SUP], niveauGravitePriority[restriction.SOU]);
+  } else {
+    r = niveauGravitePriority[restriction[props.typeEau]];
+  }
+  switch (r) {
+    case 4:
+      return RestrictionNiveauGraviteFr.crise;
+    case 3:
+      return RestrictionNiveauGraviteFr.alerte_renforcee;
+    case 2:
+      return RestrictionNiveauGraviteFr.alerte;
+    case 1:
+      return RestrictionNiveauGraviteFr.vigilance;
     default:
       return 'Pas de restrictions';
   }
@@ -131,6 +143,9 @@ const chartLineOptions: ChartOptions = {
 };
 
 watch(() => props.restrictions, () => {
+  if (!props.restrictions) {
+    return;
+  }
   computeBarChart();
 }, { immediate: true });
 </script>

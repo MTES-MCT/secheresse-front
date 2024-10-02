@@ -310,7 +310,7 @@ const resetZoneSelected = () => {
 };
 
 async function downloadMap() {
-  emit('downloadMap');
+  emit('downloadMap', selectedTypeEau.value);
 }
 
 watch(() => selectedTypeEau.value, () => {
@@ -379,7 +379,7 @@ watch(() => props.area, () => {
 
 <template>
   <div v-if="isMapSupported">
-    <div class="map-pre-actions">
+    <div class="map-pre-actions" data-html2canvas-ignore="true">
       <div v-if="showError"
            class="map-pre-actions-card fr-p-1w fr-m-1w">
         <DsfrAlert description="Une erreur est survenue lors du chargement de la carte"
@@ -437,7 +437,7 @@ watch(() => props.area, () => {
         </DsfrAccordionsGroup>
       </div>
     </div>
-    <div v-if="light" class="map-legend">
+    <div v-if="light" class="fr-grid-row map-legend">
       <DsfrBadge small
                  no-icon
                  class="situation-level-bg-0 fr-mr-1w"

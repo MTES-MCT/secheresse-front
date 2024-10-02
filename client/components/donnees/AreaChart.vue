@@ -18,6 +18,10 @@ import { BassinVersant } from '../../dto/bassinVersant.dto';
 import { Region } from '../..//dto/region.dto';
 import { Departement } from '../..//dto/departement.dto';
 import html2canvas from 'html2canvas';
+import moment from 'moment/moment';
+import { helpers, required } from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
+import utils from '../../utils';
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, LineController, TimeScale, ArcElement, Colors, Filler);
 
@@ -30,11 +34,7 @@ const computeDisabled = ref(true);
 const dateMin = ref('2013-01-01');
 const tmp = new Date();
 tmp.setFullYear(tmp.getFullYear() - 1);
-const dateDebut = ref(tmp.toISOString().split('T')[0]);
-const dateFin = ref(new Date().toISOString().split('T')[0]);
 const currentDate = ref(new Date().toISOString().split('T')[0]);
-const typeEau = ref('AEP');
-const area = ref('');
 const territoire = ref();
 const screenshotZone = ref();
 
@@ -54,12 +54,79 @@ const typesEauOptions = [
 
 const areaOptions = ref([]);
 
+const formData = reactive({
+  typeEau: 'AEP',
+  dateDebut: tmp.toISOString().split('T')[0],
+  dateFin: new Date().toISOString().split('T')[0],
+  area: '',
+});
+const rules = computed(() => {
+  return {
+    dateDebut: {
+      required: helpers.withMessage('La date de début est obligatoire.', required),
+      minValue: helpers.withMessage('La date de début doit être supérieure à Janvier 2013.', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD') >= moment(dateMin.value, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      maxValue: helpers.withMessage('La date de début doit être inférieure à la date de fin.', (val: string) => {
+        if (formData.dateFin && val) {
+          return moment(val, 'YYYY-MM-DD') <= moment(formData.dateFin, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      isValid: helpers.withMessage('La date de début doit être sous la forme YYYY-MM-DD (ex : 2024-01-01).', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD', true).isValid();
+        }
+        return true;
+      }),
+    },
+    dateFin: {
+      required: helpers.withMessage('La date de fin est obligatoire.', required),
+      minValue: helpers.withMessage('La date de fin doit être supérieure à la date de début.', (val: string) => {
+        if (formData.dateDebut && val) {
+          return moment(val, 'YYYY-MM-DD') >= moment(formData.dateDebut, 'YYYY-MM-DD');
+        }
+        return true;
+      }),
+      maxValue: helpers.withMessage('La date de fin doit être inférieure à la date du jour.', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD') <= moment();
+        }
+        return true;
+      }),
+      isValid: helpers.withMessage('La date de fin doit être sous la forme YYYY-MM-DD (ex : 2024-01-01).', (val: string) => {
+        if (val) {
+          return moment(val, 'YYYY-MM-DD', true).isValid();
+        }
+        return true;
+      }),
+    },
+    area: {
+      required: helpers.withMessage('Le territoire est obligatoire.', (val: string) => {
+        return val !== null;
+      }),
+    },
+    typeEau: {
+      required: helpers.withMessage('Le type d\'eau est obligatoire.', required),
+    },
+  };
+});
+
+const v$ = useVuelidate(rules, formData);
+
 async function loadData() {
+  await v$.value.$validate();
+  if (v$.value.$error) {
+    return;
+  }
   loading.value = true;
-  const { data, error } = await api.getDataArea(dateDebut.value, dateFin.value, area.value);
+  const { data, error } = await api.getDataArea(formData.dateDebut, formData.dateFin, formData.area);
   if (data.value) {
     dataArea.value = data.value;
-    territoire.value = areaOptions.value.find((a: any) => a.value === area.value);
+    territoire.value = areaOptions.value.find((a: any) => a.value === formData.area);
     sortData();
   }
   computeDisabled.value = true;
@@ -73,7 +140,7 @@ function sortData() {
     datasets: [
       {
         label: 'Vigilance',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].vigilance)),
+        data: dataArea.value.map((s: any) => Number(s[formData.typeEau].vigilance)),
         fill: {
           target: 'stack',
         },
@@ -82,7 +149,7 @@ function sortData() {
       },
       {
         label: 'Alerte',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].alerte)),
+        data: dataArea.value.map((s: any) => Number(s[formData.typeEau].alerte)),
         fill: {
           target: 'stack',
         },
@@ -91,7 +158,7 @@ function sortData() {
       },
       {
         label: 'Alerte renforcée',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].alerte_renforcee)),
+        data: dataArea.value.map((s: any) => Number(s[formData.typeEau].alerte_renforcee)),
         fill: {
           target: 'stack',
         },
@@ -100,7 +167,7 @@ function sortData() {
       },
       {
         label: 'Crise',
-        data: dataArea.value.map((s: any) => Number(s[typeEau.value].crise)),
+        data: dataArea.value.map((s: any) => Number(s[formData.typeEau].crise)),
         fill: {
           target: 'stack',
         },
@@ -115,19 +182,7 @@ function sortData() {
 loadData();
 
 const tooltipTitle = (tooltipItems: any[]): string => {
-  const date = new Date(tooltipItems[0].parsed.x);
-  const year: string | number = date.getFullYear();
-  let month: string | number = date.getMonth() + 1;
-  let dt: string | number = date.getDate();
-
-  if (dt < 10) {
-    dt = '0' + dt;
-  }
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  return `${dt}/${month}/${year}`;
+  return moment(tooltipItems[0].parsed.x).format('DD/MM/YYYY');
 };
 
 const chartLineOptions: ChartOptions = {
@@ -172,7 +227,7 @@ async function downloadGraph() {
 
     const a = document.createElement('a');
     a.href = content.replace('image/png', 'image/octet-stream');
-    a.download = `graphique_surface_${territoire.value.text}_${dateDebut.value}_${dateFin.value}_${typeEau.value}.png`;
+    a.download = `graphique_surface_${territoire.value.text}_${formData.dateDebut}_${formData.dateFin}_${formData.typeEau}.png`;
     a.click();
   });
 }
@@ -221,44 +276,56 @@ watch(() => refDataStore.departements, () => {
   <div ref="screenshotZone">
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-lg-2 fr-col-6">
-        <DsfrSelect label="Type d'eau"
-                    v-model="typeEau"
-                    @update:modelValue="sortData()"
-                    :options="typesEauOptions" />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'typeEau')">
+          <DsfrSelect label="Type d'eau"
+                      v-model="formData.typeEau"
+                      @update:modelValue="sortData()"
+                      :options="typesEauOptions"
+                      required />
+        </DsfrInputGroup>
       </div>
       <div class="fr-col-lg-2 fr-col-6">
-        <DsfrSelect label="Territoire"
-                    v-model="area"
-                    @update:modelValue="computeDisabled = false"
-                    :options="areaOptions" />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'area')">
+          <DsfrSelect label="Territoire"
+                      v-model="formData.area"
+                      @update:modelValue="computeDisabled = false"
+                      :options="areaOptions"
+                      required />
+        </DsfrInputGroup>
       </div>
       <div class="fr-col-lg-3 fr-col-6">
-        <DsfrInput
-          id="dateDebut"
-          v-model="dateDebut"
-          @update:modelValue="computeDisabled = false"
-          label="Date début"
-          label-visible
-          type="date"
-          name="dateCarte"
-          :min="dateMin"
-          :max="dateFin"
-        />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateDebut')">
+          <DsfrInput
+            id="dateDebut"
+            v-model="formData.dateDebut"
+            @update:modelValue="computeDisabled = false"
+            label="Date début"
+            label-visible
+            type="date"
+            name="dateCarte"
+            :min="dateMin"
+            :max="formData.dateFin"
+            required
+          />
+        </DsfrInputGroup>
       </div>
       <div class="fr-col-lg-3 fr-col-6">
-        <DsfrInput
-          id="dateFin"
-          v-model="dateFin"
-          @update:modelValue="computeDisabled = false"
-          label="Date fin"
-          label-visible
-          type="date"
-          name="dateCarte"
-          :min="dateDebut"
-          :max="currentDate"
-        />
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateFin')">
+          <DsfrInput
+            id="dateFin"
+            v-model="formData.dateFin"
+            @update:modelValue="computeDisabled = false"
+            label="Date fin"
+            label-visible
+            type="date"
+            name="dateCarte"
+            :min="formData.dateDebut"
+            :max="currentDate"
+            required
+          />
+        </DsfrInputGroup>
       </div>
-      <div class="fr-col-lg-2 fr-col-6">
+      <div data-html2canvas-ignore="true" class="fr-col-lg-2 fr-col-6">
         <DsfrButton :disabled="computeDisabled"
                     @click="loadData()">
           Calculer
@@ -266,7 +333,7 @@ watch(() => refDataStore.departements, () => {
       </div>
     </div>
     <div class="fr-col-12">
-      <DsfrAlert type="info" class="fr-my-2w">
+      <DsfrAlert data-html2canvas-ignore="true" type="info" class="fr-my-2w">
         Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour
         connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions des eaux
         superficielles et souterraines.
@@ -288,10 +355,10 @@ watch(() => refDataStore.departements, () => {
 
     <DonneesAreaTable class="fr-mt-4w"
                       :dataArea="dataArea"
-                      :typeEau="typeEau"
+                      :typeEau="formData.typeEau"
                       :territoire="territoire?.text"
-                      :dateDebut="dateDebut"
-                      :dateFin="dateFin" />
+                      :dateDebut="formData.dateDebut"
+                      :dateFin="formData.dateFin" />
   </template>
   <template v-if="loading">
     <div class="fr-grid-row fr-grid-row--center fr-my-2w">
@@ -303,5 +370,9 @@ watch(() => refDataStore.departements, () => {
 <style lang="scss" scoped>
 .fr-grid-row {
   align-items: end;
+
+  :deep(.fr-select-group) {
+    margin-bottom: 0;
+  }
 }
 </style>
