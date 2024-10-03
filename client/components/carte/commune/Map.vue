@@ -500,7 +500,7 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
         <div v-for="legend of legende"
              :style="{'background-color': legend.color}"
              class="map-legend-carre fr-mx-1w"></div>
-        <div>Situations extrèmes</div>
+        <div>Situation extrème</div>
       </div>
 
       <div data-html2canvas-ignore="true" class="text-align-right">
@@ -518,27 +518,31 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                        @expand="expanded = !expanded"
                        :id="true">
           <div>
-            Les couleurs de la carte traduisent un "score de restrictions appliquées aux usages de l'eau". Ce score est
-            calculé pour chaque commune en combinant deux facteurs : la durée et la gravité des restrictions.<br /><br />
-            L'intensité des restrictions est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
+            Les couleurs de la carte traduisent un "score de sur les niveaux de gravité appliqués aux usages de l'eau".
+            Ce score est calculé pour chaque commune en combinant deux facteurs : la durée et le niveau de gravité des
+            épisodes de sécheresse. Pour les territoires concernés par différentes ressources (eaux superficielles,
+            souterraines, eau potable), le niveau de gravité maximale est retenu. La carte représente donc un indice de
+            sécheresse toutes ressources confondues, pour plus de détail, nous vous invitons à cliquer sur une
+            commune.<br /><br />
+            L'intensité des sécheresses est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
             <ul>
-              <li>Pas de restrictions&nbsp;: 0</li>
+              <li>Pas de restriction&nbsp;: 0</li>
               <li>Vigilance&nbsp;: 0,5</li>
               <li>Alerte&nbsp;: 2</li>
               <li>Alerte renforcée&nbsp;: 3</li>
               <li>Crise&nbsp;: 4</li>
             </ul>
 
-            La durée correspond au nombre de jours pendant lesquels ces restrictions sont en place. Pour chaque commune,
-            le score est obtenu en multipliant la pondération par le nombre de jours concerné par chaque niveau de
-            restriction, puis en additionnant ces valeurs. Ce score cumulatif est ensuite comparé à un score maximal
-            théorique (limité à 60 points par mois, soit 15 jours de crise) pour le normaliser sur une échelle de 0 à
-            100
-            %. Le score est limité pour éviter des valeurs trop élevées dans les cas extrêmes.<br /><br />
+            La durée correspond au nombre de jours pendant lesquels la commune est concernée par un niveau de gravité
+            sécheresse. Pour chaque commune, le score est obtenu en multipliant la pondération par le nombre de jours
+            concerné par chaque niveau de gravité, puis en additionnant ces valeurs. Ce score cumulatif est ensuite
+            comparé à un score maximal théorique (limité à 60 points par mois, soit 15 jours de crise) pour le
+            normaliser sur une échelle de 0 à 100 %. Le score est limité pour éviter des valeurs trop élevées dans les
+            cas extrêmes<br /><br />
 
             Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur
-            est foncée, indiquant une gravité et/ou une durée importante des restrictions dans la commune. L'échelle
-            utilisée est la suivante&nbsp;:
+            est foncée, indiquant une gravité et/ou une durée importante des niveaux de gravité sécheresse dans la
+            commune. L'échelle utilisée est la suivante&nbsp;:
 
             <ul>
               <li>
@@ -569,9 +573,8 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
               </li>
             </ul>
 
-            Plus le score est élevé, plus la couleur est foncée, indiquant une gravité et/ou une durée importante des
-            restrictions dans la commune. Une même couleur peut ainsi correspondre à des situations très variées. Pour
-            mieux comprendre la situation d'une commune, nous vous invitons à consulter son historique.
+            Une même couleur peut ainsi correspondre à des situations très variées. Pour mieux comprendre la situation
+            d'une commune, nous vous invitons à consulter son historique.
           </div>
         </DsfrAccordion>
       </div>
