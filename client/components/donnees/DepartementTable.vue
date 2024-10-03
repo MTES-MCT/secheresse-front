@@ -4,6 +4,7 @@ import { json2csv } from 'json-2-csv';
 
 const props = defineProps<{
   dataDepartement: any,
+  typeEau: any,
   territoire: string,
   dateDebut: string,
   dateFin: string,
@@ -18,10 +19,10 @@ async function downloadCsv() {
     .map((stat: any) => {
       return {
         date: stat.date,
-        vigilance: stat.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'vigilance' ? 1 : 0), 0),
-        alerte: stat.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte' ? 1 : 0), 0),
-        alerte_renforcee: stat.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte_renforcee' ? 1 : 0), 0),
-        crise: stat.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'crise' ? 1 : 0), 0),
+        vigilance: stat.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'vigilance' ? 1 : 0), 0),
+        alerte: stat.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'alerte' ? 1 : 0), 0),
+        alerte_renforcee: stat.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'alerte_renforcee' ? 1 : 0), 0),
+        crise: stat.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'crise' ? 1 : 0), 0),
       };
     });
   const csv = await json2csv(formatData, {
@@ -34,24 +35,37 @@ async function downloadCsv() {
 
   let a = document.createElement('a');
   a.href = url;
-  a.download = `tableau_departements_${props.territoire}_${props.dateDebut}_${props.dateFin}.csv`;
+  a.download = `tableau_departements_${props.territoire}_${props.dateDebut}_${props.dateFin}_${props.typeEau}.csv`;
   a.click();
 }
 
-watch(() => [props.dataDepartement], () => {
-  if(!props.dataDepartement) {
+const getNiveauGravite = (departement: any) => {
+  switch (props.typeEau) {
+    case 'SUP':
+      return departement.niveauGraviteSup;
+    case 'SOU':
+      return departement.niveauGraviteSou;
+    case 'AEP':
+      return departement.niveauGraviteAep;
+    default:
+      return departement.niveauGravite;
+  }
+};
+
+watch(() => [props.typeEau, props.dataDepartement], () => {
+  if (!props.dataDepartement) {
     return;
   }
   rows.value = props.dataDepartement.map(s => {
     return [
       moment(s.date).format('DD/MM/YYYY'),
-      s.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'vigilance' ? 1 : 0), 0),
-      s.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte' ? 1 : 0), 0),
-      s.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte_renforcee' ? 1 : 0), 0),
-      s.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'crise' ? 1 : 0), 0),
+      s.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'vigilance' ? 1 : 0), 0),
+      s.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'alerte' ? 1 : 0), 0),
+      s.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'alerte_renforcee' ? 1 : 0), 0),
+      s.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'crise' ? 1 : 0), 0),
     ];
   });
-  componentKey.value ++;
+  componentKey.value++;
 }, { immediate: true });
 </script>
 

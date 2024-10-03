@@ -39,9 +39,28 @@ const currentDate = ref(new Date().toISOString().split('T')[0]);
 const territoire = ref();
 const screenshotZone = ref();
 
+const typesEauOptions = [
+  {
+    text: 'Tout type d\'eau',
+    value: '',
+  },
+  {
+    text: 'Eau potable',
+    value: 'AEP',
+  },
+  {
+    text: `Eau superficielle`,
+    value: 'SUP',
+  }, {
+    text: 'Eau souterraine',
+    value: 'SOU',
+  },
+];
+
 const areaOptions = ref([]);
 
 const formData = reactive({
+  typeEau: '',
   dateDebut: tmp.toISOString().split('T')[0],
   dateFin: new Date().toISOString().split('T')[0],
   area: '',
@@ -95,6 +114,11 @@ const rules = computed(() => {
         return val !== null;
       }),
     },
+    typeEau: {
+      required: helpers.withMessage('Le type d\'eau est obligatoire.', (val: string) => {
+        return val !== null;
+      }),
+    },
   };
 });
 
@@ -123,7 +147,7 @@ function sortData() {
     datasets: [
       {
         label: 'Vigilance',
-        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'vigilance' ? 1 : 0), 0)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'vigilance' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -132,7 +156,7 @@ function sortData() {
       },
       {
         label: 'Alerte',
-        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte' ? 1 : 0), 0)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'alerte' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -141,7 +165,7 @@ function sortData() {
       },
       {
         label: 'Alerte renforcée',
-        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'alerte_renforcee' ? 1 : 0), 0)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'alerte_renforcee' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -150,7 +174,7 @@ function sortData() {
       },
       {
         label: 'Crise',
-        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (dep.niveauGravite === 'crise' ? 1 : 0), 0)),
+        data: dataDepartement.value.map((d: any) => d.departements.reduce((acc: number, dep: any) => acc + (getNiveauGravite(dep) === 'crise' ? 1 : 0), 0)),
         fill: {
           target: 'stack',
         },
@@ -161,6 +185,19 @@ function sortData() {
   };
   loading.value = false;
 }
+
+const getNiveauGravite = (departement: any) => {
+  switch (formData.typeEau) {
+    case 'SUP':
+      return departement.niveauGraviteSup;
+    case 'SOU':
+      return departement.niveauGraviteSou;
+    case 'AEP':
+      return departement.niveauGraviteAep;
+    default:
+      return departement.niveauGravite;
+  }
+};
 
 loadData();
 
@@ -207,7 +244,7 @@ async function downloadGraph() {
 
     const a = document.createElement('a');
     a.href = content.replace('image/png', 'image/octet-stream');
-    a.download = `graphique_departements_${territoire.value.text}_${formData.dateDebut}_${formData.dateFin}.png`;
+    a.download = `graphique_departements_${territoire.value.text}_${formData.dateDebut}_${formData.dateFin}_${formData.typeEau}.png`;
     a.click();
 
   });
@@ -256,7 +293,16 @@ watch(() => refDataStore.departements, () => {
 <template>
   <div ref="screenshotZone">
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-lg-3 fr-col-12">
+      <div class="fr-col-lg-2 fr-col-6">
+        <DsfrInputGroup :error-message="utils.showInputError(v$, 'typeEau')">
+          <DsfrSelect label="Type d'eau"
+                      v-model="formData.typeEau"
+                      @update:modelValue="sortData()"
+                      :options="typesEauOptions"
+                      required />
+        </DsfrInputGroup>
+      </div>
+      <div class="fr-col-lg-2 fr-col-12">
         <DsfrInputGroup :error-message="utils.showInputError(v$, 'area')">
           <DsfrSelect label="Territoire"
                       v-model="formData.area"
@@ -297,12 +343,19 @@ watch(() => refDataStore.departements, () => {
           />
         </DsfrInputGroup>
       </div>
-      <div data-html2canvas-ignore="true" class="fr-col-lg-3 fr-col-6">
+      <div data-html2canvas-ignore="true" class="fr-col-lg-2 fr-col-6">
         <DsfrButton :disabled="computeDisabled"
                     @click="loadData()">
           Calculer
         </DsfrButton>
       </div>
+    </div>
+    <div class="fr-col-12">
+      <DsfrAlert data-html2canvas-ignore="true" type="info" class="fr-my-2w">
+        Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024. Pour
+        connaître les niveaux de restrictions en vigueur, veuillez vous référer aux niveaux de restrictions des eaux
+        superficielles et souterraines.
+      </DsfrAlert>
     </div>
     <template v-if="!loading">
       <Line v-if="chartLineData"
@@ -321,8 +374,9 @@ watch(() => refDataStore.departements, () => {
     <DonneesDepartementTable class="fr-mt-4w"
                              :dataDepartement="dataDepartement"
                              :territoire="territoire?.text"
-                             :dateDebut="dateDebut"
-                             :dateFin="dateFin" />
+                             :typeEau="formData.typeEau"
+                             :dateDebut="formData.dateDebut"
+                             :dateFin="formData.dateFin" />
   </template>
   <template v-else>
     <div class="fr-grid-row fr-grid-row--center fr-my-2w">

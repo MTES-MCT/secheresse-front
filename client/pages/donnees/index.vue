@@ -52,15 +52,15 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           >
           </DsfrCard>
         </div>
-        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">
-          <DsfrCard
-            img-src="/donnee_carte_commune.png"
-            link="/donnees/carte-commune"
-            alt-img="Image d'illustration de la carte"
-            title="Intensité des sécheresses passées"
-          >
-          </DsfrCard>
-        </div>
+<!--        <div class="fr-col-12 fr-col-md-6 fr-col-lg-3">-->
+<!--          <DsfrCard-->
+<!--            img-src="/donnee_carte_commune.png"-->
+<!--            link="/donnees/carte-commune"-->
+<!--            alt-img="Image d'illustration de la carte"-->
+<!--            title="Intensité des sécheresses passées"-->
+<!--          >-->
+<!--          </DsfrCard>-->
+<!--        </div>-->
       </div>
     </div>
   </div>

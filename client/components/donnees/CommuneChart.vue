@@ -181,20 +181,20 @@ async function downloadGraph() {
               Calculer
             </DsfrButton>
           </div>
-          <div class="fr-col-12">
-            <DsfrAlert data-html2canvas-ignore="true" type="info" class="fr-my-2w">
-              Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024.
-              Pour connaître les niveaux de restrictions en vigueur; veuillez vous référer aux niveaux de restrictions
-              des
-              eaux superficielles et souterraines.
-            </DsfrAlert>
-          </div>
         </div>
         <h6 class="fr-mb-1w">Tout type d'eau</h6>
+        <p class="fr-text--sm"> Niveau de gravité maximal observé parmi les niveaux de gravité relatifs aux eaux superficielles, souterraines et l'eau potable</p>
         <DonneesCommuneBarChart :restrictions="restrictionsFiltered"
                                 :communeNom="communeStats.commune.nom" />
         <div v-for="typeEau of typesEauOptions">
           <h6 class="fr-mb-1w">{{ typeEau.text }}</h6>
+          <div v-if="typeEau.value === 'AEP'">
+            <DsfrAlert data-html2canvas-ignore="true" type="info" class="fr-my-2w">
+              Nous ne sommes pas en mesure de fournir les restrictions appliquées sur l'eau potable avant le 28/04/2024.
+              Pour connaître les niveaux de restrictions en vigueur, veuillez vous référer aux niveaux de restrictions
+              des eaux superficielles et souterraines.
+            </DsfrAlert>
+          </div>
           <DonneesCommuneBarChart :typeEau="typeEau.value"
                                   :restrictions="restrictionsFiltered"
                                   :communeNom="communeStats.commune.nom" />
