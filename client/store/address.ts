@@ -40,7 +40,7 @@ export const useAddressStore = defineStore('addressStore', () => {
 
   function getCodeDepartement(): string | undefined {
     if (address.value) {
-      return address.value.properties.postcode.slice(0, 2);
+      return address.value.properties.citycode.slice(0, 2);
     } else if (geo.value) {
       return geo.value.codeDepartement
     }

@@ -483,7 +483,7 @@ watch(() => props.area, () => {
   </DsfrModal>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .map-wrap {
   position: absolute;
   width: calc(100vw + 32px);
@@ -530,11 +530,11 @@ h6 {
   font-size: 16px;
 }
 
-.maplibregl-map {
+:deep(.maplibregl-map) {
   font-family: inherit;
 }
 
-.maplibregl-popup-content {
+:deep(.maplibregl-popup-content) {
   border-radius: 4px;
   padding: 1rem;
   text-align: center;
@@ -547,7 +547,7 @@ h6 {
   }
 }
 
-.map-legend, .maplibregl-popup-content {
+.map-legend, :deep(.maplibregl-popup-content) {
   .situation-level-bg-1 {
     background-color: #FFEDA0;
     color: var(--grey-50-1000);

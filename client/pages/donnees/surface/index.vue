@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
-import { useRefDataStore } from '../../../store/refData';
 
 definePageMeta({
   layout: 'basic',
@@ -14,8 +13,6 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, {
   text: 'Données sécheresse',
   to: '/donnees',
 }, { text: 'Évolution journalière du pourcentage de la surface concernée par des niveaux de gravité' }]);
-const refDataStore = useRefDataStore();
-await refDataStore.loadRefData();
 </script>
 
 <template>

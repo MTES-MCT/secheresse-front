@@ -33,5 +33,7 @@ export const useRefDataStore = defineStore('refDataStore', () => {
     }
   }
 
+  loadRefData();
+
   return { setDepartements, departements, setRegions, regions, setBassinsVersants, bassinsVersants, loadRefData };
 });
