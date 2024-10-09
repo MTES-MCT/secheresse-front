@@ -35,7 +35,7 @@
 
 <style scoped lang="scss">
 .fr-follow {
-  background: transparent;
+  background: var(--brown-cafe-creme-975-75);
 }
 
 @media screen and (max-width: 767px) {

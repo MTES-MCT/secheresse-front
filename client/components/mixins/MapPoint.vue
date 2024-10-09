@@ -79,6 +79,7 @@ onMounted(() => {
         lat: coordinates.lat,
         commune: dataAddress.value?.features[0]?.properties?.citycode ? dataAddress.value.features[0].properties.citycode :
           dataGeo.value[0]?.code ? dataGeo.value[0].code : null,
+        communeNom: dataGeo.value[0]?.nom,
       };
       emit('selectPoint', toReturn);
       marker.setLngLat(coordinates).addTo(map.value);
@@ -119,7 +120,7 @@ const flyToLocation = (bounds: any) => {
 
 <template>
 
-  <div v-if="isMapSupported">
+  <div class="full-width" v-if="isMapSupported">
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 overall-wrapper">
         <div class="map-pre-actions">
@@ -148,7 +149,7 @@ const flyToLocation = (bounds: any) => {
   </template>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .overall-wrapper {
   height: 50vh;
   position: relative;
@@ -165,7 +166,7 @@ const flyToLocation = (bounds: any) => {
     height: 100%;
   }
 
-  &--loading .maplibregl-canvas-container.maplibregl-interactive {
+  &--loading :deep(.maplibregl-canvas-container.maplibregl-interactive) {
     cursor: wait;
   }
 }
@@ -192,11 +193,11 @@ h6 {
   font-size: 16px;
 }
 
-.maplibregl-map {
+:deep(.maplibregl-map) {
   font-family: inherit;
 }
 
-.maplibregl-popup-content {
+:deep(.maplibregl-popup-content) {
   border-radius: 4px;
   padding: 1rem;
   text-align: center;

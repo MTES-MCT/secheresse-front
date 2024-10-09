@@ -3,7 +3,7 @@ import liens from '../../data/liens.json'
 </script>
 
 <template>
-  <div class="liens  fr-container fr-py-4w">
+  <div class="liens fr-container fr-py-4w">
     <div class="section-title">
       <h2>Les liens utiles</h2>
       <p>Toutes les ressources officielles sur la gestion de l'eau&nbsp;:</p>

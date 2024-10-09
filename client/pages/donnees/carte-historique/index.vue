@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
-import api from '../../../api';
-import { useRefDataStore } from '../../../store/refData';
 import html2canvas from 'html2canvas';
 
 definePageMeta({
@@ -16,8 +14,6 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, {
   text: 'Données sécheresse',
   to: '/donnees',
 }, { text: 'Carte et historique des restrictions' }]);
-const refDataStore = useRefDataStore();
-await refDataStore.loadRefData();
 const filterData: any = ref(null);
 const filterText: any = ref(null);
 const screenshotZone = ref();
