@@ -2,8 +2,6 @@
 import * as maplibregl from 'maplibre-gl';
 import { Ref } from 'vue';
 import { PMTiles, Protocol } from 'pmtiles';
-import { useAddressStore } from '../../store/address';
-import { storeToRefs } from 'pinia';
 import api from '../../api';
 import niveauxGravite from '../../dto/niveauGravite';
 import { useRefDataStore } from '../../store/refData';
@@ -141,8 +139,19 @@ onMounted(() => {
       return;
     }
     btn.addEventListener('click', async () => {
-      utils.searchZones(dataAddress.value?.features[0] ? dataAddress.value.features[0] : null,
-        dataGeo?.value ? dataGeo.value[0] : null,
+      // On modifie l'objet adresse car au clic sur la carte on veut vraiment le lon / lat exact
+      const address = {
+        geometry: {
+          coordinates: [coordinates.lng, coordinates.lat],
+        },
+        properties: {
+          citycode: dataAddress.value?.features[0]?.properties?.citycode ? dataAddress.value.features[0].properties.citycode :
+            dataGeo.value[0]?.code ? dataGeo.value[0].code : null,
+          label: `${dataGeo.value[0]?.nom}, ${dataGeo.value[0]?.codeDepartement}`,
+        },
+      };
+      utils.searchZones(address,
+        null,
         props.profil,
         selectedTypeEau.value,
         router,
@@ -193,17 +202,23 @@ const typeEauTags: Ref<any[]> = ref([{
   label: 'Eau potable',
   value: 'AEP',
   disabled: false,
+  text: 'du robinet',
 }, {
   label: 'Eau superficielle',
   value: 'SUP',
+  text: `d'un cours d'eau, d'une rivière`,
 }, {
   label: 'Eau souterraine',
   value: 'SOU',
+  text: `des nappes (puits ou forage)`,
 }]);
 const selectedTypeEau: Ref<string> = ref(props.typeEau ? props.typeEau : 'AEP');
-const adressStore = useAddressStore();
 const router = useRouter();
 const expandedId = ref<string>();
+
+const getTypeEauText = computed(() => {
+  return typeEauTags.value.find(t => t.value === selectedTypeEau.value).text;
+});
 
 const flyToLocation = (bounds: any) => {
   map.value?.fitBounds(bounds);
@@ -406,7 +421,7 @@ watch(() => props.area, () => {
 </script>
 
 <template>
-  <div class="full-width" v-if="isMapSupported">
+  <div class="full-width full-height" v-if="isMapSupported">
     <div class="map-pre-actions" data-html2canvas-ignore="true">
       <div v-if="showError"
            class="map-pre-actions-card fr-p-1w fr-m-1w">
@@ -426,7 +441,11 @@ watch(() => props.area, () => {
                          @update:modelValue="selectedTypeEau = $event; updateLayerFilter();"
         />
       </div>
-      <div class="map-pre-actions-card fr-p-1w fr-m-1w">
+      <div v-else
+           class="map-pre-actions-card map-pre-actions-card--short fr-p-1w fr-m-1w">
+        <h6 class="fr-mb-0">Situation pour l'eau {{ getTypeEauText }}</h6>
+      </div>
+      <div class="map-pre-actions-card fr-p-1w fr-m-1w hide-sm">
         <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
         <DsfrTag v-for="tag in mapTags"
                  :label="tag.label"
@@ -436,33 +455,43 @@ watch(() => props.area, () => {
                  tag-name="button" />
       </div>
     </div>
-    <div style="position:relative;"
-         :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
-      <div class="map-wrap" :class="{'map-wrap--loading': loading}">
-        <div class="map" ref="mapContainer"></div>
+    <div class="fr-grid-row map-legend fr-mb-1w show-sm">
+      <template v-for="legend in niveauxGravite">
+        <DsfrTooltip on-hover
+                     :content="legend.description">
+          <DsfrBadge small
+                     class="fr-mr-1w"
+                     :class="legend.class"
+                     type=""
+                     :label="legend.text" />
+        </DsfrTooltip>
+      </template>
+    </div>
+    <div class="map-wrap" :class="{'map-wrap--loading': loading, 'map-wrap--full-actions': !hideTypeEau}">
+      <div class="map" ref="mapContainer"></div>
+    </div>
+    <div class="map-post-actions show-sm" data-html2canvas-ignore="true">
+      <div class="map-post-actions-card fr-p-1w fr-m-1w">
+        <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
+        <DsfrTag v-for="tag in mapTags"
+                 :label="tag.label"
+                 class="fr-m-1w"
+                 small
+                 @click="flyToLocation(tag.bounds)"
+                 tag-name="button" />
       </div>
     </div>
-    <div class="fr-grid-row map-legend fr-mt-1w">
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-0 fr-mr-1w"
-                 label="pas de restrictions" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-1 fr-mr-1w"
-                 label="vigilance" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-2 fr-mr-1w"
-                 label="alerte" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-3 fr-mr-1w"
-                 label="alerte renforcée" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-4"
-                 label="crise" />
+    <div class="fr-grid-row map-legend fr-mt-1w hide-sm">
+      <template v-for="legend in niveauxGravite">
+        <DsfrTooltip on-hover
+                     :content="legend.description">
+          <DsfrBadge small
+                     class="fr-mr-1w"
+                     :class="legend.class"
+                     type=""
+                     :label="legend.text" />
+        </DsfrTooltip>
+      </template>
     </div>
 
     <div v-if="!hideDownloadBtn"
@@ -514,7 +543,7 @@ watch(() => props.area, () => {
   }
 }
 
-.map-pre-actions {
+.map-pre-actions, .map-post-actions {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -525,6 +554,10 @@ watch(() => props.area, () => {
     font-size: 14px;
     border-radius: 4px;
     opacity: 0.9;
+
+    &--short {
+      max-width: 180px;
+    }
   }
 
   .fr-tag {
@@ -565,9 +598,17 @@ h6 {
   }
 }
 
+.map-legend :deep(.fr-link) {
+  background: none;
+}
+
 @media screen and (max-width: 767px) {
   .map-wrap {
-    height: 75vh;
+    height: calc(100% - 230px);
+
+    &--full-actions {
+      height: calc(100% - 300px);
+    }
 
     &-embedded {
       height: calc(100vh - 160px);
@@ -584,12 +625,10 @@ h6 {
     .fr-tag {
       display: initial;
     }
-  }
-}
 
-@media screen and (max-width: 991px) {
-  .map-legend {
-    margin-top: 2rem;
+    .map-pre-actions-card--short {
+      max-width: initial;
+    }
   }
 }
 </style>

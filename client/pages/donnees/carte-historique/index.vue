@@ -61,7 +61,7 @@ const downloadMap = (typeEau) => {
           eaux superficielles et souterraines.
         </DsfrAlert>
         <template v-if="filterData">
-          <div style="position: relative;">
+          <div class="fr-mb-12w wrap-map">
             <CarteMap :embedded="false"
                       :light="true"
                       :date="filterData.date"
@@ -86,5 +86,16 @@ const downloadMap = (typeEau) => {
 <style lang="scss">
 .background-blue {
   background-color: var(--blue-france-975-75);
+}
+
+.wrap-map {
+  height: 75vh;
+  position: relative;
+}
+
+@media screen and (max-width: 767px) {
+  .wrap-map {
+    height: 90vh;
+  }
 }
 </style>

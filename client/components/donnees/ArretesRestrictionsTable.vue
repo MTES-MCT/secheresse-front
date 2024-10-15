@@ -92,8 +92,7 @@ watch(() => props, () => {
                  :headers="headers"
                  :rows="rows"
                  :pagination="true"
-                 :key="componentKey"
-                 class="fr-table--layout-fixed" />
+                 :key="componentKey" />
 
       <div class="text-align-right fr-mt-1w">
         <DsfrButton @click="downloadCsv()">

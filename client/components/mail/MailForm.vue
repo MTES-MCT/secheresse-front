@@ -39,14 +39,17 @@ const typesEauOptions = [
   {
     label: 'L\'eau potable',
     name: 'AEP',
+    value: 'AEP',
   },
   {
     label: 'L\'eau superficielle',
     name: 'SUP',
+    value: 'SUP',
   },
   {
     label: 'L\'eau souterraine',
     name: 'SOU',
+    value: 'SOU',
   },
 ];
 

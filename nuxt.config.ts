@@ -70,7 +70,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
     'nuxt-simple-sitemap',
-    'nuxt-simple-robots'
+    'nuxt-simple-robots',
+    'vue-dsfr-nuxt-module'
   ],
 
   runtimeConfig: {

@@ -4,6 +4,7 @@ import { Zone } from '../../dto/zone.dto';
 import { Ref } from 'vue';
 import { useAddressStore } from '../../store/address';
 import niveauxGravite from '../../dto/niveauGravite';
+import { VIcon } from '@gouvminint/vue-dsfr';
 
 const props = defineProps<{
   typeEau: 'AEP' | 'SUP' | 'SOU',
@@ -11,8 +12,8 @@ const props = defineProps<{
   address: string
 }>();
 
-const adressStore = useAddressStore();
-const { isParticulier } = adressStore;
+const addressStore = useAddressStore();
+const { isParticulier } = addressStore;
 const modalOpened: Ref<boolean> = ref(false);
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {

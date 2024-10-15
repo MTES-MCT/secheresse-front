@@ -1,4 +1,4 @@
-import VueDsfr from '@gouvminint/vue-dsfr'
+import VueDsfr from '@gouvminint/vue-dsfr';
 import {
   EauArrosoir,
   EauGoutteAbreuvementInterdiction,
@@ -21,38 +21,13 @@ import {
   EauPiscine,
   EauRemplissage,
   EauSoleil,
-  EauTuyau
-} from "../assets/icons";
-import { addIcons, OhVueIcon } from 'oh-vue-icons';
-import {
-  RiArrowRightLine,
-  RiCheckboxCircleLine,
-  RiDownload2Line,
-  RiInformationFill,
-  RiInformationLine,
-  RiMapPinUserLine,
-  RiQuestionLine,
-  RiSearchLine,
-  RiSurveyLine,
-  RiTimerLine,
-  RiMailLine
-} from 'oh-vue-icons/icons/ri/index.js';
+  EauTuyau,
+} from '../assets/icons';
+import { addIcon, listIcons } from '@iconify/vue';
 
 const icons = [
   EauMaison,
   EauSoleil,
-  RiArrowRightLine,
-  RiTimerLine,
-  RiMapPinUserLine,
-  RiSearchLine,
-  RiInformationFill,
-  RiInformationLine,
-  RiCheckboxCircleLine,
-  RiDownload2Line,
-  RiQuestionLine,
-  RiSurveyLine,
-  RiMapPinUserLine,
-  RiMailLine,
   EauArrosoir,
   EauPiscine,
   EauTuyau,
@@ -72,11 +47,17 @@ const icons = [
   EauGoutteAbreuvementInterdiction,
   EauGoutteNavigationInterdiction,
   EauGoutteCanauxInterdiction,
-  EauGouttePiscineInterdiction
-]
+  EauGouttePiscineInterdiction,
+];
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(VueDsfr);
-  addIcons(...icons);
-  nuxtApp.vueApp.component('VIcon', OhVueIcon);
-})
+  icons.forEach(i => {
+    addIcon(`vigieau:${i.name}`, {
+      body: i.raw,
+      width: i.width,
+      height: i.height,
+    });
+  });
+  console.log(listIcons());
+});

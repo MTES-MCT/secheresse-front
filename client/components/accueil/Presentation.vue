@@ -16,7 +16,7 @@ const updateFormData = (formData: any) => {
 <template>
   <div class="presentation fr-py-4w">
     <div class="fr-container">
-      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle">
+      <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--middle fr-mb-2w">
         <div class="fr-col-12 text-align-center">
           <h1>Suis-je concerné par les restrictions ?</h1>
         </div>
@@ -27,7 +27,6 @@ const updateFormData = (formData: any) => {
                     :hideTypeEau="true"
                     :typeEau="typeEau"
                     :profil="profil"
-                    class="wrap-map"
                     @selectPoint="selectPointOnMap($event)" />
         </div>
 
@@ -74,5 +73,12 @@ const updateFormData = (formData: any) => {
 .wrap-map {
   position: relative;
   width: 100%;
+  height: 455px;
+}
+
+@media screen and (max-width: 767px) {
+  .wrap-map {
+    height: 90vh;
+  }
 }
 </style>

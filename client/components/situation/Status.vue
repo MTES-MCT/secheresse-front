@@ -28,6 +28,24 @@ const typesEauOptions = [
     value: 'SOU',
   },
 ];
+const profileOptions = [
+  {
+    value: 'particulier',
+    text: 'particulier',
+  },
+  {
+    value: 'entreprise',
+    text: 'professionnel',
+  },
+  {
+    value: 'collectivite',
+    text: 'collectivité',
+  },
+  {
+    value: 'exploitation',
+    text: 'exploitation agricole',
+  },
+];
 
 const zoneTypeEau = computed(() => {
   return zones.value.find(z => z.type === typeEau.value);
@@ -68,7 +86,7 @@ onBeforeUnmount(() => {
     <div class="fr-col-12 fr-container">
       <DsfrBreadcrumb class="fr-mb-0" :links='links' />
     </div>
-    <fieldset class="fr-col-12  fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mb-1w">
+    <fieldset class="fr-col-12  fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mb-1w hide-sm">
       <legend>
         <p class="fr-mr-1w fr-mb-0">Les restrictions concernent l'eau</p>
       </legend>
@@ -76,6 +94,11 @@ onBeforeUnmount(() => {
                   titile="Choisissez le type d’eau que vous consommez"
                   v-model="typeEau"
                   :options="typesEauOptions" />
+      <p class="fr-mx-1w fr-mb-0">en tant que</p>
+      <DsfrSelect id="profile"
+                  title="Choisissez votre profil de consommateur d’eau"
+                  v-model="profile"
+                  :options="profileOptions" />
     </fieldset>
 
     <!-- TMP PACA -->
@@ -93,6 +116,21 @@ onBeforeUnmount(() => {
     <SituationHeader :address="addressToUse"
                      :typeEau="typeEau"
                      :zone="zoneTypeEau" />
+
+    <fieldset class="fr-col-12 fr-container fr-grid-row fr-grid-row--center fr-grid-row--middle fr-mt-1w show-sm">
+      <legend>
+        <p class="fr-mr-1w fr-mb-0">Les restrictions concernent l'eau</p>
+      </legend>
+      <DsfrSelect id="type_eau"
+                  titile="Choisissez le type d’eau que vous consommez"
+                  v-model="typeEau"
+                  :options="typesEauOptions" />
+      <p class="fr-mx-1w fr-mb-0">en tant que</p>
+      <DsfrSelect id="profile"
+                  title="Choisissez votre profil de consommateur d’eau"
+                  v-model="profile"
+                  :options="profileOptions" />
+    </fieldset>
 
     <template v-if="utils.showRestrictions(zoneTypeEau)">
       <SituationRestrictions :profile="profile"

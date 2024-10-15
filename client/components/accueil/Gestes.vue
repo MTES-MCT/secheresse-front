@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import gestes from '../../data/gestes.json'
 import { Ref } from "vue";
+import { Icon } from '@iconify/vue';
 
 const gesteTags: Ref<any[]> = ref([{
   label: "À la maison",
@@ -43,17 +44,18 @@ const selectedTagIndex: Ref<number> = ref(0);
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="fr-col-12 fr-grid-row fr-grid-row fr-grid-row--center">
         <DsfrTag v-for="(tag, index) in gesteTags"
-                 :label="tag.label"
                  class="fr-mx-1w tag-lg"
-                 :icon="tag.icon"
                  :aria-pressed="selectedTagIndex === index"
                  @click="selectedTagIndex = index"
-                 tag-name="button"/>
+                 tag-name="button">
+          <Icon :icon="'vigieau:' + tag.icon" class="fr-mr-1w" />
+          {{ tag.label }}
+        </DsfrTag>
       </div>
-      <DsfrTabs class="tabs-light">
+      <DsfrTabs class="tabs-light" v-model="selectedTagIndex">
         <DsfrTabContent v-for="(tag, index) in gesteTags"
-                        tabindex="-1"
-                        :selected="selectedTagIndex === index">
+                        :panel-id="'tab-content-' + index"
+                        :tab-id="'tab-' + index">
           <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <GestesCard v-for="geste in gestesFiltered(tag)"
                         :geste="geste"
