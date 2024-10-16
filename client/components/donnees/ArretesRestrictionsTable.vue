@@ -92,6 +92,7 @@ watch(() => props, () => {
                  :headers="headers"
                  :rows="rows"
                  :pagination="true"
+                 class="fr-table--sm"
                  :key="componentKey" />
 
       <div class="text-align-right fr-mt-1w">
@@ -107,3 +108,9 @@ watch(() => props, () => {
     </template>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.fr-table {
+  overflow: auto;
+}
+</style>

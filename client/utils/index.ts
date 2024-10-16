@@ -238,11 +238,15 @@ const index = {
 <p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${niveauGravite.text}</p>
 </div>
 <div class="map-popup-zone">Zone&nbsp;: ${pmtilesData.nom}</div>`
+    } else {
+      popupHtml += `<div class="fr-mb-1w">
+<p class="fr-badge situation-level-bg-0">Pas de restrictions</p>
+</div>`
     }
 
     popupHtml += `<div class="fr-my-1w">${addressName}</div>`;
 
-    if (showRestrictionsBtn) {
+    if (showRestrictionsBtn && pmtilesData) {
       popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">

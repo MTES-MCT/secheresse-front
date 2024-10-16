@@ -59,5 +59,4 @@ export default defineNuxtPlugin((nuxtApp) => {
       height: i.height,
     });
   });
-  console.log(listIcons());
 });

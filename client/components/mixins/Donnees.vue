@@ -15,7 +15,7 @@
               />
             </div>
             <div>
-              <h2>Consulter les données sécheresse ?</h2>
+              <h2>En savoir plus sur l'évolution des sécheresses</h2>
               <p class="fr-text--sm">
                 Retrouvez des cartes et historiques des données sécheresse, ainsi que l’évolution des restrictions dans
                 le temps et sur des territoires sélectionnés.

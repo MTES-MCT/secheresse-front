@@ -72,14 +72,14 @@ watch(() => refDataStore.departements, () => {
 
 <template>
   <div class="fr-grid-row fr-grid-row--gutters">
-    <div class="fr-col-lg-4 fr-col-6">
+    <div class="fr-col-lg-4 fr-col-md-6 fr-col-12">
       <DsfrSelect label="Territoire"
                   v-model="area"
                   @update:modelValue="computeDisabled = false"
                   :options="areaOptions"
                   required />
     </div>
-    <div class="fr-col-lg-4 fr-col-6">
+    <div class="fr-col-lg-4 fr-col-md-6 fr-col-12">
       <DsfrInput
         id="dateCarte"
         v-model="date"

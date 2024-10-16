@@ -3,7 +3,6 @@ import * as maplibregl from 'maplibre-gl';
 import { Ref } from 'vue';
 import { PMTiles, Protocol } from 'pmtiles';
 import api from '../../api';
-import niveauxGravite from '../../dto/niveauGravite';
 import { useRefDataStore } from '../../store/refData';
 
 const props = defineProps<{
@@ -206,7 +205,7 @@ const typeEauTags: Ref<any[]> = ref([{
 }, {
   label: 'Eau superficielle',
   value: 'SUP',
-  text: `d'un cours d'eau, d'une rivière`,
+  text: `des cours d'eau, rivières`,
 }, {
   label: 'Eau souterraine',
   value: 'SOU',
@@ -455,18 +454,7 @@ watch(() => props.area, () => {
                  tag-name="button" />
       </div>
     </div>
-    <div class="fr-grid-row map-legend fr-mb-1w show-sm">
-      <template v-for="legend in niveauxGravite">
-        <DsfrTooltip on-hover
-                     :content="legend.description">
-          <DsfrBadge small
-                     class="fr-mr-1w"
-                     :class="legend.class"
-                     type=""
-                     :label="legend.text" />
-        </DsfrTooltip>
-      </template>
-    </div>
+    <MixinsNiveauGraviteLegende class="map-legend fr-mb-1w show-sm" />
     <div class="map-wrap" :class="{'map-wrap--loading': loading, 'map-wrap--full-actions': !hideTypeEau}">
       <div class="map" ref="mapContainer"></div>
     </div>
@@ -481,18 +469,7 @@ watch(() => props.area, () => {
                  tag-name="button" />
       </div>
     </div>
-    <div class="fr-grid-row map-legend fr-mt-1w hide-sm">
-      <template v-for="legend in niveauxGravite">
-        <DsfrTooltip on-hover
-                     :content="legend.description">
-          <DsfrBadge small
-                     class="fr-mr-1w"
-                     :class="legend.class"
-                     type=""
-                     :label="legend.text" />
-        </DsfrTooltip>
-      </template>
-    </div>
+    <MixinsNiveauGraviteLegende class="map-legend fr-mt-1w hide-sm" />
 
     <div v-if="!hideDownloadBtn"
          data-html2canvas-ignore="true"
@@ -596,10 +573,6 @@ h6 {
     background-color: #e8edff;
     color: var(--grey-50-1000);
   }
-}
-
-.map-legend :deep(.fr-link) {
-  background: none;
 }
 
 @media screen and (max-width: 767px) {

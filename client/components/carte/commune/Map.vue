@@ -475,7 +475,7 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                      :closeable="false"
           />
         </div>
-        <div class="map-pre-actions-card fr-p-1w fr-m-1w">
+        <div class="map-pre-actions-card fr-p-1w fr-m-1w hide-sm">
           <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
           <DsfrTag v-for="tag in mapTags"
                    :label="tag.label"
@@ -484,6 +484,14 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                    @click="flyToLocation(tag.bounds)"
                    tag-name="button" />
         </div>
+      </div>
+      <div class="map-legend fr-grid-row fr-grid-row--middle fr-grid-row--gutters show-sm">
+        <div class="fr-col-3">Zones non concernées par la sécheresse</div>
+        <div class="fr-col-1" v-for="legend of legende">
+          <div :style="{'background-color': legend.color}"
+               class="map-legend-carre"></div>
+        </div>
+        <div class="fr-col-3">Situation extrème</div>
       </div>
       <div class="fr-grid-row fr-grid-row--gutters">
         <div class="fr-col-12" style="position:relative;"
@@ -495,12 +503,24 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
           </div>
         </div>
       </div>
-      <div class="map-legend fr-grid-row fr-grid-row--middle">
-        <div>Zones non concernées par la sécheresse</div>
-        <div v-for="legend of legende"
-             :style="{'background-color': legend.color}"
-             class="map-legend-carre fr-mx-1w"></div>
-        <div>Situation extrème</div>
+      <div class="map-post-actions">
+        <div class="map-post-actions-card fr-p-1w fr-m-1w fr-mt-4w show-sm">
+          <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
+          <DsfrTag v-for="tag in mapTags"
+                   :label="tag.label"
+                   class="fr-m-1w"
+                   small
+                   @click="flyToLocation(tag.bounds)"
+                   tag-name="button" />
+        </div>
+      </div>
+      <div class="map-legend fr-grid-row fr-grid-row--middle fr-grid-row--gutters hide-sm">
+        <div class="fr-col-3">Zones non concernées par la sécheresse</div>
+        <div class="fr-col-1" v-for="legend of legende">
+          <div :style="{'background-color': legend.color}"
+               class="map-legend-carre"></div>
+        </div>
+        <div class="fr-col-3">Situation extrème</div>
       </div>
 
       <div data-html2canvas-ignore="true" class="text-align-right">
@@ -613,10 +633,11 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
   .map {
     width: 100%;
     height: 100%;
+    border-radius: 15px;
   }
 }
 
-.map-pre-actions {
+.map-pre-actions, .map-post-actions {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -657,6 +678,8 @@ h6 {
 
 .map-legend {
   font-weight: bold;
+  text-align: center;
+  max-width: 750px;
 
   &-carre {
     height: 20px;
@@ -664,6 +687,7 @@ h6 {
     border: 1px solid var(--grey-425-625);;
     border-radius: .25rem;
     display: inline-block;
+    pading: auto;
   }
 }
 
@@ -687,11 +711,14 @@ h6 {
       display: initial;
     }
   }
-}
 
-@media screen and (max-width: 991px) {
   .map-legend {
-    margin-top: 2rem;
+    font-size: 0.6rem;
+
+    &-carre {
+      height: 15px;
+      width: 25px;
+    }
   }
 }
 </style>

@@ -40,7 +40,7 @@ const typeEauOptions = [
     value: 'AEP',
   },
   {
-    text: `D'un cours d'eau, d'une rivière`,
+    text: `Des cours d'eau, rivières`,
     value: 'SUP',
   }, {
     text: `Des nappes (puits ou forage)`,

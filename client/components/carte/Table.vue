@@ -155,7 +155,7 @@ watch(() => props, () => {
                    :rows="rowsFiltered"
                    :pagination="true"
                    :key="componentKey"
-                   class="fr-table--layout-fixed fr-table--no-title" />
+                   class="fr-table--sm fr-table--no-title" />
       </div>
 
       <div class="text-align-right fr-mt-1w">
@@ -191,7 +191,6 @@ watch(() => props, () => {
   }
 
   &-body {
-    background: var(--grey-1000-50);
     padding-bottom: 1rem;
   }
 
@@ -212,6 +211,17 @@ watch(() => props, () => {
 
   &-wrapper {
     margin: 0 -0.5rem;
+  }
+}
+
+.fr-table {
+  overflow: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .fr-table > :deep(table) {
+    display: table;
+    table-layout: fixed;
   }
 }
 </style>
