@@ -207,7 +207,7 @@ const tooltipTitle = (tooltipItems: any[]): string => {
 
 const chartLineOptions: ChartOptions = {
   responsive: true,
-  maintainAspectRatio: true,
+  maintainAspectRatio: false,
   scales: {
     x: {
       type: 'time',
@@ -293,7 +293,7 @@ watch(() => refDataStore.departements, () => {
 <template>
   <div ref="screenshotZone">
     <div class="fr-grid-row fr-grid-row--gutters">
-      <div class="fr-col-lg-2 fr-col-6">
+      <div class="fr-col-lg-2 fr-col-md-6 fr-col-12">
         <DsfrInputGroup :error-message="utils.showInputError(v$, 'typeEau')">
           <DsfrSelect label="Type d'eau"
                       v-model="formData.typeEau"
@@ -302,7 +302,7 @@ watch(() => refDataStore.departements, () => {
                       required />
         </DsfrInputGroup>
       </div>
-      <div class="fr-col-lg-2 fr-col-12">
+      <div class="fr-col-lg-2 fr-col-md-6 fr-col-12">
         <DsfrInputGroup :error-message="utils.showInputError(v$, 'area')">
           <DsfrSelect label="Territoire"
                       v-model="formData.area"
@@ -311,7 +311,7 @@ watch(() => refDataStore.departements, () => {
                       required />
         </DsfrInputGroup>
       </div>
-      <div class="fr-col-lg-3 fr-col-6">
+      <div class="fr-col-lg-3 fr-col-md-6 fr-col-12">
         <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateDebut')">
           <DsfrInput
             id="dateDebut"
@@ -327,7 +327,7 @@ watch(() => refDataStore.departements, () => {
           />
         </DsfrInputGroup>
       </div>
-      <div class="fr-col-lg-3 fr-col-6">
+      <div class="fr-col-lg-3 fr-col-md-6 fr-col-12">
         <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateFin')">
           <DsfrInput
             id="dateFin"
@@ -392,5 +392,10 @@ watch(() => refDataStore.departements, () => {
   :deep(.fr-select-group) {
     margin-bottom: 0;
   }
+}
+
+#departement-chart-line {
+  height: 600px;
+  max-height: 600px;
 }
 </style>

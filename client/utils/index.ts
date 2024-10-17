@@ -222,20 +222,35 @@ const index = {
     });
   },
 
-  generatePopupHtml(pmtilesData: any, showRestrictionsBtn: boolean) {
-    const niveauGravite = niveauxGravite.find(n => n.niveauGravite === pmtilesData.niveauGravite);
-    let popupHtml = `
-<div class="map-popup-zone">${pmtilesData.nom}</div>
-<div class="fr-my-1w">
+  generatePopupHtml(pmtilesData: any, showRestrictionsBtn: boolean, address?: Address, geo?: Geo) {
+    const niveauGravite = niveauxGravite.find(n => n.niveauGravite === pmtilesData?.niveauGravite);
+
+    let addressName = '';
+    if (address?.properties?.label) {
+      addressName = `Adresse proche&nbsp: ${address.properties.label}`;
+    } else if (geo?.code) {
+      addressName = `Commune&nbsp: ${geo.nom} (${geo.code})`;
+    }
+    let popupHtml = '';
+
+    if(pmtilesData) {
+      popupHtml += `<div class="fr-mb-1w">
 <p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${niveauGravite.text}</p>
 </div>
-`;
+<div class="map-popup-zone">Zone&nbsp;: ${pmtilesData.nom}</div>`
+    } else {
+      popupHtml += `<div class="fr-mb-1w">
+<p class="fr-badge situation-level-bg-0">Pas de restrictions</p>
+</div>`
+    }
 
-    if (showRestrictionsBtn) {
+    popupHtml += `<div class="fr-my-1w">${addressName}</div>`;
+
+    if (showRestrictionsBtn && pmtilesData) {
       popupHtml += `
 <div>
 <button class="fr-btn btn-map-popup">
-Voir les restrictions
+Je consulte les restrictions
 </button>
 </div>`;
     }

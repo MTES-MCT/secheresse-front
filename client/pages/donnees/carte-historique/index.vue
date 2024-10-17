@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Ref } from 'vue';
-import api from '../../../api';
-import { useRefDataStore } from '../../../store/refData';
 import html2canvas from 'html2canvas';
 
 definePageMeta({
@@ -16,8 +14,6 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, {
   text: 'Données sécheresse',
   to: '/donnees',
 }, { text: 'Carte et historique des restrictions' }]);
-const refDataStore = useRefDataStore();
-await refDataStore.loadRefData();
 const filterData: any = ref(null);
 const filterText: any = ref(null);
 const screenshotZone = ref();
@@ -65,7 +61,7 @@ const downloadMap = (typeEau) => {
           eaux superficielles et souterraines.
         </DsfrAlert>
         <template v-if="filterData">
-          <div style="position: relative;">
+          <div class="fr-mb-12w wrap-map">
             <CarteMap :embedded="false"
                       :light="true"
                       :date="filterData.date"
@@ -90,5 +86,16 @@ const downloadMap = (typeEau) => {
 <style lang="scss">
 .background-blue {
   background-color: var(--blue-france-975-75);
+}
+
+.wrap-map {
+  height: 75vh;
+  position: relative;
+}
+
+@media screen and (max-width: 767px) {
+  .wrap-map {
+    height: 90vh;
+  }
 }
 </style>

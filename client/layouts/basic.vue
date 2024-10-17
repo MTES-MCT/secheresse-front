@@ -60,6 +60,7 @@ onMounted(() => {
   watch(() => route.path, newPath => {
       quickLinks = newPath === '/situation' ? [{
         label: 'Données sécheresse',
+        icon: 'ri-water-percent-line',
         to: '/donnees',
       }, {
         label: 'Effectuer une nouvelle recherche',
@@ -72,6 +73,7 @@ onMounted(() => {
         onclick: utils.openTally,
       }] : [{
         label: 'Données sécheresse',
+        icon: 'ri-water-percent-line',
         to: '/donnees',
       }];
       key.value++;

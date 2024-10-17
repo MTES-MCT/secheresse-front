@@ -2,10 +2,7 @@
 import * as maplibregl from 'maplibre-gl';
 import { Ref } from 'vue';
 import { PMTiles, Protocol } from 'pmtiles';
-import { useAddressStore } from '../../store/address';
-import { storeToRefs } from 'pinia';
 import api from '../../api';
-import niveauxGravite from '../../dto/niveauGravite';
 import { useRefDataStore } from '../../store/refData';
 
 const props = defineProps<{
@@ -13,7 +10,10 @@ const props = defineProps<{
   date: string,
   area: string,
   loading: boolean,
-  light: boolean,
+  hideDownloadBtn: boolean,
+  hideTypeEau: boolean,
+  typeEau: string,
+  profil: string,
 }>();
 
 const emit = defineEmits<{
@@ -37,6 +37,7 @@ const showRestrictionsBtn = ref(true);
 const showError = ref(false);
 const refDataStore = useRefDataStore();
 const depsSelected = ref([]);
+const loading = ref(false);
 
 const initialState = [[-7.075195, 41.211722], [11.403809, 51.248163]];
 
@@ -112,10 +113,23 @@ onMounted(() => {
     addSourceAndLayerZones(PMTILES_URL);
   });
 
-  map.value?.on('click', 'zones-data', (e: any) => {
-    zoneSelected.value = e.features[0].properties.id;
+  map.value?.on('click', 'departements-overlay', async (e: any) => {
+    if (loading.value) {
+      return;
+    }
+    loading.value = true;
+    const features = map.value?.queryRenderedFeatures(e.point, { layers: ['zones-data'] });
+    const coordinates = e.lngLat;
+    const properties = features[0]?.properties;
+    zoneSelected.value = properties ? properties.id : 0;
+
+    const dataAddress = (await api.searchAddressByLatlon(coordinates.lng, coordinates.lat)).data;
+    const dataGeo = (await api.searchGeoByLatlon(coordinates.lng, coordinates.lat)).data;
+
+    const description = utils.generatePopupHtml(properties, showRestrictionsBtn.value, dataAddress.value?.features[0], dataGeo.value[0]);
+    loading.value = false;
+
     updateContourFilter();
-    const description = utils.generatePopupHtml(e.features[0].properties, showRestrictionsBtn.value);
 
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
 
@@ -124,15 +138,20 @@ onMounted(() => {
       return;
     }
     btn.addEventListener('click', async () => {
-      let dataAddress;
-      let dataGeo;
-      dataAddress = (await api.searchAddressByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
-      if (!dataAddress.value?.features[0]) {
-        dataGeo = (await api.searchGeoByLatlon(e.lngLat.lng, e.lngLat.lat)).data;
-      }
-      utils.searchZones(!dataGeo?.value ? dataAddress.value.features[0] : null,
-        dataGeo?.value ? dataGeo.value[0] : null,
-        profile.value,
+      // On modifie l'objet adresse car au clic sur la carte on veut vraiment le lon / lat exact
+      const address = {
+        geometry: {
+          coordinates: [coordinates.lng, coordinates.lat],
+        },
+        properties: {
+          citycode: dataAddress.value?.features[0]?.properties?.citycode ? dataAddress.value.features[0].properties.citycode :
+            dataGeo.value[0]?.code ? dataGeo.value[0].code : null,
+          label: `${dataGeo.value[0]?.nom}, ${dataGeo.value[0]?.codeDepartement}`,
+        },
+      };
+      utils.searchZones(address,
+        null,
+        props.profil,
         selectedTypeEau.value,
         router,
         modalTitle,
@@ -182,18 +201,23 @@ const typeEauTags: Ref<any[]> = ref([{
   label: 'Eau potable',
   value: 'AEP',
   disabled: false,
+  text: 'du robinet',
 }, {
   label: 'Eau superficielle',
   value: 'SUP',
+  text: `des cours d'eau, rivières`,
 }, {
   label: 'Eau souterraine',
   value: 'SOU',
+  text: `des nappes (puits ou forage)`,
 }]);
-const selectedTypeEau: Ref<string> = ref('AEP');
-const adressStore = useAddressStore();
-const { profile } = storeToRefs(adressStore);
+const selectedTypeEau: Ref<string> = ref(props.typeEau ? props.typeEau : 'AEP');
 const router = useRouter();
 const expandedId = ref<string>();
+
+const getTypeEauText = computed(() => {
+  return typeEauTags.value.find(t => t.value === selectedTypeEau.value).text;
+});
 
 const flyToLocation = (bounds: any) => {
   map.value?.fitBounds(bounds);
@@ -221,6 +245,9 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
   }
   if (map.value?.getLayer('departements-data')) {
     map.value?.removeLayer('departements-data');
+  }
+  if (map.value?.getLayer('departements-overlay')) {
+    map.value?.removeLayer('departements-overlay');
   }
   if (map.value?.getLayer('zones-contour')) {
     map.value?.removeLayer('zones-contour');
@@ -277,6 +304,16 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
   }, firstSymbolId);
 
   map.value?.addLayer({
+    id: 'departements-overlay',
+    type: 'fill',
+    source: 'decoupage-administratif',
+    'source-layer': 'departements',
+    paint: {
+      'fill-color': 'rgba(0, 0, 0, 0)',
+    },
+  }, firstSymbolId);
+
+  map.value?.addLayer({
     id: 'departements-contour',
     type: 'line',
     source: 'decoupage-administratif',
@@ -312,6 +349,11 @@ const resetZoneSelected = () => {
 async function downloadMap() {
   emit('downloadMap', selectedTypeEau.value);
 }
+
+watch(() => props.typeEau, () => {
+  selectedTypeEau.value = props.typeEau;
+  updateLayerFilter();
+});
 
 watch(() => selectedTypeEau.value, () => {
   resetZoneSelected();
@@ -378,7 +420,7 @@ watch(() => props.area, () => {
 </script>
 
 <template>
-  <div v-if="isMapSupported">
+  <div class="full-width full-height" v-if="isMapSupported">
     <div class="map-pre-actions" data-html2canvas-ignore="true">
       <div v-if="showError"
            class="map-pre-actions-card fr-p-1w fr-m-1w">
@@ -387,7 +429,8 @@ watch(() => props.area, () => {
                    :closeable="false"
         />
       </div>
-      <div class="map-pre-actions-card fr-p-1w fr-m-1w">
+      <div v-if="!hideTypeEau"
+           class="map-pre-actions-card fr-p-1w fr-m-1w">
         <h6 class="fr-mb-1w fr-mr-2w">Situation par ressource :</h6>
         <DsfrRadioButton v-for="option of typeEauTags"
                          :modelValue="selectedTypeEau"
@@ -397,7 +440,11 @@ watch(() => props.area, () => {
                          @update:modelValue="selectedTypeEau = $event; updateLayerFilter();"
         />
       </div>
-      <div class="map-pre-actions-card fr-p-1w fr-m-1w">
+      <div v-else
+           class="map-pre-actions-card map-pre-actions-card--short fr-p-1w fr-m-1w">
+        <h6 class="fr-mb-0">Situation pour l'eau {{ getTypeEauText }}</h6>
+      </div>
+      <div class="map-pre-actions-card fr-p-1w fr-m-1w hide-sm">
         <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
         <DsfrTag v-for="tag in mapTags"
                  :label="tag.label"
@@ -407,60 +454,26 @@ watch(() => props.area, () => {
                  tag-name="button" />
       </div>
     </div>
-    <div class="fr-grid-row fr-grid-row--gutters">
-      <div :class="light ? 'fr-col-12' : 'fr-col-12 fr-col-lg-9'" style="position:relative;"
-           :style="embedded ? 'height: calc(100vh - 125px)' : 'height: 75vh'">
-        <div :class="{
-          'map-wrap__light': light,
-          'map-wrap-embedded': embedded
-        }" class="map-wrap">
-          <div class="map" ref="mapContainer"></div>
-        </div>
-      </div>
-      <div v-if="!light" class="map-legend fr-col-12 fr-col-lg-3">
-        <h3>Niveau de restriction affiché sur la carte</h3>
-        <DsfrAccordionsGroup>
-          <li v-for="legend in niveauxGravite">
-            <DsfrAccordion
-              :expanded-id="expandedId"
-              @expand="expandedId = $event">
-              <template v-slot:title>
-                <DsfrBadge small
-                           class="fr-mr-1w"
-                           :class="legend.class"
-                           type=""
-                           :label="legend.text" />
-              </template>
-              {{ legend.description }}
-            </DsfrAccordion>
-          </li>
-        </DsfrAccordionsGroup>
+    <MixinsNiveauGraviteLegende class="map-legend fr-mb-1w show-sm" />
+    <div class="map-wrap" :class="{'map-wrap--loading': loading, 'map-wrap--full-actions': !hideTypeEau}">
+      <div class="map" ref="mapContainer"></div>
+    </div>
+    <div class="map-post-actions show-sm" data-html2canvas-ignore="true">
+      <div class="map-post-actions-card fr-p-1w fr-m-1w">
+        <h6 class="fr-mb-1w fr-mr-2w">Raccourcis :</h6>
+        <DsfrTag v-for="tag in mapTags"
+                 :label="tag.label"
+                 class="fr-m-1w"
+                 small
+                 @click="flyToLocation(tag.bounds)"
+                 tag-name="button" />
       </div>
     </div>
-    <div v-if="light" class="fr-grid-row map-legend">
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-0 fr-mr-1w"
-                 label="pas de restrictions" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-1 fr-mr-1w"
-                 label="vigilance" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-2 fr-mr-1w"
-                 label="alerte" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-3 fr-mr-1w"
-                 label="alerte renforcée" />
-      <DsfrBadge small
-                 no-icon
-                 class="situation-level-bg-4"
-                 label="crise" />
-    </div>
+    <MixinsNiveauGraviteLegende class="map-legend fr-mt-1w hide-sm" />
 
-    <div data-html2canvas-ignore="true" class="text-align-right">
+    <div v-if="!hideDownloadBtn"
+         data-html2canvas-ignore="true"
+         class="text-align-right">
       <DsfrButton @click="downloadMap()">
         Télécharger la carte en .png
       </DsfrButton>
@@ -483,32 +496,31 @@ watch(() => props.area, () => {
   </DsfrModal>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .map-wrap {
-  position: absolute;
-  width: calc(100vw + 32px);
-  max-width: calc(100% + 32px);
-  height: calc(75vh - 3rem);
-  left: -32px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  left: 0;
 
   &-embedded {
+    width: calc(100vw + 32px);
+    left: -32px;
     height: calc(100vh - 125px - 12px);
-  }
-
-  &.map-wrap__light {
-    position: relative;
-    width: 100%;
-    height: calc(75vh - 2rem);
-    left: 0;
   }
 
   .map {
     width: 100%;
     height: 100%;
+    border-radius: 15px;
+  }
+
+  &--loading :deep(.maplibregl-canvas-container.maplibregl-interactive) {
+    cursor: wait;
   }
 }
 
-.map-pre-actions {
+.map-pre-actions, .map-post-actions {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -519,6 +531,10 @@ watch(() => props.area, () => {
     font-size: 14px;
     border-radius: 4px;
     opacity: 0.9;
+
+    &--short {
+      max-width: 180px;
+    }
   }
 
   .fr-tag {
@@ -530,11 +546,11 @@ h6 {
   font-size: 16px;
 }
 
-.maplibregl-map {
+:deep(.maplibregl-map) {
   font-family: inherit;
 }
 
-.maplibregl-popup-content {
+:deep(.maplibregl-popup-content) {
   border-radius: 4px;
   padding: 1rem;
   text-align: center;
@@ -547,7 +563,7 @@ h6 {
   }
 }
 
-.map-legend, .maplibregl-popup-content {
+.map-legend, :deep(.maplibregl-popup-content) {
   .situation-level-bg-1 {
     background-color: #FFEDA0;
     color: var(--grey-50-1000);
@@ -561,7 +577,11 @@ h6 {
 
 @media screen and (max-width: 767px) {
   .map-wrap {
-    height: 75vh;
+    height: calc(100% - 230px);
+
+    &--full-actions {
+      height: calc(100% - 300px);
+    }
 
     &-embedded {
       height: calc(100vh - 160px);
@@ -578,12 +598,10 @@ h6 {
     .fr-tag {
       display: initial;
     }
-  }
-}
 
-@media screen and (max-width: 991px) {
-  .map-legend {
-    margin-top: 2rem;
+    .map-pre-actions-card--short {
+      max-width: initial;
+    }
   }
 }
 </style>

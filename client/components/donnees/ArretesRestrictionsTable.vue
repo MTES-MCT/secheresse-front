@@ -92,8 +92,8 @@ watch(() => props, () => {
                  :headers="headers"
                  :rows="rows"
                  :pagination="true"
-                 :key="componentKey"
-                 class="fr-table--layout-fixed" />
+                 class="fr-table--sm"
+                 :key="componentKey" />
 
       <div class="text-align-right fr-mt-1w">
         <DsfrButton @click="downloadCsv()">
@@ -108,3 +108,9 @@ watch(() => props, () => {
     </template>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.fr-table {
+  overflow: auto;
+}
+</style>

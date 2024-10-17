@@ -61,7 +61,7 @@ watch(() => [props.typeEau, props.dataArea], () => {
              :rows="rows"
              :pagination="true"
              :key="componentKey"
-             class="fr-table--layout-fixed fr-table--no-title" />
+             class="fr-table--sm fr-table--no-title" />
 
   <div class="text-align-right fr-mt-1w">
     <DsfrButton @click="downloadCsv()">
@@ -69,3 +69,16 @@ watch(() => [props.typeEau, props.dataArea], () => {
     </DsfrButton>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.fr-table {
+  overflow: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .fr-table > :deep(table) {
+    display: table;
+    table-layout: fixed;
+  }
+}
+</style>

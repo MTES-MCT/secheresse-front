@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import faq from '../../data/faq.json'
-import { Ref } from "vue";
 
-const expandedIndex: Ref<string | null> = ref(null);
 const email = useRuntimeConfig().public.email;
-const onAccordionClick = (index: string) => {
-  expandedIndex.value = index !== expandedIndex.value ? index : null;
-}
+const activeAccordion = ref<number>();
 </script>
 
 <template>
@@ -15,14 +11,12 @@ const onAccordionClick = (index: string) => {
       <h2>Les questions fréquemment posées</h2>
     </div>
     <div class="section-title">
-      <DsfrAccordionsGroup>
+      <DsfrAccordionsGroup v-model="activeAccordion">
         <template v-for="(category, x) in faq.categories">
           <h3 class="fr-mt-4w h6">{{ category.name }}</h3>
           <template v-for="(item, y) in category.data">
             <DsfrAccordion :title="item.question"
-                           :expanded-id="expandedIndex"
                            titleTag="h4"
-                           @expand="onAccordionClick(x.toString() + y.toString())"
                            :id="x.toString() + y.toString()">
               <div v-html="item.response"></div>
             </DsfrAccordion>

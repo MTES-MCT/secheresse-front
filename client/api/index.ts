@@ -169,6 +169,14 @@ const index = {
       },
     });
   },
+
+  getZonesByDepartement(depCode: string): Promise<any> {
+    const runtimeConfig = useRuntimeConfig();
+    return useFetch(`zones/departement/${depCode}`, {
+      method: 'GET',
+      baseURL: runtimeConfig.public.apiSecheresseUrl,
+    });
+  },
 };
 
 const _formatAddresses = (response: string): Address[] => {

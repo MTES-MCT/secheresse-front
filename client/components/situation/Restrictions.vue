@@ -2,7 +2,7 @@
 import { Ref } from 'vue';
 import { Zone } from '../../dto/zone.dto';
 import { Usage } from '~/client/dto/usage.dto';
-import faq from '~/client/data/faq.json';
+import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
   usages: Usage[],
@@ -59,21 +59,11 @@ const thematiqueTagsFiltered = computed<TagProps[]>(() => {
   return thematiqueTags.value.filter(t => props.usages.findIndex(u => u.thematique === t.label) >= 0);
 });
 
-const usagesFiltered = (): Usage[] => {
-  return props.usages.filter(u => u.thematique === thematiqueTagsFiltered.value[selectedTagIndex.value].label);
+const usagesFiltered = (thematique: string): Usage[] => {
+  return props.usages.filter(u => u.thematique === thematique.label);
 };
 
-const usagesFilteredAccordion = (): Usage[] => {
-  if (!expandedIndex.value) {
-    return [];
-  }
-  return props.usages.filter(u => u.thematique === thematiqueTagsFiltered.value[Number(expandedIndex.value)].label);
-};
-
-const expandedIndex: Ref<string | null> = ref(null);
-const onAccordionClick = (index: string) => {
-  expandedIndex.value = index !== expandedIndex.value ? index : null;
-};
+const activeAccordion = ref<number>();
 
 watch(() => props.profile, () => {
   selectedTagIndex.value = 0;
@@ -86,19 +76,19 @@ watch(() => props.profile, () => {
     <div v-if="thematiqueTagsFiltered.length > 0" class="fr-col-12 text-align-center fr-mb-2w">
       Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€
     </div>
-    <DsfrAccordionsGroup class="full-width show-sm">
+    <DsfrAccordionsGroup v-model="activeAccordion" class="full-width show-sm">
       <template v-for="(thematique, index) in thematiqueTagsFiltered">
         <DsfrAccordion :title="thematique.label"
-                       :expanded-id="expandedIndex"
                        titleTag="h4"
-                       @expand="onAccordionClick(index.toString())"
                        :id="index.toString()">
-          <template v-if="usagesFilteredAccordion().length > 0">
-            <div v-for="usage in usagesFilteredAccordion()"
-                 class="fr-col-12 fr-col-md-4">
-              <SituationRestrictionCard :usage="usage"
-                                        :thematique="thematique"
-                                        :departement="zone.departement" />
+          <template v-if="usagesFiltered(thematique).length > 0">
+            <div class="fr-grid-row fr-grid-row--gutters">
+              <div v-for="usage in usagesFiltered(thematique)"
+                   class="fr-col-12">
+                <SituationRestrictionCard :usage="usage"
+                                          :thematique="thematique"
+                                          :departement="zone.departement" />
+              </div>
             </div>
           </template>
           <template v-else>
@@ -116,20 +106,23 @@ watch(() => props.profile, () => {
     <div class="hide-sm fr-col-12 fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
       <div class="text-align-center fr-mb-2w">
         <DsfrTag v-for="(thematique, index) in thematiqueTagsFiltered"
-                 :label="thematique.label"
                  class="fr-m-1w no-checkmark tag-lg"
                  :aria-pressed="selectedTagIndex === index"
                  @click="selectedTagIndex = index"
-                 :icon="thematique.icon"
-                 tag-name="button" />
+                 tag-name="button">
+          <Icon :icon="'vigieau:' + thematique.icon" class="fr-mr-1w" />
+          {{ thematique.label }}
+        </DsfrTag>
       </div>
       <div class="restriction full-width">
-        <DsfrTabs class="tabs-light">
+        <DsfrTabs class="tabs-light"
+                  v-model="selectedTagIndex">
           <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
-                          :selected="selectedTagIndex === index">
+                          :panel-id="'tab-content-' + index"
+                          :tab-id="'tab-' + index">
             <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-pb-2w">
-              <template v-if="usagesFiltered().length > 0">
-                <div v-for="usage in usagesFiltered()"
+              <template v-if="usagesFiltered(thematique).length > 0">
+                <div v-for="usage in usagesFiltered(thematique)"
                      class="fr-col-12 fr-col-md-4">
                   <SituationRestrictionCard :usage="usage"
                                             :thematique="thematique"

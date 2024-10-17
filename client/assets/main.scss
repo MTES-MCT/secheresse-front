@@ -32,6 +32,10 @@ fieldset {
   width: 100%;
 }
 
+.full-height {
+  height: 100%;
+}
+
 .text-align-center {
   text-align: center;
 }
@@ -70,6 +74,10 @@ fieldset {
   &__desc {
     font-size: 0.9rem;
   }
+}
+
+.iconify {
+  fill: currentColor;
 }
 
 .situation-level-bg {

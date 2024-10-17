@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { Icon } from '@iconify/vue';
+
 const props = defineProps<{
   geste: { title: string, description: string, home: boolean, large: boolean, icon: string }
-}>()
+}>();
 </script>
 
 <template>
@@ -10,8 +12,8 @@ const props = defineProps<{
       <div class="h6 eau-card__title fr-my-2w">
         <div class="fr-grid-row">
           <div v-if="geste.icon" class="fr-col-3" :style="'max-width: 60px'">
-            <VIcon :name="geste.icon"
-                   scale="3"/>
+            <Icon :icon="'vigieau:' + geste.icon"
+                  :style="{ fontSize: '3.6rem' }" />
           </div>
           <div :class="geste.icon ? 'fr-col-9' : 'fr-col-12'">
             {{ geste.title }}

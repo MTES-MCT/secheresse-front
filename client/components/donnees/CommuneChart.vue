@@ -143,7 +143,7 @@ async function downloadGraph() {
     <template v-if="!showError && communeStats">
       <div ref="screenshotZone">
         <div class="fr-grid-row fr-grid-row--gutters fr-mb-2w">
-          <div class="fr-col-lg-3 fr-col-6">
+          <div class="fr-col-lg-3 fr-col-md-6 fr-col-12">
             <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateDebut')">
               <DsfrInput
                 id="dateDebut"
@@ -159,7 +159,7 @@ async function downloadGraph() {
               />
             </DsfrInputGroup>
           </div>
-          <div class="fr-col-lg-3 fr-col-6">
+          <div class="fr-col-lg-3 fr-col-md-6 fr-col-12">
             <DsfrInputGroup :error-message="utils.showInputError(v$, 'dateFin')">
               <DsfrInput
                 id="dateFin"
@@ -182,8 +182,10 @@ async function downloadGraph() {
             </DsfrButton>
           </div>
         </div>
+        <MixinsNiveauGraviteLegende class="show-sm fr-mb-1w" />
         <h6 class="fr-mb-1w">Tout type d'eau</h6>
-        <p class="fr-text--sm"> Niveau de gravité maximal observé parmi les niveaux de gravité relatifs aux eaux superficielles, souterraines et l'eau potable</p>
+        <p class="fr-text--sm"> Niveau de gravité maximal observé parmi les niveaux de gravité relatifs aux eaux
+          superficielles, souterraines et l'eau potable</p>
         <DonneesCommuneBarChart :restrictions="restrictionsFiltered"
                                 :communeNom="communeStats.commune.nom" />
         <div v-for="typeEau of typesEauOptions">
@@ -199,28 +201,7 @@ async function downloadGraph() {
                                   :restrictions="restrictionsFiltered"
                                   :communeNom="communeStats.commune.nom" />
         </div>
-        <div class="fr-grid-row">
-          <DsfrBadge small
-                     no-icon
-                     class="situation-level-bg-0 fr-mr-1w fr-mt-1w"
-                     label="pas de restrictions" />
-          <DsfrBadge small
-                     no-icon
-                     class="situation-level-bg-1 fr-mr-1w fr-mt-1w"
-                     label="vigilance" />
-          <DsfrBadge small
-                     no-icon
-                     class="situation-level-bg-2 fr-mr-1w fr-mt-1w"
-                     label="alerte" />
-          <DsfrBadge small
-                     no-icon
-                     class="situation-level-bg-3 fr-mr-1w fr-mt-1w"
-                     label="alerte renforcée" />
-          <DsfrBadge small
-                     no-icon
-                     class="situation-level-bg-4 fr-mt-1w"
-                     label="crise" />
-        </div>
+        <MixinsNiveauGraviteLegende class="fr-mt-1w hide-sm" />
       </div>
 
       <div class="text-align-right fr-mt-1w">
@@ -259,14 +240,5 @@ async function downloadGraph() {
 
 .fr-grid-row {
   align-items: end;
-}
-
-.situation-level-bg-0 {
-  color: var(--grey-0-1000);
-}
-
-.situation-level-bg-1 {
-  background-color: #FFEDA0;
-  color: var(--grey-0-1000);
 }
 </style>
