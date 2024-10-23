@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ChartOptions } from "chart.js";
 import { Line } from "vue-chartjs";
+import moment from 'moment';
 
 const props = defineProps<{
   stats: any
@@ -25,19 +26,7 @@ const chartLineData = {
 };
 
 const tooltipTitle = (tooltipItems: any[]): string => {
-  const date = new Date(tooltipItems[0].parsed.x);
-  const year: string | number = date.getFullYear();
-  let month: string | number = date.getMonth() + 1;
-  let dt: string | number = date.getDate();
-
-  if (dt < 10) {
-    dt = '0' + dt;
-  }
-  if (month < 10) {
-    month = '0' + month;
-  }
-
-  return `${dt}/${month}/${year}`;
+  return moment(tooltipItems[0].parsed.x).format('DD/MM/YYYY');
 };
 
 const chartLineOptions: ChartOptions = {
