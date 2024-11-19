@@ -222,8 +222,7 @@ const index = {
     });
   },
 
-  generatePopupHtml(pmtilesData: any, showRestrictionsBtn: boolean, address?: Address, geo?: Geo) {
-    const niveauGravite = niveauxGravite.find(n => n.niveauGravite === pmtilesData?.niveauGravite);
+  generatePopupHtml(pmtilesData: any[], showRestrictionsBtn: boolean, address?: Address, geo?: Geo) {
 
     let addressName = '';
     if (address?.properties?.label) {
@@ -233,11 +232,17 @@ const index = {
     }
     let popupHtml = '';
 
-    if(pmtilesData) {
-      popupHtml += `<div class="fr-mb-1w">
-<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${niveauGravite.text}</p>
+    if(pmtilesData && pmtilesData.length > 0) {
+      pmtilesData.forEach((p, index) => {
+        const niveauGravite = niveauxGravite.find(n => n.niveauGravite === p.niveauGravite);
+        if(index > 0) {
+          popupHtml += '<div class="divider fr-my-1w"></div>'
+        }
+        popupHtml += `<div class="fr-mb-1w">
+<p class="fr-badge situation-level-bg-${this.getRestrictionRank(p.niveauGravite)}">${niveauGravite.text}</p>
 </div>
-<div class="map-popup-zone">Zone&nbsp;: ${pmtilesData.nom}</div>`
+<div class="map-popup-zone">Zone&nbsp;: ${p.nom}</div>`
+      });
     } else {
       popupHtml += `<div class="fr-mb-1w">
 <p class="fr-badge situation-level-bg-0">Pas de restrictions</p>

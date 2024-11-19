@@ -14,7 +14,6 @@ const props = defineProps<{
 
 const addressStore = useAddressStore();
 const { isParticulier } = addressStore;
-const modalOpened: Ref<boolean> = ref(false);
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
   return showRank ? utils.getSituationBadgeLabel(rank) : utils.getShortSituationLabel(rank);

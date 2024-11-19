@@ -3,6 +3,8 @@ import { Ref } from 'vue';
 import { Zone } from '../../dto/zone.dto';
 import { Usage } from '~/client/dto/usage.dto';
 import { Icon } from '@iconify/vue';
+import moment from 'moment';
+import { useAddressStore } from '../../store/address';
 
 const props = defineProps<{
   usages: Usage[],
@@ -11,6 +13,8 @@ const props = defineProps<{
 }>();
 
 const selectedTagIndex: Ref<number> = ref(0);
+const addressStore = useAddressStore();
+const { address, geo } = addressStore;
 const thematiqueTags: Ref<TagProps[]> = ref([{
   label: 'Arroser',
   icon: 'eau-goutte-arrosoir-interdiction',
@@ -61,6 +65,18 @@ const thematiqueTagsFiltered = computed<TagProps[]>(() => {
 
 const usagesFiltered = (thematique: string): Usage[] => {
   return props.usages.filter(u => u.thematique === thematique.label);
+};
+
+const formatDate = (date: string) => {
+  return moment(date).format('DD/MM/YYYY');
+};
+
+const getCommuneCode = () => {
+  if (address) {
+    return address.properties.citycode;
+  } else if (geo) {
+    return geo.code;
+  }
 };
 
 const activeAccordion = ref<number>();
@@ -158,18 +174,28 @@ watch(() => props.profile, () => {
       <div class="fr-my-2w">
         <DsfrCallout>
           <b>Besoin de précision sur les restrictions ?</b><br />
-          <b>La zone d’alerte concernée par votre est adresse est {{ zone.nom }}</b><br />
-          Merci de consulter <a class="fr-link"
-                                :href="zone.arrete.cheminFichier"
-                                onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
-                                target="_blank"
-                                rel="noopener">
-          l'arrêté de restriction</a> et de consulter <a class="fr-link"
-                                                         :href="zone.arrete.cheminFichierArreteCadre"
-                                                         onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
-                                                         target="_blank"
-                                                         rel="noopener">
-          l'arrêté cadre préfectoral</a>.
+          Arrêté en vigueur depuis le {{ formatDate(zone.arrete.dateDebutValidite) }}. Cette décision a été prise
+          car l'eau sur votre territoire au niveau de la zone {{ zone.nom }} a atteint un seuil critique.<br />
+          Pour plus d'informations, merci de consulter l'<a class="fr-link"
+                                                            :href="zone.arrete.cheminFichier"
+                                                            onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
+                                                            target="_blank"
+                                                            rel="noopener">
+          arrêté de restriction</a> et l'<a class="fr-link"
+                                            :href="zone.arrete.cheminFichierArreteCadre"
+                                            onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                            target="_blank"
+                                            rel="noopener">
+          arrêté cadre préfectoral</a>.
+          <template v-if="getCommuneCode()">
+            <br /><br />
+            Voir l'évolution de la sécheresse dans
+            <router-link :to="'/donnees/commune/' + getCommuneCode()"
+                         title="Je consulte les données de ma commune">
+              votre commune
+            </router-link>
+            .
+          </template>
           <br /><br />
           Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
         </DsfrCallout>
