@@ -2,6 +2,7 @@
 import api from '../../api';
 import utils from '../../utils';
 import { json2csv } from 'json-2-csv';
+import moment from 'moment/moment';
 
 const props = defineProps<{
   date: string,
@@ -22,16 +23,24 @@ async function loadData() {
   const { data, error } = await api.getArretesRestrictions(props.date, props.area);
   ars.value = data.value;
   data.value?.forEach((d: any) => {
-    rows.value.push([d.numero, d.departement?.nom, utils.getShortSituationLabel(utils.getRestrictionRank(d.niveauGraviteMax)),
-      d.types.map(t => utils.getTypeLabel(t)).join(', '), d.dateDebut, d.dateFin ? d.dateFin : '', d.fichier ? {
+    rows.value.push([
+      d.numero,
+      d.departement?.nom,
+      utils.getShortSituationLabel(utils.getRestrictionRank(d.niveauGraviteMax)),
+      d.types.map((t: string) => utils.getTypeLabel(t)).join(', '),
+      moment(d.dateDebut).format('DD/MM/YYYY'),
+      d.dateFin ? moment(d.dateFin).format('DD/MM/YYYY') : '',
+      d.fichier ? {
         component: 'a',
         text: `Ouvrir l'arrêté`,
+        title: `Ouvrir l'arrêté (nouvelle fenêtre)`,
         class: 'fr-link',
         href: d.fichier.url,
         target: '_blank',
-      } : '']);
+      } : '',
+    ]);
   });
-  componentKey.value ++;
+  componentKey.value++;
   loading.value = false;
 }
 

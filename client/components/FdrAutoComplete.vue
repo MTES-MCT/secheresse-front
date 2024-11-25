@@ -57,11 +57,7 @@ function convertRemToPixels(rem) {
 function selectOption(option) {
   optionSelected.value = option;
   emit('update:modelValue', option);
-  if (inputSearchBar.value && inputSearchBar.value.$el.children[1]) {
-    nextTick(() => {
-      inputSearchBar.value.$el.children[1].focus();
-    });
-  }
+  inputSearchBar.value?.focus();
 }
 
 const displayAtTheTop = ref(false);
@@ -122,19 +118,18 @@ function checkKeyboardNav($event) {
     $event.preventDefault();
   }
   if ($event.key === 'Enter') {
-    selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0]);
+    selectOption(props.options[activeOption.value >= 0 ? activeOption.value : 0]);
     hasFocus.value = false;
   } else if ($event.key === 'ArrowUp') {
     moveToPreviousOption();
   } else if ($event.key === 'ArrowDown') {
     moveToNextOption();
   } else if ($event.key === 'search') {
-    if (!!props.options.length) {
-      selectOption(props.options[activeOption.value > 0 ? activeOption.value : 0]);
+    if (props.options.length) {
+      selectOption(props.options[activeOption.value >= 0 ? activeOption.value : 0]);
     } else if (optionSelected.value) {
       emit('update:modelValue', optionSelected.value);
     }
-    hasFocus.value = false;
   }
 }
 
@@ -150,50 +145,68 @@ function displayOption(option) {
   return toDisplay;
 }
 
+defineExpose({
+  focusInput: () => inputSearchBar.value.focus(),
+});
+
 </script>
 
 <template>
   <div ref="container"
        class="relative search-autocomplete">
-    <DsfrSearchBar :model-value="modelValue"
-                   :placeholder="placeholder"
-                   :label="label"
-                   v-bind="$attrs"
-                   :required="required"
-                   :large="!light"
-                   :disabled="disabled"
-                   buttonText="Rechercher"
-                   @update:model-value="$emit('update:modelValue', $event)"
-                   ref="inputSearchBar"
-                   @focus="hasFocus = true"
-                   @blur="looseFocus()"
-                   @keydown="checkKeyboardNav($event)"
-                   @search="checkKeyboardNav({key: 'search'})" />
-    <div v-if="displayOptions"
-         class="sr-only"
-         aria-live="polite"
-         aria-atomic="true">
-      <p>{{ options.length }} options disponibles</p>
+    <div class="fr-search-bar">
+      <DsfrInput label-visible
+                 :model-value="modelValue"
+                 :hint="placeholder"
+                 :label="label"
+                 v-bind="$attrs"
+                 :required="required"
+                 :large="!light"
+                 :disabled="disabled"
+                 role="combobox"
+                 aria-autocomplete="list"
+                 aria-expanded="true"
+                 :aria-haspopup="displayOptions"
+                 :autocomplete="hasFocus ? 'off' : 'address-line1'"
+                 buttonText="Rechercher"
+                 @update:model-value="$emit('update:modelValue', $event)"
+                 ref="inputSearchBar"
+                 @focus="hasFocus = true"
+                 @blur="looseFocus()"
+                 @keydown="checkKeyboardNav($event)" />
+      <DsfrButton title="Rechercher"
+                  :disabled="disabled"
+                  :aria-disabled="disabled"
+                  @click="checkKeyboardNav({key: 'search'})">
+        Rechercher
+      </DsfrButton>
+      <div v-show="displayOptions"
+           class="fr-sr-only"
+           aria-live="polite"
+           aria-atomic="true">
+        <p>{{ options.length }} options disponibles</p>
+      </div>
+      <ul v-show="displayOptions"
+          role="listbox"
+          :aria-label="ariaLabelList"
+          ref="optionsList"
+          tabindex="1"
+          class="list-none absolute m-0 right-0 z-1 left-0 bg-white box-shadow max-h-17 scroll pointer"
+          :class="{'at-the-top': displayAtTheTop,}">
+        <li v-for="(option, i) of options"
+            :key="option"
+            role="option"
+            tabindex="0"
+            :aria-selected="optionSelected === option"
+            class="list-item fr-p-1w fr-pl-2w"
+            :class="{ 'active-option': activeOption === i }"
+            @click.stop="selectOption(option)"
+            @keyup.enter="selectOption(option)">
+          {{ displayOption(option) }}
+        </li>
+      </ul>
+
     </div>
-    <ul v-show="displayOptions"
-        role="listbox"
-        :aria-label="ariaLabelList"
-        ref="optionsList"
-        tabindex="1"
-        class="list-none absolute m-0 right-0 z-1 left-0 bg-white box-shadow max-h-17 scroll pointer"
-        :class="{'at-the-top': displayAtTheTop,}">
-      <li v-for="(option, i) of options"
-          :key="option"
-          role="option"
-          tabindex="0"
-          :aria-selected="optionSelected === option"
-          class="list-item fr-p-1w fr-pl-2w"
-          :class="{ 'active-option': activeOption === i }"
-          @click.stop="selectOption(option)"
-          @keyup.enter="selectOption(option)">
-        {{ displayOption(option) }}
-      </li>
-    </ul>
   </div>
 </template>
 
@@ -233,10 +246,35 @@ function displayOption(option) {
     margin-top: 0;
     padding: 0;
     text-align: left;
+    top: 100%;
 
     li {
       cursor: pointer;
     }
+  }
+}
+
+.fr-search-bar {
+  flex-wrap: wrap;
+
+  :deep(.fr-input), .fr-btn {
+    margin-top: .5rem;
+    flex: 1;
+  }
+
+  :deep(.fr-label) {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  /**
+ * Obligé de faire ça car la couleur est codée en dur dans le DSFR
+ * sans prendre en compte que ce champ pouvait être disabled.
+ */
+  .fr-input:disabled {
+    box-shadow: inset 0 -2px 0 0 var(--border-disabled-grey);
+    color: var(--text-disabled-grey);
   }
 }
 </style>

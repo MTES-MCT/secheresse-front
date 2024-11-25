@@ -22,8 +22,12 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Ment
       <h2>Éditeur</h2>
       <p>{{ appName }} est édité par la Fabrique Numérique du Ministère de la Transition écologique et de la
         Cohésion des territoires (Grande Arche de la Défense, 92055 La Défense CEDEX),
-        avec l’appui de <a href="https://beta.gouv.fr/" target="_blank" rel="external">l’incubateur de services
-          numériques beta.gouv.fr</a> de
+        avec l’appui de <a href="https://beta.gouv.fr/"
+                           title="https://beta.gouv.fr/ (nouvelle fenêtre)"
+                           target="_blank"
+                           rel="external">
+          l’incubateur de services numériques beta.gouv.fr
+        </a> de
         la direction interministérielle du numérique (DINUM).</p>
       <h2>Directeur de la publication</h2>
       <ul>
@@ -32,7 +36,6 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Ment
         </li>
         <li>Adresse : Tour Séquoïa 1, place Carpeaux 92055 La Défense Cedex</li>
       </ul>
-      <p></p>
       <h2>Hébergement</h2>
       <p>
         Le site {{ appName }} ({{ domainName }}) est hébergé par la société Scalingo SAS,

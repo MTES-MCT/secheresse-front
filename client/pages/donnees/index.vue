@@ -10,6 +10,7 @@ useHead({
 });
 
 const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données sécheresse' }]);
+const email = useRuntimeConfig().public.email;
 </script>
 
 <template>
@@ -18,8 +19,15 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
     <h1>Données sécheresse</h1>
     <DsfrHighlight class="fr-mb-2w">
       Retrouvez les données brutes sur <a href="https://www.data.gouv.fr/fr/datasets/donnee-secheresse-vigieau/"
-                                          target="_blank" rel="external" class="fr-link">data.gouv</a><br />
-      Si vous avez des besoins spécifiques, envoyez nous un email à contact.vigieau@beta.gouv.fr
+                                          title="Lien vers data.gouv (nouvelle fenêtre)"
+                                          target="_blank"
+                                          rel="external"
+                                          class="fr-link">data.gouv</a><br />
+      Si vous avez des besoins spécifiques, envoyez nous un email à  <a class="fr-link"
+                                                                        :title="`Contactez-nous sur ${email}`"
+                                                                        :href="`mailto:${email}`">
+      {{ email }}
+    </a>
     </DsfrHighlight>
   </div>
   <div class="background-blue fr-py-2w">
@@ -29,7 +37,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           <DsfrCard
             img-src="/donnee_carte_historique.png"
             link="/donnees/carte-historique"
-            alt-img="Image d'illustration de la carte"
+            alt-img=""
             title="Carte et historique des restrictions"
           >
           </DsfrCard>
@@ -38,7 +46,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           <DsfrCard
             img-src="/donnee_graphe_surface.png"
             link="/donnees/surface"
-            alt-img="Image d'illustration du graphique"
+            alt-img=""
             title="Évolution journalière du pourcentage de la surface concernée par des niveaux de gravité"
           >
           </DsfrCard>
@@ -47,7 +55,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           <DsfrCard
             img-src="/donnee_graphe_departement.png"
             link="/donnees/departement"
-            alt-img="Image d'illustration du graphique"
+            alt-img=""
             title="Évolution journalière du nombre de départements soumis à restriction"
           >
           </DsfrCard>
@@ -56,7 +64,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Données s
           <DsfrCard
             img-src="/donnee_carte_commune.png"
             link="/donnees/carte-commune"
-            alt-img="Image d'illustration de la carte"
+            alt-img=""
             title="Intensité des sécheresses passées"
           >
           </DsfrCard>

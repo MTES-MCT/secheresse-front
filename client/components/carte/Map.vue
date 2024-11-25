@@ -564,11 +564,6 @@ h6 {
 }
 
 .map-legend, :deep(.maplibregl-popup-content) {
-  .situation-level-bg-1 {
-    background-color: #FFEDA0;
-    color: var(--grey-50-1000);
-  }
-
   .situation-level-bg-0 {
     background-color: #e8edff;
     color: var(--grey-50-1000);

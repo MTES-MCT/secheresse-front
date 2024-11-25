@@ -89,8 +89,10 @@ watch(() => props.profile, () => {
 <template>
   <div class="fr-container fr-grid-row fr-grid-row--center fr-pt-4w">
     <h2 class="text-align-center">Détails des restrictions</h2>
-    <div v-if="thematiqueTagsFiltered.length > 0" class="fr-col-12 text-align-center fr-mb-2w">
-      Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€
+    <div v-if="thematiqueTagsFiltered.length > 0" class="fr-col-12 text-align-center">
+      <p>
+        Le respect des restrictions est obligatoire sous peine de recevoir une amende de 1500€
+      </p>
     </div>
     <DsfrAccordionsGroup v-model="activeAccordion" class="full-width show-sm">
       <template v-for="(thematique, index) in thematiqueTagsFiltered">
@@ -135,7 +137,8 @@ watch(() => props.profile, () => {
                   v-model="selectedTagIndex">
           <DsfrTabContent v-for="(thematique, index) in thematiqueTagsFiltered"
                           :panel-id="'tab-content-' + index"
-                          :tab-id="'tab-' + index">
+                          :tab-id="'tab-' + index"
+                          role="">
             <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--center fr-pb-2w">
               <template v-if="usagesFiltered(thematique).length > 0">
                 <div v-for="usage in usagesFiltered(thematique)"
@@ -173,31 +176,39 @@ watch(() => props.profile, () => {
     <div class="fr-grid-row fr-grid-row--center">
       <div class="fr-my-2w">
         <DsfrCallout>
-          <b>Besoin de précision sur les restrictions ?</b><br />
-          Arrêté en vigueur depuis le {{ formatDate(zone.arrete.dateDebutValidite) }}. Cette décision a été prise
-          car l'eau sur votre territoire au niveau de la zone {{ zone.nom }} a atteint un seuil critique.<br />
-          Pour plus d'informations, merci de consulter l'<a class="fr-link"
-                                                            :href="zone.arrete.cheminFichier"
-                                                            onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
-                                                            target="_blank"
-                                                            rel="noopener">
-          arrêté de restriction</a> et l'<a class="fr-link"
-                                            :href="zone.arrete.cheminFichierArreteCadre"
-                                            onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
-                                            target="_blank"
-                                            rel="noopener">
-          arrêté cadre préfectoral</a>.
+          <h3 class="h6">Besoin de précision sur les restrictions ?</h3>
+          <p>
+            Arrêté en vigueur depuis le {{ formatDate(zone.arrete.dateDebutValidite) }}. Cette décision a été prise
+            car l'eau sur votre territoire au niveau de la zone {{ zone.nom }} a atteint un seuil critique.
+          </p>
+          <p class="fr-mt-1w">
+            Pour plus d'informations, merci de consulter l'<a class="fr-link"
+                                                              :href="zone.arrete.cheminFichier"
+                                                              onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE', 'PROFIL', 'particulier', 1])"
+                                                              target="_blank"
+                                                              title="Consulter l'arrêté de restriction PDF (nouvelle fenêtre)"
+                                                              rel="noopener">
+            arrêté de restriction</a> et l'<a class="fr-link"
+                                              :href="zone.arrete.cheminFichierArreteCadre"
+                                              onclick="window._paq.push(['trackEvent', 'TELECHARGEMENT ARRETE CADRE', 'PROFIL', 'particulier', 1])"
+                                              target="_blank"
+                                              title="Consulter l'arrêté cadre PDF (nouvelle fenêtre)"
+                                              rel="noopener">
+            arrêté cadre préfectoral</a>.
+          </p>
           <template v-if="getCommuneCode()">
-            <br /><br />
-            Voir l'évolution de la sécheresse dans
-            <router-link :to="'/donnees/commune/' + getCommuneCode()"
-                         title="Je consulte les données de ma commune">
-              votre commune
-            </router-link>
-            .
+            <p class="fr-mt-1w">
+              Voir l'évolution de la sécheresse dans
+              <router-link :to="'/donnees/commune/' + getCommuneCode()"
+                           title="Je consulte les données de ma commune">
+                votre commune
+              </router-link>
+              .
+            </p>
           </template>
-          <br /><br />
-          Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+          <p class="fr-mt-1w">
+            Votre mairie a pu renforcer ces restrictions, pensez à la consulter.
+          </p>
         </DsfrCallout>
       </div>
     </div>

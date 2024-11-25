@@ -127,15 +127,17 @@ watch(() => props, () => {
         <h3 class="fr-mt-2w fr-mb-1w fr-h4">{{ pageTitle }}</h3>
         <div class="fr-grid-row fr-grid-row--center departement-card-wrapper fr-mb-2w">
           <div class="fr-col-lg fr-p-2w fr-m-1w departement-card" v-for="resume of dataResume">
-            <div>
-              <DsfrBadge small
-                         no-icon
-                         :class="classObject(utils.getRestrictionRank(resume.niveauGravite))"
-                         :label="resume.label" />
-            </div>
-            <div class="departement-card__number fr-mt-1w">
-              {{ resume.number }} départements
-            </div>
+            <ul>
+              <li>
+                <DsfrBadge small
+                           no-icon
+                           :class="classObject(utils.getRestrictionRank(resume.niveauGravite))"
+                           :label="resume.label" />
+              </li>
+              <li class="departement-card__number fr-mt-1w">
+                {{ resume.number }} départements
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -148,6 +150,7 @@ watch(() => props, () => {
                        placeholder="Rechercher"
                        large
                        buttonText="Rechercher"
+                       title="Rechercher un département"
                        ref="input"
                        @search="checkKeyboardNav({key: 'search'})" />
         <DsfrTable :title="tableTitle"
@@ -211,6 +214,16 @@ watch(() => props, () => {
 
   &-wrapper {
     margin: 0 -0.5rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    padding: 0;
+    list-style-type: none;
   }
 }
 

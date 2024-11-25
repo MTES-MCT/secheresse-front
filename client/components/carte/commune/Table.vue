@@ -53,7 +53,8 @@ watch(() => [props.dataCommune], () => {
 </script>
 
 <template>
-  <DsfrTable :headers="headers"
+  <DsfrTable title="Intensité des sécheresses passées"
+             :headers="headers"
              :rows="rows"
              :pagination="true"
              :key="componentKey"

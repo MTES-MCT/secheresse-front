@@ -55,7 +55,8 @@ watch(() => [props.dataCommune], () => {
 </script>
 
 <template>
-  <DsfrTable :headers="headers"
+  <DsfrTable title="Évolution journalière du niveau de gravité de la commune"
+             :headers="headers"
              :rows="rows"
              :pagination="true"
              :key="componentKey"

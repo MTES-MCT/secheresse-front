@@ -23,11 +23,6 @@ import niveauxGravite from '../../dto/niveauGravite';
   color: var(--grey-0-1000);
 }
 
-.situation-level-bg-1 {
-  background-color: #FFEDA0;
-  color: var(--grey-0-1000);
-}
-
 :deep(.fr-link) {
   background: none;
 }

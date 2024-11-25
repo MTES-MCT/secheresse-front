@@ -15,7 +15,7 @@ import liens from '../../data/liens.json'
              target="_blank"
              rel="external"
              class="fr-link"
-             :title="lien.title + ' - nouvelle fenêtre'">
+             :title="lien.title + ' (nouvelle fenêtre)'">
             {{ lien.title }}
           </a>
         </li>

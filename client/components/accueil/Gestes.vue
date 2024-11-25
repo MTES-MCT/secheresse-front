@@ -55,7 +55,8 @@ const selectedTagIndex: Ref<number> = ref(0);
       <DsfrTabs class="tabs-light" v-model="selectedTagIndex">
         <DsfrTabContent v-for="(tag, index) in gesteTags"
                         :panel-id="'tab-content-' + index"
-                        :tab-id="'tab-' + index">
+                        :tab-id="'tab-' + index"
+                        role="">
           <div class="fr-grid-row fr-grid-row fr-grid-row--gutters fr-grid-row--center">
             <GestesCard v-for="geste in gestesFiltered(tag)"
                         :geste="geste"

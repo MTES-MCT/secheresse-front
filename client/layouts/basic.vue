@@ -26,19 +26,23 @@ const mandatoryLinks: any[] = [{
 }];
 const ecosystemLinks: any[] = [
   {
-    'label': 'beta.gouv.fr',
-    'href': 'https://beta.gouv.fr',
+    label: 'beta.gouv.fr',
+    href: 'https://beta.gouv.fr',
+    title: 'beta.gouv.fr (nouvelle fenêtre)'
   },
   {
-    'label': 'gouvernement.fr',
-    'href': 'https://gouvernement.fr',
+    label: 'gouvernement.fr',
+    href: 'https://gouvernement.fr',
+    title: 'gouvernement.fr (nouvelle fenêtre)'
   },
   {
-    'label': 'data.gouv.fr',
-    'href': 'https://data.gouv.fr',
+    label: 'data.gouv.fr',
+    href: 'https://data.gouv.fr',
+    title: 'data.gouv.fr (nouvelle fenêtre)'
   },
 ];
 const key = ref(0);
+const skipLink = ref<HTMLElement | null>(null);
 
 const preferences = reactive({
   theme: undefined,
@@ -77,12 +81,16 @@ onMounted(() => {
         to: '/donnees',
       }];
       key.value++;
+      skipLink.value?.focus();
     }, { immediate: true },
   );
 });
 </script>
 
 <template>
+  <!-- Lien d'évitement -->
+  <a href="#main-content" class="skip-link fr-sr-only" ref="skipLink">Passer au contenu principal</a>
+
   <DsfrHeader :logo-text="logoText"
               :operatorImgSrc="operatorImgSrc"
               :operatorImgAlt="operatorImgAlt"
@@ -94,7 +102,7 @@ onMounted(() => {
               :serviceTitle="runTimeConfig.domainName"
               serviceDescription="S'informer sur les restrictions d'eau en période de sécheresse">
   </DsfrHeader>
-  <main role="main">
+  <main role="main" id="main-content">
     <div class="fr-mb-8w">
       <div class="fr-container" v-if="runTimeConfig.appEnv !== 'prod'">
         <DsfrAlert
@@ -117,5 +125,5 @@ onMounted(() => {
   </DsfrFooter>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 </style>
