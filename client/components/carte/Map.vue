@@ -132,6 +132,11 @@ onMounted(() => {
     updateContourFilter();
 
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
+    map.value.flyTo({
+      center: [e.lngLat.lng - (0.5 / map.value.getZoom()), e.lngLat.lat - (0.7 / (map.value.getZoom() + 5))],
+      essential: true,
+      speed: 0.2,
+    });
 
     const btn = document.getElementsByClassName('btn-map-popup')[0];
     if (!btn) {
