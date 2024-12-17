@@ -15,6 +15,7 @@ const links: Ref<any[]> = ref([{ to: '/', text: 'Accueil' }, { text: 'Votre situ
 const zone = ref();
 const zoneModal = ref();
 const modalOpened: Ref<boolean> = ref(false);
+const router = useRouter();
 
 const addressToUse: Ref<any> = ref(adressString());
 
@@ -182,6 +183,7 @@ watch(() => typeEau.value, () => {
   </div>
   <DsfrModal :opened="modalOpened"
              title="Pour consulter les restrictions, veuillez sélectionner la ressource dans laquelle vous prélevez de l’eau."
+             @close="router.push('/')"
              :actions="modalActions">
     <div>
       <p class="fr-mx-1w fr-mb-0">Plusieurs cours d'eau sont référencés à cette adresse.</p>
