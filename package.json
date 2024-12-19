@@ -28,7 +28,7 @@
     "maplibre-gl": "^4.5.2",
     "moment": "^2.30.1",
     "pinia": "^2.2.1",
-    "pmtiles": "^3.0.6",
+    "pmtiles": "^4.0.0",
     "vue-chartjs": "^5.2.0",
     "vue-dsfr-nuxt-module": "^2.0.0",
     "vue-matomo": "^4.2.0"
