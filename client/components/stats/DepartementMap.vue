@@ -60,16 +60,16 @@ onMounted(() => {
     const matchDepartementExpression = ['match', ['get', 'code']];
     Object.keys(props.stats.departementRepartition).forEach((d: any) => {
       const searches = props.stats.departementRepartition[d];
-      const color = ((maxDepartementSearches - searches) / (maxDepartementSearches - minDepartementSearches)) * 230;
-      matchDepartementExpression.push(d, `rgb(${color}, ${color}, 255)`);
+      const color = (searches - minDepartementSearches) / (maxDepartementSearches - minDepartementSearches);
+      matchDepartementExpression.push(d, `rgb(${color * (49 - 255) + 255}, ${color * (49 - 255) + 255}, ${color * (120 - 255) + 255})`);
     });
     matchDepartementExpression.push('rgba(0, 0, 0, 0)');
 
     const matchRegionExpression = ['match', ['get', 'code']];
     Object.keys(props.stats.regionRepartition).forEach((r: any) => {
       const searches = props.stats.regionRepartition[r];
-      const color = ((maxRegionSearches - searches) / (maxRegionSearches - minRegionSearches)) * 230;
-      matchRegionExpression.push(r, `rgb(${color}, ${color}, 255)`);
+      const color = (searches - minRegionSearches) / (maxRegionSearches - minRegionSearches);
+      matchRegionExpression.push(r, `rgb(${color * (49 - 255) + 255}, ${color * (49 - 255) + 255}, ${color * (120 - 255) + 255})`);
     });
     matchRegionExpression.push('rgba(0, 0, 0, 0)');
 
@@ -272,7 +272,7 @@ const updateLayerFilter = () => {
       height: 20px;
       min-width: 200px;
       width: 100%;
-      background: linear-gradient(0.25turn, rgb(230, 230, 255), rgb(0, 0, 255));
+      background: linear-gradient(0.25turn, rgba(255, 255, 255), rgb(49, 49, 120));
     }
 
     &-text {

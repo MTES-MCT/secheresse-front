@@ -158,21 +158,27 @@ const mapTags: Ref<any[]> = ref([{
 const legende = [
   {
     color: `rgba(0, 0, 0, 0)`,
+    description: '0% : zones non concernées par la sécheresse sur la période (le fond de carte est affiché sans couleur)',
   },
   {
     color: `rgb(227, 227, 253)`,
+    description: 'entre 0% et 24% : zones faiblement concernées par la sécheresse (ex : toute la période en vigilance)',
   },
   {
     color: `rgb(168, 168, 209)`,
+    description: 'entre 25% et 49% : zones moyennement concernées (ex : la moitié de la période en alerte)',
   },
   {
     color: `rgb(110, 110, 165)`,
+    description: 'entre 50% et 74% : zones fortement concernées (ex: la moitié de la période en alerte renforcée)',
   },
   {
     color: `rgb(49, 49, 120)`,
+    description: 'entre 75% et 99% : zones très fortement concernées (ex: jusqu\'à la moitié de la période en crise)',
   },
   {
     color: `rgb(0, 0, 0)`,
+    description: '100% : situations extrêmes (ex : plus de la moitié de la période en crise)',
   },
 ];
 
@@ -517,8 +523,12 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
       <div class="map-legend fr-grid-row fr-grid-row--middle fr-grid-row--gutters hide-sm">
         <div class="fr-col-3">Zones non concernées par la sécheresse</div>
         <div class="fr-col-1" v-for="legend of legende">
-          <div :style="{'background-color': legend.color}"
-               class="map-legend-carre"></div>
+          <DsfrTooltip on-hover
+                       :content="legend.description">
+            <div :style="{'background-color': legend.color}"
+                 :title="legend.description"
+                 class="map-legend-carre"></div>
+          </DsfrTooltip>
         </div>
         <div class="fr-col-3">Situation extrème</div>
       </div>
@@ -538,63 +548,72 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
                        @expand="expanded = !expanded"
                        :id="true">
           <div>
-            Les couleurs de la carte traduisent un "score de sur les niveaux de gravité appliqués aux usages de l'eau".
-            Ce score est calculé pour chaque commune en combinant deux facteurs : la durée et le niveau de gravité des
-            épisodes de sécheresse. Pour les territoires concernés par différentes ressources (eaux superficielles,
-            souterraines, eau potable), le niveau de gravité maximale est retenu. La carte représente donc un indice de
-            sécheresse toutes ressources confondues, pour plus de détail, nous vous invitons à cliquer sur une
-            commune.<br /><br />
-            L'intensité des sécheresses est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
-            <ul>
-              <li>Pas de restriction&nbsp;: 0</li>
-              <li>Vigilance&nbsp;: 0,5</li>
-              <li>Alerte&nbsp;: 2</li>
-              <li>Alerte renforcée&nbsp;: 3</li>
-              <li>Crise&nbsp;: 4</li>
-            </ul>
+            <p>
+              Les couleurs de la carte traduisent un "score de sur les niveaux de gravité appliqués aux usages de
+              l'eau". Ce score est calculé pour chaque commune en combinant deux facteurs : la durée et le niveau de
+              gravité des épisodes de sécheresse. Pour les territoires concernés par différentes ressources (eaux
+              superficielles, souterraines, eau potable), le niveau de gravité maximale est retenu. La carte représente
+              donc un indice de sécheresse toutes ressources confondues, pour plus de détail, nous vous invitons à
+              cliquer sur une commune.
+            </p>
+            <p>
+              L'intensité des sécheresses est classée en cinq niveaux, chacun pondéré selon sa sévérité&nbsp;:
+              <ul>
+                <li>Pas de restriction&nbsp;: 0</li>
+                <li>Vigilance&nbsp;: 0,5</li>
+                <li>Alerte&nbsp;: 2</li>
+                <li>Alerte renforcée&nbsp;: 3</li>
+                <li>Crise&nbsp;: 4</li>
+              </ul>
+            </p>
 
-            La durée correspond au nombre de jours pendant lesquels la commune est concernée par un niveau de gravité
-            sécheresse. Pour chaque commune, le score est obtenu en multipliant la pondération par le nombre de jours
-            concerné par chaque niveau de gravité, puis en additionnant ces valeurs. Ce score cumulatif est ensuite
-            comparé à un score maximal théorique (limité à 60 points par mois, soit 15 jours de crise) pour le
-            normaliser sur une échelle de 0 à 100 %. Le score est limité pour éviter des valeurs trop élevées dans les
-            cas extrêmes<br /><br />
+            <p>
+              La durée correspond au nombre de jours pendant lesquels la commune est concernée par un niveau de gravité
+              sécheresse. Pour chaque commune, le score est obtenu en multipliant la pondération par le nombre de jours
+              concerné par chaque niveau de gravité, puis en additionnant ces valeurs. Ce score cumulatif est ensuite
+              comparé à un score maximal théorique (limité à 60 points par mois, soit 15 jours de crise) pour le
+              normaliser sur une échelle de 0 à 100 %. Le score est limité pour éviter des valeurs trop élevées dans les
+              cas extrêmes.
+            </p>
 
-            Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur
-            est foncée, indiquant une gravité et/ou une durée importante des niveaux de gravité sécheresse dans la
-            commune. L'échelle utilisée est la suivante&nbsp;:
+            <p>
+              Les résultats sont ensuite visualisés à l'aide d'un code couleur. Plus le score est élevé, plus la couleur
+              est foncée, indiquant une gravité et/ou une durée importante des niveaux de gravité sécheresse dans la
+              commune. L'échelle utilisée est la suivante&nbsp;:
 
-            <ul>
-              <li>
-                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[0].color}"></div>
-                0%&nbsp;: zones non concernées par la sécheresse sur la période (le fond de carte est affiché sans
-                couleur)
-              </li>
-              <li>
-                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[1].color}"></div>
-                entre 0% et 24%&nbsp;: zones faiblement concernées par la sécheresse (ex : toute la période en
-                vigilance)
-              </li>
-              <li>
-                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[2].color}"></div>
-                entre 25% et 49%&nbsp;: zones moyennement concernées (ex : la moitié de la période en alerte)
-              </li>
-              <li>
-                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[3].color}"></div>
-                entre 50% et 74%&nbsp;: zones fortement concernées (ex: la moitié de la période en alerte renforcée)
-              </li>
-              <li>
-                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[4].color}"></div>
-                entre 75% et 99%&nbsp;: zones très fortement concernées (ex: jusqu'à la moitié de la période en crise)
-              </li>
-              <li>
-                <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[5].color}"></div>
-                100%&nbsp;: situations extrêmes (ex : plus de la moitié de la période en crise)
-              </li>
-            </ul>
-
-            Une même couleur peut ainsi correspondre à des situations très variées. Pour mieux comprendre la situation
-            d'une commune, nous vous invitons à consulter son historique.
+              <ul>
+                <li>
+                  <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[0].color}"></div>
+                  0%&nbsp;: zones non concernées par la sécheresse sur la période (le fond de carte est affiché sans
+                  couleur)
+                </li>
+                <li>
+                  <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[1].color}"></div>
+                  entre 0% et 24%&nbsp;: zones faiblement concernées par la sécheresse (ex : toute la période en
+                  vigilance)
+                </li>
+                <li>
+                  <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[2].color}"></div>
+                  entre 25% et 49%&nbsp;: zones moyennement concernées (ex : la moitié de la période en alerte)
+                </li>
+                <li>
+                  <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[3].color}"></div>
+                  entre 50% et 74%&nbsp;: zones fortement concernées (ex: la moitié de la période en alerte renforcée)
+                </li>
+                <li>
+                  <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[4].color}"></div>
+                  entre 75% et 99%&nbsp;: zones très fortement concernées (ex: jusqu'à la moitié de la période en crise)
+                </li>
+                <li>
+                  <div class="map-legend-carre fr-mr-1w" :style="{'background-color': legende[5].color}"></div>
+                  100%&nbsp;: situations extrêmes (ex : plus de la moitié de la période en crise)
+                </li>
+              </ul>
+            </p>
+            <p>
+              Une même couleur peut ainsi correspondre à des situations très variées. Pour mieux comprendre la situation
+              d'une commune, nous vous invitons à consulter son historique.
+            </p>
           </div>
         </DsfrAccordion>
       </div>
@@ -614,7 +633,7 @@ watch(() => [props.dateBegin, props.dateEnd, props.area], () => {
   </template>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .map-wrap {
   position: relative;
   width: 100%;
@@ -663,7 +682,7 @@ h6 {
   font-family: inherit;
 }
 
-.maplibregl-popup-content {
+:deep(.maplibregl-popup-content) {
   border-radius: 4px;
   padding: 1rem;
   text-align: center;
@@ -688,6 +707,10 @@ h6 {
     border-radius: .25rem;
     display: inline-block;
     pading: auto;
+  }
+
+  :deep(.fr-link) {
+    background: none;
   }
 }
 

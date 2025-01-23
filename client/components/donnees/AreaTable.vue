@@ -57,7 +57,8 @@ watch(() => [props.typeEau, props.dataArea], () => {
 </script>
 
 <template>
-  <DsfrTable :headers="headers"
+  <DsfrTable title="Évolution journalière du pourcentage de la surface concernée par des niveaux de gravité"
+             :headers="headers"
              :rows="rows"
              :pagination="true"
              :key="componentKey"

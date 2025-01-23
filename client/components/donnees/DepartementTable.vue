@@ -70,7 +70,8 @@ watch(() => [props.typeEau, props.dataDepartement], () => {
 </script>
 
 <template>
-  <DsfrTable :headers="headers"
+  <DsfrTable title="Évolution journalière du nombre de départements soumis à restriction"
+             :headers="headers"
              :rows="rows"
              :pagination="true"
              :key="componentKey"

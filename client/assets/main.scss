@@ -1,20 +1,8 @@
-@import "dsfr";
+@use "dsfr";
 
 body {
   height: 100%;
   overflow-x: hidden;
-}
-
-.sr-only{
-  border: 0 !important;
-  clip: rect(1px,1px,1px,1px) !important;
-  clip-path: inset(50%) !important;
-  height: 1px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important;
-  white-space: nowrap !important;
 }
 
 fieldset {
@@ -69,6 +57,8 @@ fieldset {
   &__title {
     color: var(--blue-france-sun-113-625);
     line-height: 1.5rem;
+    display: flex;
+    align-items: center;
   }
 
   &__desc {
@@ -88,21 +78,28 @@ fieldset {
 
   &-3 {
     background-color: #FC4E2A;
-    color: var(--grey-1000-50);
+    color: #000;
   }
 
   &-2 {
     background-color: #FEB24C;
-    color: var(--grey-1000-50);
+    color: #000;
   }
 
   &-1 {
-    background-color: #BCA12B;
-    color: var(--grey-1000-50);
+    background-color: #FFEDA0;
+    color: #000;
   }
 
   &-0 {
     background-color: var(--info-950-100);
+    color: #000;
+  }
+}
+
+.fr-badge {
+  &.situation-level-bg-0, &.situation-level-bg-1, &.situation-level-bg-2, &.situation-level-bg-3, &.situation-level-bg-4 {
+    border: 1px solid currentColor;
   }
 }
 
@@ -120,7 +117,7 @@ fieldset {
   }
 
   &-1 {
-    color: #BCA12B;
+    color: #FFEDA0;
   }
 
   &-0 {

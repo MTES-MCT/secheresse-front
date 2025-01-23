@@ -118,7 +118,9 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Donn
         où nous ne parvenons pas à vous identifier, nous pouvons être amenés à vous demander une preuve de votre
         identité.}<br /><br />
         Pour vous aider dans votre démarche, vous trouverez un modèle de courrier élaboré par la CNIL ici :
-        <a href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces" target="_blank"
+        <a href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces"
+           title="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces (nouvelle fenêtre)"
+           target="_blank"
            rel="external">https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces</a><br /><br />
         Nous nous engageons à vous répondre dans un délai raisonnable qui ne saurait dépasser 1 mois à compter de la
         réception de votre
@@ -176,7 +178,9 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Donn
               <td>Scalingo</td>
               <td>France</td>
               <td>Hébergement du site</td>
-              <td><a href="https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles" target="_blank"
+              <td><a href="https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles"
+                     title="https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles (nouvelle fenêtre)"
+                     target="_blank"
                      rel="external">https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles</a>
               </td>
             </tr>
@@ -184,14 +188,20 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Donn
               <td>Brevo</td>
               <td>France</td>
               <td>Envoi des lettres d'information aux utilisateurs</td>
-              <td><a href="https://www.brevo.com/fr/legal/privacypolicy/" target="_blank" rel="external">https://www.brevo.com/fr/legal/privacypolicy/</a>
+              <td><a href="https://www.brevo.com/fr/legal/privacypolicy/"
+                     title="https://www.brevo.com/fr/legal/privacypolicy/ (nouvelle fenêtre)"
+                     target="_blank"
+                     rel="external">https://www.brevo.com/fr/legal/privacypolicy/</a>
               </td>
             </tr>
             <tr>
               <td>Tally</td>
               <td>Belgique</td>
               <td>Formulaire de retours utilisateurs</td>
-              <td><a href="https://tally.so/help/privacy-policy" target="_blank" rel="external">https://tally.so/help/privacy-policy</a>
+              <td><a href="https://tally.so/help/privacy-policy"
+                     title="https://tally.so/help/privacy-policy (nouvelle fenêtre)"
+                     target="_blank"
+                     rel="external">https://tally.so/help/privacy-policy</a>
               </td>
             </tr>
             </tbody>

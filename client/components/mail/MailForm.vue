@@ -143,6 +143,7 @@ const submitForm = async () => {
                            :disabled="subscribing"
                            :exactAddress="true"
                            :aria-invalid="v$.lon.$errors.length > 0"
+                           :required="true"
                            @search="setAddress($event.address, $event.geo)"
       />
     </DsfrInputGroup>
@@ -154,7 +155,7 @@ const submitForm = async () => {
 
     <DsfrInputGroup class="fr-mt-2w"
                     :error-message="utils.showInputError(v$, 'email')">
-      <DsfrInput placeholder="Ex: test@exemple.com"
+      <DsfrInput hint="Ex: test@exemple.com"
                  label="Entrez votre email"
                  label-visible
                  v-model="formData.email"
@@ -180,7 +181,7 @@ const submitForm = async () => {
     </DsfrInputGroup>
 
     <p>Les
-      <router-link to="/donnees-personnelles" target="_blank" title="Données collectées - nouvelle fenêtre">données collectées</router-link>
+      <router-link to="/donnees-personnelles" target="_blank" title="Données collectées (nouvelle fenêtre)">données collectées</router-link>
       lors de votre inscription sont utilisées dans le cadre d’une mission de
       service public dont les responsables de traitement sont la Direction générale de l’Aménagement, du Logement et de
       la Nature (DGALN).

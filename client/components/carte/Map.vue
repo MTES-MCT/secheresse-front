@@ -30,7 +30,7 @@ const mapContainer = shallowRef(null);
 const map: Ref<any> = shallowRef(null);
 const isMapSupported: boolean = utils.isWebglSupported();
 const runtimeConfig = useRuntimeConfig();
-const zoneSelected = ref(0);
+const zonesSelected = ref([]);
 const route = useRoute();
 const departementCode = route.query.depCode;
 const showRestrictionsBtn = ref(true);
@@ -120,8 +120,8 @@ onMounted(() => {
     loading.value = true;
     const features = map.value?.queryRenderedFeatures(e.point, { layers: ['zones-data'] });
     const coordinates = e.lngLat;
-    const properties = features[0]?.properties;
-    zoneSelected.value = properties ? properties.id : 0;
+    const properties = features?.map((f: any) => f.properties);
+    zonesSelected.value = properties ? properties.map((p: any) => p.id) : [];
 
     const dataAddress = (await api.searchAddressByLatlon(coordinates.lng, coordinates.lat)).data;
     const dataGeo = (await api.searchGeoByLatlon(coordinates.lng, coordinates.lat)).data;
@@ -132,6 +132,11 @@ onMounted(() => {
     updateContourFilter();
 
     popup.setLngLat(e.lngLat).setHTML(description).addTo(map.value);
+    map.value.flyTo({
+      center: [e.lngLat.lng - (0.5 / map.value.getZoom()), e.lngLat.lat - (0.7 / (map.value.getZoom() + 5))],
+      essential: true,
+      speed: 0.2,
+    });
 
     const btn = document.getElementsByClassName('btn-map-popup')[0];
     if (!btn) {
@@ -228,7 +233,7 @@ const updateLayerFilter = () => {
 };
 
 const updateContourFilter = () => {
-  map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]]);
+  map.value?.setFilter('zones-contour', ['all', ['==', 'type', selectedTypeEau.value], ['in', 'id', ...zonesSelected.value]]);
 };
 
 const updateDepartementsContourFilter = () => {
@@ -330,7 +335,7 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
     type: 'line',
     source: 'zones',
     'source-layer': 'zones_arretes_en_vigueur',
-    filter: ['all', ['==', 'type', selectedTypeEau.value], ['==', 'id', zoneSelected.value]],
+    filter: ['all', ['==', 'type', selectedTypeEau.value], ['in', 'id', ...zonesSelected.value]],
     paint: {
       'line-color': '#000091',
       'line-width': 3,
@@ -341,7 +346,7 @@ const addSourceAndLayerZones = (pmtilesUrl: string) => {
 };
 
 const resetZoneSelected = () => {
-  zoneSelected.value = 0;
+  zonesSelected.value = [];
   updateContourFilter();
   popup.remove();
 };
@@ -564,11 +569,6 @@ h6 {
 }
 
 .map-legend, :deep(.maplibregl-popup-content) {
-  .situation-level-bg-1 {
-    background-color: #FFEDA0;
-    color: var(--grey-50-1000);
-  }
-
   .situation-level-bg-0 {
     background-color: #e8edff;
     color: var(--grey-50-1000);

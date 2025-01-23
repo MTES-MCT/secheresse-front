@@ -1,12 +1,19 @@
 import { Zone } from '../dto/zone.dto';
 import { Address } from '../dto/address.dto';
 import api from '../api';
-import { Ref } from 'vue';
+import { nextTick, Ref } from 'vue';
 import { useAddressStore } from '../store/address';
 import { useZoneStore } from '../store/zone';
 import { FetchError } from 'ofetch';
 import { Geo } from '../dto/geo.dto';
 import niveauxGravite from '../dto/niveauGravite';
+
+
+
+const alphanumBase = 'abcdefghijklmnopqrstuvwyz0123456789';
+// We need to duplicate the base string to have a longer string
+// to avoid Math.random to return the same value twice
+export const alphanum = alphanumBase.repeat(10);
 
 const index = {
   debounce(fn: Function, delay: number) {
@@ -219,11 +226,13 @@ const index = {
         text: '👋',
         animation: 'wave',
       },
+      onOpen: () => {
+        document.getElementsByTagName('iframe')[0]?.focus();
+      }
     });
   },
 
-  generatePopupHtml(pmtilesData: any, showRestrictionsBtn: boolean, address?: Address, geo?: Geo) {
-    const niveauGravite = niveauxGravite.find(n => n.niveauGravite === pmtilesData?.niveauGravite);
+  generatePopupHtml(pmtilesData: any[], showRestrictionsBtn: boolean, address?: Address, geo?: Geo) {
 
     let addressName = '';
     if (address?.properties?.label) {
@@ -233,15 +242,21 @@ const index = {
     }
     let popupHtml = '';
 
-    if(pmtilesData) {
-      popupHtml += `<div class="fr-mb-1w">
-<p class="fr-badge situation-level-bg-${this.getRestrictionRank(pmtilesData.niveauGravite)}">${niveauGravite.text}</p>
+    if (pmtilesData && pmtilesData.length > 0) {
+      pmtilesData.forEach((p, index) => {
+        const niveauGravite = niveauxGravite.find(n => n.niveauGravite === p.niveauGravite);
+        if (index > 0) {
+          popupHtml += '<div class="divider fr-my-1w"></div>';
+        }
+        popupHtml += `<div class="fr-mb-1w">
+<p class="fr-badge situation-level-bg-${this.getRestrictionRank(p.niveauGravite)}">${niveauGravite.text}</p>
 </div>
-<div class="map-popup-zone">Zone&nbsp;: ${pmtilesData.nom}</div>`
+<div class="map-popup-zone">Zone&nbsp;: ${p.nom}</div>`;
+      });
     } else {
       popupHtml += `<div class="fr-mb-1w">
 <p class="fr-badge situation-level-bg-0">Pas de restrictions</p>
-</div>`
+</div>`;
     }
 
     popupHtml += `<div class="fr-my-1w">${addressName}</div>`;
@@ -316,6 +331,17 @@ Voir l'historique
       return v$[inputName]?.$errors.map((e: any) => e.$message).join('.&nbsp;');
     }
     return '';
+  },
+
+  getRandomAlphaNum(): string {
+    const randomIndex = Math.floor(Math.random() * alphanum.length);
+    return alphanum[randomIndex];
+  },
+
+  getRandomString(length: number): string {
+    return Array.from({ length })
+      .map(this.getRandomAlphaNum)
+      .join('')
   },
 };
 export default index;

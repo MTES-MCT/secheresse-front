@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import utils from '../../utils';
 import api from '../../api';
 import { Address } from '../../dto/address.dto';
@@ -62,6 +62,7 @@ const loadingAdresses: Ref<boolean> = ref(false);
 const autoSelectAddress: Ref<boolean> = ref(false);
 const modalOpened: Ref<boolean> = ref(false);
 const modalActions: Ref<any[]> = ref([{ label: 'Recommencer', onClick: _closeModal }]);
+const fdrAutocomplete: Ref<any> = ref(null);
 
 const selectAddress = (address: string | Address | null, geo = null) => {
   if (!address && !geo) {
@@ -101,6 +102,7 @@ const geoloc = () => {
       addressQuery.value = data.value[0].nom;
       selectAddress(null, data.value[0]);
     }
+    fdrAutocomplete.value?.focusInput();
   };
 
   const errorCallback = () => {
@@ -141,9 +143,9 @@ if (props.query && !props.address && !props.geo) {
 
 <template>
   <div class="search" :class="{light: light}">
-    <div class="fr-mb-1w">Entrez votre adresse complète <span class="required">&nbsp;*</span></div>
-    <div class="autocomplete-wrapper fr-grid-row fr-grid-row--middle">
+    <div class="autocomplete-wrapper fr-grid-row fr-grid-row--bottom">
       <FdrAutoComplete placeholder="Ex: 20 avenue de Ségur, 75007, Paris"
+                       ref="fdrAutocomplete"
                        :model-value="addressQuery"
                        :options="addresses"
                        label="Entrez votre adresse complète"
@@ -186,7 +188,7 @@ if (props.query && !props.address && !props.geo) {
 
   .adresse-loader {
     position: absolute;
-    top: 8px;
+    bottom: 8px;
     left: 0;
   }
 

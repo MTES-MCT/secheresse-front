@@ -53,11 +53,9 @@ const downloadMap = () => {
         <DsfrAlert data-html2canvas-ignore="true" class="fr-my-2w" type="warning">
           La carte nationale peut prendre du temps à se charger.
           Si vous souhaitez ne visualiser qu'une partie du territoire, il est recommandé de restreindre l'affichage via
-          le
-          filtre territoire ou en zoomant sur la carte.<br />
+          le filtre territoire ou en zoomant sur la carte.<br />
           Pour plus de précisions sur la situation d'un département, n'hésitez pas à zoomer pour avoir les informations
-          à
-          la maille de la commune.
+          à la maille de la commune.
         </DsfrAlert>
         <div style="position: relative;">
           <CarteCommuneMap :embedded="false"

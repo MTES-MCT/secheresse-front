@@ -14,7 +14,6 @@ const props = defineProps<{
 
 const addressStore = useAddressStore();
 const { isParticulier } = addressStore;
-const modalOpened: Ref<boolean> = ref(false);
 
 const badgeLabel = (rank: number | undefined, showRank: boolean = false) => {
   return showRank ? utils.getSituationBadgeLabel(rank) : utils.getShortSituationLabel(rank);
@@ -64,20 +63,20 @@ const niveauGravite = computed(() => {
         {{ address }}
       </div>
       <h1 v-if="zone?.id" class="h2">{{ typeEauLabel }} est en <span
-        :class="'situation-level-c-' + utils.getRestrictionRank(zone?.niveauGravite)">{{
-          situationLabel
-        }}</span> à votre adresse.</h1>
+        :class="'situation-level-c-' + utils.getRestrictionRank(zone?.niveauGravite)">
+        {{ situationLabel }}
+      </span> à votre adresse.</h1>
       <h1 class="h2" v-else>
         {{ typeEauLabel }} n'est <span class="situation-level-c-0">pas concernée par des restrictions</span> à votre
         adresse.
       </h1>
     </div>
     <div class="fr-col-12 situation-status-header__info-wrapper">
-      {{ niveauGravite.description }}
+      <p class="fr-m-0">{{ niveauGravite.description }}</p>
     </div>
     <div v-if="!utils.showRestrictions(zone) && isParticulier()"
          class="fr-col-12 fr-col-md-8 situation-status-header__info-wrapper">
-      Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.
+      <p class="fr-m-0">Nous vous conseillons tout de même de suivre les eco-gestes ci-dessous.</p>
     </div>
     <div v-if="zone?.arreteMunicipalCheminFichier" class="fr-col-12 fr-mt-2w">
       <DsfrAlert
@@ -94,7 +93,7 @@ const niveauGravite = computed(() => {
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .situation-status-header {
   max-width: 1000px;
   position: relative;
@@ -129,13 +128,17 @@ const niveauGravite = computed(() => {
     }
 
     &-1:before {
-      background: linear-gradient(270deg, var(--blue-ecume-975-75), var(--orange-terre-battue-950-100));
+      background: linear-gradient(270deg, var(--yellow-moutarde-975-75), var(--blue-ecume-975-75));
       opacity: 0.5;
     }
 
     &-0:before {
       background: linear-gradient(270deg, var(--info-950-100), var(--blue-france-975-75));
     }
+  }
+
+  .situation-level-c-1 {
+    color: #A18E3A;
   }
 
   .situation-disabled {

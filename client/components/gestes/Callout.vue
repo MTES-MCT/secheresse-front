@@ -8,7 +8,7 @@
       <img src="/callout_simulateur.svg"
            style="max-width: 100%"
            width="120" height="121"
-           alt="Arrosoir"
+           alt=""
       />
     </div>
     <div class="fr-col-12 callout--text">
@@ -17,7 +17,7 @@
          id="matomo_calculateur_consommation"
          target="_blank"
          rel="external"
-         title="Je découvre le calculateur Cieau - nouvelle fenêtre"
+         title="Je découvre le calculateur Cieau (nouvelle fenêtre)"
          href="https://www.cieau.com/le-metier-de-leau/usages-consommation-conseils/calculateur-consommation-eau-annuelle/">
         Je découvre le calculateur Cieau
       </a>

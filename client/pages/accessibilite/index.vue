@@ -26,10 +26,14 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Acce
         service accessible, conformément à l’article 47 de la loi n° 2005-102 du 11 février 2005.</p>
       <p>À cette fin, nous mettons en œuvre la stratégie et les actions suivantes&nbsp;:
         <ul>
-          <li>Schéma pluriannuel&nbsp;: <a href="https://beta.gouv.fr/accessibilite/schema-pluriannuel" target="_blank"
-                                      rel="external">https://beta.gouv.fr/accessibilite/schema-pluriannuel</a>.
+          <li>Schéma pluriannuel&nbsp;: <a href="https://beta.gouv.fr/accessibilite/schema-pluriannuel"
+                                           title="https://beta.gouv.fr/accessibilite/schema-pluriannuel (nouvelle fenêtre)"
+                                           target="_blank"
+                                           rel="external">https://beta.gouv.fr/accessibilite/schema-pluriannuel</a>.
           </li>
-          <li>Plan d'action&nbsp;: <a href="https://beta.gouv.fr/accessibilite/schema-pluriannuel#plan-2024" target="_blank"
+          <li>Plan d'action&nbsp;: <a href="https://beta.gouv.fr/accessibilite/schema-pluriannuel#plan-2024"
+                                      title="https://beta.gouv.fr/accessibilite/schema-pluriannuel#plan-2024 (nouvelle fenêtre)"
+                                      target="_blank"
                                       rel="external">https://beta.gouv.fr/accessibilite/schema-pluriannuel#plan-2024</a>.
           </li>
         </ul>
@@ -59,11 +63,18 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Acce
         pas obtenu de réponse satisfaisante.</p>
       <p>Vous pouvez&nbsp;:</p>
       <ul>
-        <li>Écrire un message au <a href="https://formulaire.defenseurdesdroits.fr/" target="_blank" rel="external">Défenseur
-          des droits</a>
+        <li>Écrire un message au <a href="https://formulaire.defenseurdesdroits.fr/"
+                                    title="https://formulaire.defenseurdesdroits.fr/ (nouvelle fenêtre)"
+                                    target="_blank"
+                                    rel="external">
+          Défenseur des droits</a>
         </li>
-        <li>Contacter <a href="https://www.defenseurdesdroits.fr/saisir/delegues" target="_blank" rel="external">le
-          délégué du Défenseur des droits dans votre région</a>
+        <li>Contacter <a href="https://www.defenseurdesdroits.fr/saisir/delegues"
+                         title="https://www.defenseurdesdroits.fr/saisir/delegues (nouvelle fenêtre)"
+                         target="_blank"
+                         rel="external">
+          le délégué du Défenseur des droits dans votre région
+        </a>
         </li>
         <li>Envoyer un courrier par la poste (gratuit, ne pas mettre de timbre)&nbsp;:<br>
           Défenseur des droits<br>
@@ -73,8 +84,12 @@ const links: Ref<any[]> = ref([{ 'to': '/', 'text': 'Accueil' }, { 'text': 'Acce
       <hr>
       <p>
         Cette déclaration d’accessibilité a été créé le <span>10 mai 2023</span> grâce au <a
-        href="https://betagouv.github.io/a11y-generateur-declaration/" target="_blank" rel="external">Générateur de
-        Déclaration d’Accessibilité de BetaGouv</a>.
+        href="https://betagouv.github.io/a11y-generateur-declaration/"
+        title="https://betagouv.github.io/a11y-generateur-declaration/ (nouvelle fenêtre)"
+        target="_blank"
+        rel="external">
+        Générateur de Déclaration d’Accessibilité de BetaGouv
+      </a>.
       </p>
     </div>
   </div>
